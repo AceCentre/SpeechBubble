@@ -11,11 +11,15 @@ DEBUG = True
 
 GOOGLE_ANALYTICS_CODE = ''
 
+MONGODB_SETTINGS = {}
+
 # MongoDB Config
 if not MONGODB_URI:
     MONGODB_DB = 'speechbubble'
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
+else:
+    MONGODB_SETTINGS['MONGODB_URI'] = MONGODB_URI
 
 # Flask-security settings
 #SECURITY_CONFIRMABLE = True
