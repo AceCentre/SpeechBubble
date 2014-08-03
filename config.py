@@ -1,9 +1,6 @@
 # config.py
 from os.path import abspath, dirname, join
 
-import envdir
-envdir.open()
-
 _cwd = dirname(abspath(__file__))
 
 SECRET_KEY = 'flask-session-insecure-secret-key'
