@@ -3,7 +3,7 @@ import os
 
 MONGO_URI = os.environ.get('MONGOHQ_URL', None)
 
-_cwd = dirname(abspath(__file__))
+_cwd = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = 'flask-session-insecure-secret-key'
 
