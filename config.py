@@ -1,5 +1,7 @@
 # config.py
-from os.path import abspath, dirname, join
+import os
+
+MONGO_URI = os.environ.get('MONGOHQ_URL', None)
 
 _cwd = dirname(abspath(__file__))
 
@@ -10,9 +12,10 @@ DEBUG = True
 GOOGLE_ANALYTICS_CODE = ''
 
 # MongoDB Config
-MONGODB_DB = 'speechbubble'
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
+if not MONGO_URI:
+    MONGODB_DB = 'speechbubble'
+    MONGODB_HOST = 'localhost'
+    MONGODB_PORT = 27017
 
 # Flask-security settings
 #SECURITY_CONFIRMABLE = True
