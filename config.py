@@ -1,7 +1,7 @@
 # config.py
 import os
 
-MONGO_URI = os.environ.get('MONGOHQ_URL', None)
+MONGODB_URI = os.environ.get('MONGOHQ_URL', None)
 
 _cwd = os.path.dirname(os.path.abspath(__file__))
 
@@ -12,7 +12,7 @@ DEBUG = True
 GOOGLE_ANALYTICS_CODE = ''
 
 # MongoDB Config
-if not MONGO_URI:
+if not MONGODB_URI:
     MONGODB_DB = 'speechbubble'
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
