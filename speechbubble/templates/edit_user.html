@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <div class="page-header">
+        <h1>{% if adding_user %}Add{% else %}Edit{% endif %} User</h1>
+    </div>
+
+    <form method="post" action="{{ request.post }}" class="form-horizontal">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{ form.email.label }}</label>
+
+            <div class="col-sm-10">
+                {{ form.email() }}
+                {% if form.email.errors %}
+                    <ul class="errors">
+                        {% for error in form.email.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{ form.password.label }}</label>
+
+            <div class="col-sm-10">
+                {{ form.password() }}
+            </div>
+
+            {% if form.password.errors %}
+                <ul class="errors">
+                    {% for error in form.password.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{ form.is_active.label }}</label>
+
+            <div class="col-sm-10">
+                {{ form.is_active() }}
+            </div>
+
+            {% if form.is_active.errors %}
+                <ul class="errors">
+                    {% for error in form.is_active.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{ form.roles.label }}</label>
+
+            <div class="col-sm-10">
+                {{ form.roles() }}
+            </div>
+
+            {% if form.type.errors %}
+                <ul class="errors">
+                    {% for error in form.type.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+
+            <div class="col-sm-10">
+                <button type="submit" name="submit" class="btn btn-primary">
+                    {% if adding_user %}Add new{% else %}Save{% endif %} user
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

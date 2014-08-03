@@ -14,7 +14,7 @@ manager = Manager(app)
 @manager.command
 def setup_admin():
     """
-    Set up an admin user admin@speechbubble.com and give him admin rights
+    Set up an admin user admin@speechbubble.com and assign the Admin role
     """
     Role.objects(name="Moderator").update_one(upsert=True, set__name="Moderator")
     Role.objects(name="Admin").update_one(upsert=True, set__name="Admin")
