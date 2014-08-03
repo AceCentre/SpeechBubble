@@ -19,6 +19,7 @@ if not MONGO_URI:
     MONGODB_SETTINGS['host'] = 'localhost'
     MONGODB_SETTINGS['port'] = 27017
 else:
+    MONGODB_SETTINGS['db'] = MONGO_URI.split("/")[-1]
     MONGODB_SETTINGS['host'] = MONGO_URI
 
 # Flask-security settings
