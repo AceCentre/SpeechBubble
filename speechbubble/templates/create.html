@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <div class="page-header">
+        <h1>Create a new item</h1>
+    </div>
+
+    <form method="post" action="{{ request.path }}">
+        {{ form.csrf_token }}
+        <p><label>{{ form.name.label }}</label> {{ form.name() }}</p>
+        {% if form.name.errors %}
+            <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+
+        <p></p><label>{{ form.type() }}</label></p>
+        {% if form.type.errors %}
+            <ul class="errors">{% for error in form.type.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+{% endblock %}
+
+

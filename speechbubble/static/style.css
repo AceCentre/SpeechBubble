@@ -1,3 +1,7 @@
+body {
+	margin-bottom: 100px;
+}
+
 header #user-widget{
     width: 400px;
     text-align: right;
@@ -42,4 +46,36 @@ table#users .user-enabled{
 
 table#users thead td{
     font-weight: bold;
+}
+
+/* edit pages components */
+
+.edit-field-row{
+    border-bottom: 1px solid darkgrey;
+    margin-bottom: 10px;
+    min-height: 100px;
+}
+
+.edit-field-row ul{
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.edit-field-row li{
+    list-style-type: none;
+}
+
+body.admin-user{
+    padding-top: 50px;
+}
+
+a.moderation-action, button.moderation-action {;
+    width: 48%;
+    margin-bottom: 10px;
+}
+
+/* edit page gallery styling */
+
+div.product-gallery{
+    margin-bottom: 20px;
 }

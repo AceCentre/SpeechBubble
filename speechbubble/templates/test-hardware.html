@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body_attribs %} ng-controller="EditCtrl"{% endblock %}
+
+{% block main_content %}
+    <div class="page-header">
+        <h1>Test hardware product type</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% for field in form %}
+                <div class="col-md-6 edit-field-row" id="container_{{ field.name }}" {% if field.show_rule %}ng-show="{{ field.show_rule }}"{% endif %}>
+                    <div class="col-md-6">
+                        {{ field.label }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

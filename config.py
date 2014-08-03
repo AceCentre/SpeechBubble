@@ -8,10 +8,12 @@ _cwd = dirname(abspath(__file__))
 
 SECRET_KEY = 'flask-session-insecure-secret-key'
 
+DEBUG = True
+
 GOOGLE_ANALYTICS_CODE = ''
 
 # MongoDB Config
-MONGODB_DB = 'acecentre'
+MONGODB_DB = 'speechbubble'
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 
@@ -20,3 +22,5 @@ MONGODB_PORT = 27017
 SECURITY_REGISTERABLE = True
 SECURITY_RECOVERABLE = True
 SECURITY_CHANGEABLE = True
+
+PRODUCT_VERSION_HISTORY_MAX = 10

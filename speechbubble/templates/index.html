@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+    <div class="page-header">
+        <h1>Welcome to Speech Bubble
+            <small>(work in progress)</small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                Filer by type
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <input type="checkbox" name="type-hardware"> Hardware<br>
+                            <input type="checkbox" name="type-apps"> Apps<br>
+                            <input type="checkbox" name="type-vocabulary"> Vocabulary
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                Options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. 3
+                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                            laborum
+                            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                            nulla
+                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                            nesciunt
+                            sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
+                            accusamus
+                            labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                Additional options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. 3
+                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                            laborum
+                            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                            nulla
+                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                            nesciunt
+                            sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
+                            accusamus
+                            labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-md-4 -->
+        <div class="col-md-8">
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        {% for product in products %}
+            {% if product.published %}
+                <a href="{{ product.url }}">Published: {{ product.published.name }}</a>
+            {% else %}
+                <a href="{{ url_for('edit', object_id=product.id) }}">Edit: {{ product.draft.name }}</a>
+            {% endif %}<br>
+        {% endfor %}
+
+    </div>
+
+    </div>
+
+{% endblock %}
+
+

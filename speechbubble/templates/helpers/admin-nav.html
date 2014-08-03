@@ -1,15 +1,18 @@
  {% if current_user.is_authenticated() %}
 
-    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top admin-nav" role="navigation">
         <div class="container-fluid">
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <a href="{{ url_for('create_product') }}" class="btn btn-primary navbar-btn">Create new product</a>
+
                 {% if current_user.has_role('Admin') %}
                     <a href="{{ url_for('list_users') }}" class="btn btn-primary navbar-btn">User admin</a>
                 {% endif %}
 
-                {% if current_user.has_role('Admin') or current_user.has_role('Moderator') %}
+                {% if current_user.can_moderate %}
                     <a href="{{ url_for('moderation_queue') }}" class="btn btn-primary navbar-btn">Moderation Queue</a>
                 {% endif %}
 
