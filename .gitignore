@@ -55,3 +55,8 @@ target/
 # don't include anything from envdir, which contains passwords etc.
 envdir/
 .idea
+
+# vim swap files - nasty things
+*.swp
+*.swo
+*.swn

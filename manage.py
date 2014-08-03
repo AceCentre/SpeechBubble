@@ -2,14 +2,33 @@
 
 from flask.ext.script import Manager
 
-import pdb; pdb.set_trace()
 from speechbubble import *
 from speechbubble.views import *
 from speechbubble.rest_views import *
 from speechbubble.models import *
 from speechbubble.auth import *
 
+
 manager = Manager(app)
+
+@manager.command
+def setup_admin():
+    """
+    Set up an admin user admin@speechbubble.com and give him admin rights
+    """
+    Role.objects(name="Moderator").update_one(upsert=True, set__name="Moderator")
+    Role.objects(name="Admin").update_one(upsert=True, set__name="Admin")
+    User.objects(email="admin@speechbubble.com").update_one(upsert=True,
+                                                                   set__email="admin@speechbubble.com",
+                                                                   set__password="letmein",
+                                                                   set__active=True)
+
+    user = User.objects(email="admin@speechbubble.com").first()
+    role = Role.objects(name="Admin").first()
+
+    user.roles.append(role)
+    user.save()
+
 
 if __name__ == "__main__":
     manager.run()
