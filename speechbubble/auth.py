@@ -26,6 +26,17 @@ class User(db.Document, UserMixin):
     def can_moderate(self):
         return self.has_role('Admin') or self.has_role('Moderator')
 
+    def populate_from_form(self, form):
+        self.email = form.data['email']
+
+        self.roles = Role.objects(id__in=form.data['roles'])
+
+        if form.data['password']:
+            self.password = form.data['password']
+
+        self.active = form.data['active']
+        self.save()
+
 
 # Setup Flask-Security
 user_datastore = MongoEngineUserDatastore(db, User, Role)

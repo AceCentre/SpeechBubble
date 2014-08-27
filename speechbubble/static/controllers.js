@@ -1,7 +1,6 @@
 
-//var app = angular.module('speechBubble', []);
-/*
-app.controller('EditCtrl', ['$scope', function($scope) {
-  $scope.greeting = 'Hola!';
+var app = angular.module('speechBubble', []);
+
+app.controller('EditFormCtrl', ['$scope', function($scope) {
+  $scope.data = {name: 'test'}
 }]);
-*/

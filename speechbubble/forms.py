@@ -8,20 +8,12 @@ from wtforms import (validators,
 
 from .auth import Role, User
 
-
-
-TYPE_HARDWARE = 1
-TYPE_APP = 2
-TYPE_VOCABULARY = 3
-
-TYPE_CHOICES = ((TYPE_HARDWARE, 'Hardware'),
-                (TYPE_APP, 'App'),
-                (TYPE_VOCABULARY, 'Vocabulary'))
+from .field_choices import PRODUCT_TYPE_CHOICES
 
 
 class CreateForm(Form):
     name = StringField(u"Enter a name", [validators.required()])
-    type = RadioField(u"Choose a type", choices=TYPE_CHOICES, coerce=int)
+    type = RadioField(u"Choose a type", choices=PRODUCT_TYPE_CHOICES, coerce=int)
 
 
 class UserForm(Form):
@@ -30,7 +22,7 @@ class UserForm(Form):
     """
     email = StringField(validators=[validators.Email()])
     password = PasswordField()
-    is_active = BooleanField()
+    active = BooleanField()
 
     roles = SelectMultipleField(coerce=str)
 
@@ -42,6 +34,6 @@ class UserForm(Form):
 
         # convert list of Role() elements into a list of Role ids
         # for the select control
-        if len(args) > 1 and not args[1] and isinstance(args[1], User):
-            self.roles.process_data([str(role.id) for role in args[1].roles])
+        if len(args) > 1 and not args[0] and isinstance(args[1], User):
+            self.roles.process_data(str(role.id) for role in args[1].roles)
 

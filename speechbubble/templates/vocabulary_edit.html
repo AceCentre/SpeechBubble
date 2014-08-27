@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% from 'form_macros.html' import input_label, input_radio, input_text, input_checkbox, input_row_helper %}
+
+{% block main_content %}
+    <script type="text/javascript">
+        var form_rules = ;
+    </script>
+
+    <div class="page-header">
+        <h1>Vocabulary</h1>
+    </div>
+    <div class="container" ng-controller="EditFormCtrl" ng-init='display_rules = {{ form_rules_to_json(form)|safe }}'>
+        {{ input_row_helper(form.vocab_presentation, input_radio) }}
+        {{ input_row_helper(form.text_presented, input_radio) }}
+
+        {{ input_row_helper(form.supports_abbr_expansion, input_radio) }}
+        {{ input_row_helper(form.supports_word_prediction, input_radio) }}
+
+        {{ input_row_helper(form.words_linked, input_radio) }}
+        {{ input_row_helper(form.words_start_page_org, input_checkbox) }}
+        {{ input_row_helper(form.words_org_other, input_checkbox) }}
+
+        {{ input_row_helper(form.phrases_linked, input_radio) }}
+        {{ input_row_helper(form.phrases_start_page_org, input_checkbox) }}
+        {{ input_row_helper(form.phrases_org_other, input_checkbox) }}
+
+        <!-- {{ input_row_helper(form.access_method, input_checkbox) }}
+        {{ input_row_helper(form.keyboards_available, input_radio) }} -->
+        <!--
+        {{ input_row_helper(form.has_min_target_size, input_radio) }}
+        {{ input_row_helper(form.min_target_size, input_radio) }} {# field needs merging with above field #}
+
+        {{ input_row_helper(form.has_max_locations_per_page, input_radio) }}
+        {{ input_row_helper(form.max_locations_per_page, input_radio) }} {# field needs merging with above field #}
+
+        {{ input_row_helper(form.scanning_options, input_radio) }}
+        -->
+
+    </div>
+{% endblock %}

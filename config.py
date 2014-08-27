@@ -15,7 +15,7 @@ MONGODB_SETTINGS = {}
 
 # MongoDB Config
 if not MONGO_URI:
-    MONGODB_SETTINGS['db'] = 'acecentre'
+    MONGODB_SETTINGS['db'] = 'speechbubble'
     MONGODB_SETTINGS['host'] = 'localhost'
     MONGODB_SETTINGS['port'] = 27017
 else:
