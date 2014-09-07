@@ -47,7 +47,8 @@ class ProductVersion(db.EmbeddedDocument):
 
 class Product(db.Document):
     url = db.StringField(required=True)
-    type = db.IntField(required=True)
+    type = db.StringField(required=True)
+    sub_type = db.StringField()
 
     draft = db.EmbeddedDocumentField('ProductVersion')
     published = db.EmbeddedDocumentField('ProductVersion')
@@ -61,13 +62,15 @@ class Product(db.Document):
         return self.url
 
     @classmethod
-    def create_new(cls, name, type, user):
+    def create_new(cls, name, product_type, product_sub_type, user):
         """
         Create a new product
         """
         url = slugify.slugify(name)
-        product = cls(url=url, type=type)
+        product = cls(url=url, type=product_type,
+                      sub_type=product_sub_type, name=name)
         product.draft = ProductVersion(name=name, user=user)
+
         product.save()
 
         return product
@@ -127,8 +130,3 @@ class Product(db.Document):
             image = self['published']['images'][0]['url']
         except (KeyError, IndexError):
             return "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+"
-
-
-
-
-

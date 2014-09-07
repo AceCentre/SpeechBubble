@@ -12,9 +12,9 @@ class FieldTestBasicFunctionalityTestCase(BaseTestCase):
 
         field = BaseField("test field", display_rule=['previous_field', 'neq', 6])
 
-        field.set_data(document)
+        field.process({}, document)
 
-        self.assertTrue(field.is_visible)
+        self.assertTrue(field.is_visible())
 
     def test_field_visible_with_display_rule_neq_not_visible(self):
 
@@ -24,9 +24,9 @@ class FieldTestBasicFunctionalityTestCase(BaseTestCase):
 
         field = BaseField("test field", display_rule=['previous_field', 'neq', 5])
 
-        field._data = document
+        field.process({}, document)
 
-        self.assertFalse(field.is_visible)
+        self.assertFalse(field.is_visible())
 
     def test_field_visible_with_display_rule_eq_and_visible(self):
 
@@ -36,9 +36,9 @@ class FieldTestBasicFunctionalityTestCase(BaseTestCase):
 
         field = BaseField("test field", display_rule=['previous_field', 'eq', 5])
 
-        field.set_data(document)
+        field.process({}, document)
 
-        self.assertTrue(field.is_visible)
+        self.assertTrue(field.is_visible())
 
     def test_field_visible_with_display_rule_eq_and_not_visible(self):
 
@@ -48,9 +48,9 @@ class FieldTestBasicFunctionalityTestCase(BaseTestCase):
 
         field = BaseField("test field", display_rule=['previous_field', 'eq', 6])
 
-        field.set_data(document)
+        field.process({}, document)
 
-        self.assertFalse(field.is_visible)
+        self.assertFalse(field.is_visible())
 
     def test_required_if_visible_and_data_valid(self):
 
@@ -59,10 +59,13 @@ class FieldTestBasicFunctionalityTestCase(BaseTestCase):
         field._key = "test_key"
         document = {
             'previous_field': 5,
+        }
+
+        form_data = {
             'test_key': 10
         }
 
-        field.set_data(document)
+        field.process(form_data, document)
 
         self.assertTrue(field.is_valid)
 
@@ -76,7 +79,7 @@ class FieldTestBasicFunctionalityTestCase(BaseTestCase):
             'previous_field': 5
         }
 
-        field.set_data(document)
+        field.process({}, document)
 
         self.assertFalse(field.is_valid)
 

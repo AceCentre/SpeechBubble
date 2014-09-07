@@ -15,17 +15,8 @@ from .branched_forms import InitialSelectionForm, VocabularyForm
 def create_product():
     form = InitialSelectionForm()
 
-    return render_template('create.html', form=form)
+    return render_template('edit/create.html', form=form)
 
-
-@app.route('/edit/<object_id>')
-@login_required
-def edit(object_id):
-    product = Product.objects.get(id=object_id)
-
-    form = VocabularyForm()
-
-    return render_template('edit.html', product=product, form=form)
 
 
 @app.route('/')
@@ -76,14 +67,10 @@ def moderation_queue():
     """
     Display the moderation queue
     """
-    return render_template('moderation.html')
+    return render_template('admin/moderation.html')
 
-
-@app.route('/catalog')
-def show_item():
-    return render_template('display-item.html')
 
 @app.route('/vocab')
 def test_vocab():
     form = VocabularyForm()
-    return render_template('vocabulary_edit.html', form=form)
+    return render_template('edit/vocabulary_edit.html', form=form)

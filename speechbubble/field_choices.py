@@ -8,8 +8,7 @@ NOTE: These may be migrated to MongoDB so they can managed via an admin interfac
 FIELD_CURRENCY_CHOICES = (
     ('GBP', 'GBP'),
     ('AUD', 'AUD'),
-    ('USD', 'USD')
-)
+    ('USD', 'USD'))
 
 
 YES_CHOICE = True
@@ -17,8 +16,7 @@ NO_CHOICE = False
 
 NA_OR_YES_CHOICES = (
     (NO_CHOICE, "n/a"),
-    (YES_CHOICE, "Yes")
-)
+    (YES_CHOICE, "Yes"))
 
 
 PRODUCT_TYPE_HARDWARE = 0
@@ -97,7 +95,17 @@ VOCAB_PHRASE_OTHER_CHOICES = (
     (VOCAB_PHRASE_OTHER_TAXONOMICALLY, "Taxonomically (e.g. in Catgeogies such as Food, Toys)"),
     (VOCAB_PHRASE_OTHER_SIMILAR, "Similar meaning locations"))
 
+ENVIROMENT_CAPABILITY_CHOICES = (
+    ('built_in', 'Built-in'),
+    ('additional_hardware', 'Additional hardware available'),
+    ('None', 'None')
+)
 
+VISUAL_OPTIONS = (
+    ('zoom', 'Zoom'),
+    ('cellhighlight', 'Cell Highlight'),
+    ('changeablecellhighlight', 'Changeable Cell Highlight'),
+    ('editablefontstyles', 'Editable Font Styles'))
 
 ACCESS_METHOD_TOUCH = "touch"
 ACCESS_METHOD_MOUSE = "mouse"
@@ -126,11 +134,20 @@ SWITCH_SCANNING_CHOICES = (
     (SWITCH_SCANNING_QUARTERED, "Quartered"),
     (SWITCH_SCANNING_MORSE, "Morse"))
 
+SPEECH_TYPE_SYNTHESISED = "synthesised"
 
 SPEECH_TYPE_CHOICES = (
     ('None', 'None'),
-    ('synthesised', 'Synthesised'),
+    (SPEECH_TYPE_SYNTHESISED, 'Synthesised'),
     ('recorded', 'Recorded'))
+
+IMAGE_REPRESENTATION_SYMBOLS = "symbols"
+
+IMAGE_REPRESENTATION_CHOICES = (
+    ('photos', 'Photos'),
+    (IMAGE_REPRESENTATION_SYMBOLS, 'Symbols'),
+    ('none', 'None (text only)'),
+    ('videos', 'Videos'))
 
 SYNTHESIZED_SPEECH_TYPE_CHOICES = (
     ('Acapela', 'Acapela'),

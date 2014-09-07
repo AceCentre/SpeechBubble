@@ -60,3 +60,6 @@ envdir/
 *.swp
 *.swo
 *.swn
+
+/node_modules/
+/bower_components/

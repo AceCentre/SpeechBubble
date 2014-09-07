@@ -1,6 +1,6 @@
 import json
 
-from . import app
+from speechbubble import app
 
 __all__ = ()
 
