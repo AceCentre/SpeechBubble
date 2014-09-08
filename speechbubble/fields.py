@@ -17,12 +17,17 @@ class BaseField(object):
 
     _field_index = 0
 
-    def __init__(self, label, default=None,display_rule=None, required=False):
+    def __init__(self, label, default=None,display_rule=None, required=False, coerce=None, use_widget=None, initial=None):
 
         self.default = default
         self.label = label
         self.display_rule = display_rule
         self.required = required
+        self.use_widget = use_widget
+        self.initial = initial
+
+        self._coerce = coerce
+
 
         # Keep track of instance creation index so fields
         # can be ordered.
@@ -43,6 +48,7 @@ class BaseField(object):
         """
 
         self.data = {}
+        self.error = None
         self._form_data = form_data
         self._processed_data = processed_data
 
@@ -63,22 +69,39 @@ class BaseField(object):
             # no rule, so it is visible by default
             return True
 
-        key, comp, value = self.display_rule
+        key, comp, condition = self.display_rule
+
+        value = self._processed_data.get(key, None)
+
+        if value is None:
+            return False
 
         if comp == "eq":
-            return self._processed_data.get(key, None) == value
-        else:
-            return self._processed_data.get(key, None) != value
+            return condition == value
+
+        elif comp == "in":
+            if isinstance(value, list):
+                return any(val for val in value if val in condition)
+            else:
+                return value in condition
 
     @property
     def is_valid(self):
         return not self.error
 
     def validate(self):
+
         field_data = self._form_data.get(self._key, "")
 
+        if field_data and callable(self._coerce):
+            try:
+                field_data = self._coerce(field_data)
+            except Exception as ex:
+                raise ValidationError("Could not coerce data: {}".format(unicode(ex)))
+
         if self.required:
-            if not field_data:
+            #import pdb; pdb.set_trace()
+            if field_data in [None, ""]:
                 raise ValidationError("This field is required")
 
         return field_data
@@ -86,8 +109,15 @@ class BaseField(object):
 
 class IntegerField(BaseField):
 
+    def __init__(self, *args, **kwargs):
+
+        if "use_widget" not in kwargs:
+            kwargs['use_widget'] = "short_text"
+
+        super(IntegerField, self).__init__(*args, **kwargs)
+
     def validate(self):
-        field = super(IntegerField, self).is_valid()
+        field = super(IntegerField, self).validate()
 
         try:
             int(field)
@@ -102,11 +132,19 @@ class ChoiceField(BaseField):
 
         self._choices = kwargs.pop('choices')
 
+        if "use_widget" not in kwargs:
+            kwargs['use_widget'] = "radio"
+
         super(ChoiceField, self).__init__(*args, **kwargs)
 
     def validate(self):
-        pass
-        #selected_opts = self.data.get(self.
+
+        field = super(ChoiceField, self).validate()
+
+        if field and field not in map(lambda x: x[0], self._choices):
+            raise ValidationError('Invalid input: {}'.format(field))
+
+        return field
 
 
 class MultipleChoiceField(BaseField):
@@ -114,20 +152,28 @@ class MultipleChoiceField(BaseField):
 
         self._choices = kwargs.pop('choices')
 
+        if "use_widget" not in kwargs:
+            kwargs['use_widget'] = "checkbox"
+
         super(MultipleChoiceField, self).__init__(*args, **kwargs)
 
     def validate(self):
-        pass
-        #selected_opts = self.data.get(self.
 
+        field = super(MultipleChoiceField, self).validate()
 
-class MultiChoiceField(BaseField):
-    pass
+        keys = map(lambda x: x[0], self._choices)
+        if any(fld for fld in field if fld not in keys):
+            raise ValidationError('Invalid input: {}'.format(field))
+
+        return field
 
 
 class TextField(BaseField):
     def __init__(self, *args, **kwargs):
         self._max_chars = kwargs.pop('max_chars', 255)
+
+        if "use_widget" not in kwargs:
+            kwargs['use_widget'] = "text"
 
         super(TextField, self).__init__(*args, **kwargs)
 
@@ -136,10 +182,14 @@ class YesNoField(ChoiceField):
     def __init__(self, *args, **kwargs):
 
         kwargs.pop('choices', None)
+        kwargs.pop('coerce', None)
 
         choices = ((True, 'Yes'), (False, 'No'))
 
-        super(YesNoField, self).__init__(*args, choices=choices, **kwargs)
+        if "use_widget" not in kwargs:
+            kwargs['use_widget'] = "radio"
+
+        super(YesNoField, self).__init__(*args, choices=choices, coerce=lambda x: x == "True", **kwargs)
 
 
 

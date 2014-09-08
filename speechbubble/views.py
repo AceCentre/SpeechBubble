@@ -7,7 +7,7 @@ from .auth import User, Role
 from .forms import CreateForm, UserForm
 from .models import Product
 
-from .branched_forms import InitialSelectionForm, VocabularyForm
+from .branched_forms import InitialSelectionForm, VocabularyForm, SoftwareForm
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -17,6 +17,25 @@ def create_product():
 
     return render_template('edit/create.html', form=form)
 
+@app.route('/edit/<string:object_id>')
+@login_required
+def edit_product(object_id):
+
+    product = Product.objects.get(id=object_id)
+
+    if not product:
+        abort(404)
+
+    if product.type == "vocab":
+        form = VocabularyForm(product.draft.data)
+        template = "vocabulary_edit.html"
+    elif product.type == "app":
+        form = SoftwareForm(product.draft.data)
+        template = "software_edit.html"
+    else:
+        abort(500, "No template available")
+
+    return render_template("edit/"+template, form=form, itemId=unicode(product.id))
 
 
 @app.route('/')

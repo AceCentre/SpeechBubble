@@ -18,14 +18,17 @@
     "angular": "~1.2.23",
     "angular-resource": "~1.2.23",
     "lodash": "~2.4.1",
-    "angular-mocks": "~1.2.23",
-    "bootstrap": "~3.2.0",
-    "checklist-model": "https://github.com/vitalets/checklist-model"
+    "angular-mocks": "~1.2.23"
   },
   "install": {
     "path": {
-      "css": "speechbubble/static/style",
-      "js": "speechbubble/static/script/vendor"
+        "css": "speechbubble/static/style/vendor",
+        "js": "speechbubble/static/script/vendor"
+    },
+    "sources": {
+        "ng-file-upload": [
+            "bower_components/ng-file-upload/angular-file-upload-shim.js",
+            "bower_components/ng-file-upload/angular-file-upload.js"]
     }
   }
 }

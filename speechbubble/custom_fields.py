@@ -8,8 +8,15 @@ __all__ = ['VocabField', 'GalleryField', 'MultiUrlField', 'MultiPriceField']
 
 class BaseMultiItemField(BaseField):
     def __init__(self, *args, **kwargs):
-        self._max_items = kwargs.pop('max_items', None)
-        self._min_required = kwargs.pop('min_required', None)
+        self.max_items = kwargs.pop('max_items', None)
+        self.min_items = kwargs.pop('min_items', 1)
+
+        initial = kwargs.pop('initial', None)
+
+        if initial is None:
+            initial = [[] * self.min_items]
+
+        super(BaseMultiItemField, self).__init__(*args, initial=initial, **kwargs)
 
 
 class VocabField(BaseMultiItemField):
@@ -21,7 +28,9 @@ class GalleryField(BaseMultiItemField):
 
 
 class MultiUrlField(BaseMultiItemField):
-    pass
+    def __init__(self, *args, **kwargs):
+
+        super(MultiUrlField, self).__init__(*args, **kwargs)
 
 
 class MultiPriceField(BaseMultiItemField):

@@ -1,17 +1,30 @@
 {% extends "base.html" %}
 
-{% from 'helpers/form_macros.html' import input_radio, input_text, input_row_helper %}
+{% from 'helpers/form_macros.html' import input_radio, input_text, input_helper %}
 
 {% block main_content %}
     <div class="page-header">
         <h1>Create a new product</h1>
     </div>
     <div class="container edit-form" ng-controller="EditFormCtrl">
-        <form name="form">
 
-        {{ input_row_helper(form.name, input_text) }}
-        {{ input_row_helper(form.product_type, input_radio) }}
-        {{ input_row_helper(form.hardware_type, input_radio) }}
+        {{ input_helper(form.name, input_text) }}
+        {{ input_helper(form.product_type, input_radio) }}
+        {{ input_helper(form.hardware_type, input_radio) }}
+
+        <div sb-show-if-visible="hardware_type">
+            <div ng-show="hardware_type=='lowtech'">
+                Some content explaining what low tech hardware is about
+            </div>
+
+            <div ng-show="hardware_type=='simple'">
+                Some content explaining what simple hardware is about
+            </div>
+
+            <div ng-show="hardware_type=='advanced'">
+                Some content explaining what advanced hardware is about
+            </div>
+        </div>
 
         <button ng-click="create()" class="pull-right btn btn-primary">Create Product &raquo;</button>
 

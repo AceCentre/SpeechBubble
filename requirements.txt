@@ -29,6 +29,7 @@ mongoengine==0.8.7
 passlib==1.6.2
 py==1.4.20
 pymongo==2.7.1
+pyparsing==2.0.2
 pytest==2.5.2
 python-dateutil==1.5
 pytz==2014.4

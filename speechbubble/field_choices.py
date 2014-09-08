@@ -19,9 +19,9 @@ NA_OR_YES_CHOICES = (
     (YES_CHOICE, "Yes"))
 
 
-PRODUCT_TYPE_HARDWARE = 0
-PRODUCT_TYPE_APP = 1
-PRODUCT_TYPE_VOCABULARY = 2
+PRODUCT_TYPE_HARDWARE = "hardware"
+PRODUCT_TYPE_APP = "app"
+PRODUCT_TYPE_VOCABULARY = "vocabulary"
 
 PRODUCT_TYPE_CHOICES = (
     (PRODUCT_TYPE_HARDWARE, 'Hardware'),
@@ -118,6 +118,16 @@ ACCESS_METHOD_CHOICES = (
     (ACCESS_METHOD_EYEGAZE, "Eyegaze"),
     (ACCESS_METHOD_SWITCH, "Switch"))
 
+SUPPORTED_TOUCH_OTHER = "other"
+
+SUPPORTED_TOUCH_FEATURES = (
+    ("Accept on Enter", "Accept on Enter"),
+    ("Accept on Exit", "Accept on Exit"),
+    ("Hold time", "Hold time"),
+    ("Debounce", "Debounce"),
+    ("Auditory fishing", "Auditory fishing"),
+    (SUPPORTED_TOUCH_OTHER, "Other"))
+
 
 SWITCH_SCANNING_CROSSHAIR = "crosshair"
 SWITCH_SCANNING_COLUMNROW = "columnrow"
@@ -185,8 +195,8 @@ SUPPORTED_OPERATING_SYSTEM_CHOICES = (
     ('android_4_3', 'Android 4.3 Jelly Bean'),
     ('android_4_2.x', 'Android 4.2.x'),
     ('android_4_1_x', 'Android 4.1.x'),
-    ('android_4_0_3–4_0_4', 'Android 4.0.3–4.0.4 Ice Cream Sandwich'),
-    ('android_2_3_3–3_3_7', 'Android 2.3.3–2.3.7 Gingerbread'),
+    ('android_4_0_3-4_0_4', 'Android 4.0.3-4.0.4 Ice Cream Sandwich'),
+    ('android_2_3_3-3_3_7', 'Android 2.3.3-2.3.7 Gingerbread'),
     ('android_2_2', 'Android 2.2 Froyo'),
     ('Microsoft Pocket PC 200', 'Microsoft Pocket PC 2000'),
     ('Microsoft Pocket PC 2002', 'Microsoft Pocket PC 2002'),

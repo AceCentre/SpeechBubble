@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% from 'helpers/form_macros.html' import input_helper, input_multi_item, submit_button %}
+
+{% block main_content %}
+
+    <div class="page-header">
+        <h1>Edit software</h1>
+    </div>
+    <div class="container edit-form" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}')">
+    <form name="form">
+
+        {{ input_helper(form.discontinued) }}
+        <!-- images -->
+        {{ input_helper(form.videos, input_multi_item) }}
+
+        {{ input_helper(form.image_representation_supported) }}
+        {{ input_helper(form.symbol_systems_supported) }}
+        {{ input_helper(form.speech_type) }}
+        {{ input_helper(form.synthesised_speech_type_choices) }}
+        {{ input_helper(form.synthesised_num_voices) }}
+        <!-- price -->
+        {{ input_helper(form.associated_costs) }}
+        {{ input_helper(form.support_multiple_users) }}
+        {{ input_helper(form.long_description) }}
+        {{ input_helper(form.enviro_control_capabilities) }}
+        {{ input_helper(form.enviro_control_more_details) }}
+        {{ input_helper(form.control_other_computer) }}
+        {{ input_helper(form.control_operating_system) }}
+        {{ input_helper(form.support_url) }}
+        <!-- purchase_urls -->
+        <!-- more_info_urls -->
+        {{ input_helper(form.editing_options) }}
+        {{ input_helper(form.visual_options) }}
+        {{ input_helper(form.visual_options_more_info) }}
+        {{ input_helper(form.works_on_dedicated_device) }}
+        {{ input_helper(form.operating_system_supported_min) }}
+        {{ input_helper(form.operating_system_supported_max) }}
+
+        {{ input_helper(form.has_more_than_one_vocab) }}
+        <!-- show vocab edit/selection forms here -->
+        {{ input_helper(form.access_method) }}
+        {{ input_helper(form.supports_capacitive_or_resistive_touch) }}
+        {{ input_helper(form.specialist_gestures) }}
+        {{ input_helper(form.supported_touch_features) }}
+        {{ input_helper(form.supported_touch_features_other) }}
+        {{ input_helper(form.has_min_target_size) }}
+        {{ input_helper(form.min_target_size) }}
+        {{ input_helper(form.has_max_locations_per_page) }}
+        {{ input_helper(form.max_locations_per_page) }}
+        {{ input_helper(form.scanning_options) }}
+
+        {{ submit_button() }}
+
+    </form>
+    </div>
+{% endblock %}

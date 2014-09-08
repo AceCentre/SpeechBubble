@@ -1,40 +1,40 @@
 {% extends "base.html" %}
 
-{% from 'helpers/form_macros.html' import input_label, input_radio, input_text, input_short_text, input_checkbox, input_row_helper, submit_button %}
+{% from 'helpers/form_macros.html' import input_label, input_radio, input_text, input_short_text, input_checkbox, input_helper, submit_button %}
 
 {% block main_content %}
 
     <div class="page-header">
         <h1>Vocabulary</h1>
     </div>
-    <div class="container edit-form" ng-controller="EditFormCtrl">
+    <div class="container edit-form" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}')">
     <form name="form">
 
-        {{ input_row_helper(form.vocab_presentation, input_radio) }}
-        {{ input_row_helper(form.text_presented, input_radio) }}
+        {{ input_helper(form.vocab_presentation) }}
+        {{ input_helper(form.text_presented) }}
 
-        {{ input_row_helper(form.supports_abbr_expansion, input_radio) }}
-        {{ input_row_helper(form.supports_word_prediction, input_radio) }}
+        {{ input_helper(form.supports_abbr_expansion) }}
+        {{ input_helper(form.supports_word_prediction) }}
 
-        {{ input_row_helper(form.words_linked, input_radio) }}
-        {{ input_row_helper(form.words_start_page_org, input_checkbox) }}
+        {{ input_helper(form.words_linked) }}
+        {{ input_helper(form.words_start_page_org) }}
 
-        {{ input_row_helper(form.words_org_other, input_checkbox) }}
+        {{ input_helper(form.words_org_other) }}
 
-        {{ input_row_helper(form.phrases_linked, input_radio) }}
-        {{ input_row_helper(form.phrases_start_page_org, input_checkbox) }}
-        {{ input_row_helper(form.phrases_org_other, input_checkbox) }}
+        {{ input_helper(form.phrases_linked) }}
+        {{ input_helper(form.phrases_start_page_org) }}
+        {{ input_helper(form.phrases_org_other) }}
 
-        {{ input_row_helper(form.access_method, input_checkbox) }}
-        {{ input_row_helper(form.keyboards_available, input_radio) }}
+        {{ input_helper(form.access_method) }}
+        {{ input_helper(form.keyboards_available) }}
 
-        {{ input_row_helper(form.has_min_target_size, input_radio) }}
-        {{ input_row_helper(form.min_target_size, input_short_text) }} {# field needs merging with above field #}
+        {{ input_helper(form.has_min_target_size) }}
+        {{ input_helper(form.min_target_size) }}
 
-        {{ input_row_helper(form.has_max_locations_per_page, input_radio) }}
-        {{ input_row_helper(form.max_locations_per_page, input_short_text) }} {# field needs merging with above field #}
+        {{ input_helper(form.has_max_locations_per_page) }}
+        {{ input_helper(form.max_locations_per_page) }}
 
-        {{ input_row_helper(form.scanning_options, input_radio) }}
+        {{ input_helper(form.scanning_options) }}
 
         {{ submit_button() }}
 

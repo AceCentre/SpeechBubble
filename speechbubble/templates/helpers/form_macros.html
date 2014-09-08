@@ -7,7 +7,19 @@
 {%- endmacro %}
 
 {% macro input_error(field) -%}
-    <span class="field-errors">{{ "{{" + field._key + "}}" }}</span>
+    <span class="field-errors">{{ "{{ field_errors." + field._key + " }}" }}</span>
+{%- endmacro %}
+
+{% macro input_select(field) -%}
+    <div class="col-sm-6">
+    <select name="{{ field._key }}" ng-model="form_data.{{ field._key }}">
+            <option value="">Please choose</option>
+        {% for value, name in field._choices %}
+            <option value="{{ value }}">{{ name }}</option>
+        {% endfor %}
+    </select>
+    {{ input_error(field) }}
+    </div>
 {%- endmacro %}
 
 {% macro input_radio(field) -%}
@@ -17,6 +29,7 @@
             <input type="radio" value="{{ value }}" name="{{ field._key }}" ng-model="form_data['{{ field._key }}']"> {{ name }}
         </div>
     {% endfor %}
+    {{ input_error(field) }}
     </div>
 {%- endmacro %}
 
@@ -27,26 +40,46 @@
             <input type="checkbox" checklist-value="'{{ value }}'" checklist-model="form_data.{{ field._key }}"> {{ name }}
         </div>
     {% endfor %}
+    {{ input_error(field) }}
     </div>
 {%- endmacro %}
 
 {% macro input_text(field, class="") -%}
     <div class="col-sm-6">
         <input type="text" ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}">
+        {{ input_error(field) }}
     </div>
 {%- endmacro %}
 
 {% macro input_short_text(field) -%}
     <div class="col-sm-2">
         <input type="text" ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}">
+        {{ input_error(field) }}
     </div>
 {%- endmacro %}
 
-{% macro input_row_helper(field, field_helper) -%}
-    <div class="form-group" {% if field.display_rule %}sb-show-if-visible="{{ field._key }}"{% endif %}>
+{% macro input_helper(field, field_helper=None) -%}
+    <div class="form-group" style="clear:both;" {% if field.display_rule %}sb-show-if-visible="{{ field._key }}"{% endif %}>
+
         {{ input_label(field) }}
 
-        {{ field_helper(field) }}
+        {% if field_helper %}
+            {{ field_helper(field) }}
+        {% else %}
+            {% if field.use_widget == "radio" %}
+                {{ input_radio(field) }}
+            {% elif field.use_widget == "checkbox" %}
+                {{ input_checkbox(field) }}
+            {% elif field.use_widget == "text" %}
+                {{ input_text(field) }}
+            {% elif field.use_widget == "short_text" %}
+                {{ input_short_text(field) }}
+            {% elif field.use_widget == "select" %}
+                {{ input_select(field) }}
+            {% else %}
+                No default widget specified for field {{ field }}
+            {% endif %}
+        {% endif %}
 
         {{ angular_conditional_rule(field) }}
     </div>
@@ -60,13 +93,16 @@
 
 {% macro submit_button() -%}
     <div class="col-sm-12">
-        <button ng-click="submit()" class="btn btn-primary clearfix">Save</button>
+        <button ng-click="save()" class="btn btn-primary clearfix">Save</button>
     </div>
 {%- endmacro %}
 
-{% macro multi_url_field(field) -%}
-        <div ng-repeat="url in data.some_multi_url track by $index">
-            <p><input type="text" value="{{ url }}" placeholder=""> <a ng-show="data.some_multi_url.length > 1" ng-click="data.some_multi_url.splice($index, 1)">X</a></p>
+{% macro input_multi_item(field) -%}
+     <div class="col-sm-6">
+        <div ng-repeat="url in form_data.{{ field._key }} track by $index">
+            <p><input type="text" value="{{ url }}" placeholder=""> <a ng-show="form_data.{{ field._key }}.length > 1" ng-click="form_data.{{ field._key }}.splice($index, 1)">remove</a></p>
         </div>
-        <button class="btn-primary btn" ng-click="data.some_multi_url.push('')" ng-show="data.some_multi_url.length <= 6">Add a new url</button>
+        <button class="btn-primary btn" ng-click="form_data.{{ field._key }}.push('')">Add an item</button>
+     </div>
+    <!-- <!-- ng-show="data.{{ field._key }}.length <= 6" -->
 {%- endmacro %}

@@ -1,3 +1,12 @@
-.edit-form input{
+.field-errors {
+    color: #f00;
+    font-weight: bold;
+}
+
+.edit-form input[type=checkbox]{
     margin-left: -20px;
+}
+
+.edit-form input[type=text]{
+    margin-bottom: 5px;
 }

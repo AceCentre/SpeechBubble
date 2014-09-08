@@ -51,6 +51,10 @@ angular.module('checklist-model', [])
     var getter = $parse(attrs.checklistModel);
     var setter = getter.assign;
 
+    if(!getter(scope)){
+        setter(scope, []);
+    }
+
     // value added to list
     var value = $parse(attrs.checklistValue)(scope.$parent);
 
@@ -60,11 +64,6 @@ angular.module('checklist-model', [])
         return;
       }
       var current = getter(scope.$parent);
-
-      if(current === undefined){
-          current = [];
-      }
-
       if (newValue === true) {
         setter(scope.$parent, add(current, value));
       } else {
