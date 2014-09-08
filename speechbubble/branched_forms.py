@@ -58,11 +58,11 @@ class BranchedForm(object):
         return data
 
     def process(self, form_data):
-        self.data = {}
+        #self.data = {}
 
         for field in self:
-            if field._key == "operating_system_supported_min":
-                import pdb; pdb.set_trace()
+            if field._key == "videos":
+               import pdb; pdb.set_trace()
             field.process(form_data, self.data)
 
             if field.is_visible():
