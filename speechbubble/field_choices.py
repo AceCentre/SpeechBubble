@@ -246,3 +246,14 @@ SCANNING_OPTIONS = (
     ('Block', 'Block'),
     ('Quartered', 'Quartered'),
     ('Morse', 'Morse'))
+
+MOUNTING_OPTIONS_CHOICES = (
+    ("none", "None"),
+    ("Daessy", "Daessy"),
+    ("Rehadapt", "Rehadapt"),
+    ("Other", "Other"))
+
+MOBILE_PHONE_OPTIONS = (
+    ("None", "None"),
+    ("Phone/Texting controllable from AAC Software", "Phone/Texting controllable from AAC Software"),
+    ("Phone/texting controllable via copy/paste functionality", "Phone/texting controllable via copy/paste functionality"))

@@ -3,7 +3,7 @@
  #}
 
 {% macro input_label(field) -%}
-    <label for="{{ field._key }}" class="control-label col-sm-6">{{ field.label }}</label>
+    <label for="{{ field._key }}" class="control-label col-sm-4">{{ field.label }}</label>
 {%- endmacro %}
 
 {% macro input_error(field) -%}
@@ -47,6 +47,13 @@
 {% macro input_text(field, class="") -%}
     <div class="col-sm-6">
         <input type="text" ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}">
+        {{ input_error(field) }}
+    </div>
+{%- endmacro %}
+
+{% macro input_text(field, class="") -%}
+    <div class="col-sm-6">
+        <textarea ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}"></textarea>
         {{ input_error(field) }}
     </div>
 {%- endmacro %}
@@ -100,9 +107,11 @@
 {% macro input_multi_item(field) -%}
      <div class="col-sm-6">
         <div ng-repeat="url in form_data.{{ field._key }} track by $index">
-            <p><input type="text" value="{{ url }}" placeholder=""> <a ng-show="form_data.{{ field._key }}.length > 1" ng-click="form_data.{{ field._key }}.splice($index, 1)">remove</a></p>
+            <p><input type="text" ng-model="form_data.{{ field._key }}[$index]" placeholder=""> <a ng-show="form_data.{{ field._key }}.length > {{ field.min_items }}" ng-click="form_data.{{ field._key }}.splice($index, 1)">remove</a></p>
+            {{ line }}
         </div>
-        <button class="btn-primary btn" ng-click="form_data.{{ field._key }}.push('')">Add an item</button>
+        {{ input_error(field) }}
+        <button class="btn-primary btn" {% if field.max_items %}ng-hide="form_data.{{ field._key }}.length >= {{ field.max_items }}"{% endif %} ng-click="form_data.{{ field._key }}.push('')">Add an item</button>
      </div>
-    <!-- <!-- ng-show="data.{{ field._key }}.length <= 6" -->
+    <!-- <!-- " -->
 {%- endmacro %}

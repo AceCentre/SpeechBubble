@@ -1,0 +1,8 @@
+Dear {{ name }},
+
+The product titled {{ product_name }} has been published and is available to view at {{ product_url }}.
+
+Regards,
+
+The Ace Centre editorial team
+

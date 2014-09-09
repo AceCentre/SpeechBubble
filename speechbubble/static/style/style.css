@@ -1,3 +1,49 @@
+header #user-widget{
+    width: 400px;
+    text-align: right;
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.main-nav .navbar-form{
+    margin-right: 10px !important;
+}
+
+#login_form{
+    width: 330px;
+    margin: 0 auto;
+}
+
+#login_form button{
+    display: block;
+    margin: 0 auto;
+}
+
+#login_form .panel-body{
+    padding: 10px;
+}
+
+#login_form label{
+    width: 120px;
+}
+
+#login_form ul li {
+    color: #f00;
+}
+
+#login_form h2{
+    font-size: 12pt;
+}
+
+table#users .user-enabled{
+    text-align: center;
+}
+
+table#users thead td{
+    font-weight: bold;
+}
+
 .field-errors {
     color: #f00;
     font-weight: bold;
@@ -7,6 +53,6 @@
     margin-left: -20px;
 }
 
-.edit-form input[type=text]{
+.edit-form input[type=text], .edit-form textarea{
     margin-bottom: 5px;
 }

@@ -17,7 +17,8 @@ class BaseField(object):
 
     _field_index = 0
 
-    def __init__(self, label, default=None,display_rule=None, required=False, coerce=None, use_widget=None, initial=None):
+    def __init__(self, label, default=None, display_rule=None, required=False,
+                 coerce=None, use_widget=None, initial=None):
 
         self.default = default
         self.label = label

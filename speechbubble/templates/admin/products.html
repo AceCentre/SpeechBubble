@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <div class="page-header">
+        <h1>All products</h1>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Type</td>
+                    <td>Owner</td>
+                    <td>Published?</td>
+                    <td>Draft?</td>
+                    <td>Revisions?</td>
+                    <td>Edit</td>
+                    <td>View</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.draft.name }}</td>
+                    <td>{{ product.type }}{% if product.sub_type %} / {{ product.sub_type }}{% endif %}</td>
+                    <td>{% if product.published %}
+                            {{ product.published.owner.name }}
+                        {% elif product.draft %}
+                            {{ product.draft.owner.name }}
+                        {% else %}
+                            No owner!??
+                        {% endif %}
+                    </td>
+                    <td>{% if product.published %}Yes{% else %}No{% endif %}</td>
+                    <td>{% if product.draft %}Yes{% else %}No{% endif %}</td>
+                    <td>{{ product.revision_count }}</td>
+                    <td><a href="{{ url_for('edit_product', object_id=product.id) }}">Edit</a></td>
+                    <td><a href="{{ url_for('view_product', object_id=product.id) }}">View</a></td>
+                </tr>
+            {% else %}
+                There's no products in the database
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

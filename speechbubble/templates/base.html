@@ -11,7 +11,7 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload-shim.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular/angular.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-file-upload.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/lodash/lodash.compat.js') }}"></script>
     <script type="text/javascript"
             src="{{ url_for('static', filename='script/vendor/angular-resource/angular-resource.js') }}"></script>
@@ -19,6 +19,8 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='script/app.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/directives.js') }}"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 {% endblock %}
 
 {% block content %}
@@ -40,11 +42,21 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/">Home</a></li>
-                        <li><a href="#">Software</a></li>
-                        <li><a href="#">Equipment</a></li>
-                        <li><a href="#">Resources</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">About us</a></li>
+
+                        <li><a href="{{ url_for('list_all_products') }}">All products (temporary page)</a></li>
+
+                        {% if current_user.is_authenticated() %}
+                            <li><a href="{{ url_for('create_product') }}">Create new product</a></li>
+                        {% endif %}
+
+                        {% if current_user.has_role('Admin') %}
+                            <li><a href="{{ url_for('list_users') }}">User admin</a></li>
+                        {% endif %}
+
+                        {% if current_user.can_moderate %}
+                            <li><a href="{{ url_for('moderation_queue') }}">Moderation Queue</a></li>
+                        {% endif %}
+
                     </ul>
 
                     <form class="navbar-form navbar-right" role="search">

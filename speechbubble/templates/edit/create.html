@@ -12,16 +12,16 @@
         {{ input_helper(form.product_type, input_radio) }}
         {{ input_helper(form.hardware_type, input_radio) }}
 
-        <div sb-show-if-visible="hardware_type">
-            <div ng-show="hardware_type=='lowtech'">
+        <div sb-show-if-visible="hardware_type" style="clear: both;">
+            <div ng-show="form_data.hardware_type=='lowtech'">
                 Some content explaining what low tech hardware is about
             </div>
 
-            <div ng-show="hardware_type=='simple'">
+            <div ng-show="form_data.hardware_type=='simple'">
                 Some content explaining what simple hardware is about
             </div>
 
-            <div ng-show="hardware_type=='advanced'">
+            <div ng-show="form_data.hardware_type=='advanced'">
                 Some content explaining what advanced hardware is about
             </div>
         </div>

@@ -1,7 +1,6 @@
-from flask.ext.security import Security, MongoEngineUserDatastore, \
-    UserMixin, RoleMixin
+from flask.ext.security import UserMixin, RoleMixin
 
-from . import app, db
+from . import db
 
 
 class Role(db.Document, RoleMixin):
@@ -16,8 +15,22 @@ class User(db.Document, UserMixin):
     email = db.StringField(max_length=255)
     password = db.StringField(max_length=255)
     active = db.BooleanField(default=True)
-    confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
+
+    # tracking
+    confirmed_at = db.DateTimeField()
+    last_login_at = db.DateTimeField()
+    current_login_at = db.DateTimeField()
+    last_login_ip = db.StringField()
+    current_login_ip = db.StringField()
+    login_count = db.IntField()
+
+    first_name = db.StringField()
+    last_name = db.StringField()
+    registration_type = db.StringField()
+    region = db.StringField()
+    city = db.StringField()
+    mailing_list = db.BooleanField()
 
     def __unicode__(self):
         return self.email
@@ -37,7 +50,6 @@ class User(db.Document, UserMixin):
         self.active = form.data['active']
         self.save()
 
+    def get_full_name(self):
+        return "{} {}".format(self.first_name, self.last_name)
 
-# Setup Flask-Security
-user_datastore = MongoEngineUserDatastore(db, User, Role)
-security = Security(app, user_datastore)

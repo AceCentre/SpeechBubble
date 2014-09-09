@@ -44,9 +44,7 @@ class BranchedForm(object):
             yield field
 
     def initial_data(self):
-        """
-        Set up initial data for fields that support it
-        """
+
         data = {}
 
         for field in self:
@@ -57,25 +55,23 @@ class BranchedForm(object):
 
         return data
 
-    def process(self, form_data):
-        #self.data = {}
+    def process(self, form_data, ignore_validation=False):
+        """
 
+        """
         for field in self:
-            if field._key == "videos":
-               import pdb; pdb.set_trace()
+            #if field._key == "discontinued":
+            #   import pdb; pdb.set_trace()
             field.process(form_data, self.data)
 
             if field.is_visible():
-                if field.is_valid:
+                if field.is_valid and not ignore_validation:
                     self.data[field._key] = field.data
                 else:
                     self.errors[field._key] = field.error
 
     @property
     def is_valid(self):
-        if self.data is None:
-            raise Exception("No form data has been processed")
-
         return not self.errors
 
 
@@ -97,6 +93,12 @@ class InitialSelectionForm(BranchedForm):
 
 
 class HardwareLowtechForm(BranchedForm):
+    """
+    Awaiting field spec
+    """
+
+
+class HardwareSimpleForm(BranchedForm):
     message_levels = YesNoField(
         "Message levels?")
 
@@ -111,17 +113,375 @@ class HardwareLowtechForm(BranchedForm):
         "List all vocabularies available in system or OTHER",
         display_rule=["premade_vocabs_available", "eq", True])
 
-    speech_type_options = ChoiceField(
-        "Speech type options?",
-        choices=SPEECH_TYPE_CHOICES)
+    speech_type = MultipleChoiceField(
+        "Speech Type options?",
+        choices=SPEECH_TYPE_CHOICES,
+        required=True
+    )
 
+    synthesised_speech_type_choices = MultipleChoiceField(
+        "Synthesized speech type options",
+        choices=SYNTHESIZED_SPEECH_TYPE_CHOICES,
+        display_rule=["speech_type", "in", [SPEECH_TYPE_SYNTHESISED]],
+        required=True
+    )
 
-class HardwareSimpleForm(BranchedForm):
-    pass
+    no_voices = IntegerField(
+        "No of voices available: n (int):",
+        display_rule=["synthesised_speech_type_choices", "any", ""]
+    )
+
+    # the fields below are common to simple and advanced hardware types
+    # I am violating dry by copying these fields to the other device choices
+    # a better approach might be to just run two forms together ... will
+    # investigate further when the lowtech hardware type is fleshed out
+
+    images = GalleryField("Images", max_items=6)
+    video_urls = MultiUrlField("Video Urls", max_items=2)
+
+    more_info = MultiUrlField("More info", max_items=10)
+
+    #suppliers = SupplierField()
+
+    discontinued = YesNoField(
+        "Discontinued?"
+    )
+
+    short_description = TextField(
+        "Short description",
+        max_chars=1000)
+
+    support_options = TextField(
+        "Support options",
+        max_chars=500)
+
+    warranty_options = TextField(
+        "Warranty options",
+        max_chars=500)
+
+    battery_life = IntegerField(
+        "Battery life")
+
+    spare_battery_options = TextField(
+        "Spare battery options",
+        max_chars=500)
+
+    mounting_options = MultipleChoiceField(
+        "Mounting options",
+        choices=MOUNTING_OPTIONS_CHOICES
+    )
+
+    table_stand_available = YesNoField(
+        "Table Stand availabile?")
+
+    carrying_strap_available = YesNoField(
+        "Carrying strap available?")
+
+    more_details = TextField(
+        "more details",
+        max_chars=250)
+
+    suppliers_usp_1 = TextField(
+        "Unique selling point 1",
+        max_chars=250)
+
+    suppliers_usp_2 = TextField(
+        "Unique selling point 2",
+        max_chars=250)
+
+    suppliers_usp_3 = TextField(
+        "Unique selling point 3",
+        max_chars=250)
+
+    weight = IntegerField(
+        "Weight (kg)")
+
+    depth = IntegerField(
+        "Depth: (mm)")
+
+    height = IntegerField(
+        "Height: (mm)")
+
+    width = IntegerField(
+        "Width (mm)"
+    )
+
+    screen_width = IntegerField(
+        "Screen width"
+    )
+
+    screen_height = IntegerField(
+        "Screen height"
+    )
+
+    screen_dimensions_incl_case = YesNoField(
+        "Are these dimensions with a case?")
+
+    enviro_control_capabilities = MultipleChoiceField(
+        "Enviro Control capabilities",
+        choices=ENVIROMENT_CAPABILITY_CHOICES,
+        required=True
+    )
+
+    enviro_control_more_details = TextField(
+        "More details"
+    )
+
+    access_method = MultipleChoiceField(
+        "What access method is this designed for? (multiple allowed)",
+        choices=ACCESS_METHOD_CHOICES,
+        required=True)
+
+    # access_method eq ACCESS_METHOD_TOUCH
+
+    supports_capacitive_or_resistive_touch = YesNoField(
+        "Does the device support capacitive or resistive touch?",
+        display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
+        required=True)
+
+    specialist_gestures = YesNoField(
+        "Are specialist gestures etc required to control the device?",
+        display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
+        required=True)
+
+    supported_touch_features = MultipleChoiceField(
+        "What Touch features are available?",
+        choices=SUPPORTED_TOUCH_FEATURES,
+        required=True
+    )
+
+    supported_touch_features_other = TextField(
+        "other",
+        max_chars=250,
+        display_rule=["supported_touch_features", "in", SUPPORTED_TOUCH_OTHER],
+        required=True)
+
+    #items below are duplicated from vocabulary
+    has_min_target_size = YesNoField(
+        "Is there a minimum target size?",
+        display_rule=["access_method", "in", [ACCESS_METHOD_TOUCH, ACCESS_METHOD_MOUSE, ACCESS_METHOD_EYEGAZE]],
+        required=True
+    )
+
+    min_target_size = IntegerField(
+        "What is this size? (mm)",
+        display_rule=["has_min_target_size", "eq", YES_CHOICE],
+        required=True
+    )
+
+    has_max_locations_per_page = ChoiceField(
+        "What is the maximum number of locations per page?",
+        display_rule=["has_min_target_size", "eq", YES_CHOICE],
+        choices=NA_OR_YES_CHOICES,
+        coerce=lambda x: x == "True" or x,
+        required=True)
+
+    max_locations_per_page = IntegerField(
+        "xxxxxxxxxxxxxxxx",
+        display_rule=["has_max_locations_per_page", "eq", YES_CHOICE],
+        required=True
+    )
+
+    # access_method eq ACCESS_METHOD_SWITCH
+
+    scanning_options = MultipleChoiceField(
+        "What scanning options are available (without additional software)",
+        choices=SWITCH_SCANNING_CHOICES,
+        display_rule=["access_method", "in", ACCESS_METHOD_SWITCH],
+        required=True)
 
 
 class HardwareAdvancedForm(BranchedForm):
-    pass
+
+    operating_system_supported_min = ChoiceField(
+        "Operating System officially and reliably supported (minimum)",
+        choices=SUPPORTED_OPERATING_SYSTEM_CHOICES,
+        use_widget="select",
+        required=True
+    )
+
+    operating_system_supported_max = ChoiceField(
+        "Operating System officially and reliably supported (maximum)",
+        choices=SUPPORTED_OPERATING_SYSTEM_CHOICES,
+        use_widget="select",
+        required=True
+    )
+
+    dedicated = YesNoField(
+        "Can I JUST run it as a communication aid and nothing else?",
+        required=True
+    )
+
+    dedicated_more_info = TextField("more info", max_chars=255)
+
+    accessability_features = TextField("Accessability features", max_chars=500)
+
+    mobile_phone_capabilities = MultipleChoiceField(
+        "Mobile phone capabilities",
+        choices=MOBILE_PHONE_OPTIONS)
+
+    mobile_phone_more_details = TextField(
+        "More details",
+        max_chars=500
+    )
+
+    # the fields below are common to simple and advanced hardware types
+    # I am violating DRY by copying these fields to the other device choices
+    # a better approach might be to just run two forms together ... will
+    # investigate further when the lowtech hardware type is fleshed out
+
+    images = GalleryField("Images", max_items=6)
+    video_urls = MultiUrlField("Video urls", max_items=2)
+    more_info = MultiUrlField("More info", max_items=10)
+
+    #suppliers = SupplierField()
+
+    discontinued = YesNoField(
+        "Discontinued?"
+    )
+
+    short_description = TextField(
+        "Short description",
+        max_chars=1000)
+
+    support_options = TextField(
+        "Support options",
+        max_chars=500)
+
+    warranty_options = TextField(
+        "Warranty options",
+        max_chars=500)
+
+    battery_life = IntegerField(
+        "Battery life")
+
+    spare_battery_options = TextField(
+        "Spare battery options",
+        max_chars=500)
+
+    mounting_options = MultipleChoiceField(
+        "Mounting options",
+        choices=MOUNTING_OPTIONS_CHOICES
+    )
+
+    table_stand_available = YesNoField(
+        "Table Stand availabile?")
+
+    carrying_strap_available = YesNoField(
+        "Carrying strap available?")
+
+    carrying_strap_more_details = TextField(
+        "more details",
+        max_chars=250)
+
+    suppliers_usp_1 = TextField(
+        "Unique selling point 1",
+        max_chars=250)
+
+    suppliers_usp_2 = TextField(
+        "Unique selling point 2",
+        max_chars=250)
+
+    suppliers_usp_3 = TextField(
+        "Unique selling point 3",
+        max_chars=250)
+
+    weight = IntegerField(
+        "Weight (kg)")
+
+    depth = IntegerField(
+        "Depth: (mm)")
+
+    height = IntegerField(
+        "Height: (mm)")
+
+    width = IntegerField(
+        "Width (mm)"
+    )
+
+    screen_width = IntegerField(
+        "Screen width"
+    )
+
+    screen_height = IntegerField(
+        "Screen height"
+    )
+
+    screen_dimensions_incl_case = YesNoField(
+        "Are these dimensions with a case?")
+
+    enviro_control_capabilities = MultipleChoiceField(
+        "Enviro Control capabilities",
+        choices=ENVIROMENT_CAPABILITY_CHOICES,
+        required=True
+    )
+
+    enviro_control_more_details = TextField(
+        "More details"
+    )
+
+    access_method = MultipleChoiceField(
+        "What access method is this designed for? (multiple allowed)",
+        choices=ACCESS_METHOD_CHOICES,
+        required=True)
+
+    # access_method eq ACCESS_METHOD_TOUCH
+
+    supports_capacitive_or_resistive_touch = YesNoField(
+        "Does the device support capacitive or resistive touch?",
+        display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
+        required=True)
+
+    specialist_gestures = YesNoField(
+        "Are specialist gestures etc required to control the device?",
+        display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
+        required=True)
+
+    supported_touch_features = MultipleChoiceField(
+        "What Touch features are available?",
+        choices=SUPPORTED_TOUCH_FEATURES,
+        required=True
+    )
+
+    supported_touch_features_other = TextField(
+        "other",
+        max_chars=250,
+        display_rule=["supported_touch_features", "in", SUPPORTED_TOUCH_OTHER],
+        required=True)
+
+    #items below are duplicated from vocabulary
+    has_min_target_size = YesNoField(
+        "Is there a minimum target size?",
+        display_rule=["access_method", "in", [ACCESS_METHOD_TOUCH, ACCESS_METHOD_MOUSE, ACCESS_METHOD_EYEGAZE]],
+        required=True
+    )
+
+    min_target_size = IntegerField(
+        "What is this size? (mm)",
+        display_rule=["has_min_target_size", "eq", YES_CHOICE],
+        required=True
+    )
+
+    has_max_locations_per_page = ChoiceField(
+        "What is the maximum number of locations per page?",
+        display_rule=["has_min_target_size", "eq", YES_CHOICE],
+        choices=NA_OR_YES_CHOICES,
+        coerce=lambda x: x == "True" or x,
+        required=True)
+
+    max_locations_per_page = IntegerField(
+        "xxxxxxxxxxxxxxxx",
+        display_rule=["has_max_locations_per_page", "eq", YES_CHOICE],
+        required=True
+    )
+
+    # access_method eq ACCESS_METHOD_SWITCH
+
+    scanning_options = MultipleChoiceField(
+        "What scanning options are available (without additional software)",
+        choices=SWITCH_SCANNING_CHOICES,
+        display_rule=["access_method", "in", ACCESS_METHOD_SWITCH],
+        required=True)
 
 
 class VocabularyForm(BranchedForm):
@@ -243,7 +603,7 @@ class SoftwareForm(BranchedForm):
     )
 
     images = GalleryField("Add images", max_items=6)
-    videos = MultiUrlField("Add video urls", max_items=2)
+    videos = MultiUrlField("Add video urls", min_items=2, max_items=5)
 
     image_representation_supported = MultipleChoiceField(
         "Image representation supported",

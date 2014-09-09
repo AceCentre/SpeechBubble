@@ -5,9 +5,10 @@
         <h1>Edit {{ product['draft']['name'] }}</h1>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <div class="product-gallery">
+    <div class="row" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}')">
+        <div class="col-sm-8">
+            <div class="row">
+            <!--<div class="product-gallery">
                 <h3>Images</h3>
                 <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" />
                 <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" />
@@ -17,58 +18,59 @@
                 <div class="gallery-control">
                     <a href="#">Add New image</a>
                 </div>
+            </div> -->
+
+            <div class="row">
+            {% block form_content %}
+
+            {% endblock %}
             </div>
-            {% for field in form %}
-                <div class="col-md-12 edit-field-row" id="container_{{ field.name }}" {% if field.show_rule %}ng-show="{{ field.show_rule }}"{% endif %}>
-                    <div class="col-md-6">
-                        {{ field.label }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ field }}
-                    </div>
-                </div>
-            {% endfor %}
+            </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-4">
+            <span class="label label-default">Unchanged</span>
+
             <h3>Document stats</h3>
             <table class="table">
                 <tr>
                     <td>Owner</td>
-                    <td>You!</td>
+                    <td>{{ "{{ stats.owner }}" }}</td>
                 </tr>
                 <tr>
                     <td>Contributors</td>
-                    <td>Ian S, Michael P, Rachel W (Moderator)</td>
+                    <td>{{ "{{ stats.contributors }}" }}</td>
                 </tr>
                 <tr>
                     <td>Created date</td>
-                    <td></td>
+                    <td>{{ "{{ stats.created }}" }}</td>
                 </tr>
                 <tr>
                     <td>Last edit</td>
-                    <td></td>
+                    <td>{{ "{{ stats.updated }}" }}</td>
                 </tr>
             </table>
 
             <h3>Available actions</h3>
 
-            <a href="#" class="btn btn-primary moderation-action">Save</a>
-            <a href="#" class="btn btn-primary moderation-action">Submit for moderation</a>
+            <a href="#" class="btn btn-primary moderation-action" ng-click="save()">Save draft</a>
+            <a href="#" class="btn btn-danger moderation-action" ng-click="requestPublish()">Submit for moderation</a>
 
+            {% if current_user.can_moderate %}
             <h3>Moderation actions</h3>
 
-            <a href="#" class="btn btn-danger moderation-action">Delete this draft</a>
-            <a href="#" class="btn btn-danger moderation-action">Publish</a>
+            <p>
 
-            <h3>Display</h3>
+                <label for="url">Url: </label><br>
+                <input type="text" name="url" value="{{ product.url }}">
+            </p>
 
-            <a href="#">Preview this draft</a><br />
-            <a href="#">View published</a>
+            <a href="#" class="btn btn-danger moderation-action" ng-click="delete()">Delete this draft</a>
+            <a href="#" class="btn btn-danger moderation-action" ng-click="publish()">Publish</a>
+            {% endif %}
 
+            <!-- <h3>Reversion history</h3>
 
-            <h3>Reversion history</h3>
-
-            <p>None.</p>
+            <p>None.</p> -->
 
             <h3>Moderation comments <small><a href="#">add new</a></small></h3>
 

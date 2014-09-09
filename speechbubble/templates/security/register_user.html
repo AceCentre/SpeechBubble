@@ -12,6 +12,13 @@
                 {{ register_user_form.hidden_tag() }}
                 {{ render_field_with_errors(register_user_form.email) }}
                 {{ render_field_with_errors(register_user_form.password) }}
+                {{ render_field_with_errors(register_user_form.first_name) }}
+                {{ render_field_with_errors(register_user_form.last_name) }}
+                {{ render_field_with_errors(register_user_form.registration_type) }}
+                {{ render_field_with_errors(register_user_form.region) }}
+                {{ render_field_with_errors(register_user_form.city) }}
+                {{ render_field_with_errors(register_user_form.mailing_list) }}
+
                 {% if register_user_form.password_confirm %}
                     {{ render_field_with_errors(register_user_form.password_confirm) }}
                 {% endif %}

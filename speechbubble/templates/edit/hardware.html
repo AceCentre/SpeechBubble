@@ -1,0 +1,72 @@
+{% extends "edit-base.html" %}
+
+{% from 'helpers/form_macros.html' import input_helper, input_multi_item, input_textarea, submit_button %}
+
+{% block form_content %}
+
+    <div class="container edit-form">
+    <form name="form">
+
+    {% if product.sub_type == "lowtech" %}
+        <p>Low tech not currently supported</p>
+    {% endif %}
+
+    {% if product.sub_type == "advanced" %}
+        {{ input_helper(form.operating_system_supported_min) }}
+        {{ input_helper(form.operating_system_supported_max) }}
+        {{ input_helper(form.dedicated) }}
+        {{ input_helper(form.dedicated_more_info, input_textarea) }}
+    {% endif %}
+
+    {% if product.sub_type == "simple" %}
+        {{ input_helper(form.message_levels) }}
+        {{ input_helper(form.message_number_per_levels) }}
+        {{ input_helper(form.premade_vocabs_available) }}
+        <!-- vocabularies -->
+        {{ input_helper(form.speech_type) }}
+        {{ input_helper(form.synthesised_speech_type_choices) }}
+        {{ input_helper(form.no_voices) }}
+    {% endif %}
+
+    {% if product.sub_type in ["simple", "advanced"] %}
+        <!-- images -->
+        {{ input_helper(form.video_urls, input_multi_item) }}
+        {{ input_helper(form.more_info, input_multi_item) }}
+        {{ input_helper(form.discontinued) }}
+        {{ input_helper(form.short_description, input_textarea) }}
+        {{ input_helper(form.support_options, input_textarea) }}
+        {{ input_helper(form.warranty_options, input_textarea) }}
+        {{ input_helper(form.battery_life) }}
+        {{ input_helper(form.spare_battery_options, input_textarea) }}
+        {{ input_helper(form.mounting_options) }}
+        {{ input_helper(form.table_stand_available) }}
+        {{ input_helper(form.carrying_strap_available) }}
+        {{ input_helper(form.carrying_strap_more_details) }}
+        {{ input_helper(form.suppliers_usp_1, input_textarea) }}
+        {{ input_helper(form.suppliers_usp_2, input_textarea) }}
+        {{ input_helper(form.suppliers_usp_3, input_textarea) }}
+        {{ input_helper(form.weight) }}
+        {{ input_helper(form.depth) }}
+        {{ input_helper(form.height) }}
+        {{ input_helper(form.width) }}
+        {{ input_helper(form.screen_width) }}
+        {{ input_helper(form.screen_height) }}
+        {{ input_helper(form.screen_dimensions_incl_case) }}
+        {{ input_helper(form.enviro_control_capabilities) }}
+        {{ input_helper(form.enviro_control_more_details) }}
+        {{ input_helper(form.access_method) }}
+        {{ input_helper(form.supports_capacitive_or_resistive_touch) }}
+        {{ input_helper(form.specialist_gestures) }}
+        {{ input_helper(form.supported_touch_features) }}
+        {{ input_helper(form.supported_touch_features_other) }}
+        {{ input_helper(form.has_min_target_size) }}
+        {{ input_helper(form.min_target_size) }}
+        {{ input_helper(form.has_max_locations_per_page) }}
+        {{ input_helper(form.max_locations_per_page) }}
+        {{ input_helper(form.MultipleChoiceField) }}
+
+    {% endif %}
+
+    </form>
+    </div>
+{% endblock %}

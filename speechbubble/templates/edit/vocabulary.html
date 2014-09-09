@@ -1,13 +1,10 @@
-{% extends "base.html" %}
+{% extends "edit/edit-base.html" %}
 
-{% from 'helpers/form_macros.html' import input_label, input_radio, input_text, input_short_text, input_checkbox, input_helper, submit_button %}
+{% from 'helpers/form_macros.html' import input_helper, submit_button %}
 
-{% block main_content %}
+{% block form_content %}
 
-    <div class="page-header">
-        <h1>Vocabulary</h1>
-    </div>
-    <div class="container edit-form" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}')">
+    <div class="container edit-form">
     <form name="form">
 
         {{ input_helper(form.vocab_presentation) }}
@@ -35,8 +32,6 @@
         {{ input_helper(form.max_locations_per_page) }}
 
         {{ input_helper(form.scanning_options) }}
-
-        {{ submit_button() }}
 
     </form>
     </div>

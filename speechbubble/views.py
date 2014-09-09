@@ -4,7 +4,7 @@ from flask.ext.security import login_required, roles_required, current_user
 from . import app, db
 from .auth import User, Role
 
-from .forms import CreateForm, UserForm
+from .forms import UserForm
 from .models import Product
 
 from .branched_forms import InitialSelectionForm, VocabularyForm, SoftwareForm
@@ -23,30 +23,45 @@ def edit_product(object_id):
 
     product = Product.objects.get(id=object_id)
 
+    templates = dict(
+        vocabulary="vocabulary.html",
+        app="software.html",
+        hardware="hardware.html")
+
     if not product:
         abort(404)
 
-    if product.type == "vocab":
-        form = VocabularyForm(product.draft.data)
-        template = "vocabulary_edit.html"
-    elif product.type == "app":
-        form = SoftwareForm(product.draft.data)
-        template = "software_edit.html"
-    else:
-        abort(500, "No template available")
+    template = templates[product.type]
 
-    return render_template("edit/"+template, form=form, itemId=unicode(product.id))
+    form = product.get_form()(product.draft.data)
+
+    return render_template("edit/"+template, form=form,
+                           itemId=unicode(product.id), product=product)
+
+
+@app.route('/view/<string:object_id>')
+def view_product(object_id):
+
+    product = Product.objects.get(id=object_id)
+
+    if not product:
+        abort(404)
+
+    form = product.get_form()(product.published.data)
+
+    return render_template("view/"+template, form=form,
+                           itemId=unicode(product.id), product=product)
 
 
 @app.route('/')
 def home():
-    return render_template('index.html', products=Product.objects)
+    return render_template('index.html', product=Product.objects)
 
 
 @app.route('/admin/users')
 @login_required
 def list_users():
-    return render_template('list_users.html', users=User.objects)
+    return render_template('admin/list_users.html', users=User.objects)
 
 
 @app.route('/user/edit/<object_id>', methods=['GET', 'POST'])
@@ -70,7 +85,7 @@ def edit_user(object_id=None):
 
         return redirect(url_for("list_users"))
 
-    return render_template('edit_user.html',
+    return render_template('admin/edit_user.html',
                            form=form,
                            adding_user=(object_id is None))
 
@@ -93,3 +108,12 @@ def moderation_queue():
 def test_vocab():
     form = VocabularyForm()
     return render_template('edit/vocabulary_edit.html', form=form)
+
+
+@app.route('/products')
+def list_all_products():
+    """
+    A temporary view showing all products in the system
+    """
+
+    return render_template("admin/products.html", products=Product.objects)

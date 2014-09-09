@@ -1,0 +1,20 @@
+{% extends "edit/edit-base.html" %}
+
+{% from 'helpers/form_macros.html' import input_helper, submit_button %}
+
+{% block form_content %}
+
+    <div class="container edit-form" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}')">
+    <form name="form">
+        <table class="table table-striped">
+            {% for field in form %}
+                {% if field.is_visible() %}
+                <td>
+                    {{  }}
+                </td>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </form>
+    </div>
+{% endblock %}

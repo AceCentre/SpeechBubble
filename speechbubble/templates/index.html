@@ -80,13 +80,7 @@
             </div>
         </div> <!-- end col-md-4 -->
         <div class="col-md-8">
-            {% for product in products %}
-                {% if product.published %}
-                    <a href="{{ product.url }}">Published: {{ product.published.name }}</a>
-                {% else %}
-                    <a href="{{ url_for('edit_product', object_id=product.id) }}">Edit: {{ product.draft.name }}</a>
-                {% endif %}<br>
-            {% endfor %}
+            <h3>Latest products</h3>
         </div>
     </div>
 

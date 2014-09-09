@@ -1,0 +1,17 @@
+Dear {{ name }},
+
+Unfortunately we were not able to publish the draft you have created for the product titled: {{ product_title }}.
+
+Reason:
+
+{{ moderators_comment }}
+
+Please make the necessary amends and when complete click the publish button.
+
+Here's the link to edit the item:
+
+{{ url_for('edit_view', object_id=product.id) }}
+
+Regards,
+
+The Ace Centre team

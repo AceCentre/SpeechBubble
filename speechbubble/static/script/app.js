@@ -31,6 +31,8 @@ angular.module('speechBubble', ["checklist-model"])
         // field errors
         $scope.field_errors = {};
 
+        var _watcher = null;
+
         $scope.create = function(){
             response = dataFactory.createItem($scope.form_data);
 
@@ -40,7 +42,6 @@ angular.module('speechBubble', ["checklist-model"])
                 }
                 else{
                     $window.location.href = "http://localhost:5000/edit/" + data.id;
-                    //$window.location.reload();
                 }
             });
         }
@@ -54,7 +55,8 @@ angular.module('speechBubble', ["checklist-model"])
                     $scope.field_errors = data.errors;
                 }
                 else{
-                    alert('saved!');
+                    $scope.saved = data.success;
+                    $scope.stats = data.stats;
                 }
             });
         }
@@ -63,8 +65,8 @@ angular.module('speechBubble', ["checklist-model"])
             $scope.itemId = itemId;
 
             dataFactory.getItem(itemId).success(function(data){
-                $scope.form_data = data;
+                $scope.form_data = data.data;
+                $scope.stats = data.stats;
             });
         };
-
     }]);

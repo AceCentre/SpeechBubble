@@ -5,7 +5,6 @@ from flask.ext.script import Manager
 from speechbubble import *
 from speechbubble.views import *
 from speechbubble.models import *
-from speechbubble.angular_helpers import *
 from speechbubble.auth import *
 
 manager = Manager(app)

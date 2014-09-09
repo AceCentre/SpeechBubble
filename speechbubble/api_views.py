@@ -7,7 +7,7 @@ from flask.ext.security.core import current_user
 
 from .extensions import api
 from .models import Product
-from .branched_forms import InitialSelectionForm, VocabularyForm, SoftwareForm
+from .branched_forms import InitialSelectionForm
 
 
 class ProductController(restful.Resource):
@@ -28,8 +28,11 @@ class ProductController(restful.Resource):
         """
 
         product = self._get_product_by_id(item_id)
-        #return {'videos': [[], []]}
-        return product.draft.data
+
+        form = product.get_form()(product.draft.data)
+
+        return {'data': form.data,
+                'stats': product.draft.get_stats()}
 
     def put(self, item_id):
         """
@@ -40,18 +43,18 @@ class ProductController(restful.Resource):
 
         product = self._get_product_by_id(item_id)
 
-        if product.type == "vocab":
-            form = VocabularyForm(data)
-        elif product.type == "app":
-            form = SoftwareForm(data)
+        form = product.get_form()()
+        form.process(data, ignore_validation=True)
 
-        if form.errors:
-            return {'errors': form.errors}
+        # save it anyway
+        #if form.errors:
+        #    return {'errors': form.errors}
 
-        product.draft.data = data
+        product.draft.update(data, current_user)
         product.save()
 
-        return {'status': "OK"}
+        return {'success': True,
+                'stats': product.draft.get_stats()}
 
 
 class ProductCreateController(restful.Resource):
@@ -73,7 +76,7 @@ class ProductCreateController(restful.Resource):
 
         product = Product.create_new(form.data['name'],
                                      form.data['product_type'],
-                                     form.data.get('product_sub_type', None),
+                                     form.data.get('hardware_type', None),
                                      current_user)
 
         return {'id': unicode(product.id)}
