@@ -46,7 +46,7 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
                     $scope.field_errors = data.errors;
                 }
                 else{
-                    $window.location.href = "http://localhost:5000/edit/" + data.id;
+                    $window.location.href = "/edit/" + data.id;
                 }
             });
         }
