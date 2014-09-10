@@ -53,3 +53,13 @@ class User(db.Document, UserMixin):
     def get_full_name(self):
         return "{} {}".format(self.first_name, self.last_name)
 
+    @classmethod
+    def get_all_moderators(cls):
+        """
+        Return all users that have moderator or admin credentials
+        """
+        roles = Role.objects(name__in=['Admin', 'Moderator'])
+        return User.objects(roles__in=roles)
+
+
+

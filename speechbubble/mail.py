@@ -16,4 +16,3 @@ class MandrillMail(object):
             subject=message.subject
         )
 
-

@@ -1,10 +1,14 @@
 import datetime as dt
 import copy
 
+from flask import render_template
+
 import slugify
 
 from . import app, db
 from .auth import User
+from .extensions import mandrill
+
 
 from .field_choices import (PRODUCT_TYPE_HARDWARE,
                             PRODUCT_HARDWARE_SUBTYPE_LOWTECH,
@@ -25,9 +29,39 @@ class ModerationError(Exception):
     pass
 
 
-class ModerationQueue(db.EmbeddedDocument):
+class ModerationQueue(db.Document):
     request_timestamp = db.DateTimeField(default=dt.datetime.now, required=True)
+    review_timestamp = db.DateTimeField(default=None)
+
     product = db.ReferenceField('Product')
+    reviewed_by = db.ReferenceField('User')
+
+    status = db.StringField(default=None)   # published, rejected - mongoengine needs an enum field!
+
+    @classmethod
+    def create_moderation_request(cls, product):
+        if cls.objects(product=product, status=None):
+            raise ModerationError('Entry already exists')
+
+        modreq = cls(product=product)
+        modreq.save()
+
+        return modreq
+
+    def send_moderators_email(self):
+        moderators = User.get_all_moderators()
+
+        subject = "SpeechBubble: New moderation request!"
+        body = render_template("emails/request.txt")
+
+        if moderators:
+            mandrill.send_email(
+                from_email=app.config['MANDRILL_DEFAULT_FROM'],
+                to=[dict(email=user.email) for user in moderators],
+                text=body,
+                #html=message.html,
+                subject=app.config['EMAIL_MODERATION_REQUEST_SUBJECT']
+            )
 
 
 class Comment(db.EmbeddedDocument):

@@ -18,17 +18,26 @@
     "angular": "~1.2.23",
     "angular-resource": "~1.2.23",
     "lodash": "~2.4.1",
-    "angular-mocks": "~1.2.23"
+    "angular-mocks": "~1.2.23",
+    "angular-ui-bootstrap": "~0.11.0",
+    "angular-bootstrap": "~0.11.0",
+    "angular-flash": "~0.1.13"
   },
   "install": {
     "path": {
-        "css": "speechbubble/static/style/vendor",
-        "js": "speechbubble/static/script/vendor"
+      "css": "speechbubble/static/style/vendor",
+      "js": "speechbubble/static/script/vendor"
     },
     "sources": {
-        "ng-file-upload": [
-            "bower_components/ng-file-upload/angular-file-upload-shim.js",
-            "bower_components/ng-file-upload/angular-file-upload.js"]
+      "ng-file-upload": [
+        "bower_components/ng-file-upload/angular-file-upload-shim.js",
+        "bower_components/ng-file-upload/angular-file-upload.js"
+      ],
+      "angular-bootstrap": [
+        "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+        "bower_components/angular-bootstrap/ui-bootstrap.min.js"
+      ],
+      "angular-flash": "bower_components/angular-flash/dist/angular-flash.js"
     }
   }
 }

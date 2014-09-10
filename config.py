@@ -34,3 +34,7 @@ PRODUCT_VERSION_HISTORY_MAX = 10
 
 MANDRILL_API_KEY = 'z0Ht0kHJdGPYrAXGFR1D4A'
 MANDRILL_DEFAULT_FROM = 'lyndon@antlyn.com'
+
+EMAIL_MODERATION_REQUEST_SUBJECT = "SpeechBubble: New moderation request"
+EMAIL_MODERATION_REJECTION = "SpeechBubble: Some changes are needed before we can go live"
+EMAIL_MODERATION_PUBLISHED = "SpeechBubble: Your amends has been published"
