@@ -1,10 +1,10 @@
 from speechbubble.branched_forms import BranchedForm
 from speechbubble.fields import TextField
 
-from .utils import BaseTestCase
+from .utils import SBBaseTestCase
 
 
-class BranchedFormTestCase(BaseTestCase):
+class BranchedFormTestCase(SBBaseTestCase):
 
     def test_text_field_validation_required_invalid_data(self):
 

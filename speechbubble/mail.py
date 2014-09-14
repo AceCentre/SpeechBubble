@@ -22,4 +22,3 @@ class MandrillMail(object):
             html=message.html,
             subject=message.subject
         )
-

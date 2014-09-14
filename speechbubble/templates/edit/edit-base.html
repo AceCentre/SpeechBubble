@@ -2,10 +2,10 @@
 
 {% block main_content %}
     <div class="page-header">
-        <h1>Edit {{ product['draft']['name'] }}</h1>
+        <h1>Edit {{ product['name'] }}</h1>
     </div>
 
-    <div class="row" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}')">
+    <div class="row" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}', '{{ userId }}')">
 
     <div flash-alert active-class="in alert" class="fade">
         <span class="alert-message">{{ "{{ flash.message }}" }}</span>
@@ -26,9 +26,16 @@
             </div> -->
 
             <div class="row">
-            {% block form_content %}
+            {% if awaiting_moderation and not current_user.can_moderate %}
+                <div class="col-sm-12">
+                    <p>This draft will be reviewed by our moderators.</p>
 
-            {% endblock %}
+                    <p>We will notify you if amendments are required, or when the draft is published.</p>
+                </div>
+            {% else %}
+                {% block form_content %}
+                {% endblock %}
+            {% endif %}
             </div>
             </div>
         </div>
@@ -40,10 +47,6 @@
                     <td>{{ "{{ stats.owner }}" }}</td>
                 </tr>
                 <tr>
-                    <td>Contributors</td>
-                    <td>{{ "{{ stats.contributors }}" }}</td>
-                </tr>
-                <tr>
                     <td>Created date</td>
                     <td>{{ "{{ stats.created }}" }}</td>
                 </tr>
@@ -53,21 +56,33 @@
                 </tr>
             </table>
 
+            {% if not awaiting_moderation %}
+
             <h3>Available actions</h3>
 
-            <a href="#" class="btn btn-primary moderation-action" ng-click="save()">Save draft</a>
-            <a href="#" class="btn btn-danger moderation-action" ng-click="publishRequest()">Submit for moderation</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="save()">Save draft</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="publishRequest()">Finalise</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="delete()">Delete draft</a>
+
+            {% endif %}
 
             {% if current_user.can_moderate %}
             <h3>Moderation actions</h3>
 
             <p>
-                <label for="url">Url: </label><br>
-                <input type="text" name="url" value="{{ product.url }}">
+                <label for="url">The published version of this page will exist at: </label><br>
+                <input type="text" name="url" value="{{ product.url }}" class="form-control">
             </p>
 
-            <a href="#" class="btn btn-danger moderation-action" ng-click="delete()">Delete this draft</a>
-            <a href="#" class="btn btn-danger moderation-action" ng-click="publish()">Publish</a>
+            {% if awaiting_moderation %}
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="accept()" ng-show="!modId">Need amendments</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="reject()" ng-show="!modId">Accept</a>
+            {% endif %}
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="delete()">Delete draft</a>
+
+            <label for="comment">Add a comment: </label>
+            <textarea name="comment" id="comment" type="textarea" ng-model="comment" class="form-control"></textarea>
+
             {% endif %}
 
             <!-- <h3>Reversion history</h3>

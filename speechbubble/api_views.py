@@ -1,11 +1,11 @@
 import mongoengine
 
-from flask import abort, request
+from flask import abort, request, flash
 from flask.ext import restful
-from flask.ext.security.core import current_user
+from flask.ext.security.core import current_user, current_app
 
-from .extensions import api
-from .models import Product, ModerationQueue, ModerationError
+from .extensions import security, api
+from .models import Product, ModerationQueue, ModerationError, User
 from .branched_forms import InitialSelectionForm
 
 
@@ -21,21 +21,66 @@ def _get_product_by_id(item_id):
     return product
 
 
+def _get_user_by_id(user_id):
+
+        datastore = current_app.extensions['security'].datastore
+
+        user = datastore.get_user(user_id)
+
+        if not user:
+            abort(400)
+
+        return user
+
+
+def _require_owner_or_moderator(draft):
+    if draft.owner.id != current_user.id and not current_user.can_moderate:
+        abort(403)
+
+
 class ProductController(restful.Resource):
 
-    def get(self, item_id):
+    def post(self, item_id, user_id):
+        """
+        Make a new draft, or return an existing draft for this user
+        """
+
+        product = _get_product_by_id(item_id)
+
+        user = _get_user_by_id(user_id)
+
+        draft = product.get_or_create_draft(user)
+
+        return {'success': False,
+                'stats': draft.get_stats(),
+                'data': draft.data}
+
+    def get(self, item_id, user_id):
         """
         Get a product
         """
 
         product = _get_product_by_id(item_id)
 
-        form = product.get_form()(product.draft.data)
+        user = _get_user_by_id(user_id)
+
+        try:
+            draft = product.get_draft(user)
+        except IndexError:
+            return {'success': False}
+
+        _require_owner_or_moderator(draft)
+
+        form = product.get_form()(draft.data)
+        import pdb; pdb.set_trace()
+        moderation = ModerationQueue.objects(product=product, version_owner=user).first()
 
         return {'data': form.data,
-                'stats': product.draft.get_stats()}
+                'stats': draft.get_stats(),
+                'success': True,
+                'moderation': unicode(moderation.id)}
 
-    def put(self, item_id):
+    def put(self, item_id, user_id):
         """
         Update a product
         """
@@ -44,6 +89,16 @@ class ProductController(restful.Resource):
 
         product = _get_product_by_id(item_id)
 
+        user = _get_user_by_id(user_id)
+
+        try:
+            draft = product.get_draft(user)
+        except IndexError:
+            flash('Draft does not exist')
+            return {'success': False}
+
+        _require_owner_or_moderator(draft)
+
         form = product.get_form()()
         form.process(data, ignore_validation=True)
 
@@ -51,11 +106,32 @@ class ProductController(restful.Resource):
         #if form.errors:
         #    return {'errors': form.errors}
 
-        product.draft.update(data, current_user)
+        draft.data = data
+
         product.save()
 
         return {'success': True,
-                'stats': product.draft.get_stats()}
+                'stats': draft.get_stats()}
+
+    def delete(self, item_id, user_id):
+
+        product = _get_product_by_id(item_id)
+        user = _get_user_by_id(user_id)
+
+        try:
+            draft = product.get_draft(user)
+        except IndexError:
+            flash("This draft no longer exists - it was either deleted, or published", "error")
+
+        _require_owner_or_moderator(draft)
+
+        if current_user.id != draft.owner.id and not current_user.can_moderate():
+            abort(403)
+        else:
+            product.delete_draft(user)
+            flash("Draft deleted.", "success")
+
+        return dict(success=True)
 
 
 class ProductCreateController(restful.Resource):
@@ -64,6 +140,9 @@ class ProductCreateController(restful.Resource):
         """
         Create a new product and put initial data into draft
         """
+
+        if not current_user.is_authenticated():
+            abort(403)
 
         data = request.get_json()
 
@@ -83,32 +162,70 @@ class ProductCreateController(restful.Resource):
         return {'id': unicode(product.id)}
 
 
-class ModerationController(restful.Resource):
+class ModerationCreateController(restful.Resource):
 
-    def post(self, item_id):
+    def post(self, item_id, user_id):
         """
         Create a moderation request
         """
 
-        data = request.get_json()
+        #if not current_user.can_moderate:
+        #    abort(403)
 
-        if not data:
-            abort(400)
+        data = request.get_json()
 
         product = _get_product_by_id(item_id)
 
+        user = _get_user_by_id(user_id)
+
         form = product.get_form()(data)
+
+        draft = product.get_draft(user)
 
         if form.errors:
             return {'errors': form.errors}
-        import pdb; pdb.set_trace()
+
         # check for open moderation requests
         try:
-            moderation = ModerationQueue.create_moderation_request(product)
+            moderation = ModerationQueue.create_moderation_request(product, draft)
         except ModerationError:
-            return {'failed': 'This product entry is already in our moderation queue - we will notify you by email when we review it.'}
+            return {'failed': 'This product entry is already in our moderation queue - we will notify you by email when it is reviewed.'}
 
         moderation.send_moderators_email()
+
+class ModerationController(restful.Resource):
+
+    def put(self, moderation_id, action):
+
+        if action not in ['accept', 'reject']:
+            abort(400)
+
+        moderation = ModerationQueue.objects.get(id=moderation_id)
+        user = User.objects.get(id=moderation.version_owner.id)
+
+        product, draft = moderation.get_product_and_draft()
+
+        response = {'success': True}
+
+        if action == "accept":
+            product.history.append(product.published)
+            product.published = draft
+            product.drafts.remove(draft)
+            product.save()
+
+            #email = render_template('emails/accepted.txt', name=user.get_full_name())
+
+        if action == "rejected":
+
+            product.drafts.remove(draft)
+            product.save()
+
+            #email = render_template('emails/rejected.txt')
+
+        # remove the moderation entry
+        moderation.delete()
+
+        return response
 
 
 class ImageUploadController(restful.Resource):
@@ -117,7 +234,8 @@ class ImageUploadController(restful.Resource):
         pass
 
 
-api.add_resource(ModerationController, '/api/moderation/<string:item_id>')
-api.add_resource(ProductController, '/api/product/<string:item_id>')
+api.add_resource(ModerationController, '/api/moderation/<string:moderation_id>/<string:action>')
+api.add_resource(ModerationCreateController, '/api/moderation/create/<string:item_id>/<string:user_id>')
+api.add_resource(ProductController, '/api/product/<string:item_id>/<string:user_id>')
 api.add_resource(ProductCreateController, '/api/product/create')
 api.add_resource(ImageUploadController, '/api/productimage/<string:item_id>')

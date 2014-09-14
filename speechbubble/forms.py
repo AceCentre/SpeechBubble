@@ -11,7 +11,7 @@ from wtforms import (validators,
 
 from flask_security.forms import RegisterForm
 
-from .auth import Role, User
+from .models import Role, User
 
 from .field_choices import PRODUCT_TYPE_CHOICES
 

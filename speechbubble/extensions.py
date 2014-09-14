@@ -13,6 +13,3 @@ bootstrap = Bootstrap()
 # flask security
 from flask.ext.security import Security
 security = Security()
-
-# user datastore for flask-security
-user_datastore = None

@@ -1,4 +1,4 @@
-angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flash.service', 'angular-flash.flash-alert-directive'])
+angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flash.service', 'angular-flash.flash-alert-directive', 'dialogs.main', 'pascalprecht.translate'])
     .config(function (flashProvider) {
         flashProvider.errorClassnames.push('alert-danger');
     })
@@ -10,21 +10,39 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
             return $http.post(urlBase+"product/create", data);
         };
 
-        dataFactory.saveItem = function(itemId, data){
-            return $http.put(urlBase+"product/"+itemId, data);
+        dataFactory.saveDraft = function(itemId, userId, data){
+            return $http.put(urlBase+"product/"+itemId+"/"+userId, data);
         };
 
-        dataFactory.getItem = function(itemId){
-            return $http.get(urlBase+"product/"+itemId);
+        dataFactory.deleteDraft = function(itemId, userId){
+            return $http.delete(urlBase+"product/"+itemId+"/"+userId);
         };
 
-        dataFactory.moderationRequest = function(itemId, data){
-            return $http.post(urlBase+"moderation/"+itemId, data);
+        dataFactory.getDraft = function(itemId, userId){
+            return $http.get(urlBase+"product/"+itemId+"/"+userId);
+        };
+
+        dataFactory.getOrCreateDraft = function(itemId, userId){
+            return $http.post(urlBase+"product/"+itemId+"/"+userId);
+        };
+
+        dataFactory.moderationRequest = function(itemId, userId, data){
+            return $http.post(urlBase+"moderation/create/"+itemId+"/"+userId, data);
+        };
+
+        dataFactory.moderationAction = function(modId, action){
+            return $http.post(urlBase+"moderation/"+modId+"/"+action)
         };
 
         return dataFactory;
     }])
-    .controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "flash", function($scope, $window, dataFactory, flash) {
+    .controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "flash", "dialogs", function($scope, $window, dataFactory, flash, dialogs) {
+
+		$scope.lang = 'en-US';
+		$scope.language = 'English';
+
+        // $translate.use($scope.lang);
+        // TODO - get angular translate working properly for dialog buttons
 
         // the form data
         $scope.form_data = {};
@@ -49,10 +67,10 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
                     $window.location.href = "/edit/" + data.id;
                 }
             });
-        }
+        };
 
         $scope.save = function(){
-            response = dataFactory.saveItem($scope.itemId, $scope.form_data);
+            response = dataFactory.saveDraft($scope.itemId, $scope.userId, $scope.form_data);
 
             response.success(function(data, status){
                 $scope.field_errors = {};
@@ -65,10 +83,10 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
                     flash.success = "Saved!";
                 }
             });
-        }
+        };
 
         $scope.publishRequest = function(){
-            response = dataFactory.moderationRequest($scope.itemId, $scope.form_data);
+            response = dataFactory.moderationRequest($scope.itemId, $scope.userId, $scope.form_data);
 
             response.success(function(data, status){
                 $scope.field_errors = {};
@@ -78,19 +96,51 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
                 }
                 else if(data.errors){
                     $scope.field_errors = data.errors;
+                    flash.error = "Unable to finalise document - please correct the form errors and try again."
                 }
                 else{
-                    flash.success = "Thanks. Your moderation request has been received. We will email you when we have reviewed the listing";
+                    flash.success = "Thanks. This draft will be reviewed by our moderators.";
                 }
             });
         };
 
-        $scope.load = function(itemId){
-            $scope.itemId = itemId;
+        $scope.delete = function(itemId, userId){
+            var dlg = dialogs.confirm('Please Confirm', 'Are you sure you want to delete this draft?');
 
-            dataFactory.getItem(itemId).success(function(data){
-                $scope.form_data = data.data;
-                $scope.stats = data.stats;
+            dlg.result.then(function(btn){
+			    dataFactory.deleteDraft($scope.itemId, $scope.userId).success(function(data){
+                    $window.location = "/";
+                });
+			},function(btn){
+			    // do nothing if user clicks 'no'
+			});
+        };
+
+        $scope.load = function(itemId, userId){
+            $scope.itemId = itemId;
+            $scope.userId = userId;
+
+            dataFactory.getDraft(itemId, userId).success(function(data){
+                if(data.success){
+                    $scope.form_data = data.data;
+                    $scope.stats = data.stats;
+
+                    if(data.moderation){
+                        $scope.modId = data.moderation;
+                    }
+                    else{
+                        $scope.modId = null;
+                    }
+                }
+                else{
+                    $window.location = "/";
+                }
+            });
+        };
+
+        $scope.moderation = function(action){
+            dataFactory.moderationAction($scope.modId, action).success(function(data){
+
             });
         };
     }]);

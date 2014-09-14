@@ -8,17 +8,21 @@
 {% block styles %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+    <link rel="stylesheep" href="{{ url_for('static', filename='style/vendor/angular-dialog-service/dialogs.min.css') }}">
 
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload-shim.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular/angular.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-translate/angular-translate.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-sanitize/angular-sanitize.js') }}"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/lodash/lodash.compat.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ url_for('static', filename='script/vendor/angular-resource/angular-resource.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-resource/angular-resource.js') }}"></script>
     <!-- <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/bootstrap/bootstrap.js') }}"></script> -->
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs-default-translations.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-flash/angular-flash.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/checklist-model.js') }}"></script>
 
@@ -34,7 +38,8 @@
             <div id="user-widget">
                 {% if current_user.is_authenticated() %}
                     {{ current_user.email }} <a href="{{ url_for('security.logout') }}">Logout</a> |
-                    <a href="{{ url_for('security.change_password') }}">Change Password</a>
+                    <a href="{{ url_for('security.change_password') }}">Change Password</a> |
+                    <a href="{{ url_for('my_account') }}">My Account</a>
                 {% else %}
                     <a href="{{ url_for('security.login') }}">Login</a> |
                     <a href="{{ url_for('security.register') }}">Register</a>
@@ -86,6 +91,5 @@
     {% block scripts %}
         {{ super() }}
         {{ google.analytics(account=config['GOOGLE_ANALYTICS_CODE']) }}
-
     {% endblock %}
 {% endblock %}

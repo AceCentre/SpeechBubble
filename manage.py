@@ -2,20 +2,20 @@
 
 from flask.ext.script import Manager
 
-from speechbubble import *
+from speechbubble.app import *
 from speechbubble.views import *
 from speechbubble.models import *
-from speechbubble.auth import *
+
 
 manager = Manager(app)
+
 
 @manager.command
 def setup_admin():
     """
     Set up an admin user admin@speechbubble.com and assign the Admin role.
 
-    NOTE these are just temporary test details. This management command will not exist
-    in the production codebase.
+    NOTE these are just temporary test details. This management command will be removed from the production codebase.
     """
     Role.objects(name="Moderator").update_one(upsert=True, set__name="Moderator")
     Role.objects(name="Admin").update_one(upsert=True, set__name="Admin")

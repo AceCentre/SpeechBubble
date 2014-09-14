@@ -4,4 +4,49 @@
     <div class="page-header">
         <h1>Moderation Queue</h1>
     </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <td>
+                    URL
+                </td>
+                <td>
+                    Owner
+                </td>
+                <td>
+                    Type
+                </td>
+                <td>
+                    Title
+                </td>
+                <td>
+                    Edit draft
+                </td>
+            </thead>
+            <tbody>
+            {% for item in objects %}
+            <tr>
+                <td>
+                    {{ item.product_url }}
+                </td>
+                <td>
+                    {{ item.version_owner }}
+                </td>
+                <td>
+                    {{ item.product_type }}{% if type == "hardware" %} / {{ item.product_sub_type }}{% endif %}
+                </td>
+                <td>
+                    {{ item.product_name }}
+                </td>
+                <td>
+                    <a href="{{ url_for("edit-product", object_id=item.product.id, user_id=item.version_owner.id) }}">Edit version</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
 {% endblock %}
+

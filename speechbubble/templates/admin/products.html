@@ -15,7 +15,7 @@
                     <td>Published?</td>
                     <td>Draft?</td>
                     <td>Revisions?</td>
-                    <td>Edit</td>
+                    <td>Drafts</td>
                     <td>View</td>
                 </tr>
             </thead>
@@ -35,9 +35,15 @@
                     <td>{% if product.published %}Yes{% else %}No{% endif %}</td>
                     <td>{% if product.draft %}Yes{% else %}No{% endif %}</td>
                     <td>{{ product.revision_count }}</td>
-                    <td><a href="{{ url_for('edit_product', object_id=product.id) }}">Edit</a></td>
-                    <td><a href="{{ url_for('view_product', object_id=product.id) }}">View</a></td>
+                    <td>
+                        {% for draft in product.drafts %}
+                            <a href="{{ url_for("edit-product", object_id=product.id, user_id=draft.owner.id) }}">Edit draft owned by: {{ draft.owner }}</a><br>
+                        {% endfor %}
+                        <a href="{{ url_for("create_draft", object_id=product.id) }}">Create draft (as current user)</a>
+                    </td>
+                    <td>{% if product.published %}<a href="{{ url_for('view_product', object_id=product.id) }}">View</a>{% endif %}</td>
                 </tr>
+
             {% else %}
                 There's no products in the database
             {% endfor %}

@@ -1,0 +1,12 @@
+Dear {{ name }},
+
+The draft you created for the product titled {{ product_name }} has been deleted.
+
+The reason given is below:
+
+{{ moderators_comment }}
+
+Regards,
+
+The Ace Centre editorial team
+

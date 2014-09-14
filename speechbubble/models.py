@@ -1,12 +1,13 @@
 import datetime as dt
 import copy
 
-from flask import render_template
+from flask import render_template, current_app
+from flask.ext.security import UserMixin, RoleMixin
 
 import slugify
 
-from . import app, db
-from .auth import User
+from .app import db
+
 from .extensions import mandrill
 
 
@@ -29,39 +30,140 @@ class ModerationError(Exception):
     pass
 
 
+class PermissionError(Exception):
+    pass
+
+
+class Role(db.Document, RoleMixin):
+    name = db.StringField(max_length=80, unique=True)
+    description = db.StringField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+
+class User(db.Document, UserMixin):
+    email = db.StringField(max_length=255)
+    password = db.StringField(max_length=255)
+    active = db.BooleanField(default=True)
+    roles = db.ListField(db.ReferenceField(Role), default=[])
+
+    # tracking
+    confirmed_at = db.DateTimeField()
+    last_login_at = db.DateTimeField()
+    current_login_at = db.DateTimeField()
+    last_login_ip = db.StringField()
+    current_login_ip = db.StringField()
+    login_count = db.IntField()
+
+    first_name = db.StringField()
+    last_name = db.StringField()
+    registration_type = db.StringField()
+    region = db.StringField()
+    city = db.StringField()
+    mailing_list = db.BooleanField()
+
+    def __unicode__(self):
+        return self.email
+
+    @property
+    def can_moderate(self):
+        return self.has_role('Admin') or self.has_role('Moderator')
+
+    def populate_from_form(self, form):
+        self.email = form.data['email']
+
+        self.roles = Role.objects(id__in=form.data['roles'])
+
+        if form.data['password']:
+            self.password = form.data['password']
+
+        self.active = form.data['active']
+        self.save()
+
+    def get_full_name(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+    @classmethod
+    def get_all_moderators(cls):
+        """
+        Return all users that have moderator or admin credentials
+        """
+        roles = Role.objects(name__in=['Admin', 'Moderator'])
+        return User.objects(roles__in=roles)
+
+
 class ModerationQueue(db.Document):
     request_timestamp = db.DateTimeField(default=dt.datetime.now, required=True)
     review_timestamp = db.DateTimeField(default=None)
 
     product = db.ReferenceField('Product')
-    reviewed_by = db.ReferenceField('User')
+    version_owner = db.ReferenceField('User')
+    increment_id = db.IntField()
+
+    reviewer = db.ReferenceField('User')
+
+    # some product data required to dis play on the moderation page
+    product_type = db.StringField()
+    product_sub_type = db.StringField()
+    product_url = db.StringField()
+    product_name = db.StringField()
 
     status = db.StringField(default=None)   # published, rejected - mongoengine needs an enum field!
 
+    def get_product_and_draft(self):
+        product = Product.objects.get(id=self.product.id)
+
+        for item in product.drafts:
+            if item.owner == self.version_owner:
+                draft = item
+                break
+        else:
+            raise IndexError()
+
+        return product, draft
+
     @classmethod
-    def create_moderation_request(cls, product):
-        if cls.objects(product=product, status=None):
+    def has_entry(cls, product, user):
+        return len(cls.objects(product=product, version_owner=user.id)) > 0
+
+    @classmethod
+    def create_moderation_request(cls, product, draft):
+        if cls.objects(product=product, version_owner=draft.owner.id):
             raise ModerationError('Entry already exists')
 
-        modreq = cls(product=product)
-        modreq.save()
+        moderation = cls(
+            product=product, version_owner=draft.owner, increment_id=draft.increment_id,
+            product_type=product.type, prduct_sub_type=product.sub_type, product_url=product.url,
+            product_name=draft.name)
 
-        return modreq
+        moderation.save()
+
+        return moderation
 
     def send_moderators_email(self):
         moderators = User.get_all_moderators()
 
-        subject = "SpeechBubble: New moderation request!"
         body = render_template("emails/request.txt")
 
         if moderators:
             mandrill.send_email(
-                from_email=app.config['MANDRILL_DEFAULT_FROM'],
+                from_email=current_app.config['MANDRILL_DEFAULT_FROM'],
                 to=[dict(email=user.email) for user in moderators],
                 text=body,
                 #html=message.html,
-                subject=app.config['EMAIL_MODERATION_REQUEST_SUBJECT']
+                subject=current_app.config['EMAIL_MODERATION_REQUEST_SUBJECT']
             )
+
+    def send_action_email(self):
+
+        mandrill.send_email(
+            from_email=current_app.config['MANDRILL_DEFAULT_FROM'],
+            to=[dict(email=user.email) for user in moderators],
+            text=body,
+            #html=message.html,
+            subject=current_app.config['EMAIL_MODERATION_REQUEST_SUBJECT']
+        )
 
 
 class Comment(db.EmbeddedDocument):
@@ -82,23 +184,16 @@ class Image(db.EmbeddedDocument):
     ordering = db.IntField(default=0)
 
 
-class Contributor(db.EmbeddedDocument):
-    user = db.ReferenceField(User)
-    name = db.StringField()
-    notify = db.BooleanField(default=True)
-
-
 class ProductVersion(db.EmbeddedDocument):
+
     name = db.StringField(required=True)
     created_timestamp = db.DateTimeField(default=dt.datetime.now, required=True)
     last_updated = db.DateTimeField(default=dt.datetime.now, required=True)
 
-    owner = db.EmbeddedDocumentField(Contributor)
-    contributors = db.ListField(db.EmbeddedDocumentField(Contributor))
+    owner = db.ReferenceField(User, required=True)
+    increment_id = db.IntField(required=True, default=0)   # (unique_with="owner",
 
-    # should be incremented on each save; will be used
-    # for optimistic locking
-    sub_version_number = db.IntField(default=1)
+    moderation_notes = db.ListField(Comment)
 
     data = db.DictField()
 
@@ -109,8 +204,7 @@ class ProductVersion(db.EmbeddedDocument):
         contributors etc.
         """
 
-        return dict(owner=self.owner.name,
-                    contributors=self.contributors_name_list(),
+        return dict(owner=self.owner.get_full_name(),
                     created=self.created_timestamp.strftime("%b %d %Y %H:%M:%S"),
                     updated=self.last_updated.strftime("%b %d %Y %H:%M:%S"))
 
@@ -119,36 +213,20 @@ class ProductVersion(db.EmbeddedDocument):
         self.add_to_contributors(user)
         self.last_updated = dt.datetime.now()
 
-    def contributors_name_list(self):
-        return ", ".join(contrib.name for contrib in self.contributors) or "No contributors"
-
-    def add_to_contributors(self, user):
-        """
-        If a document is being saved add the user to the contributors list,
-        if the user isn't the owner, or already in there.
-        """
-        if self.owner.user != user:
-            if not filter(lambda x: x.user.id == user.id, self.contributors):
-                contrib = Contributor(user=user.id, name=user.get_full_name())
-                self.contributors.append(contrib)
-
 
 class Product(db.Document):
     url = db.StringField(required=True)
     type = db.StringField(required=True)
     sub_type = db.StringField()
 
-    draft = db.EmbeddedDocumentField('ProductVersion')
+    drafts = db.ListField(db.EmbeddedDocumentField('ProductVersion'))
     published = db.EmbeddedDocumentField('ProductVersion')
     history = db.ListField(db.EmbeddedDocumentField('ProductVersion'))
-
-    moderation_notes = db.ListField(Comment)
 
     updated_timestamp = db.DateTimeField()
 
     def __unicode__(self):
         return self.url
-
 
     @classmethod
     def create_new(cls, name, product_type, product_sub_type, user):
@@ -159,12 +237,10 @@ class Product(db.Document):
         url = slugify.slugify(name)
 
         product = cls(url=url, type=product_type,
-                      sub_type=product_sub_type, name=name)
+                      sub_type=product_sub_type)
 
         # set up a new draft product
-        product.draft = ProductVersion(name=name)
-        product.draft.owner = Contributor(name=user.get_full_name(), user=user.id)
-
+        product.drafts.append(ProductVersion(name=name, owner=user.id, increment_id=1))
         product.save()
 
         return product
@@ -173,7 +249,7 @@ class Product(db.Document):
         # determine changed fields between this object and its immediate parent
         pass
 
-    def publish(self):
+    def publish(self, draft_id):
         """
         Publish the draft. If an item is already published it gets pushed into history
         """
@@ -186,18 +262,48 @@ class Product(db.Document):
         self.published = copy.deepcopy(self.draft)
         self.save()
 
-    def create_draft(self):
+    def get_or_create_draft(self, user):
+
+        try:
+            return self.get_draft(user)
+        except IndexError:
+            return self.create_draft(user)
+
+    def get_draft(self, user):
+
+        for item in self.drafts:
+            if item.owner.id == user.id:
+                return item
+        else:
+            raise IndexError("Draft does not exist")
+
+    def create_draft(self, user):
         """
         Copy published to draft
         """
 
         if not self.published:
-            raise ModerationError("No published item so unable to create draft")
+            draft = ProductVersion()
+            draft.name = "Untitled {}".format(self.type)
+        else:
+            draft = copy.deepcopy(self.published)
 
-        self.moderation_notes = []
+        draft.moderation_notes = []
+        draft.owner = user.to_dbref()
+        draft.increment_id += 1
 
-        self.draft = copy.deepcopy(self.published)
+        self.drafts.append(draft)
+
         self.save()
+
+        return draft
+
+    def delete_draft(self, user_id):
+        draft = self.get_draft(user_id)
+
+        self.drafts.remove(draft)
+        self.save()
+
 
     def archive_published(self, save=False):
         """

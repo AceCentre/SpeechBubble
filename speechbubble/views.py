@@ -1,11 +1,10 @@
-from flask import render_template, redirect, url_for, abort, flash, request
+from flask import render_template, redirect, url_for, abort, flash, request, current_app
 from flask.ext.security import login_required, roles_required, current_user
 
-from . import app, db
-from .auth import User, Role
+from .app import app, db
 
 from .forms import UserForm
-from .models import Product
+from .models import Product, User, Role, ModerationQueue
 
 from .branched_forms import InitialSelectionForm, VocabularyForm, SoftwareForm
 
@@ -17,11 +16,25 @@ def create_product():
 
     return render_template('edit/create.html', form=form)
 
-@app.route('/edit/<string:object_id>')
+
+@app.route('/edit/<object_id>/<user_id>', methods=['GET', 'POST'], endpoint="edit-product")
+@app.route('/edit/<object_id>')
 @login_required
-def edit_product(object_id):
+def edit_product(object_id, user_id=None):
+
+    datastore = current_app.extensions['security'].datastore
+
+    if not user_id:
+        user = current_user
+    else:
+        user = datastore.get_user(user_id)
+
+    if not user:
+        abort(400)
 
     product = Product.objects.get(id=object_id)
+
+    awaiting_moderation = ModerationQueue.has_entry(product, user)
 
     templates = dict(
         vocabulary="vocabulary.html",
@@ -33,10 +46,13 @@ def edit_product(object_id):
 
     template = templates[product.type]
 
-    form = product.get_form()(product.draft.data)
+    #draft = product.get_draft(user)
+
+    form = product.get_form() #(draft.data)
 
     return render_template("edit/"+template, form=form,
-                           itemId=unicode(product.id), product=product)
+                           itemId=unicode(product.id), product=product,
+                           userId=user.id,  awaiting_moderation=awaiting_moderation)
 
 
 @app.route('/view/<string:object_id>')
@@ -65,7 +81,7 @@ def list_users():
 
 
 @app.route('/user/edit/<object_id>', methods=['GET', 'POST'])
-def edit_user(object_id=None):
+def edit_user(object_id=None, user_id=None):
 
     if object_id:
         user = User.objects(id=object_id).first()
@@ -101,19 +117,35 @@ def moderation_queue():
     """
     Display the moderation queue
     """
-    return render_template('admin/moderation.html')
-
-
-@app.route('/vocab')
-def test_vocab():
-    form = VocabularyForm()
-    return render_template('edit/vocabulary_edit.html', form=form)
+    return render_template('admin/moderation.html', objects=ModerationQueue.objects())
 
 
 @app.route('/products')
+@login_required
 def list_all_products():
     """
     A temporary view showing all products in the system
     """
 
     return render_template("admin/products.html", products=Product.objects)
+
+
+@app.route('/my-account ')
+@login_required
+def my_account():
+
+    return "hello"
+
+
+@app.route('/create-draft/<object_id>')
+@login_required
+def create_draft(object_id):
+    """
+    Create a new draft or return an existing draft for a given user
+    """
+
+    product = Product.objects.get(id=object_id)
+
+    product.get_or_create_draft(current_user)
+
+    return redirect(url_for("edit-product", object_id=product.id, user_id=current_user.id))

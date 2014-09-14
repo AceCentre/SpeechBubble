@@ -1,32 +1,8 @@
 from speechbubble.fields import BaseField
-from .utils import BaseTestCase
+from .utils import SBBaseTestCase
 
 
-class FieldTestBasicFunctionalityTestCase(BaseTestCase):
-
-    def test_field_visible_with_display_rule_neq_and_visible(self):
-
-        document = {
-            'previous_field': 5
-        }
-
-        field = BaseField("test field", display_rule=['previous_field', 'neq', 6])
-
-        field.process({}, document)
-
-        self.assertTrue(field.is_visible())
-
-    def test_field_visible_with_display_rule_neq_not_visible(self):
-
-        document = {
-            'previous_field': 5
-        }
-
-        field = BaseField("test field", display_rule=['previous_field', 'neq', 5])
-
-        field.process({}, document)
-
-        self.assertFalse(field.is_visible())
+class FieldTestBasicFunctionalityTestCase(SBBaseTestCase):
 
     def test_field_visible_with_display_rule_eq_and_visible(self):
 
