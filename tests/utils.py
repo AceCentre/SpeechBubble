@@ -1,6 +1,6 @@
 from flask.ext.testing import TestCase
 
-from speechbubble import create_app, configure_app
+from speechbubble.app import create_app, configure_app
 from speechbubble.extensions import db
 
 from .factories import RoleFactory

@@ -36,6 +36,12 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
 
         return dataFactory;
     }])
+    .controller('SupplierListCtrl', function($scope) {
+        $scope.selectedRegions = [];
+    })
+    .controller('SupplierEditCtrl', function($scope){
+
+    })
     .controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "flash", "dialogs", function($scope, $window, dataFactory, flash, dialogs) {
 
 		$scope.lang = 'en-US';

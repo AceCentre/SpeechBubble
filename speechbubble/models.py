@@ -19,11 +19,11 @@ from .field_choices import (PRODUCT_TYPE_HARDWARE,
                             PRODUCT_TYPE_VOCABULARY)
 
 
-from .branched_forms import (HardwareLowtechForm,
-                             HardwareSimpleForm,
-                             HardwareAdvancedForm,
-                             SoftwareForm,
-                             VocabularyForm)
+from .forms import (HardwareLowtechForm,
+                    HardwareSimpleForm,
+                    HardwareAdvancedForm,
+                    SoftwareForm,
+                    VocabularyForm)
 
 
 class ModerationError(Exception):

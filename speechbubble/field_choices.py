@@ -5,6 +5,18 @@ Select list options.
 NOTE: These may be migrated to MongoDB so they can managed via an admin interface, at some stage.
 """
 
+REGISTRATION_TYPE_CHOICES = (
+    ("professional", "Professional"),
+    ("parent", "Parent"),
+    ("aac_user", "AAC User"))
+
+REGISTRATION_REGIONS = (
+    ("uk", "UK"),
+    ("Europe", "Europe"),
+    ("USA", "USA"),
+    ("Australia", "Australia"),
+    ("Other", "Other"))
+
 FIELD_CURRENCY_CHOICES = (
     ('GBP', 'GBP'),
     ('AUD', 'AUD'),

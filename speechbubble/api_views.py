@@ -6,7 +6,7 @@ from flask.ext.security.core import current_user, current_app
 
 from .extensions import security, api
 from .models import Product, ModerationQueue, ModerationError, User
-from .branched_forms import InitialSelectionForm
+from .forms import InitialSelectionForm
 
 
 def _get_product_by_id(item_id):

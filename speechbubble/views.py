@@ -6,7 +6,7 @@ from .app import app, db
 from .forms import UserForm
 from .models import Product, User, Role, ModerationQueue
 
-from .branched_forms import InitialSelectionForm, VocabularyForm, SoftwareForm
+from .forms import InitialSelectionForm, VocabularyForm, SoftwareForm
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -149,3 +149,9 @@ def create_draft(object_id):
     product.get_or_create_draft(current_user)
 
     return redirect(url_for("edit-product", object_id=product.id, user_id=current_user.id))
+
+
+@app.route('/suppliers')
+def suppliers():
+
+    return render_template("edit/suppliers.html")

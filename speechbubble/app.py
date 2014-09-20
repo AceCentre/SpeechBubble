@@ -7,7 +7,8 @@ from flask.ext.security import MongoEngineUserDatastore
 from .mail import MandrillMail
 from .extensions import db, api, mandrill, bootstrap, security
 
-from .forms import User, Role, SpeechBubbleRegisterForm
+from .forms import SpeechBubbleRegisterForm
+from .models import User, Role
 
 from speechbubble.api_views import ProductController, ProductCreateController
 
@@ -31,7 +32,8 @@ def create_app(testing=False):
 
     # Setup Flask-Security
     user_datastore = MongoEngineUserDatastore(db, User, Role)
-    security.init_app(app, user_datastore, confirm_register_form=SpeechBubbleRegisterForm)
+    security.init_app(app, user_datastore,
+                      confirm_register_form=SpeechBubbleRegisterForm)
 
     # register mandrill substitute to flask mail
     # as an extension, so that flask security
