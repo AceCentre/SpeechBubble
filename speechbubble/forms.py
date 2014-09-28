@@ -476,6 +476,10 @@ class VocabularyForm(ConditionalForm):
     The vocabulary form
     """
 
+    name = TextField("name")
+
+    description = TextField("description")
+
     vocab_presentation = ChoiceField(
         "How is the vocab primarily presented?",
         choices=VOCAB_PRESENTATION_CHOICES,
@@ -757,14 +761,14 @@ class SoftwareForm(ConditionalForm):
     )
 
     has_max_locations_per_page = ChoiceField(
-        "What is the maximum number of locations per page?",
+        "Does it have a maximum number of locations per page?",
         display_rule=["has_min_target_size", "eq", YES_CHOICE],
         choices=NA_OR_YES_CHOICES,
         coerce=lambda x: x == "True" or x,
         required=True)
 
     max_locations_per_page = IntegerField(
-        "xxxxxxxxxxxxxxxx",
+        "What are the max number of locations per page?",
         display_rule=["has_max_locations_per_page", "eq", YES_CHOICE],
         required=True
     )

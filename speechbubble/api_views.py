@@ -72,13 +72,15 @@ class ProductController(restful.Resource):
         _require_owner_or_moderator(draft)
 
         form = product.get_form()(draft.data)
-        import pdb; pdb.set_trace()
+
         moderation = ModerationQueue.objects(product=product, version_owner=user).first()
+
+        moderation_id = moderation.id if moderation else None
 
         return {'data': form.data,
                 'stats': draft.get_stats(),
                 'success': True,
-                'moderation': unicode(moderation.id)}
+                'moderation': unicode(moderation_id)}
 
     def put(self, item_id, user_id):
         """

@@ -51,7 +51,7 @@
     </div>
 {%- endmacro %}
 
-{% macro input_text(field, class="") -%}
+{% macro input_textarea(field, class="") -%}
     <div class="col-sm-6">
         <textarea ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}"></textarea>
         {{ input_error(field) }}

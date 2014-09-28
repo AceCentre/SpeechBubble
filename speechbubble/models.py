@@ -186,7 +186,6 @@ class Image(db.EmbeddedDocument):
 
 class ProductVersion(db.EmbeddedDocument):
 
-    name = db.StringField(required=True)
     created_timestamp = db.DateTimeField(default=dt.datetime.now, required=True)
     last_updated = db.DateTimeField(default=dt.datetime.now, required=True)
 
@@ -240,7 +239,10 @@ class Product(db.Document):
                       sub_type=product_sub_type)
 
         # set up a new draft product
-        product.drafts.append(ProductVersion(name=name, owner=user.id, increment_id=1))
+
+        data = dict(name=name)
+
+        product.drafts.append(ProductVersion(owner=user.id, increment_id=1, data=data))
         product.save()
 
         return product

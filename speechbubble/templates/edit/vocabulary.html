@@ -1,12 +1,15 @@
 {% extends "edit/edit-base.html" %}
 
-{% from 'helpers/form_macros.html' import input_helper, submit_button %}
+{% from 'helpers/form_macros.html' import input_helper, submit_button, input_textarea %}
 
 {% block form_content %}
 
-    <div class="container edit-form">
+    <div class="edit-form">
     <form name="form">
 
+        {{ input_helper(form.name) }}
+        {{ input_helper(form.description, input_textarea) }}
+        
         {{ input_helper(form.vocab_presentation) }}
         {{ input_helper(form.text_presented) }}
 
