@@ -256,15 +256,14 @@ class HardwareSimpleForm(ConditionalForm):
         required=True
     )
 
-    has_max_locations_per_page = ChoiceField(
-        "What is the maximum number of locations per page?",
+    has_max_locations_per_page = YesNoField(
+        "Does it have a maximum number of locations per page?",
         display_rule=["has_min_target_size", "eq", YES_CHOICE],
-        choices=NA_OR_YES_CHOICES,
         coerce=lambda x: x == "True" or x,
         required=True)
 
     max_locations_per_page = IntegerField(
-        "xxxxxxxxxxxxxxxx",
+        "What are the maximum number of locations per page?",
         display_rule=["has_max_locations_per_page", "eq", YES_CHOICE],
         required=True
     )
@@ -450,14 +449,14 @@ class HardwareAdvancedForm(ConditionalForm):
     )
 
     has_max_locations_per_page = ChoiceField(
-        "What is the maximum number of locations per page?",
+        "Does it have a maximum number of locations per page?",
         display_rule=["has_min_target_size", "eq", YES_CHOICE],
         choices=NA_OR_YES_CHOICES,
         coerce=lambda x: x == "True" or x,
         required=True)
 
     max_locations_per_page = IntegerField(
-        "xxxxxxxxxxxxxxxx",
+        "What are the maximum number of locations per page?",
         display_rule=["has_max_locations_per_page", "eq", YES_CHOICE],
         required=True
     )
@@ -565,15 +564,14 @@ class VocabularyForm(ConditionalForm):
         required=True
     )
 
-    has_max_locations_per_page = ChoiceField(
-        "What is the maximum number of locations per page?",
+    has_max_locations_per_page = YesNoField(
+        "Does it have a maximum number of locations per page?",
         display_rule=["has_min_target_size", "eq", YES_CHOICE],
-        choices=NA_OR_YES_CHOICES,
         coerce=lambda x: x in ["True", True],
         required=True)
 
     max_locations_per_page = IntegerField(
-        "xxxxxxxxxxxxxxxx",
+        "What are the maximum number of locations per page?",
         display_rule=["has_max_locations_per_page", "eq", YES_CHOICE],
         required=True
     )
