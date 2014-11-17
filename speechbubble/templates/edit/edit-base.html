@@ -1,44 +1,85 @@
 {% extends "base.html" %}
 
+{% block sidebar %}
+
+    <div ng-controller="EditSideBarCtrl">
+
+        <div ng-show="!product.isModerating">
+            <h4>Available actions</h4>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="save($event)">Save draft</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="publishRequest($event)">Finalise</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="delete($event)">Delete draft</a>
+        </div>
+
+        <div ng-show="product.isModerating">
+            <h4>Moderation actions</h4>
+
+            <p>
+                <label for="url">The published version of this page will exist at: </label><br>
+                <input type="text" name="url" value="{{ product.url }}" class="form-control">
+
+            </p>
+
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="publishRequest($event)">Change URL</a>
+
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="accept($event)">Need
+                amendments</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="reject($event)">Accept</a>
+
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="delete($event)">Delete draft</a>
+        </div>
+
+        <h3>Document stats</h3>
+        <table class="table">
+        <tr>
+            <td>Owner</td>
+            <td>{{ "{{ stats.owner }}" }}</td>
+        </tr>
+        <tr>
+            <td>Created date</td>
+            <td>{{ "{{ stats.created }}" }}</td>
+        </tr>
+        <tr>
+            <td>Last edit</td>
+            <td>{{ "{{ stats.updated }}" }}</td>
+        </tr>
+    </table>
+
+    </div>
+
+
+
+{% endblock %}
+
 {% block main_content %}
     <div class="page-header">
-        <h1>Edit {{ product['name'] }}</h1>
+        <h1>Edit {{ "{{" }} product['name'] {{ "}}" }}</h1>
     </div>
 
     <div class="row" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}', '{{ userId }}')">
 
-    <div flash-alert active-class="in alert" class="fade">
-        <span class="alert-message">{{ "{{ flash.message }}" }}</span>
-    </div>
+        <div flash-alert active-class="in alert" class="fade">
+            <span class="alert-message">{{ "{{ flash.message }}" }}</span>
+        </div>
 
         <div class="col-sm-8">
             <div class="row">
-            <!--<div class="product-gallery">
-                <h3>Images</h3>
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" />
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" />
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" />
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" />
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" />
-                <div class="gallery-control">
-                    <a href="#">Add New image</a>
-                </div>
-            </div> -->
 
-            <div class="row">
-            {% if awaiting_moderation and not current_user.can_moderate %}
-                <div class="col-sm-12">
-                    <p>This draft will be reviewed by our moderators.</p>
+                <div class="row">
+                    {% if awaiting_moderation and not current_user.can_moderate %}
+                        <div class="col-sm-12">
+                            <p>This draft will be reviewed by our moderators.</p>
 
-                    <p>We will notify you if amendments are required, or when the draft is published.</p>
+                            <p>We will notify you if amendments are required, or when the draft is published.</p>
+                        </div>
+                    {% else %}
+                        {% block form_content %}
+                        {% endblock %}
+                    {% endif %}
                 </div>
-            {% else %}
-                {% block form_content %}
-                {% endblock %}
-            {% endif %}
-            </div>
             </div>
         </div>
+        {#
         <div class="col-sm-4">
             <h3>Document stats</h3>
             <table class="table">
@@ -65,7 +106,7 @@
             <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="delete()">Delete draft</a>
 
             {% endif %}
-
+            <hr><hr><hr>{{ awaiting_moderation }}<hr><hr><hr>
             {% if current_user.can_moderate %}
             <h3>Moderation actions</h3>
 
@@ -74,9 +115,9 @@
                 <input type="text" name="url" value="{{ product.url }}" class="form-control">
             </p>
 
-            {% if awaiting_moderation %}
-            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="accept()" ng-show="!modId">Need amendments</a>
-            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="reject()" ng-show="!modId">Accept</a>
+            {% if awaiting_moderation == True %}
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="accept()">Need amendments</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="reject()">Accept</a>
             {% endif %}
             <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="delete()">Delete draft</a>
 
@@ -93,7 +134,7 @@
 
             <p>None.</p>
 
-        </div>
+        </div> #}
     </div>
 
 {% endblock %}

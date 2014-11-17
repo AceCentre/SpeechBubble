@@ -94,6 +94,7 @@ def edit_user(object_id=None, user_id=None):
     form = UserForm(request.form, user)
 
     if form.validate_on_submit():
+
         user.populate_from_form(form)
 
         verb = "updated" if object_id else "created"
@@ -130,7 +131,7 @@ def list_all_products():
     return render_template("admin/products.html", products=Product.objects)
 
 
-@app.route('/my-account ')
+@app.route('/my-account')
 @login_required
 def my_account():
 

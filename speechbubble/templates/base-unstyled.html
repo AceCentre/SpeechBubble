@@ -1,0 +1,95 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/google.html" as google %}
+
+{% block html_attribs %} ng-app="speechBubble"{% endblock %}
+{% block body_attribs %} class="{% if current_user.is_authenticated() %}admin-user{% endif %}"{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+    <link rel="stylesheep" href="{{ url_for('static', filename='style/vendor/angular-dialog-service/dialogs.min.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload-shim.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular/angular.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-translate/angular-translate.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-sanitize/angular-sanitize.js') }}"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/lodash/lodash.compat.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-resource/angular-resource.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/bootstrap/bootstrap.js') }}"></script> -->
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs-default-translations.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-flash/angular-flash.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/checklist-model.js') }}"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='script/app.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/directives.js') }}"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <header style="width:100%; height: 130px; background-color: lightgrey; margin-bottom: 10px;">
+            <div id="user-widget">
+                {% if current_user.is_authenticated() %}
+                    {{ current_user.email }} <a href="{{ url_for('security.logout') }}">Logout</a> |
+                    <a href="{{ url_for('security.change_password') }}">Change Password</a> |
+                    <a href="{{ url_for('my_account') }}">My Account</a>
+                {% else %}
+                    <a href="{{ url_for('security.login') }}">Login</a> |
+                    <a href="{{ url_for('security.register') }}">Register</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <nav class="navbar navbar-default navbar-static-top main-nav" role="navigation">
+            <div class="container">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/">Home</a></li>
+
+                        <li><a href="{{ url_for('list_all_products') }}">All products (temporary page)</a></li>
+
+                        {% if current_user.is_authenticated() %}
+                            <li><a href="{{ url_for('create_product') }}">Create new product</a></li>
+                        {% endif %}
+
+                        {% if current_user.has_role('Admin') %}
+                            <li><a href="{{ url_for('list_users') }}">User admin</a></li>
+                        {% endif %}
+
+                        {% if current_user.can_moderate %}
+                            <li><a href="{{ url_for('moderation_queue') }}">Moderation Queue</a></li>
+                        {% endif %}
+
+                    </ul>
+
+                    <form class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </nav>
+
+        {% include "helpers/flash-messages.html" %}
+
+        {% block main_content %}
+        {% endblock %}
+
+        {% include "helpers/admin-nav.html" %}
+    </div>
+
+    {% block scripts %}
+        {{ super() }}
+        {{ google.analytics(account=config['GOOGLE_ANALYTICS_CODE']) }}
+    {% endblock %}
+{% endblock %}

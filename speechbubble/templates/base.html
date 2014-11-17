@@ -7,89 +7,205 @@
 
 {% block styles %}
     {{ super() }}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/bootstrap-theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
-    <link rel="stylesheep" href="{{ url_for('static', filename='style/vendor/angular-dialog-service/dialogs.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/responsive.css') }}">
 
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload-shim.js') }}"></script>
+    <link rel="stylesheep"
+          href="{{ url_for('static', filename='style/vendor/angular-dialog-service/dialogs.min.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static', filename='script/jquery-1.11.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script/bootstrap.js') }}"></script>
+
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload-shim.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular/angular.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-translate/angular-translate.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-sanitize/angular-sanitize.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/ng-file-upload/angular-file-upload.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-translate/angular-translate.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-sanitize/angular-sanitize.js') }}"></script>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/lodash/lodash.compat.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-resource/angular-resource.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/lodash/lodash.compat.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-resource/angular-resource.js') }}"></script>
     <!-- <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/bootstrap/bootstrap.js') }}"></script> -->
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs-default-translations.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='script/vendor/angular-flash/angular-flash.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs-default-translations.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-dialog-service/dialogs.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='script/vendor/angular-flash/angular-flash.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/checklist-model.js') }}"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='script/app.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script/directives.js') }}"></script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#nav a.menu_res").click(function (e) {
+                e.preventDefault();
+
+                if ($("#nav").find('.activemenu').length > 0) {
+                    $(".nav_inner").css("left", "-200px");
+                    $(this).removeClass("activemenu");
+                } else {
+                    $(".nav_inner").css("left", "0");
+                    $(this).addClass("activemenu");
+                }
+                $(".nav_inner").addClass("done");
+                $("body").addClass("bigsize");
+
+            });
+        });
+    </script>
+
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <header style="width:100%; height: 130px; background-color: lightgrey; margin-bottom: 10px;">
-            <div id="user-widget">
-                {% if current_user.is_authenticated() %}
-                    {{ current_user.email }} <a href="{{ url_for('security.logout') }}">Logout</a> |
-                    <a href="{{ url_for('security.change_password') }}">Change Password</a> |
-                    <a href="{{ url_for('my_account') }}">My Account</a>
-                {% else %}
-                    <a href="{{ url_for('security.login') }}">Login</a> |
-                    <a href="{{ url_for('security.register') }}">Register</a>
-                {% endif %}
+    <div id="header">
+        <div class="container">
+            <div class="logo"><a href="#"><img src="/static/images/logo.png" alt=""></a>
+
+                <div id="user-widget">
+                    {% if current_user.is_authenticated() %}
+                        {{ current_user.email }} <a href="{{ url_for('security.logout') }}">Logout</a> |
+                        <a href="{{ url_for('security.change_password') }}">Change Password</a> |
+                        <a href="{{ url_for('my_account') }}">My Account</a>
+                    {% else %}
+                        <a href="{{ url_for('security.login') }}">Login</a> |
+                        <a href="{{ url_for('security.register') }}">Register</a>
+                    {% endif %}
+                </div>
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target=".navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
             </div>
-        </header>
+            <div id="nav">
+                <a href="#" class="menu_res"><span></span><span></span><span></span></a>
 
-        <nav class="navbar navbar-default navbar-static-top main-nav" role="navigation">
-            <div class="container">
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">Home</a></li>
-
-                        <li><a href="{{ url_for('list_all_products') }}">All products (temporary page)</a></li>
-
-                        {% if current_user.is_authenticated() %}
-                            <li><a href="{{ url_for('create_product') }}">Create new product</a></li>
-                        {% endif %}
-
-                        {% if current_user.has_role('Admin') %}
-                            <li><a href="{{ url_for('list_users') }}">User admin</a></li>
-                        {% endif %}
-
-                        {% if current_user.can_moderate %}
-                            <li><a href="{{ url_for('moderation_queue') }}">Moderation Queue</a></li>
-                        {% endif %}
-
+                <div class="nav_inner clearfix">
+                    <ul>
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Resources</a></li>
                     </ul>
-
-                    <form class="navbar-form navbar-right" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
-
+                </div>
+                <div class="ser_box">
+                    <input type="text" placeholder="Search" class="txtbox">
                 </div>
             </div>
-        </nav>
-
-        {% include "helpers/flash-messages.html" %}
-
-        {% block main_content %}
-        {% endblock %}
-
-        {% include "helpers/admin-nav.html" %}
+        </div>
     </div>
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-3 col-md-3 col-sm-3 col-xs-12">
+                    <div id="menu2" class="leftbar">
+                        <ul id="accordion" class="nav navbar-nav">
+                            <li class="active"><a href="/">Home</a></li>
 
-    {% block scripts %}
-        {{ super() }}
-        {{ google.analytics(account=config['GOOGLE_ANALYTICS_CODE']) }}
-    {% endblock %}
-{% endblock %}
+                            <li><a href="{{ url_for('list_all_products') }}">All products (temporary page)</a></li>
+
+                            {% if current_user.is_authenticated() %}
+                                <li><a href="{{ url_for('create_product') }}">Create new product</a></li>
+                            {% endif %}
+
+                            {% if current_user.has_role('Admin') %}
+                                <li><a href="{{ url_for('list_users') }}">User admin</a></li>
+                            {% endif %}
+
+                            {% if current_user.can_moderate %}
+                                <li><a href="{{ url_for('moderation_queue') }}">Moderation Queue</a></li>
+                            {% endif %}
+
+                        </ul>
+
+                        {% block sidebar %}
+                        {% endblock %}
+                    </div>
+                </div>
+                <div class="col-9 col-md-9 col-sm-9 col-xs-12">
+                    <div class="rightbar">
+
+                        {% include "helpers/flash-messages.html" %}
+
+                        {% block main_content %}
+                        {% endblock %}
+
+                        {% include "helpers/admin-nav.html" %}
+
+                        {#
+                        {% block share_links %}
+                        <div class="soc_share">
+                        	<p>Share this page<a href="#"><img src="/static/images/social_sharing.png" alt=""></a></p>
+                        </div>
+                        {% endblock %}
+
+                        {% block related_links %}
+                        <h2>Related links</h2>
+                        <div class="bot_c clearfix">       
+                        	<div class="block">
+                            	<div class="img"><a href="#"><img src="/static/images/img_3.png" alt=""></a></div>
+                                <p>Aliquam consequat dolor eget eros mollis ut rhoncus odio pharetra.</p>
+                            </div>
+                            <div class="block">
+                            	<div class="img"><a href="#"><img src="/static/images/img_4.png" alt=""></a></div>
+                                <p>Phasellus pharetra, diam id aliquam.</p>
+                            </div>
+                        </div>
+                        {% endblock %}
+                         #}
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-md-3 col-sm-3 col-xs-12"></div>
+                    <div class="col-9 col-md-9 col-sm-9 col-xs-12 ace_logo"><a href="#"><img
+                            src="/static/images/ace_logo.png" alt=""></a></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <div class="f_links">
+                <ul class="clearfix">
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Site Map</a></li>
+                    <li><a href="#">Pricacy Policy</a></li>
+                    <li><a href="#">Accesibility</a></li>
+                </ul>
+            </div>
+            <div class="social">
+                <ul class="clearfix">
+                    <li><a href="#"><span class="fa fa-facebook"></span></a></li>
+                    <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                </ul>
+            </div>
+            <p>Copyright &copy; 2014 Speech Bubble SpeechBubble is a registered charity no. 1089313. Registered as a
+                company limited by guarantee no. 04268143 (England & Wales). Registered office: SpeechBubble, Hollinwood
+                Business Centre, Albert Street, Oldham, OL8 3QL. VAT registration number 785728278 </p>
+        </div>
+    </div>
+{% endblock %}{# endblock: content #}

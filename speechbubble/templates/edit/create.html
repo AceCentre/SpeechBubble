@@ -3,10 +3,9 @@
 {% from 'helpers/form_macros.html' import input_radio, input_text, input_helper %}
 
 {% block main_content %}
-    <div class="page-header">
-        <h1>Create a new product</h1>
-    </div>
-    <div class="container edit-form" ng-controller="EditFormCtrl">
+    <h1>Create a new product</h1>
+
+    <div class="edit-form" ng-controller="EditFormCtrl">
 
         {{ input_helper(form.name, input_text) }}
         {{ input_helper(form.product_type, input_radio) }}

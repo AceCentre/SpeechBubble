@@ -71,6 +71,7 @@ class User(db.Document, UserMixin):
         return self.has_role('Admin') or self.has_role('Moderator')
 
     def populate_from_form(self, form):
+
         self.email = form.data['email']
 
         self.roles = Role.objects(id__in=form.data['roles'])
@@ -135,7 +136,7 @@ class ModerationQueue(db.Document):
         moderation = cls(
             product=product, version_owner=draft.owner, increment_id=draft.increment_id,
             product_type=product.type, prduct_sub_type=product.sub_type, product_url=product.url,
-            product_name=draft.name)
+            product_name=draft.data['name'])
 
         moderation.save()
 
@@ -233,7 +234,7 @@ class Product(db.Document):
         Create a new product
         """
 
-        url = slugify.slugify(name)
+        url = "/" + slugify.slugify(name)
 
         product = cls(url=url, type=product_type,
                       sub_type=product_sub_type)

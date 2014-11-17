@@ -75,12 +75,12 @@ class ProductController(restful.Resource):
 
         moderation = ModerationQueue.objects(product=product, version_owner=user).first()
 
-        moderation_id = moderation.id if moderation else None
+        moderation_id = unicode(moderation.id) if moderation else None
 
         return {'data': form.data,
                 'stats': draft.get_stats(),
                 'success': True,
-                'moderation': unicode(moderation_id)}
+                'moderation': moderation_id}
 
     def put(self, item_id, user_id):
         """
@@ -127,10 +127,11 @@ class ProductController(restful.Resource):
 
         _require_owner_or_moderator(draft)
 
-        if current_user.id != draft.owner.id and not current_user.can_moderate():
+        if current_user.id != draft.owner.id and not current_user.can_moderate:
             abort(403)
         else:
             product.delete_draft(user)
+            ModerationQueue.find()
             flash("Draft deleted.", "success")
 
         return dict(success=True)
@@ -147,9 +148,6 @@ class ProductCreateController(restful.Resource):
             abort(403)
 
         data = request.get_json()
-
-        if not data:
-            abort(400)
 
         form = InitialSelectionForm(data)
 
@@ -169,10 +167,11 @@ class ModerationCreateController(restful.Resource):
     def post(self, item_id, user_id):
         """
         Create a moderation request
-        """
 
-        #if not current_user.can_moderate:
-        #    abort(403)
+        This is an action initiated by the document owner/author when they click
+        the 'finalise' button.  If the form is valid, a moderation job will
+        be added to the moderation queue.
+        """
 
         data = request.get_json()
 

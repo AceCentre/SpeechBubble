@@ -7,12 +7,12 @@
 {%- endmacro %}
 
 {% macro input_error(field) -%}
-    <span class="field-errors">{{ "{{ field_errors." + field._key + " }}" }}</span>
+    <span class="field-errors">{{ "{{ product.field_errors." + field._key + " }}" }}</span>
 {%- endmacro %}
 
 {% macro input_select(field) -%}
     <div class="col-sm-6">
-    <select name="{{ field._key }}" ng-model="form_data.{{ field._key }}">
+    <select name="{{ field._key }}" ng-model="product.form_data.{{ field._key }}">
             <option value="">Please choose</option>
         {% for value, name in field._choices %}
             <option value="{{ value }}">{{ name }}</option>
@@ -26,7 +26,7 @@
     <div class="col-sm-6">
     {% for value, name in field._choices %}
         <div class="radio">
-            <input type="radio" value="{{ value }}" name="{{ field._key }}" ng-model="form_data['{{ field._key }}']"> {{ name }}
+            <input type="radio" value="{{ value }}" name="{{ field._key }}" ng-model="product.form_data['{{ field._key }}']"> {{ name }}
         </div>
     {% endfor %}
     {{ input_error(field) }}
@@ -37,7 +37,7 @@
     <div class="col-sm-6">
     {% for value, name in field._choices %}
         <div class="radio">
-            <input type="checkbox" checklist-value="'{{ value }}'" checklist-model="form_data.{{ field._key }}"> {{ name }}
+            <input type="checkbox" checklist-value="'{{ value }}'" checklist-model="product.form_data.{{ field._key }}"> {{ name }}
         </div>
     {% endfor %}
     {{ input_error(field) }}
@@ -46,21 +46,21 @@
 
 {% macro input_text(field, class="") -%}
     <div class="col-sm-6">
-        <input type="text" ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}">
+        <input type="text" ng-model="product.form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}">
         {{ input_error(field) }}
     </div>
 {%- endmacro %}
 
 {% macro input_textarea(field, class="") -%}
     <div class="col-sm-6">
-        <textarea ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}"></textarea>
+        <textarea ng-model="product.form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}"></textarea>
         {{ input_error(field) }}
     </div>
 {%- endmacro %}
 
 {% macro input_short_text(field) -%}
     <div class="col-sm-2">
-        <input type="text" ng-model="form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}">
+        <input type="text" ng-model="product.form_data['{{ field._key }}']" name="{{ field._key }}" class="form-control {{ class }}">
         {{ input_error(field) }}
     </div>
 {%- endmacro %}
@@ -107,7 +107,7 @@
 {% macro input_multi_item(field) -%}
      <div class="col-sm-6">
         <div ng-repeat="url in form_data.{{ field._key }} track by $index">
-            <p><input type="text" ng-model="form_data.{{ field._key }}[$index]" placeholder=""> <a ng-show="form_data.{{ field._key }}.length > {{ field.min_items }}" ng-click="form_data.{{ field._key }}.splice($index, 1)">remove</a></p>
+            <p><input type="text" ng-model="product.form_data.{{ field._key }}[$index]" placeholder=""> <a ng-show="form_data.{{ field._key }}.length > {{ field.min_items }}" ng-click="form_data.{{ field._key }}.splice($index, 1)">remove</a></p>
             {{ line }}
         </div>
         {{ input_error(field) }}

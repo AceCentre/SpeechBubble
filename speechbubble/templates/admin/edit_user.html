@@ -5,7 +5,7 @@
         <h1>{% if adding_user %}Add{% else %}Edit{% endif %} User</h1>
     </div>
 
-    <form method="post" action="{{ request.post }}" class="form-horizontal">
+    <form method="post" action="{{ request.path }}" class="form-horizontal">
         {{ form.csrf_token }}
         <div class="form-group">
             <label class="control-label col-sm-2">{{ form.email.label }}</label>

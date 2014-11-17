@@ -27,8 +27,8 @@ angular.module('speechBubble')
             restrict: "E",
             link: function(scope, element, attrs){
 
-                if(!scope.form_data){
-                    scope.form_data = {}
+                if(!scope.product.form_data){
+                    scope.product.form_data = {}
                 }
 
                 if(!attrs.show || ! attrs.when || !attrs.is){
@@ -38,7 +38,7 @@ angular.module('speechBubble')
                 scope.display_rules[attrs.show] = [attrs.when, attrs.is];
 
                 scope.$watch(
-                    "form_data."+attrs.when,
+                    "product.form_data."+attrs.when,
                     function(newValue, oldValue){
 
                         var visible = true;

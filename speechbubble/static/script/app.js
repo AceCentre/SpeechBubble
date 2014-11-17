@@ -36,13 +36,101 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
 
         return dataFactory;
     }])
+    .factory('ProductDataService', ['dataFactory', '$window', 'flash', function(dataFactory, $window, flash){
+        var factory = {};
+
+        // the form data
+        factory.form_data = {};
+
+        // conditional field rules
+        factory.display_rules = {};
+
+        // conditional fields that and their current display state
+        factory.field_state = {};
+
+        // field errors
+        factory.field_errors = {};
+
+        factory.save = function() {
+
+            response = dataFactory.saveDraft(factory.itemId, factory.userId, factory.form_data);
+
+            response.success(function (data, status) {
+                factory.field_errors = {};
+                if (data.errors) {
+                    factory.field_errors = data.errors;
+                }
+                else {
+                    factory.saved = data.success;
+                    factory.stats = data.stats;
+                    flash.success = "Saved!";
+                }
+            });
+        }
+
+        factory.load = function(itemId, userId){
+            factory.itemId = itemId;
+            factory.userId = userId;
+
+            dataFactory.getDraft(itemId, userId).success(function(data){
+                if(data.success){
+                    factory.form_data = data.data;
+                    factory.stats = data.stats;
+                    console.log(data.moderation);
+                    factory.isModerating = data.moderation ? true : false;
+                }
+                else{
+                    $window.location = "/";
+                }
+            });
+        };
+
+        factory.publishRequest = function(){
+            response = dataFactory.moderationRequest(factory.itemId, factory.userId, factory.form_data);
+
+            console.log('=======================================');
+            console.log(factory.form_data);
+
+            response.success(function(data, status){
+                factory.field_errors = {};
+
+                if(data.failed){
+                    flash.error = data.failed;
+                }
+                else if(data.errors){
+                    factory.field_errors = data.errors;
+                    console.log(data.errors);
+                    flash.error = "Unable to finalise document - please correct the form errors and try again."
+                }
+                else{
+                    flash.success = "Thanks. This draft will be reviewed by our moderators.";
+                    factory.isModerating = true;
+                }
+            });
+        };
+
+        return factory;
+
+    }])
     .controller('SupplierListCtrl', function($scope) {
         $scope.selectedRegions = [];
     })
     .controller('SupplierEditCtrl', function($scope){
 
     })
-    .controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "flash", "dialogs", function($scope, $window, dataFactory, flash, dialogs) {
+    .controller('EditSideBarCtrl', ["$scope", "ProductDataService", function($scope, ProductData){
+
+        $scope.product = ProductData;
+
+        $scope.save = function(){
+            ProductData.save();
+        }
+
+        $scope.publishRequest = function(){
+            ProductData.publishRequest();
+        }
+    }])
+    .controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "dialogs", "ProductDataService", function($scope, $window, dataFactory, dialogs,  ProductData) {
 
 		$scope.lang = 'en-US';
 		$scope.language = 'English';
@@ -51,16 +139,15 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
         // TODO - get angular translate working properly for dialog buttons
 
         // the form data
-        $scope.form_data = {};
+        $scope.form_data = ProductData.form_data;
+
+        $scope.product = ProductData;
 
         // conditional field rules
         $scope.display_rules = {};
 
         // conditional fields that and their current display state
         $scope.field_state = {};
-
-        // field errors
-        $scope.field_errors = {};
 
         $scope.create = function(){
             response = dataFactory.createItem($scope.form_data);
@@ -71,41 +158,6 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
                 }
                 else{
                     $window.location.href = "/edit/" + data.id;
-                }
-            });
-        };
-
-        $scope.save = function(){
-            response = dataFactory.saveDraft($scope.itemId, $scope.userId, $scope.form_data);
-
-            response.success(function(data, status){
-                $scope.field_errors = {};
-                if(data.errors){
-                    $scope.field_errors = data.errors;
-                }
-                else{
-                    $scope.saved = data.success;
-                    $scope.stats = data.stats;
-                    flash.success = "Saved!";
-                }
-            });
-        };
-
-        $scope.publishRequest = function(){
-            response = dataFactory.moderationRequest($scope.itemId, $scope.userId, $scope.form_data);
-
-            response.success(function(data, status){
-                $scope.field_errors = {};
-
-                if(data.failed){
-                    flash.error = data.failed;
-                }
-                else if(data.errors){
-                    $scope.field_errors = data.errors;
-                    flash.error = "Unable to finalise document - please correct the form errors and try again."
-                }
-                else{
-                    flash.success = "Thanks. This draft will be reviewed by our moderators.";
                 }
             });
         };
@@ -123,25 +175,15 @@ angular.module('speechBubble', ["checklist-model", "ui.bootstrap", 'angular-flas
         };
 
         $scope.load = function(itemId, userId){
+
             $scope.itemId = itemId;
             $scope.userId = userId;
 
-            dataFactory.getDraft(itemId, userId).success(function(data){
-                if(data.success){
-                    $scope.form_data = data.data;
-                    $scope.stats = data.stats;
+            console.log(ProductData);
 
-                    if(data.moderation){
-                        $scope.modId = data.moderation;
-                    }
-                    else{
-                        $scope.modId = null;
-                    }
-                }
-                else{
-                    $window.location = "/";
-                }
-            });
+            ProductData.load(itemId, userId);
+
+            $scope.form_data = ProductData.form_data;
         };
 
         $scope.moderation = function(action){

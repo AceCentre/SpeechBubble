@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>SpeechBubble</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style/font-awesome.css">
+<link rel="stylesheet" href="style/bootstrap-theme.css">
+<link rel="stylesheet" href="style/bootstrap.css">
+<link rel="stylesheet" href="style/style.css">
+<link rel="stylesheet" href="style/responsive.css">
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    
+	
+	
+	$("#nav a.menu_res").click(function (e) {
+		e.preventDefault();
+		
+		if($("#nav").find('.activemenu').length > 0){
+			$(".nav_inner").css("left","-200px");
+			$(this).removeClass("activemenu");
+		} else {
+			$(".nav_inner").css("left","0");
+			$(this).addClass("activemenu");
+		}			
+		$(".nav_inner").addClass("done");
+		$("body").addClass("bigsize");
+		
+	});
+	
+	
+});
+</script>
+</head>
+
+<body>
+	<div id="header">
+    	<div class="container">     
+        	<div class="logo"><a href="#"><img src="images/logo.png" alt=""></a>
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" >
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+			
+			</div>
+           	<div id="nav">
+            	<a href="#" class="menu_res"><span></span><span></span><span></span></a>
+            	<div class="nav_inner clearfix">
+                    <ul>
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="ser_box">
+                	<input type="text" placeholder="Search" class="txtbox">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+    	<div class="container">
+            <div class="row">
+                <div class="col-3 col-md-3 col-sm-3 col-xs-12">
+                    <div id="#menu2" class="leftbar collapse navbar-collapse">
+                        <ul id="accordion" class="nav navbar-nav">
+                            <li><a href="#">Nulla donec tortor </a></li>
+                            <li><a href="#">Sodales tellus</a></li>
+                            <li><a href="#">Metus Soleuadas</a></li>
+                            <li><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" href="#">Vivamus ornare euid</a>
+							<div id="collapseOne" class="panel-collapse collapse">
+                                <ul >
+                                    <li><a href="#">Etiam ornare</a></li>
+                                    <li><a href="#">Fusce suscipit</a></li>
+                                    <li><a href="#">Donec tortor libero</a></li>
+                                </ul> 
+</div>								
+                            </li>
+                            <li><a href="#"><span class="fa fa-users"></span>Sed sodales tellus</a></li>
+                            <li><a href="#"><span class="fa fa-check-square-o"></span>Vestibulum</a></li>
+                            <li><a href="#"><span class="fa fa-wrench"></span>Donec erat ante</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-9 col-md-9 col-sm-9 col-xs-12">
+                	<div class="rightbar">
+                    	<div class="top_c">
+                            <h1>Comunication aids</h1>
+                            <p>Vestibulum rhoncus, purus consequat pretium varius, felis diam porta urna, eu porttitor erat dolor non lacus. Suspendisse enim lorem, eleifend eu congue et, blandit id nibh. Nulla quis nunc ac felis.</p>
+                       </div>  
+                       <div class="tbl_1">
+                       	   <h2>This is the table title</h2>
+                           <div class="table table-responsive table-hover">   
+                                <table cellpadding="0" cellspacing="0">                       
+                                    <tr>
+                                        <th>A</th>
+                                        <th>Column title 2</th>
+                                        <th>Column title 3</th>
+                                        <th>Column title</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>lorum</td>
+                                        <td>lorum</td>
+                                        <td>lorum</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Ipsum</td>
+                                        <td>Ipsum</td>
+                                        <td>Ipsum</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Dolor</td>
+                                        <td>Dolor</td>
+                                        <td>Dolor</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Amet nulla</td>
+                                        <td>Amet nulla</td>
+                                        <td>Amet nulla</td>
+                                    </tr> 
+                                </table>
+                           </div>
+                    	</div>
+                        <div class="grid">       
+                        	<div class="row">
+                            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                	<div class="block">
+                                    	<div class="img"><img src="images/img_1.png" alt=""></div>
+                                        <div class="desc">
+	                                        <h3>Grid title 1</h3>
+                                            <p>Nullam vehicula, arcu eget laoreet aliquam, dolor tellus.</p>
+                                            <button class="btn">This is a button</button>
+										</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                	<div class="block">
+                                    	<div class="img"><img src="images/img_2.png" alt=""></div>
+                                        <div class="desc">
+                                            <h3>Grid title 2</h3>
+                                            <p>Quisque vel augue massa. In egestas in odio non semper. Integer eu massa vel elit condimentum tempor.</p>
+										</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="soc_share">
+                        	<p>Share this page<a href="#"><img src="images/social_sharing.png" alt=""></a></p>
+                        </div>
+                        <h2>Related links</h2>
+                        <div class="bot_c clearfix">       
+                        	<div class="block">
+                            	<div class="img"><a href="#"><img src="images/img_3.png" alt=""></a></div>
+                                <p>Aliquam consequat dolor eget eros mollis ut rhoncus odio pharetra.</p>
+                            </div>
+                            <div class="block">
+                            	<div class="img"><a href="#"><img src="images/img_4.png" alt=""></a></div>
+                                <p>Phasellus pharetra, diam id aliquam.</p>
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+            </div>
+            <div class="ace_logo"><a href="#"><img src="images/ace_logo.png" alt=""></a></div>
+   		</div>
+    </div>
+    <div id="footer">
+    	<div class="container">
+        	<div class="f_links">
+            	<ul class="clearfix">
+                	<li><a href="#">Contact us</a></li>
+                    <li><a href="#">Site Map</a></li>
+                    <li><a href="#">Pricacy Policy</a></li>
+                    <li><a href="#">Accesibility</a></li> 
+                </ul>
+            </div>
+            <div class="social">
+            	<ul class="clearfix">
+                	<li><a href="#"><span class="fa fa-facebook"></span></a></li>
+                    <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                </ul>
+            </div>
+            <p>Copyright &copy; 2014 Speech Bubble SpeechBubble is a registered charity no. 1089313. Registered as a company limited by guarantee no. 04268143 (England & Wales). Registered office: SpeechBubble, Hollinwood Business Centre, Albert Street, Oldham, OL8 3QL. VAT registration number 785728278  </p>
+        </div>
+    </div>
+</body>
+</html>
