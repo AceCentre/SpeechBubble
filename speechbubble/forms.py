@@ -2,7 +2,7 @@ from flask_wtf import Form
 
 from wtforms import (validators,
                      StringField,
-                     TextField,
+                     TextField as WTextField,
                      PasswordField,
                      BooleanField,
                      SelectMultipleField,
@@ -51,13 +51,13 @@ class UserForm(Form):
 
 
 class SpeechBubbleRegisterForm(RegisterForm):
-    first_name = TextField('First Name', [validators.Required()])
-    last_name = TextField('Last Name', [validators.Required()])
+    first_name = WTextField('First Name', [validators.Required()])
+    last_name = WTextField('Last Name', [validators.Required()])
     registration_type = SelectField('Type', choices=REGISTRATION_TYPE_CHOICES)
     region = SelectField("Region", choices=REGISTRATION_REGIONS)
 
     # applicable to UK only (these fields will be hidden with some javascript, when n/a)
-    city = TextField('Which City or Town?')
+    city = WTextField('Which City or Town?')
 
     mailing_list = BooleanField('Would you like to be on our mailing list?', default=False)
 
