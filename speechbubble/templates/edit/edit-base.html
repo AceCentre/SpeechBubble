@@ -52,11 +52,12 @@
 {% endblock %}
 
 {% block main_content %}
-    <div class="page-header">
-        <h1>Edit {{ "{{" }} product['name'] {{ "}}" }}</h1>
-    </div>
 
     <div class="row" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}', '{{ userId }}')">
+
+    <div class="page-header">
+        <h1>{% if awaiting_moderation and current_user.can_moderate %}Moderating{% else %}Editing{% endif %} {% raw %}{{ product.form_data['name'] }}{% endraw %}</h1>
+    </div>
 
         <div flash-alert active-class="in alert" class="fade">
             <span class="alert-message">{{ "{{ flash.message }}" }}</span>
