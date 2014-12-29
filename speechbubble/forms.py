@@ -124,9 +124,9 @@ class HardwareSimpleForm(ConditionalForm):
     # investigate further when the lowtech hardware type is fleshed out
 
     images = GalleryField("Images", max_items=6)
-    video_urls = MultiUrlField("Video Urls", min_items=0, max_items=2)
+    video_urls = MultiUrlField("Video Urls", required=False, max_items=2)
 
-    more_info = MultiUrlField("More info",  min_items=0,max_items=10)
+    more_info = MultiUrlField("More info",  required=False,max_items=10)
 
     #suppliers = SupplierField()
 
@@ -317,8 +317,8 @@ class HardwareAdvancedForm(ConditionalForm):
     # investigate further when the lowtech hardware type is fleshed out
 
     images = GalleryField("Images", max_items=6)
-    video_urls = MultiUrlField("Video urls", min_items=0, max_items=2)
-    more_info = MultiUrlField("More info", min_items=0, max_items=10)
+    video_urls = MultiUrlField("Video urls", required=False, max_items=2)
+    more_info = MultiUrlField("More info", required=False, max_items=10)
 
     #suppliers = SupplierField()
 
@@ -592,7 +592,7 @@ class SoftwareForm(ConditionalForm):
     )
 
     images = GalleryField("Add images", max_items=6)
-    videos = MultiUrlField("Add video urls", min_items=0, max_items=5)
+    videos = MultiUrlField("Add video urls", required=False, max_items=5)
 
     image_representation_supported = MultipleChoiceField(
         "Image representation supported",
@@ -675,8 +675,9 @@ class SoftwareForm(ConditionalForm):
 
     more_info_urls = MultiUrlField(
         "More info URLs:",
-        min_items=0,
-        max_items=6
+        min_items=1,
+        max_items=6,
+        required=False
     )
 
     editing_options = TextField(
