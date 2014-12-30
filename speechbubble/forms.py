@@ -592,7 +592,7 @@ class SoftwareForm(ConditionalForm):
     )
 
     images = GalleryField("Add images", max_items=6)
-    videos = MultiUrlField("Add video urls", required=False, max_items=5)
+    videos = MultiUrlField("Add video links", required=False, max_items=5)
 
     image_representation_supported = MultipleChoiceField(
         "Image representation supported",
