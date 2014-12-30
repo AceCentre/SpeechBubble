@@ -230,10 +230,13 @@ class HardwareSimpleForm(ConditionalForm):
 
     # access_method eq ACCESS_METHOD_TOUCH
 
-    supports_capacitive_or_resistive_touch = YesNoField(
+    supports_capacitive_or_resistive_touch = ChoiceField(
         "Does the device support capacitive or resistive touch?",
+        choices=SUPPORTED_TOUCH_TYPES,
+        use_widget="select",
         display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
-        required=True)
+        required=True
+    )
 
     specialist_gestures = YesNoField(
         "Are specialist gestures etc required to control the device?",
@@ -746,10 +749,13 @@ class SoftwareForm(ConditionalForm):
 
     # access_method eq ACCESS_METHOD_TOUCH
 
-    supports_capacitive_or_resistive_touch = YesNoField(
+    supports_capacitive_or_resistive_touch = ChoiceField(
         "Does the device support capacitive or resistive touch?",
+        choices=SUPPORTED_TOUCH_TYPES,
+        use_widget="select",
         display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
-        required=True)
+        required=True
+    )
 
     specialist_gestures = YesNoField(
         "Are specialist gestures etc required to control the device?",
