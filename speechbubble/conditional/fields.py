@@ -235,13 +235,14 @@ class MultiUrlField(BaseMultiItemField):
 
         item_count = sum(1 for item in field_data if item)
 
-        if item_count < self.min_items:
-            raise ValidationError(
-                "At least {} items required".format(self.min_items))
+        if self.required and self.min_items is not 0:
+            if item_count < self.min_items:
+                raise ValidationError(
+                    "At least {} items required".format(self.min_items))
 
-        if self.max_items is not None and item_count > self.max_items:
-            raise ValidationError(
-                "No more than {} items allowed".format(self.max_items))
+            if self.max_items is not None and item_count > self.max_items:
+                raise ValidationError(
+                    "No more than {} items allowed".format(self.max_items))
 
         return field_data
 

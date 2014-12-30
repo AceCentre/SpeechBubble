@@ -9,9 +9,14 @@
 
     {% if product.sub_type == "lowtech" %}
         <p>Low tech not currently supported</p>
+        {{ input_helper(form.name) }}
+        {{ input_helper(form.description, input_textarea) }}
     {% endif %}
 
     {% if product.sub_type == "advanced" %}
+        {{ input_helper(form.name) }}
+        {{ input_helper(form.description, input_textarea) }}
+
         {{ input_helper(form.operating_system_supported_min) }}
         {{ input_helper(form.operating_system_supported_max) }}
         {{ input_helper(form.dedicated) }}
@@ -19,6 +24,9 @@
     {% endif %}
 
     {% if product.sub_type == "simple" %}
+        {{ input_helper(form.name) }}
+        {{ input_helper(form.description, input_textarea) }}
+
         {{ input_helper(form.message_levels) }}
         {{ input_helper(form.message_number_per_levels) }}
         {{ input_helper(form.premade_vocabs_available) }}
@@ -29,6 +37,9 @@
     {% endif %}
 
     {% if product.sub_type in ["simple", "advanced"] %}
+        {{ input_helper(form.name) }}
+        {{ input_helper(form.description, input_textarea) }}
+
         <!-- images -->
         {{ input_helper(form.video_urls, input_multi_item) }}
         {{ input_helper(form.more_info, input_multi_item) }}

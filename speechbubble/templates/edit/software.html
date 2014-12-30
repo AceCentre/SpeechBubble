@@ -7,6 +7,9 @@
     <div class="container edit-form">
     <form name="form">
 
+        {{ input_helper(form.name) }}
+        {{ input_helper(form.description, input_textarea) }}
+
         {{ input_helper(form.discontinued) }}
         <!-- images -->
         {{ input_helper(form.videos, input_multi_item) }}

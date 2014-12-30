@@ -106,12 +106,11 @@
 
 {% macro input_multi_item(field) -%}
      <div class="col-sm-6">
-        <div ng-repeat="url in form_data.{{ field._key }} track by $index">
-            <p><input type="text" ng-model="product.form_data.{{ field._key }}[$index]" placeholder=""> <a ng-show="form_data.{{ field._key }}.length > {{ field.min_items }}" ng-click="form_data.{{ field._key }}.splice($index, 1)">remove</a></p>
+        <div ng-repeat="url in product.form_data.{{ field._key }} track by $index">
+            <p><input type="text" ng-model="product.form_data.{{ field._key }}[$index]" placeholder=""> <a ng-show="product.form_data.{{ field._key }}.length > {{ field.min_items }}" ng-click="product.form_data.{{ field._key }}.splice($index, 1)">remove</a></p>
             {{ line }}
         </div>
         {{ input_error(field) }}
-        <button class="btn-primary btn" {% if field.max_items %}ng-hide="form_data.{{ field._key }}.length >= {{ field.max_items }}"{% endif %} ng-click="form_data.{{ field._key }}.push('')">Add an item</button>
+        <button class="btn-primary btn" {% if field.max_items %}ng-hide="product.form_data.{{ field._key }}.length >= {{ field.max_items }}"{% endif %} ng-click="product.form_data.{{ field._key }}.push('')">Add an item</button>
      </div>
-    <!-- <!-- " -->
 {%- endmacro %}

@@ -22,7 +22,7 @@ app.controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "dialogs", "
 
         response.success(function(data, status) {
             if(data.errors) {
-                $scope.field_errors = data.errors;
+                $scope.product.field_errors = data.errors;
             }
             else{
                 $window.location.href = "/edit/" + data.id;

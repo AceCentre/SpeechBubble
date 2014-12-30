@@ -84,8 +84,17 @@ class HardwareLowtechForm(ConditionalForm):
     Awaiting field spec
     """
 
+    name = TextField("name")
+
+    description = TextField("description")
+
 
 class HardwareSimpleForm(ConditionalForm):
+
+    name = TextField("name")
+
+    description = TextField("description")
+
     message_levels = YesNoField(
         "Message levels?")
 
@@ -278,6 +287,10 @@ class HardwareSimpleForm(ConditionalForm):
 
 
 class HardwareAdvancedForm(ConditionalForm):
+
+    name = TextField("name")
+
+    description = TextField("description")
 
     operating_system_supported_min = ChoiceField(
         "Operating System officially and reliably supported (minimum)",
@@ -586,13 +599,18 @@ class VocabularyForm(ConditionalForm):
 
 
 class SoftwareForm(ConditionalForm):
+
+    name = TextField("name")
+
+    description = TextField("description")
+
     discontinued = YesNoField(
         "Discontinued?",
         required=True
     )
 
     images = GalleryField("Add images", max_items=6)
-    videos = MultiUrlField("Add video links", required=False, max_items=5)
+    videos = MultiUrlField("Add video links", required=False, min_items=1, max_items=5)
 
     image_representation_supported = MultipleChoiceField(
         "Image representation supported",
