@@ -133,8 +133,6 @@ class ModerationQueue(db.Document):
         if cls.objects(product=product, version_owner=draft.owner.id):
             raise ModerationError('Entry already exists')
 
-        import pdb; pdb.set_trace()
-
         moderation = cls(
             product=product, version_owner=draft.owner, increment_id=draft.increment_id,
             product_type=product.type, prduct_sub_type=product.sub_type, product_url=product.url,

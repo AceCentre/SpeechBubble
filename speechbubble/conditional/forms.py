@@ -54,11 +54,7 @@ class ConditionalForm(object):
 
         """
 
-        #import pdb; pdb.set_trace()
-
         for field in self:
-            #if field._key == "discontinued":
-            #   import pdb; pdb.set_trace()
             field.process(form_data, self.data)
 
             if field.is_visible():

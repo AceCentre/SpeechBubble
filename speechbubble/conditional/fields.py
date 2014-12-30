@@ -109,7 +109,6 @@ class BaseField(object):
                 raise ValidationError("Could not coerce data: {}".format(unicode(ex)))
 
         if self.required:
-            #import pdb; pdb.set_trace()
             if field_data in [None, ""]:
                 raise ValidationError("This field is required")
 
