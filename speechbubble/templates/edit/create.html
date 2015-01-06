@@ -11,6 +11,7 @@
         {{ input_helper(form.product_type, input_radio) }}
         {{ input_helper(form.hardware_type, input_radio) }}
 
+         <div style="clear: both;">
             <div ng-show="form_data.product_type=='hardware'">
             Hardware is all physical hardware that communication solution runs on. Think of a tablet computer or a talking button. 
             </div>
@@ -20,6 +21,7 @@
             <div ng-show="form_data.product_type=='vocabulary'">
             Vocabularies are defined, structured vocabulary packages that are included within resources. These may be symbol or word based and have a defined number of words that come as standard - ordered in a particular way. Please enter your vocabulary once your 'app' has been added. 
             </div>
+        </div>
         
         <div sb-show-if-visible="hardware_type" style="clear: both;">
             <div ng-show="form_data.hardware_type=='lowtech'">
