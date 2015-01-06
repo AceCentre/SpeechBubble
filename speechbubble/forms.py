@@ -94,10 +94,9 @@ class HardwareSimpleForm(ConditionalForm):
     name = TextField("name")
 
     description = TextField("description")
-    
+
     images = GalleryField("Images", max_items=6)
     video_urls = MultiUrlField("Video Urls", required=False, max_items=2)
-
     more_info = MultiUrlField("More info",  required=False,max_items=10)
 
     #suppliers = SupplierField()
