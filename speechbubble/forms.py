@@ -295,6 +295,10 @@ class HardwareAdvancedForm(ConditionalForm):
 
     description = TextField("description")
 
+    short_description = TextField(
+        "Short description",
+        max_chars=1000)
+
     operating_system_supported_min = ChoiceField(
         "Operating System officially and reliably supported (minimum)",
         choices=SUPPORTED_OPERATING_SYSTEM_CHOICES,
