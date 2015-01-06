@@ -290,7 +290,7 @@ class HardwareSimpleForm(ConditionalForm):
 
 
 class HardwareAdvancedForm(ConditionalForm):
-
+    # Basic details
     name = TextField("name")
 
     description = TextField("description")
@@ -309,6 +309,36 @@ class HardwareAdvancedForm(ConditionalForm):
         required=True
     )
 
+    images = GalleryField("Images", max_items=6)
+    video_urls = MultiUrlField("Video urls", required=False, max_items=2)
+    more_info = MultiUrlField("More info", required=False, max_items=10)
+
+    discontinued = YesNoField(
+        "Discontinued?"
+    )
+    #suppliers = SupplierField()
+
+    support_options = TextField(
+        "Support options",
+        max_chars=500)
+
+    warranty_options = TextField(
+        "Warranty options",
+        max_chars=500)
+
+    suppliers_usp_1 = TextField(
+        "Unique selling point 1",
+        max_chars=250)
+
+    suppliers_usp_2 = TextField(
+        "Unique selling point 2",
+        max_chars=250)
+
+    suppliers_usp_3 = TextField(
+        "Unique selling point 3",
+        max_chars=250)
+
+    # Hardware Features
     dedicated = YesNoField(
         "Can I JUST run it as a communication aid and nothing else?",
         required=True
@@ -327,32 +357,6 @@ class HardwareAdvancedForm(ConditionalForm):
         max_chars=500
     )
 
-    # the fields below are common to simple and advanced hardware types
-    # I am violating DRY by copying these fields to the other device choices
-    # a better approach might be to just run two forms together ... will
-    # investigate further when the lowtech hardware type is fleshed out
-
-    images = GalleryField("Images", max_items=6)
-    video_urls = MultiUrlField("Video urls", required=False, max_items=2)
-    more_info = MultiUrlField("More info", required=False, max_items=10)
-
-    #suppliers = SupplierField()
-
-    discontinued = YesNoField(
-        "Discontinued?"
-    )
-
-    short_description = TextField(
-        "Short description",
-        max_chars=1000)
-
-    support_options = TextField(
-        "Support options",
-        max_chars=500)
-
-    warranty_options = TextField(
-        "Warranty options",
-        max_chars=500)
 
     battery_life = IntegerField(
         "Battery life")
@@ -376,17 +380,11 @@ class HardwareAdvancedForm(ConditionalForm):
         "more details",
         max_chars=250)
 
-    suppliers_usp_1 = TextField(
-        "Unique selling point 1",
-        max_chars=250)
+    colour_options = TextField(
+        "Colours"
+    )
 
-    suppliers_usp_2 = TextField(
-        "Unique selling point 2",
-        max_chars=250)
-
-    suppliers_usp_3 = TextField(
-        "Unique selling point 3",
-        max_chars=250)
+    # Device Specifications 
 
     weight = IntegerField(
         "Weight (kg)")
@@ -422,6 +420,7 @@ class HardwareAdvancedForm(ConditionalForm):
         "More details"
     )
 
+    # Access features
     access_method = MultipleChoiceField(
         "What access method is this designed for? (multiple allowed)",
         choices=ACCESS_METHOD_CHOICES,
