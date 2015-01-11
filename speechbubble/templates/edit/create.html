@@ -11,17 +11,29 @@
         {{ input_helper(form.product_type, input_radio) }}
         {{ input_helper(form.hardware_type, input_radio) }}
 
+         <div style="clear: both;">
+            <div ng-show="form_data.product_type=='hardware'">
+            Hardware is all physical hardware that communication solution runs on. Think of a tablet computer or a talking button. 
+            </div>
+            <div ng-show="form_data.product_type=='app'">
+            App is used to define all software. This includes framework software for the computer that allows you to create communication solutions and single pieces of software that run on a computer with multiple, built-in 'vocabularies'.
+            </div>
+            <div ng-show="form_data.product_type=='vocabulary'">
+            Vocabularies are defined, structured vocabulary packages that are included within resources. These may be symbol or word based and have a defined number of words that come as standard - ordered in a particular way. Please enter your vocabulary once your 'app' has been added. 
+            </div>
+        </div>
+        
         <div sb-show-if-visible="hardware_type" style="clear: both;">
             <div ng-show="form_data.hardware_type=='lowtech'">
-                Some content explaining what low tech hardware is about
+                "Low-tech" equipment means equipment that generally requires no battery or electronic screen. This includes paper based resources. Some may call this "No-Tech" resources as they generally have no powered-technology involved to use. 
             </div>
 
             <div ng-show="form_data.hardware_type=='simple'">
-                Some content explaining what simple hardware is about
+                "Simple" resources are those resources that generally are not regarded as computer based, i.e. have a processor, power (from battery or mains-powered) and screen. This includes such items as single and fixed number message devices that generally have no digital screen. Some people also call this "light" or "low" "tech".
             </div>
 
             <div ng-show="form_data.hardware_type=='advanced'">
-                Some content explaining what advanced hardware is about
+                "Advanced" hardware means devices that generally are acting as a computer. They may have a screen, a battery or mains powered and allow for a large number of messages being created. Some people may also call this category "High-tech". 
             </div>
         </div>
 

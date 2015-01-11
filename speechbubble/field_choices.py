@@ -156,6 +156,10 @@ SWITCH_SCANNING_CHOICES = (
     (SWITCH_SCANNING_QUARTERED, "Quartered"),
     (SWITCH_SCANNING_MORSE, "Morse"))
 
+SUPPORTED_TOUCH_TYPES = (
+    ('capactive', 'Capactive'),
+    ('resistive', 'Resistive'))
+
 SPEECH_TYPE_SYNTHESISED = "synthesised"
 
 SPEECH_TYPE_CHOICES = (

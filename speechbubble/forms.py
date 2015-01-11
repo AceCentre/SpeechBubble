@@ -90,11 +90,46 @@ class HardwareLowtechForm(ConditionalForm):
 
 
 class HardwareSimpleForm(ConditionalForm):
-
+    # Basic Details
     name = TextField("name")
 
     description = TextField("description")
 
+    images = GalleryField("Images", max_items=6)
+    video_urls = MultiUrlField("Video Urls", required=False, max_items=2)
+    more_info = MultiUrlField("More info",  required=False,max_items=10)
+
+    #suppliers = SupplierField()
+
+    discontinued = YesNoField(
+        "Discontinued?"
+    )
+
+    short_description = TextField(
+        "Short description",
+        max_chars=1000)
+
+    support_options = TextField(
+        "Support options",
+        max_chars=500)
+
+    warranty_options = TextField(
+        "Warranty options",
+        max_chars=500)
+
+    suppliers_usp_1 = TextField(
+        "Unique selling point 1",
+        max_chars=250)
+
+    suppliers_usp_2 = TextField(
+        "Unique selling point 2",
+        max_chars=250)
+
+    suppliers_usp_3 = TextField(
+        "Unique selling point 3",
+        max_chars=250)
+
+    # Hardware Features
     message_levels = YesNoField(
         "Message levels?")
 
@@ -127,44 +162,13 @@ class HardwareSimpleForm(ConditionalForm):
         display_rule=["synthesised_speech_type_choices", "any", ""]
     )
 
-    # the fields below are common to simple and advanced hardware types
-    # I am violating dry by copying these fields to the other device choices
-    # a better approach might be to just run two forms together ... will
-    # investigate further when the lowtech hardware type is fleshed out
-
-    images = GalleryField("Images", max_items=6)
-    video_urls = MultiUrlField("Video Urls", required=False, max_items=2)
-
-    more_info = MultiUrlField("More info",  required=False,max_items=10)
-
-    #suppliers = SupplierField()
-
-    discontinued = YesNoField(
-        "Discontinued?"
-    )
-
-    support_options = TextField(
-        "Support options",
-        max_chars=500)
-
-    warranty_options = TextField(
-        "Warranty options",
-        max_chars=500)
-
-    battery_life = IntegerField(
-        "Battery life")
-
-    spare_battery_options = TextField(
-        "Spare battery options",
-        max_chars=500)
+    table_stand_available = YesNoField(
+        "Table Stand availabile?")
 
     mounting_options = MultipleChoiceField(
         "Mounting options",
         choices=MOUNTING_OPTIONS_CHOICES
     )
-
-    table_stand_available = YesNoField(
-        "Table Stand availabile?")
 
     carrying_strap_available = YesNoField(
         "Carrying strap available?")
@@ -173,18 +177,7 @@ class HardwareSimpleForm(ConditionalForm):
         "more details",
         max_chars=250)
 
-    suppliers_usp_1 = TextField(
-        "Unique selling point 1",
-        max_chars=250)
-
-    suppliers_usp_2 = TextField(
-        "Unique selling point 2",
-        max_chars=250)
-
-    suppliers_usp_3 = TextField(
-        "Unique selling point 3",
-        max_chars=250)
-
+    # Device specifications
     weight = IntegerField(
         "Weight (kg)")
 
@@ -209,6 +202,13 @@ class HardwareSimpleForm(ConditionalForm):
     screen_dimensions_incl_case = YesNoField(
         "Are these dimensions with a case?")
 
+    battery_life = IntegerField(
+        "Battery life")
+
+    spare_battery_options = TextField(
+        "Spare battery options",
+        max_chars=500)
+
     enviro_control_capabilities = MultipleChoiceField(
         "Enviro Control capabilities",
         choices=ENVIROMENT_CAPABILITY_CHOICES,
@@ -219,17 +219,19 @@ class HardwareSimpleForm(ConditionalForm):
         "More details"
     )
 
+    # Access details
     access_method = MultipleChoiceField(
         "What access method is this designed for? (multiple allowed)",
         choices=ACCESS_METHOD_CHOICES,
         required=True)
 
-    # access_method eq ACCESS_METHOD_TOUCH
-
-    supports_capacitive_or_resistive_touch = YesNoField(
+    supports_capacitive_or_resistive_touch = ChoiceField(
         "Does the device support capacitive or resistive touch?",
+        choices=SUPPORTED_TOUCH_TYPES,
+        use_widget="select",
         display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
-        required=True)
+        required=True
+    )
 
     specialist_gestures = YesNoField(
         "Are specialist gestures etc required to control the device?",
@@ -283,10 +285,14 @@ class HardwareSimpleForm(ConditionalForm):
 
 
 class HardwareAdvancedForm(ConditionalForm):
-
+    # Basic details
     name = TextField("name")
 
     description = TextField("description")
+
+    short_description = TextField(
+        "Short description",
+        max_chars=1000)
 
     operating_system_supported_min = ChoiceField(
         "Operating System officially and reliably supported (minimum)",
@@ -302,6 +308,36 @@ class HardwareAdvancedForm(ConditionalForm):
         required=True
     )
 
+    images = GalleryField("Images", max_items=6)
+    video_urls = MultiUrlField("Video urls", required=False, max_items=2)
+    more_info = MultiUrlField("More info", required=False, max_items=10)
+
+    discontinued = YesNoField(
+        "Discontinued?"
+    )
+    #suppliers = SupplierField()
+
+    support_options = TextField(
+        "Support options",
+        max_chars=500)
+
+    warranty_options = TextField(
+        "Warranty options",
+        max_chars=500)
+
+    suppliers_usp_1 = TextField(
+        "Unique selling point 1",
+        max_chars=250)
+
+    suppliers_usp_2 = TextField(
+        "Unique selling point 2",
+        max_chars=250)
+
+    suppliers_usp_3 = TextField(
+        "Unique selling point 3",
+        max_chars=250)
+
+    # Hardware Features
     dedicated = YesNoField(
         "Can I JUST run it as a communication aid and nothing else?",
         required=True
@@ -319,29 +355,6 @@ class HardwareAdvancedForm(ConditionalForm):
         "More details",
         max_chars=500
     )
-
-    # the fields below are common to simple and advanced hardware types
-    # I am violating DRY by copying these fields to the other device choices
-    # a better approach might be to just run two forms together ... will
-    # investigate further when the lowtech hardware type is fleshed out
-
-    images = GalleryField("Images", max_items=6)
-    video_urls = MultiUrlField("Video urls", required=False, max_items=2)
-    more_info = MultiUrlField("More info", required=False, max_items=10)
-
-    #suppliers = SupplierField()
-
-    discontinued = YesNoField(
-        "Discontinued?"
-    )
-
-    support_options = TextField(
-        "Support options",
-        max_chars=500)
-
-    warranty_options = TextField(
-        "Warranty options",
-        max_chars=500)
 
     battery_life = IntegerField(
         "Battery life")
@@ -365,17 +378,11 @@ class HardwareAdvancedForm(ConditionalForm):
         "more details",
         max_chars=250)
 
-    suppliers_usp_1 = TextField(
-        "Unique selling point 1",
-        max_chars=250)
+    colour_options = TextField(
+        "Colours"
+    )
 
-    suppliers_usp_2 = TextField(
-        "Unique selling point 2",
-        max_chars=250)
-
-    suppliers_usp_3 = TextField(
-        "Unique selling point 3",
-        max_chars=250)
+    # Device Specifications 
 
     weight = IntegerField(
         "Weight (kg)")
@@ -411,6 +418,7 @@ class HardwareAdvancedForm(ConditionalForm):
         "More details"
     )
 
+    # Access features
     access_method = MultipleChoiceField(
         "What access method is this designed for? (multiple allowed)",
         choices=ACCESS_METHOD_CHOICES,
@@ -418,10 +426,13 @@ class HardwareAdvancedForm(ConditionalForm):
 
     # access_method eq ACCESS_METHOD_TOUCH
 
-    supports_capacitive_or_resistive_touch = YesNoField(
+    supports_capacitive_or_resistive_touch = ChoiceField(
         "Does the device support capacitive or resistive touch?",
+        choices=SUPPORTED_TOUCH_TYPES,
+        use_widget="select",
         display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
-        required=True)
+        required=True
+    )
 
     specialist_gestures = YesNoField(
         "Are specialist gestures etc required to control the device?",
@@ -735,10 +746,13 @@ class SoftwareForm(ConditionalForm):
 
     # access_method eq ACCESS_METHOD_TOUCH
 
-    supports_capacitive_or_resistive_touch = YesNoField(
+    supports_capacitive_or_resistive_touch = ChoiceField(
         "Does the device support capacitive or resistive touch?",
+        choices=SUPPORTED_TOUCH_TYPES,
+        use_widget="select",
         display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
-        required=True)
+        required=True
+    )
 
     specialist_gestures = YesNoField(
         "Are specialist gestures etc required to control the device?",
