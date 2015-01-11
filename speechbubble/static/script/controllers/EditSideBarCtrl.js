@@ -2,11 +2,4 @@ app.controller('EditSideBarCtrl', ["$scope", "ProductDataService", function($sco
 
     $scope.product = ProductData;
 
-    $scope.save = function(){
-        ProductData.save();
-    }
-
-    $scope.publishRequest = function(){
-        ProductData.publishRequest();
-    }
 }]);

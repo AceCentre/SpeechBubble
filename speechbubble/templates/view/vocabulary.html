@@ -1,20 +1,33 @@
-{% extends "edit/edit-base.html" %}
+{% from 'helpers/form_macros.html' import input_helper, submit_button, display_helper %}
 
-{% from 'helpers/form_macros.html' import input_helper, submit_button %}
+<table class="table table-striped">
+    {{ display_helper(form.name) }}
+    {{ display_helper(form.description) }}
 
-{% block form_content %}
+    {{ display_helper(form.vocab_presentation) }}
+    {{ display_helper(form.text_presented) }}
 
-    <div class="container edit-form" ng-controller="EditFormCtrl" ng-init="load('{{ itemId }}')">
-    <form name="form">
-        <table class="table table-striped">
-            {% for field in form %}
-                {% if field.is_visible() %}
-                <td>
-                    {{  }}
-                </td>
-                {% endfor %}
-            {% endfor %}
-        </table>
-    </form>
-    </div>
-{% endblock %}
+    {{ display_helper(form.supports_abbr_expansion) }}
+    {{ display_helper(form.supports_word_prediction) }}
+
+    {{ display_helper(form.words_linked) }}
+    {{ display_helper(form.words_start_page_org) }}
+
+    {{ display_helper(form.words_org_other) }}
+
+    {{ display_helper(form.phrases_linked) }}
+    {{ display_helper(form.phrases_start_page_org) }}
+    {{ display_helper(form.phrases_org_other) }}
+
+    {{ display_helper(form.access_method) }}
+    {{ display_helper(form.keyboards_available) }}
+
+    {{ display_helper(form.has_min_target_size) }}
+    {{ display_helper(form.min_target_size) }}
+
+    {{ display_helper(form.has_max_locations_per_page) }}
+    {{ display_helper(form.max_locations_per_page) }}
+
+    {{ display_helper(form.scanning_options) }}
+</table>
+

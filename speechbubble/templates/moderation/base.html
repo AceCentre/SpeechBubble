@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+
+    <div ng-controller="EditSideBarCtrl">
+
+        <div>
+           <h4>Moderation actions</h4>
+
+            <p>
+                <label for="url">The published version of this page will exist at: </label><br>
+                <input type="text" name="url" value="{{ product.url }}" class="form-control" id="product_url">
+            </p>
+
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="product.changeUrl($event)">Change URL</a>
+
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="product.accept($event)">Need
+                amendments</a>
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="product.reject($event)">Accept</a>
+
+            <a href="#" class="btn btn-primary btn-block moderation-action" ng-click="product.delete($event)">Delete draft</a>
+
+            {% if mode == "view" %}
+                <a href="{{ url_for('moderate-product-edit', object_id=product.id, user_id=owner_id) }}" class="btn btn-default btn-block moderation-action">Edit draft</a>
+            {% else %}
+                <a href="{{ url_for('moderate-product-view', object_id=product.id, user_id=owner_id) }}" class="btn btn-default btn-block moderation-action">View draft</a>
+            {% endif %}
+        </div>
+
+    <h3>Document stats</h3>
+        <table class="table">
+        <tr>
+            <td>Owner</td>
+            <td>{{ "{{ stats.owner }}" }}</td>
+        </tr>
+        <tr>
+            <td>Created date</td>
+            <td>{{ "{{ stats.created }}" }}</td>
+        </tr>
+        <tr>
+            <td>Last edit</td>
+            <td>{{ "{{ stats.updated }}" }}</td>
+        </tr>
+    </table>
+
+    </div>
+
+{% endblock %}
+
+{% block main_content %}
+
+    <div class="row" ng-controller="EditFormCtrl" ng-init="product.load('{{ object_id }}', '{{ owner_id }}')">
+
+    <div class="page-header">
+        <h1></h1>
+    </div>
+
+        <div flash-alert active-class="in alert" class="fade">
+            <span class="alert-message">{{ "{{ flash.message }}" }}</span>
+        </div>
+
+        <div class="col-sm-8">
+            <div class="row">
+
+                <div class="row">
+                    {% block form_content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

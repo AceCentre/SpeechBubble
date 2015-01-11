@@ -62,7 +62,7 @@ class SpeechBubbleRegisterForm(RegisterForm):
     mailing_list = BooleanField('Would you like to be on our mailing list?', default=False)
 
 
-class InitialSelectionForm(ConditionalForm):
+class CreateProductForm(ConditionalForm):
     name = TextField(
         "Enter a name",
         required=True)
@@ -142,10 +142,6 @@ class HardwareSimpleForm(ConditionalForm):
     discontinued = YesNoField(
         "Discontinued?"
     )
-
-    short_description = TextField(
-        "Short description",
-        max_chars=1000)
 
     support_options = TextField(
         "Support options",
@@ -338,10 +334,6 @@ class HardwareAdvancedForm(ConditionalForm):
     discontinued = YesNoField(
         "Discontinued?"
     )
-
-    short_description = TextField(
-        "Short description",
-        max_chars=1000)
 
     support_options = TextField(
         "Support options",

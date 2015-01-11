@@ -94,7 +94,7 @@
 
 {% macro angular_conditional_rule(field) -%}
     {% if field.display_rule %}
-        <sb-conditional-rule show="{{ field._key }}" when="{{ field.display_rule[0] }}" is="{{ field.display_rule[2] |safe }}">
+        <sb-conditional-rule show="{{ field._key }}" when="{{ field.display_rule[0] }}" is="{{ field.display_rule[2] |safe }}" />
     {% endif %}
 {%- endmacro %}
 
@@ -113,4 +113,14 @@
         {{ input_error(field) }}
         <button class="btn-primary btn" {% if field.max_items %}ng-hide="product.form_data.{{ field._key }}.length >= {{ field.max_items }}"{% endif %} ng-click="product.form_data.{{ field._key }}.push('')">Add an item</button>
      </div>
+{%- endmacro %}
+
+{# Display visible fields on the product view pages #}
+{% macro display_helper(field) -%}
+    {% if field.is_visible() %}
+        <tr>
+            <td class="col-heading">{{ field.label }}</td>
+            <td class="col-data">{{ field.data }}</td>
+        </tr>
+    {% endif %}
 {%- endmacro %}

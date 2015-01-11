@@ -6,22 +6,19 @@ from flask.ext.security.core import current_user, current_app
 
 from .extensions import security, api
 from .models import Product, ModerationQueue, ModerationError, User
-from .forms import InitialSelectionForm
+from .forms import CreateProductForm
 
 
 def _get_product_by_id(item_id):
     try:
-        product = Product.objects.get(id=item_id)
+        product = Product.objects.get_or_404(id=item_id)
     except mongoengine.errors.ValidationError:
         abort(400)
-
-    if not product:
-        abort(404, "No product with ID {}".format(item_id))
 
     return product
 
 
-def _get_user_by_id(user_id):
+def get_user_by_id(user_id):
 
         datastore = current_app.extensions['security'].datastore
 
@@ -47,7 +44,7 @@ class ProductController(restful.Resource):
 
         product = _get_product_by_id(item_id)
 
-        user = _get_user_by_id(user_id)
+        user = get_user_by_id(user_id)
 
         draft = product.get_or_create_draft(user)
 
@@ -62,7 +59,7 @@ class ProductController(restful.Resource):
 
         product = _get_product_by_id(item_id)
 
-        user = _get_user_by_id(user_id)
+        user = get_user_by_id(user_id)
 
         try:
             draft = product.get_draft(user)
@@ -91,7 +88,7 @@ class ProductController(restful.Resource):
 
         product = _get_product_by_id(item_id)
 
-        user = _get_user_by_id(user_id)
+        user = get_user_by_id(user_id)
 
         try:
             draft = product.get_draft(user)
@@ -118,7 +115,7 @@ class ProductController(restful.Resource):
     def delete(self, item_id, user_id):
 
         product = _get_product_by_id(item_id)
-        user = _get_user_by_id(user_id)
+        user = get_user_by_id(user_id)
 
         try:
             draft = product.get_draft(user)
@@ -149,7 +146,7 @@ class ProductCreateController(restful.Resource):
 
         data = request.get_json()
 
-        form = InitialSelectionForm(data)
+        form = CreateProductForm(data)
 
         if form.errors:
             return {'errors': form.errors}
@@ -177,7 +174,7 @@ class ModerationCreateController(restful.Resource):
 
         product = _get_product_by_id(item_id)
 
-        user = _get_user_by_id(user_id)
+        user = get_user_by_id(user_id)
 
         form = product.get_form()(data)
 
@@ -198,7 +195,7 @@ class ModerationController(restful.Resource):
 
     def put(self, moderation_id, action):
 
-        if action not in ['accept', 'reject']:
+        if action not in ['accept', 'reject', 'delete']:
             abort(400)
 
         moderation = ModerationQueue.objects.get(id=moderation_id)
@@ -216,15 +213,49 @@ class ModerationController(restful.Resource):
 
             #email = render_template('emails/accepted.txt', name=user.get_full_name())
 
-        if action == "rejected":
+        elif action == "rejected":
 
             product.drafts.remove(draft)
             product.save()
 
             #email = render_template('emails/rejected.txt')
 
+        elif action == "delete":
+            pass
+
         # remove the moderation entry
         moderation.delete()
+
+        return response
+
+
+class ModerationUrlController(restful.Resource):
+
+    def post(self, item_id):
+        """
+        TODO: Check for clashing urls (add functional to product model)
+        TODO: Return the new url and in js store this in the url field
+        TODO: Check that the current_user can moderate
+        """
+
+        data = request.get_json()
+
+        try:
+            url = data['url']
+        except KeyError:
+            abort(400)
+
+        try:
+            product = Product.objects.get(id=item_id)
+        except Product.DoesNotExist:
+            abort(400)
+
+        # is the url unique?
+
+        product.url = url
+        product.save()
+
+        response = {'success': True}
 
         return response
 
@@ -237,6 +268,8 @@ class ImageUploadController(restful.Resource):
 
 api.add_resource(ModerationController, '/api/moderation/<string:moderation_id>/<string:action>')
 api.add_resource(ModerationCreateController, '/api/moderation/create/<string:item_id>/<string:user_id>')
+api.add_resource(ModerationUrlController, '/api/moderation/url/<string:item_id>')
+
 api.add_resource(ProductController, '/api/product/<string:item_id>/<string:user_id>')
 api.add_resource(ProductCreateController, '/api/product/create')
 api.add_resource(ImageUploadController, '/api/productimage/<string:item_id>')

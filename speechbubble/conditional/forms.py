@@ -50,9 +50,6 @@ class ConditionalForm(object):
         return data
 
     def process(self, form_data, ignore_validation=False):
-        """
-
-        """
 
         for field in self:
             field.process(form_data, self.data)

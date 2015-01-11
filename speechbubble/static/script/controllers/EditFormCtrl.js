@@ -1,4 +1,4 @@
-app.controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "dialogs", "ProductDataService", function($scope, $window, dataFactory, dialogs,  ProductData) {
+app.controller('EditFormCtrl', ["$scope", "$window", "dialogs", "ProductDataService", function($scope, $window, dialogs,  ProductData) {
 
 	$scope.lang = 'en-US';
 	$scope.language = 'English';
@@ -17,6 +17,7 @@ app.controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "dialogs", "
     // conditional fields that and their current display state
     $scope.field_state = {};
 
+    /*
     $scope.create = function(){
         response = dataFactory.createItem($scope.form_data);
 
@@ -42,6 +43,13 @@ app.controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "dialogs", "
 		});
     };
 
+        $scope.moderation = function(action){
+        dataFactory.moderationAction($scope.modId, action).success(function(data){
+
+        });
+    };
+
+*/
     $scope.load = function(itemId, userId){
 
         $scope.itemId = itemId;
@@ -54,9 +62,4 @@ app.controller('EditFormCtrl', ["$scope", "$window", "dataFactory", "dialogs", "
         $scope.form_data = ProductData.form_data;
     };
 
-    $scope.moderation = function(action){
-        dataFactory.moderationAction($scope.modId, action).success(function(data){
-
-        });
-    };
 }]);

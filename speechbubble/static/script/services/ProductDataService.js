@@ -28,7 +28,7 @@ app.factory('ProductDataService', ['dataFactory', '$window', 'flash', function(d
                 flash.success = "Saved!";
             }
         });
-    }
+    };
 
     factory.load = function(itemId, userId){
         factory.itemId = itemId;
@@ -40,6 +40,7 @@ app.factory('ProductDataService', ['dataFactory', '$window', 'flash', function(d
                 factory.stats = data.stats;
                 console.log(data.moderation);
                 factory.isModerating = data.moderation ? true : false;
+                factory.moderation = data.moderation;
             }
             else{
                 $window.location = "/";
@@ -49,9 +50,6 @@ app.factory('ProductDataService', ['dataFactory', '$window', 'flash', function(d
 
     factory.publishRequest = function(){
         response = dataFactory.moderationRequest(factory.itemId, factory.userId, factory.form_data);
-
-        console.log('=======================================');
-        console.log(factory.form_data);
 
         response.success(function(data, status){
             factory.field_errors = {};
@@ -67,8 +65,24 @@ app.factory('ProductDataService', ['dataFactory', '$window', 'flash', function(d
             else{
                 flash.success = "Thanks. This draft will be reviewed by our moderators.";
                 factory.isModerating = true;
+                window.location.reload();
             }
         });
+    };
+
+    factory.unlockForEditing = function(){
+        response = dataFactory.moderationAction(factory.moderation, "delete");
+
+        response.success(function(data, status){
+            if(data.success){
+                window.location.reload();
+            }
+        });
+    };
+
+    factory.changeUrl = function(){
+        url = $('#product_url').val();
+        response = dataFactory.changeUrl(factory.itemId, url)
     };
 
     return factory;

@@ -27,8 +27,12 @@ app.factory('dataFactory', ['$http', function($http){
     };
 
     dataFactory.moderationAction = function(modId, action){
-        return $http.post(urlBase+"moderation/"+modId+"/"+action)
+        return $http.put(urlBase+"moderation/"+modId+"/"+action);
     };
+
+    dataFactory.changeUrl = function(itemId, url){
+        return $http.post(urlBase+"moderation/url/"+itemId, {url: url});
+    }
 
     return dataFactory;
 }]);

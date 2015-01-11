@@ -3,24 +3,52 @@ from flask.ext.security import login_required, roles_required, current_user
 
 from .app import app, db
 
+from .api_views import get_user_by_id
+
 from .forms import UserForm
 from .models import Product, User, Role, ModerationQueue
 
-from .forms import InitialSelectionForm, VocabularyForm, SoftwareForm
+from .forms import CreateProductForm, VocabularyForm, SoftwareForm
 
 
 @app.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_product():
-    form = InitialSelectionForm()
+    form = CreateProductForm()
 
     return render_template('edit/create.html', form=form)
 
 
-@app.route('/edit/<object_id>/<user_id>', methods=['GET', 'POST'], endpoint="edit-product")
-@app.route('/edit/<object_id>')
+@app.route('/moderation/<object_id>/<user_id>', defaults={'mode': 'moderation'}, methods=['GET', 'POST'],
+           endpoint="moderate-product-view")
 @login_required
-def edit_product(object_id, user_id=None):
+def view_draft(object_id, user_id, mode):
+
+    # should be able to switch the view with defaults on each url type, e.g.
+    # view/view.html
+    # moderation/view.html
+    # edit/view.html etc. as needed
+
+    product = Product.objects.get_or_404(id=object_id)
+    user = get_user_by_id(user_id)
+
+    draft = product.get_draft(user)
+
+    template_name = "{}/view.html".format(mode)
+
+    form = product.get_form()(draft.data)
+
+    return render_template(template_name, form=form, product=product,
+                           object_id=product.id, owner_id=user.id, mode="view")
+
+
+@app.route('/moderate/edit/<object_id>/<user_id>', defaults={'mode': 'moderation'}, methods=['GET', 'POST'], endpoint="moderate-product-edit")
+@app.route('/edit/<object_id>/<user_id>', defaults={'mode': 'edit'}, methods=['GET', 'POST'], endpoint="edit-product")
+@login_required
+def edit_product(object_id, user_id=None, mode=None):
+    """
+    Supporting editing in normal edit mode and moderation edit mode
+    """
 
     datastore = current_app.extensions['security'].datastore
 
@@ -32,7 +60,7 @@ def edit_product(object_id, user_id=None):
     if not user:
         abort(400)
 
-    product = Product.objects.get(id=object_id)
+    product = Product.objects.get_or_404(id=object_id)
 
     awaiting_moderation = ModerationQueue.has_entry(product, user)
 
@@ -41,31 +69,25 @@ def edit_product(object_id, user_id=None):
         app="software.html",
         hardware="hardware.html")
 
-    if not product:
-        abort(404)
+    template_name = "{}/{}".format(mode, templates[product.type])
 
-    template = templates[product.type]
+    draft = product.get_draft(user)
 
-    #draft = product.get_draft(user)
+    form = product.get_form()(draft.data)
 
-    form = product.get_form() #(draft.data)
-
-    return render_template("edit/"+template, form=form,
-                           itemId=unicode(product.id), product=product,
-                           userId=user.id,  awaiting_moderation=awaiting_moderation)
+    return render_template(template_name, form=form,
+                           object_id=unicode(product.id), product=product,
+                           owner_id=user.id,  awaiting_moderation=awaiting_moderation)
 
 
 @app.route('/view/<string:object_id>')
 def view_product(object_id):
 
-    product = Product.objects.get(id=object_id)
-
-    if not product:
-        abort(404)
+    product = Product.objects.get_or_404(id=object_id)
 
     form = product.get_form()(product.published.data)
 
-    return render_template("view/"+template, form=form,
+    return render_template("view/view.html", form=form,
                            itemId=unicode(product.id), product=product)
 
 
@@ -118,7 +140,7 @@ def moderation_queue():
     """
     Display the moderation queue
     """
-    return render_template('admin/moderation.html', objects=ModerationQueue.objects())
+    return render_template('moderation/queue.html', objects=ModerationQueue.objects())
 
 
 @app.route('/products')
@@ -156,3 +178,12 @@ def create_draft(object_id):
 def suppliers():
 
     return render_template("edit/suppliers.html")
+
+
+"""@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def product_view(path):
+    import pdb; pdb.set_trace()
+
+    # this is the catch all router - that will match the url with entries in the product collections
+    return 'You want path: %s' % path"""

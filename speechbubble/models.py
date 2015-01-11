@@ -120,9 +120,21 @@ class ModerationQueue(db.Document):
                 draft = item
                 break
         else:
-            raise IndexError()
+            raise IndexError('Missing product draft')
 
         return product, draft
+
+    @classmethod
+    def get_entry(cls, product, user):
+        """
+        Get the moderation entry for this product/user and if it doesn't
+        exist, return False
+        """
+
+        try:
+            return cls.objects.get(product=product, version_owner=user.id)
+        except cls.DoesNotExist:
+            return False
 
     @classmethod
     def has_entry(cls, product, user):
@@ -362,3 +374,29 @@ class Product(db.Document):
         Is this a new product
         """
         return not self.product.published
+
+    def get_type_name(self):
+        """
+        Return a human readable type name, e.g. Hardware (low tech)
+        """
+
+        types = {
+            PRODUCT_TYPE_APP: 'Software / App',
+            PRODUCT_TYPE_VOCABULARY: 'Vocabulary'
+        }
+
+        hardware_types = {
+            PRODUCT_HARDWARE_SUBTYPE_LOWTECH: "Hardware (Low tech)",
+            PRODUCT_HARDWARE_SUBTYPE_SIMPLE: "Hardware (Simple)",
+            PRODUCT_HARDWARE_SUBTYPE_ADVANCED: "Hardware (Advanced)",
+        }
+
+        if self.type == PRODUCT_TYPE_HARDWARE:
+            return hardware_types[self.sub_type]
+        else:
+            return types[self.type]
+
+
+
+
+

@@ -40,7 +40,7 @@
                     {{ item.product_name }}
                 </td>
                 <td>
-                    <a href="{{ url_for("edit-product", object_id=item.product.id, user_id=item.version_owner.id) }}">Edit version</a>
+                    <a href="{{ url_for("moderate-product-view", object_id=item.product.id, user_id=item.version_owner.id) }}">View draft</a>
                 </td>
             </tr>
             {% endfor %}
