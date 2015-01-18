@@ -192,12 +192,14 @@ class YesNoField(ChoiceField):
         kwargs.pop('choices', None)
         kwargs.pop('coerce', None)
 
-        choices = ((True, 'Yes'), (False, 'No'))
+        choices = (('True', 'Yes'), ('False', 'No'))
 
         if "use_widget" not in kwargs:
             kwargs['use_widget'] = "radio"
 
-        super(YesNoField, self).__init__(*args, choices=choices, coerce=lambda x: x == "True", **kwargs)
+        # coerce=lambda x: x == "True",
+
+        super(YesNoField, self).__init__(*args, choices=choices, **kwargs)
 
 
 class BaseMultiItemField(BaseField):

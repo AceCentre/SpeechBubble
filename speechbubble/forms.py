@@ -564,7 +564,7 @@ class VocabularyForm(ConditionalForm):
 
     keyboards_available = YesNoField(
         "Are specially designed keyguards available?",
-        display_rule=["access_method", "eq", ACCESS_METHOD_TOUCH],
+        display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
         required=True
     )
 
@@ -751,8 +751,7 @@ class SoftwareForm(ConditionalForm):
         choices=SUPPORTED_TOUCH_TYPES,
         use_widget="select",
         display_rule=["access_method", "in", ACCESS_METHOD_TOUCH],
-        required=True
-    )
+        required=True)
 
     specialist_gestures = YesNoField(
         "Are specialist gestures etc required to control the device?",
@@ -762,8 +761,7 @@ class SoftwareForm(ConditionalForm):
     supported_touch_features = MultipleChoiceField(
         "What Touch features are available?",
         choices=SUPPORTED_TOUCH_FEATURES,
-        required=True
-    )
+        required=True)
 
     supported_touch_features_other = TextField(
         "other",
@@ -775,14 +773,12 @@ class SoftwareForm(ConditionalForm):
     has_min_target_size = YesNoField(
         "Is there a minimum target size?",
         display_rule=["access_method", "in", [ACCESS_METHOD_TOUCH, ACCESS_METHOD_MOUSE, ACCESS_METHOD_EYEGAZE]],
-        required=True
-    )
+        required=True)
 
     min_target_size = IntegerField(
         "What is this size? (mm)",
         display_rule=["has_min_target_size", "eq", YES_CHOICE],
-        required=True
-    )
+        required=True)
 
     has_max_locations_per_page = ChoiceField(
         "Does it have a maximum number of locations per page?",
@@ -794,8 +790,7 @@ class SoftwareForm(ConditionalForm):
     max_locations_per_page = IntegerField(
         "What are the max number of locations per page?",
         display_rule=["has_max_locations_per_page", "eq", YES_CHOICE],
-        required=True
-    )
+        required=True)
 
         # access_method eq ACCESS_METHOD_SWITCH
 

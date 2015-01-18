@@ -85,6 +85,19 @@ app.factory('ProductDataService', ['dataFactory', '$window', 'flash', function(d
         response = dataFactory.changeUrl(factory.itemId, url)
     };
 
+    factory.create = function(){
+        response = dataFactory.createItem(factory.form_data);
+
+        response.success(function(data, status) {
+            if(data.errors) {
+                factory.field_errors = data.errors;
+            }
+            else{
+                $window.location.href = "/edit/" + data.id + "/" + data.uid;
+            }
+        });
+    };
+
     return factory;
 
 }]);

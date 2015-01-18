@@ -99,6 +99,7 @@ class ProductController(restful.Resource):
         _require_owner_or_moderator(draft)
 
         form = product.get_form()()
+
         form.process(data, ignore_validation=True)
 
         # save it anyway
@@ -156,7 +157,7 @@ class ProductCreateController(restful.Resource):
                                      form.data.get('hardware_type', None),
                                      current_user)
 
-        return {'id': unicode(product.id)}
+        return {'id': unicode(product.id), 'uid': unicode(current_user.id)}
 
 
 class ModerationCreateController(restful.Resource):

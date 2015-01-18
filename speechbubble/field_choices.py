@@ -23,8 +23,8 @@ FIELD_CURRENCY_CHOICES = (
     ('USD', 'USD'))
 
 
-YES_CHOICE = True
-NO_CHOICE = False
+YES_CHOICE = 'True'
+NO_CHOICE = 'False'
 
 NA_OR_YES_CHOICES = (
     (NO_CHOICE, "n/a"),

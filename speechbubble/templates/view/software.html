@@ -1,0 +1,49 @@
+{% from 'helpers/form_macros.html' import input_helper, submit_button, display_helper %}
+
+<table class="table table-striped">
+
+
+    {{ display_helper(form.name) }}
+    {{ display_helper(form.description, input_textarea) }}
+
+    {{ display_helper(form.discontinued) }}
+    <!-- images -->
+    {{ display_helper(form.videos, input_multi_item) }}
+
+    {{ display_helper(form.image_representation_supported) }}
+    {{ display_helper(form.symbol_systems_supported) }}
+    {{ display_helper(form.speech_type) }}
+    {{ display_helper(form.synthesised_speech_type_choices) }}
+    {{ display_helper(form.synthesised_num_voices) }}
+    <!-- price -->
+    {{ display_helper(form.associated_costs) }}
+    {{ display_helper(form.support_multiple_users) }}
+    {{ display_helper(form.long_description) }}
+    {{ display_helper(form.enviro_control_capabilities) }}
+    {{ display_helper(form.enviro_control_more_details) }}
+    {{ display_helper(form.control_other_computer) }}
+    {{ display_helper(form.control_operating_system) }}
+    {{ display_helper(form.support_url) }}
+    <!-- purchase_urls -->
+    {{ display_helper(form.more_info_urls, input_multi_item) }}
+    {{ display_helper(form.editing_options) }}
+    {{ display_helper(form.visual_options) }}
+    {{ display_helper(form.visual_options_more_info) }}
+    {{ display_helper(form.works_on_dedicated_device) }}
+    {{ display_helper(form.operating_system_supported_min) }}
+    {{ display_helper(form.operating_system_supported_max) }}
+
+    {{ display_helper(form.has_more_than_one_vocab) }}
+    <!-- show vocab edit/selection forms here -->
+    {{ display_helper(form.access_method) }}
+    {{ display_helper(form.supports_capacitive_or_resistive_touch) }}
+    {{ display_helper(form.specialist_gestures) }}
+    {{ display_helper(form.supported_touch_features) }}
+    {{ display_helper(form.supported_touch_features_other) }}
+    {{ display_helper(form.has_min_target_size) }}
+    {{ display_helper(form.min_target_size) }}
+    {{ display_helper(form.has_max_locations_per_page) }}
+    {{ display_helper(form.max_locations_per_page) }}
+    {{ display_helper(form.scanning_options) }}
+
+</table>
