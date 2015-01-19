@@ -22,7 +22,7 @@
             <tbody>
             {% for product in products %}
                 <tr>
-                    <td>{{ product.draft.name }}</td>
+                    <td>{{ product.name }}</td>
                     <td>{{ product.type }}{% if product.sub_type %} / {{ product.sub_type }}{% endif %}</td>
                     <td>{% if product.published %}
                             {{ product.published.owner.name }}
