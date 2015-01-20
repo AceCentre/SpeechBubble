@@ -4,10 +4,9 @@ The aacinfo.email website is owned and operated by The ACE Centre. We are commit
 
 2. Personal Information
 
-2.1 The details which you provide about yourself and any information which identifies you such as your name, address, email address ("Personal Information") will only be retained by us if you provide this information when subscribing to our email lists. Personal Information will be held on our system and used for operational .
-In order to process a transaction, your Personal Information and card details may be passed to third party service providers. Card details will only be used for the purpose of handling an individual transaction.
+2.1 The details which you provide about yourself and any information which identifies you such as your name, address, profession or email address ("Personal Information") will only be retained by us if you provide this information when subscribing to our email lists. 
 
-The Personal Information you supply when you join one of our e-mail lists will be used by The ACE Centre to keep you up-to-date with events and activities organised by The ACE Centre. When purchasing tickets you are given the opportunity to opt in to receiving news and information from The ACE Centre and its co-producers, other arts organisations and our sponsors. When joining one of our e-mail lists you are given the opportunity to opt in to receiving information from other arts organisations and our sponsors. The ACE Centre will only pass on your Personal Information for marketing purposes if the relevant box has been ticked. In these instances, we supply your Personal Information for one-off use by the other arts organisation. Each e-mail we send you offers you the opportunity to amend these preferences, or you can ask us to do this, by e-mailing boxoffice@aacinfo.email
+The Personal Information you supply when you join one of our e-mail lists will be used by The ACE Centre to keep you up-to-date with events and activities organised by The ACE Centre. When joining one of our e-mail lists you are given the opportunity to opt in to receiving information from the ACE Centre with a once monthly email regarding AACInfo - submitted by the public and edited by ACE Centre. The ACE Centre will not pass on your Personal Information to other organisations. 
 
 2.2 If you would like to revise the information provided to us at any time, or feel what we currently have on record is incorrect, you may update the information by e-mailing boxoffice@aacinfo.email
 
