@@ -1,3 +1,0 @@
-# the individual product specifications
-
-
