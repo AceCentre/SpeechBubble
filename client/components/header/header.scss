@@ -19,11 +19,11 @@
   clear: both;
   padding-top: 18px;
 
-  button[type=submit] {
+  button[type='submit'] {
     display: none;
   }
 
-  input[type=text] {
+  .header-search-input {
     background: $backgroundColor;
     border-radius: 4px;
     color: $secondaryColor;
