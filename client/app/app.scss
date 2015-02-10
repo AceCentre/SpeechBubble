@@ -10,6 +10,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
  $primaryColor: #FC1B2C;
  $secondaryColor: #3B2E48;
  $backgroundColor: #F5F5F5;
+ $footerBackgroundColor: #89898D;
 
  body {
    background-color: $backgroundColor;
@@ -40,6 +41,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'admin/admin.scss';
 @import 'main/main.scss';
 @import 'common/buttons.scss';
+@import 'footer/footer.scss';
 @import 'header/header.scss';
 @import 'modal/modal.scss';
 @import 'navbar/navbar.scss';

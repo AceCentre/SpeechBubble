@@ -1,4 +1,5 @@
 div(ng-include='"components/header/header.html"')
+  
 .container
   p
     | The delete user and user index api routes are restricted to users with the 'admin' role.
@@ -9,3 +10,5 @@ div(ng-include='"components/header/header.html"')
       span.text-muted {{user.email}}
       a.trash(ng-click='delete(user)')
         span.glyphicon.glyphicon-trash.pull-right
+          
+div(ng-include='"components/footer/footer.html"')
