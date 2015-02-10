@@ -1,0 +1,33 @@
+.footer {
+  background-color: $footerBackgroundColor;
+  color: #fff;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 15px;
+}
+
+.footer-list-links {
+  margin: 0;
+  padding: 0 0 20px;
+  list-style-type: none;
+
+  li {
+    display: inline-block;
+
+    & + li:before {
+      content: '|'
+    }
+
+    a {
+      padding: 8px 10px;
+    }
+  }
+
+  a {
+    color: #fff;
+  }
+}
+
+.footer-copyright {
+  font-size: .9em;
+}

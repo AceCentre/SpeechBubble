@@ -7,6 +7,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 /**
  * App-wide Styles
  */
+ $footerBackgroundColor: #89898D;
 
 .browsehappy {
     margin: 0.2em 0;
@@ -20,5 +21,6 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
 @import 'main/main.scss';
+@import 'footer/footer.scss';
 @import 'modal/modal.scss';
 // endinjector

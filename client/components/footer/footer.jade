@@ -1,0 +1,14 @@
+footer.footer
+
+  div.container(ng-controller='FooterCtrl')
+    ul.footer-list-links
+      li(ng-repeat='item in menu')
+        a(ng-href='{{item.link}}') {{item.title}}
+        
+    p.footer-copyright
+      | Copyright &copy; 2015
+      | Speech Bubble SpeechBubble is a registered charity no. 1089313. 
+      | Registered as a company limited by guarantee no. 04268143 (England &amp; Wales). 
+      br
+      | Registered office: SpeechBubble, Hollinwood Business Centre, Albert Street, Oldham, OL8 3QL. 
+      | VAT registration number 785728278
