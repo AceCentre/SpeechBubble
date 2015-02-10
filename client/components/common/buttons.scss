@@ -1,0 +1,28 @@
+.btn {
+  border-width: 0;
+  border-radius: 0;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  @include transition(background-color ease 300ms);
+
+  &:hover, &:active, &:focus {
+    outline: 0;
+  }
+}
+
+.btn-primary {
+  background-color: $primaryColor;
+  &:hover, &:active, &:focus {
+    background-color: darken($primaryColor, 15%);
+  }
+}
+
+.btn-secondary {
+  background-color: $secondaryColor;
+  color: #fff;
+  &:hover, &:active, &:focus {
+    background-color: lighten($secondaryColor, 15%);
+    color: #fff;
+  }
+}

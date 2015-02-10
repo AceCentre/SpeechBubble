@@ -1,18 +1,18 @@
-div.container(ng-controller='NavbarCtrl')
+div(ng-controller='NavbarCtrl')
 
-      ul
+      ul.navbar-list-menu
         li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
           a(ng-href='{{item.link}}') {{item.title}}
 
         li(ng-show='isAdmin()', ng-class='{active: isActive("/admin")}')
           a(href='/admin') Admin
 
-      ul
-        li(ng-hide='isLoggedIn()', ng-class='{active: isActive("/signup")}')
-          a(href='/signup') Register
-
+      ul.navbar-list-account
         li(ng-hide='isLoggedIn()', ng-class='{active: isActive("/login")}')
-          a(href='/login') Login
+          a.btn.btn-primary(href='/login') Login
+          
+        li(ng-hide='isLoggedIn()', ng-class='{active: isActive("/signup")}')
+          a.btn.btn-secondary(href='/signup') Register
 
         li(ng-show='isLoggedIn()')
           p.navbar-text Hello {{ getCurrentUser().name }}

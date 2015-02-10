@@ -1,4 +1,4 @@
-div(ng-include='"components/navbar/navbar.html"')
+div(ng-include='"components/header/header.html"')
 .container
   .row
     .col-sm-12
@@ -31,10 +31,10 @@ div(ng-include='"components/navbar/navbar.html"')
           p.help-block {{ errors.other }}
 
         div
-          button.btn.btn-inverse.btn-lg.btn-login(type='submit')
+          button.btn.btn-primary(type='submit')
             | Login
           = ' '
-          a.btn.btn-default.btn-lg.btn-register(href='/signup')
+          a.btn.btn-secondary(href='/signup')
             | Register
 
         hr

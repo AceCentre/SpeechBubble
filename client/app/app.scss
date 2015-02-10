@@ -7,6 +7,21 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 /**
  * App-wide Styles
  */
+ $primaryColor: #FC1B2C;
+ $secondaryColor: #3B2E48;
+ $backgroundColor: #F5F5F5;
+
+ body {
+   background-color: $backgroundColor;
+ }
+
+ a {
+   color: $secondaryColor;
+ }
+
+ .container {
+   max-width: 970px;
+ }
 
 .browsehappy {
     margin: 0.2em 0;
@@ -20,5 +35,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
 @import 'main/main.scss';
+@import 'common/buttons.scss';
+@import 'header/header.scss';
 @import 'modal/modal.scss';
+@import 'navbar/navbar.scss';
 // endinjector

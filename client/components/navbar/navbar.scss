@@ -1,0 +1,32 @@
+.navbar-list-menu {
+  float: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+
+    a {
+      line-height: 39px;
+    }
+  }
+}
+
+.navbar-list-account {
+  float: right;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline-block;
+
+    & + li {
+      margin-left: 6px;
+    }
+
+    a.btn {
+      min-width: 112px;
+    }
+  }
+}
