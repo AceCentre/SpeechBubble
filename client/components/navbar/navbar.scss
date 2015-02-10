@@ -4,10 +4,60 @@
   margin: 0;
   padding: 0;
 
-  li {
+  .dropdown-menu {
+    border-radius: 0;
+
+    > li {
+      &.active a, a:hover, a:active, a:focus {
+        background-color: $backgroundColor;
+      }
+    }
+  }
+
+  > li {
+    float: left;
+    line-height: 39px;
+    padding-left: 18px;
+    position: relative;
+
+    & + li {
+      margin-left: 10px;
+    }
 
     a {
-      line-height: 39px;
+      color: darken($backgroundColor, 45%);
+    }
+
+    &.active a, a:hover, a:active, a:focus {
+      text-decoration: none;
+      color: #000;
+    }
+
+    span.caret {
+      margin-left: 5px;
+    }
+
+    span.show {
+      display: inline-block !important;
+    }
+
+    a[href='/'] {
+      @extend .glyphicon;
+      @extend .glyphicon-home;
+
+      &:before {
+        font-size: .8em;
+        position: relative;
+        top: -1px;
+      }
+
+      &:hover, &:focus, &:active {
+        text-decoration: none;
+      }
+
+      span {
+        display: none;
+      }
     }
   }
 }

@@ -19,6 +19,10 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
    color: $secondaryColor;
  }
 
+ a:hover, a:active, a:focus {
+   color: $primaryColor;
+ }
+
  .container {
    max-width: 970px;
  }

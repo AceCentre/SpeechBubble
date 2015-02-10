@@ -1,8 +1,20 @@
 div(ng-controller='NavbarCtrl')
 
       ul.navbar-list-menu
-        li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
-          a(ng-href='{{item.link}}') {{item.title}}
+        li(dropdown, ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
+          
+            //- if we have children -> render dropdown
+            a(ng-if='item.children', dropdown-toggle, ng-href='{{item.link}}')
+              span {{item.title}}
+              span.caret.hide(ng-class='{ "show": item.children }')
+            
+            ul.dropdown-menu(ng-if='item.children')
+              li(ng-repeat='child in item.children')
+                a(ng-href='{{child.link}}') {{child.title}}
+                
+            //- else -> render link
+            a(ng-if='!item.children', ng-href='{{item.link}}')
+              span {{item.title}}
 
         li(ng-show='isAdmin()', ng-class='{active: isActive("/admin")}')
           a(href='/admin') Admin
