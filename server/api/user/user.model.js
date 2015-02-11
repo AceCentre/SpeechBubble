@@ -3,11 +3,24 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
-var authTypes = ['github', 'twitter', 'facebook', 'google'];
+var authTypes = ['twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
-  name: String,
+  firstName: { type: String, required: true },
+  lastName: String,
+  description: {
+    type: String,
+    enum: ['', 'professional', 'parent', 'aac user', 'other']
+  },
+  region: {
+    type: String,
+    enum: ['', 'UK', 'Europe', 'USA', 'Other']
+  },
   email: { type: String, lowercase: true },
+  subscribe: {
+    type: Boolean,
+    default: false
+  },
   role: {
     type: String,
     default: 'user'
@@ -17,8 +30,7 @@ var UserSchema = new Schema({
   salt: String,
   facebook: {},
   twitter: {},
-  google: {},
-  github: {}
+  google: {}
 });
 
 /**

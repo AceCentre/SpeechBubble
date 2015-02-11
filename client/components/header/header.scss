@@ -36,11 +36,11 @@
     border-radius: 4px;
     color: $secondaryColor;
     border: 0;
-    padding: 9px 12px;
+    padding: 8px 12px;
     width: 81%;
     @include transition(box-shadow ease 300ms);
 
-    &:focus {
+    &:active, &:focus {
       outline: 0;
       box-shadow: inset 0 0 5px rgba(0,0,0,.2);
     }
