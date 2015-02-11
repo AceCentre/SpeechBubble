@@ -23,7 +23,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
  .page-content {
    position: relative;
    min-height: 100%;
-   padding-bottom: 130px;
+   padding-bottom: 150px;
  }
 
  a {
@@ -51,6 +51,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'admin/admin.scss';
 @import 'main/main.scss';
 @import 'common/buttons.scss';
+@import 'common/form.scss';
+@import 'common/social.scss';
 @import 'footer/footer.scss';
 @import 'header/header.scss';
 @import 'modal/modal.scss';

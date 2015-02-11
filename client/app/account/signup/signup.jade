@@ -2,59 +2,87 @@ div(ng-include='"components/header/header.html"')
 
 .container
   .row
-    .col-sm-12
+    .col-sm-3
+      a(href="http://www.justgiving.com/acecentre/donate/?utm_source=website_cid139889&utm_medium=buttons&utm_content=acecentre&utm_campaign=donate_white")
+        img(src="http://www.justgiving.com/charities/content/images/logo-buttons/white/donate_white.gif", alt="Donate with JustGiving")
+      
+    .col-sm-9
       h1 Register
-    .col-sm-12
-      form.form(name='form', ng-submit='register(form)', novalidate='')
-        .form-group(ng-class='{ "has-success": form.name.$valid && submitted,\
-        "has-error": form.name.$invalid && submitted }')
-          label Name
-          input.form-control(type='text', name='name', ng-model='user.name', required='')
-          p.help-block(ng-show='form.name.$error.required && submitted')
-            | A name is required
+      p Enter your details below to join Speech Bubble or connect using your favourite social media account.
+      
+      .row
+        .col-sm-6
+          form.form(name='form', ng-submit='register(form)', novalidate='')
+            
+            .form-group(ng-class='{ "has-success": form.email.$valid && submitted,\
+            "has-error": form.email.$invalid && submitted }')
+              label(for='email') Email *
+              input.form-control(type='email', id='email', name='email', ng-model='user.email', required='', mongoose-error='')
+              p.help-block(ng-show='form.email.$error.email && submitted')
+                | Doesn't look like a valid email.
+              p.help-block(ng-show='form.email.$error.required && submitted')
+                | What's your email address?
+              p.help-block(ng-show='form.email.$error.mongoose')
+                | {{ errors.email }}
+                
+            .form-group(ng-class='{ "has-success": form.password.$valid && submitted,\
+            "has-error": form.password.$invalid && submitted }')
+              label(for='password') Password *
+              input.form-control(type='password', id='password', name='password', ng-model='user.password', ng-minlength='3', required='', mongoose-error='')
+              p.help-block(ng-show='(form.password.$error.minlength || form.password.$error.required) && submitted')
+                | Password must be at least 3 characters.
+              p.help-block(ng-show='form.password.$error.mongoose')
+                | {{ errors.password }}
+                
+            .form-group(ng-class='{ "has-success": form.confirmPassword.$valid && submitted,\
+            "has-error": form.confirmPassword.$invalid && submitted }')
+              label(for='confirmPassword') Confirm Password *
+              input.form-control(compare-to='user.password', type='password', id='confirmPassword', name='confirmPassword', ng-model='user.confirmPassword', required='')
+              p.help-block(ng-show='(form.confirmPassword.$error.compareTo) && submitted')
+                | Passwords do not match.
+            
+            .form-group(ng-class='{ "has-success": form.firstName.$valid && submitted,\
+            "has-error": form.firstName.$invalid && submitted }')
+              label(for='firstName') First Name *
+              input.form-control(type='text', id='firstName', name='firstName', ng-model='user.firstName', required='')
+              p.help-block(ng-show='form.firstName.$error.required && submitted')
+                | A first name is required
+                
+            .form-group
+              label(for='lastName') Last Name
+              input.form-control(type='text', id='lastName', name='lastName', ng-model='user.lastName')
+                
+            .form-group
+              label(for='description') Description
+              select.form-control(id='description', name='description', ng-options='item for item in descriptions track by item', ng-model='user.description')
+                
+            .form-group
+              label(for='region') Region
+              select.form-control(id='region', name='region', ng-options='region for region in regions track by region', ng-model='user.region')
+                
+            .checkbox
+              label
+                input(type='checkbox', ng-model='user.subscribe')
+                | I would like to join the Speech Bubble mailing list
 
-        .form-group(ng-class='{ "has-success": form.email.$valid && submitted,\
-        "has-error": form.email.$invalid && submitted }')
-          label Email
-          input.form-control(type='email', name='email', ng-model='user.email', required='', mongoose-error='')
-          p.help-block(ng-show='form.email.$error.email && submitted')
-            | Doesn't look like a valid email.
-          p.help-block(ng-show='form.email.$error.required && submitted')
-            | What's your email address?
-          p.help-block(ng-show='form.email.$error.mongoose')
-            | {{ errors.email }}
-
-        .form-group(ng-class='{ "has-success": form.password.$valid && submitted,\
-        "has-error": form.password.$invalid && submitted }')
-          label Password
-          input.form-control(type='password', name='password', ng-model='user.password', ng-minlength='3', required='', mongoose-error='')
-          p.help-block(ng-show='(form.password.$error.minlength || form.password.$error.required) && submitted')
-            | Password must be at least 3 characters.
-          p.help-block(ng-show='form.password.$error.mongoose')
-            | {{ errors.password }}
-
-        div
-          button.btn.btn-secondary(type='submit')
-            | Register
-          = ' '
-          a.btn.btn-primary(href='/login')
-            | Login
-
-
-        hr
-
-        div
-          a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
-            i.fa.fa-facebook
-            |  Connect with Facebook
-          = ' '
-          a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
-            i.fa.fa-google-plus
-            |  Connect with Google+
-          = ' '
-          a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
-            i.fa.fa-twitter
-            |  Connect with Twitter
-  hr
+            button.btn.btn-secondary(type='submit') Register
+            
+            br
+            br
+            small * Required fields
+                
+        .col-sm-6
+          .social-connect
+            a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
+              i.fa.fa-facebook
+              |  Connect with Facebook
+            = ' '
+            a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
+              i.fa.fa-google-plus
+              |  Connect with Google+
+            = ' '
+            a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
+              i.fa.fa-twitter
+              |  Connect with Twitter
 
 div(ng-include='"components/footer/footer.html"')
