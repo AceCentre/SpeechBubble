@@ -18,9 +18,16 @@
 .header-form-search {
   clear: both;
   padding-top: 18px;
+  position: relative;
 
   button[type='submit'] {
     display: none;
+  }
+
+  .glyphicon.glyphicon-search {
+    position: absolute;
+    top: 30px;
+    margin-left: -25px;
   }
 
   .header-search-input {
