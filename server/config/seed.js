@@ -10,13 +10,13 @@ var User = require('../api/user/user.model');
 User.find({}).remove(function() {
   User.create({
     provider: 'local',
-    name: 'User',
+    firstName: 'User',
     email: 'user@acecentre.org.uk',
     password: 'letmein'
   }, {
     provider: 'local',
     role: 'admin',
-    name: 'Admin',
+    FirstName: 'Admin',
     email: 'admin@acecentre.org.uk',
     password: 'letmein'
   }, function() {

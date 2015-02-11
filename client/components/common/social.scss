@@ -1,0 +1,11 @@
+.social-connect {
+  background: #fff;
+  padding: 20px;
+
+  .btn {
+    display: block;
+    & + .btn {
+      margin-top: 8px;
+    }
+  }
+}

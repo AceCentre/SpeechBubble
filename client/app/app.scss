@@ -12,8 +12,18 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
  $backgroundColor: #F5F5F5;
  $footerBackgroundColor: #89898D;
 
+ html, body {
+   height: 100%;
+ }
+
  body {
    background-color: $backgroundColor;
+ }
+
+ .page-content {
+   position: relative;
+   min-height: 100%;
+   padding-bottom: 150px;
  }
 
  a {
@@ -41,6 +51,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'admin/admin.scss';
 @import 'main/main.scss';
 @import 'common/buttons.scss';
+@import 'common/form.scss';
+@import 'common/social.scss';
 @import 'footer/footer.scss';
 @import 'header/header.scss';
 @import 'modal/modal.scss';

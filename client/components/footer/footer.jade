@@ -1,6 +1,8 @@
 footer.footer
 
   div.container(ng-controller='FooterCtrl')
+    a(href='http://www.acecentre.org.uk', target='_blank'): .footer-brand-ace-centre Ace Centre
+    
     ul.footer-list-links
       li(ng-repeat='item in menu')
         a(ng-href='{{item.link}}') {{item.title}}
