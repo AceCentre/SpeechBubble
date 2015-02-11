@@ -8,6 +8,20 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+
+  > .container {
+    position: relative;
+  }
+}
+
+.footer-brand-ace-centre {
+  @include hide-text;
+  width: 84px;
+  height: 43px;
+  background: #fff image-url('/assets/images/brand/ace-centre-logo.png') 50% 50% no-repeat;
+  position: absolute;
+  top: -68px;
+  right: 20px;
 }
 
 .footer-list-links {
