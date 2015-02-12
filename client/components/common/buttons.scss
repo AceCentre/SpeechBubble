@@ -8,6 +8,7 @@
 
   &:hover, &:active, &:focus {
     outline: 0;
+    text-decoration: none;
   }
 }
 
@@ -24,5 +25,14 @@
   &:hover, &:active, &:focus {
     background-color: lighten($secondaryColor, 15%);
     color: #fff;
+  }
+}
+
+.btn-tertiary {
+  background-color: darken($backgroundColor, 10%);
+  color: #333;
+  &:hover, &:active, &:focus {
+    background-color: darken($backgroundColor, 15%);
+    color: #333;
   }
 }

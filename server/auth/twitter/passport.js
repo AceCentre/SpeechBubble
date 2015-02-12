@@ -16,7 +16,8 @@ exports.setup = function (User, config) {
       }
       if (!user) {
         user = new User({
-          name: profile.displayName,
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
           username: profile.username,
           role: 'user',
           provider: 'twitter',

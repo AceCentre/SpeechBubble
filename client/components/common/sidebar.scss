@@ -1,0 +1,18 @@
+.sidebar {
+  background: #fff;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  .donate {
+    display: block;
+    text-align: center;
+  }
+
+  h2 {
+    color: $primaryColor;
+  }
+
+  h2:first-child {
+    margin-top: 0;
+  }
+}

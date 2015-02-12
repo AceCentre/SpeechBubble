@@ -6,14 +6,13 @@ angular.module('speechBubbleApp')
       'title': 'Home',
       'link': '/'
     }, {
-      'title': 'Menu 1',
-      'link': '/menu',
+      'title': 'Support us',
       'children': [
-        { 'title': 'link 1', 'link': '/menu/link1' },
-        { 'title': 'link 2', 'link': '/menu/link2' },
-        { 'title': 'link 3', 'link': '/menu/link3' },
-        { 'title': 'link 4', 'link': '/menu/link4' }
+        { 'title': 'Donate', 'link': 'https://www.justgiving.com/acecentre/' }
       ]
+    }, {
+      'title': 'Contact',
+      'link': '/contact'
     }];
 
     $scope.isLoggedIn = Auth.isLoggedIn;
