@@ -4,7 +4,7 @@ div(ng-controller='NavbarCtrl')
         li(dropdown, ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
           
             //- if we have children -> render dropdown
-            a(ng-if='item.children', dropdown-toggle, ng-href='{{item.link}}')
+            a(ng-if='item.children', dropdown-toggle, href='#')
               span {{item.title}}
               span.caret.hide(ng-class='{ "show": item.children }')
             

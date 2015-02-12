@@ -2,14 +2,11 @@
 
 angular.module('speechBubbleApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
-    $scope.user = {
-      description: '',
-      region: ''
-    };
+    $scope.user = {};
     $scope.errors = {};
 
-    $scope.descriptions = ['', 'professional', 'parent', 'aac user', 'other'];
-    $scope.regions = ['', 'UK', 'Europe', 'USA', 'Other'];
+    $scope.descriptions = ['professional', 'parent', 'aac user', 'other'];
+    $scope.regions = ['UK', 'Europe', 'USA', 'Other'];
 
     $scope.register = function(form) {
       $scope.submitted = true;
