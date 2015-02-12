@@ -13,7 +13,7 @@ exports.setup = function (User, config) {
       }, function(err, user) {
         if (!user) {
           user = new User({
-            name: profile.displayName,
+            firstName: profile.displayName,
             email: profile.emails[0].value,
             role: 'user',
             username: profile.username,
