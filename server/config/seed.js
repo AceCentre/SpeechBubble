@@ -16,7 +16,7 @@ User.find({}).remove(function() {
   }, {
     provider: 'local',
     role: 'admin',
-    FirstName: 'Admin',
+    firstName: 'Admin',
     email: 'admin@acecentre.org.uk',
     password: 'letmein'
   }, function() {
