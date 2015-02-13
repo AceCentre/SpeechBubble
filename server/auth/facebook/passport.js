@@ -21,7 +21,6 @@ exports.setup = function (User, config) {
             lastName: profile.name.familyName,
             email: profile.emails[0].value,
             role: 'user',
-            username: profile.username,
             provider: 'facebook',
             facebook: profile._json
           });

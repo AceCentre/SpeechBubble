@@ -15,6 +15,6 @@ router
   .get('/callback', passport.authenticate('twitter', {
     failureRedirect: '/signup',
     session: false
-  }), auth.setTokenCookie);
+  }), auth.setTokenCookie, auth.redirectForPasswordCreation);
 
 module.exports = router;

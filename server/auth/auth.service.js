@@ -63,14 +63,26 @@ function signToken(id) {
 /**
  * Set token cookie directly for oAuth strategies
  */
-function setTokenCookie(req, res) {
+function setTokenCookie(req, res, next) {
   if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.'});
   var token = signToken(req.user._id, req.user.role);
   res.cookie('token', JSON.stringify(token));
-  res.redirect('/');
+  next();
+}
+
+/**
+ * Redirects the user for oAuth to allow for password creation
+ */
+function redirectForPasswordCreation(req, res, next) {
+  if(req.user.hashedPassword) {
+    res.redirect('/');
+  } else {
+    res.redirect('/settings');
+  }
 }
 
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;
+exports.redirectForPasswordCreation = redirectForPasswordCreation;
