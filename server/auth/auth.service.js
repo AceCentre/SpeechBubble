@@ -75,9 +75,9 @@ function setTokenCookie(req, res, next) {
  */
 function redirectForPasswordCreation(req, res, next) {
   if(req.user.hashedPassword) {
-    res.redirect('/');
+    res.redirect('/account/details');
   } else {
-    res.redirect('/settings');
+    res.redirect('/account/set_password');
   }
 }
 
