@@ -15,10 +15,21 @@ exports.setup = function (User, config) {
         return done(err);
       }
       if (!user) {
+
+        var displayName = profile.displayName.split(' ');
+        var firstName, lastName;
+
+        if( displayName.length > 1 ) {
+          firstName = displayName[0];
+          lastName = displayName[1];
+        } else {
+          firstName = profile.displayName;
+          lastName = '';
+        }
+
         user = new User({
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
-          username: profile.username,
+          firstName: firstName,
+          lastName: lastName,
           role: 'user',
           provider: 'twitter',
           twitter: profile._json
