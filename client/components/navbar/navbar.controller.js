@@ -2,6 +2,7 @@
 
 angular.module('speechBubbleApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
+
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
@@ -14,6 +15,16 @@ angular.module('speechBubbleApp')
       'title': 'Contact',
       'link': '/contact'
     }];
+
+    $scope.accountMenu = [
+      { 'title': 'Account details', 'link': '/account/details' },
+      { 'title': 'Change password', 'link': '/account/change_password' }
+    ];
+
+    $scope.adminMenu = [
+      { 'title': 'User moderation', 'link': '/admin/users' },
+      { 'title': 'Product moderation', 'link': '/admin/products' },
+    ];
 
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
