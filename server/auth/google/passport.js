@@ -17,7 +17,6 @@ exports.setup = function (User, config) {
             lastName: profile.name.familyName,
             email: profile.emails[0].value,
             role: 'user',
-            username: profile.username,
             provider: 'google',
             google: profile._json
           });
