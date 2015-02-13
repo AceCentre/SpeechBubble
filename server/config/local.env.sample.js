@@ -18,6 +18,13 @@ module.exports = {
   GOOGLE_ID:        'app-id',
   GOOGLE_SECRET:    'secret',
 
+  MAILCHIMP_API_KEY: 'api-key',
+  MAILCHIMP_LIST_ID: 'list-id',
+
+  MANDRILL_API_KEY: 'api-key',
+
+  SUPPORT_EMAIL: 'example@example.com',
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };
