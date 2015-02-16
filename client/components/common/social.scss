@@ -39,3 +39,15 @@
 .icon-social-facebook-circled:before { content: '\e800'; } /* '' */
 .icon-social-gplus-circled:before { content: '\e802'; } /* '' */
 .icon-social-twitter-circled:before { content: '\e803'; } /* '' */
+
+
+/**
+ * Share this widget
+ */
+.social-share {
+  text-align: center;
+
+  span {
+    box-sizing: content-box;
+  }
+}
