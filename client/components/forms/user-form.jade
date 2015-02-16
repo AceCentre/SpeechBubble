@@ -23,7 +23,7 @@ form.form(name='form', ng-submit='save(form)', novalidate='')
   .form-group(ng-class='{ "has-success": form.confirmPassword.$valid && submitted,\
   "has-error": form.confirmPassword.$invalid && submitted }')
     label(for='confirmPassword') Confirm Password *
-    input.form-control(compare-to='user.password', , ng-require='requirePassword', type='password', id='confirmPassword', name='confirmPassword', ng-model='user.confirmPassword')
+    input.form-control(compare-to='user.password', ng-require='requirePassword', type='password', id='confirmPassword', name='confirmPassword', ng-model='user.confirmPassword')
     p.help-block(ng-show='(form.confirmPassword.$error.compareTo) && submitted')
       | Passwords do not match.
   
