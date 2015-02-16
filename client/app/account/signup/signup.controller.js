@@ -8,7 +8,7 @@ angular.module('speechBubbleApp')
     $scope.descriptions = ['professional', 'parent', 'aac user', 'other'];
     $scope.regions = ['UK', 'Europe', 'USA', 'Other'];
 
-    $scope.register = function(form) {
+    $scope.save = function(form) {
       $scope.submitted = true;
 
       if(form.$valid) {

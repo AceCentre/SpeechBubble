@@ -7,17 +7,22 @@ var jade = require('jade');
 
 // Get list of contacts
 exports.send = function(req, res) {
+  var firstName = req.body.firstName || '';
+  var lastName = req.body.lastName || '';
+  var email = req.body.email || '';
+  var message = req.body.body || '';
+
   mandrill_client.messages.send({
     message: {
       html: jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'), {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        message: req.body.body
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        message: message
       }),
       subject: 'Speech Bubble Contact Form',
-      from_email: req.body.email,
-      from_name: req.body.firstName + ' ' + req.body.lastName,
+      from_email: email,
+      from_name: firstName + ' ' + lastName,
       to: [{
         email: process.env.SUPPORT_EMAIL,
         name: 'Speech Bubble Admin',

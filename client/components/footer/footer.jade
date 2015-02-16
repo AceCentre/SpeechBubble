@@ -6,6 +6,12 @@ footer.footer
     ul.footer-list-links
       li(ng-repeat='item in menu')
         a(ng-href='{{item.link}}') {{item.title}}
+      
+    ul.footer-list-social 
+      li: a(href='http://www.facebook.com/ACECentre.uk', target='_blank')
+        span.icon-social-facebook-circled
+      li: a(href='http://twitter.com/ACEcentre', target='_blank')
+        span.icon-social-twitter-circled
         
     p.footer-copyright
       | Copyright &copy; 2015

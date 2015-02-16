@@ -4,6 +4,10 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
+var path = require('path');
+var jade = require('jade');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -29,6 +33,30 @@ exports.create = function (req, res, next) {
   newUser.role = 'user';
   newUser.save(function(err, user) {
     if (err) return validationError(res, err);
+
+    mandrill_client.messages.send({
+      message: {
+        html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
+          user: user
+        }),
+        subject: 'Welcome to Speech Bubble',
+        from_email: process.env.SUPPORT_EMAIL,
+        from_name: 'Speech Bubble',
+        to: [{
+          email: user.email,
+          name: user.firstName + ' ' + user.lastName,
+          type: 'to'
+        }],
+        auto_text: true
+      }
+    }, function(result) {
+      if(res.reject_reason) {
+        res.send(500, result.reject_reason);
+      } else {
+        res.send(200);
+      }
+    });
+
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
     res.json({ token: token });
   });
