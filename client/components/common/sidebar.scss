@@ -3,6 +3,10 @@
   padding-top: 20px;
   padding-bottom: 20px;
 
+  @media (max-width: $screen-xs-max) {
+      display: none;
+  }
+
   .donate {
     display: block;
     text-align: center;

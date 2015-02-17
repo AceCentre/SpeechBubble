@@ -1,8 +1,17 @@
+@import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_variables";
+@import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/mixins/_clearfix";
+
 .navbar-list-menu {
   float: left;
   list-style-type: none;
   margin: 0;
   padding: 0;
+  @include clearfix();
+
+  @media (max-width: $screen-xs-max) {
+    float: none;
+    display: block;
+  }
 
   .dropdown-menu {
     border-radius: 0;
@@ -86,6 +95,21 @@
 
     a.btn {
       min-width: 112px;
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    float: none;
+    display: block;
+
+    li {
+      width: 50%;
+      & + li {
+        margin-left: 0;
+      }
+      a.btn {
+        display: block;
+      }
     }
   }
 }
