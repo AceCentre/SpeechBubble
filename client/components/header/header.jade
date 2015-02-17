@@ -8,7 +8,7 @@ div.header
         div(ng-include='"components/navbar/navbar.html"')
           
         form.header-form-search
-          input.col-sm-9.header-search-input(type='text', placeholder='Search for products...')
+          input.header-search-input(type='text', placeholder='Search for products...')
           span.glyphicon.glyphicon-search
           button(type='submit') Search
-          a.col-sm-3(href='/search') view all products
+          a(href='/search') view all products

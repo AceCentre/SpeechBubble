@@ -6,6 +6,11 @@
   text-transform: uppercase;
   @include transition(background-color ease 300ms);
 
+  @media (max-width: $screen-xs-max) {
+      display: block;
+      width: 100%;
+  }
+
   &:hover, &:active, &:focus {
     outline: 0;
     text-decoration: none;

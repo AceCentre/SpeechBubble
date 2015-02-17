@@ -9,6 +9,11 @@
   bottom: 0;
   width: 100%;
 
+  @media (max-width: $screen-xs-max) {
+      position: relative;
+      margin-top: 60px;
+  }
+
   > .container {
     position: relative;
   }
@@ -22,6 +27,12 @@
   position: absolute;
   top: -68px;
   right: 20px;
+
+  @media (max-width: $screen-xs-max) {
+      right: auto;
+      left: 50%;
+      margin-left: -42px;
+  }
 }
 
 .footer-list-social,
@@ -53,6 +64,10 @@
   top: -10px;
   right: 20px;
 
+  @media (max-width: $screen-xs-max) {
+      display: none;
+  }
+
   li a {
     padding-right: 0;
   }
@@ -63,5 +78,5 @@
 }
 
 .footer-copyright {
-  font-size: .9em;
+  font-size: .8em;
 }
