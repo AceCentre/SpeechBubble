@@ -8,11 +8,6 @@
   padding: 0;
   @include clearfix();
 
-  @media (max-width: $screen-xs-max) {
-    float: none;
-    display: block;
-  }
-
   .dropdown-menu {
     border-radius: 0;
 
@@ -69,6 +64,17 @@
       }
     }
   }
+
+  @media (max-width: $screen-xs-max) {
+    float: none;
+    display: block;
+    text-align: center;
+
+    > li {
+      display: inline-block;
+      float: none;
+    }
+  }
 }
 
 .navbar-static-link {
@@ -101,9 +107,11 @@
   @media (max-width: $screen-xs-max) {
     float: none;
     display: block;
+    text-align: center;
 
     li {
       width: 50%;
+      display: inline-block;
       & + li {
         margin-left: 0;
       }
