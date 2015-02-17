@@ -101,6 +101,12 @@
 
     a.btn {
       min-width: 112px;
+
+      @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+        min-width: 0;
+        padding-left: 13px;
+        padding-right: 13px;
+      }
     }
   }
 
