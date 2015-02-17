@@ -2,6 +2,7 @@
 
 angular.module('speechBubbleApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
+    $scope.requirePassword = true;
     $scope.user = {};
     $scope.errors = {};
 

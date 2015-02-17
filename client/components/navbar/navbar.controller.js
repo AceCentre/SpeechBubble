@@ -17,8 +17,8 @@ angular.module('speechBubbleApp')
     }];
 
     $scope.accountMenu = [
-      { 'title': 'Account details', 'link': '/account/details' },
-      { 'title': 'Change password', 'link': '/account/change_password' }
+      { 'title': 'Account details', 'link': '/account/edit' },
+      { 'title': 'Change password', 'link': '/account/change-password' }
     ];
 
     $scope.adminMenu = [

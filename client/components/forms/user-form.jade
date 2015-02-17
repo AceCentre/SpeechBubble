@@ -11,21 +11,22 @@ form.form(name='form', ng-submit='save(form)', novalidate='')
     p.help-block(ng-show='form.email.$error.mongoose')
       | {{ errors.email }}
       
-  .form-group(ng-class='{ "has-success": form.password.$valid && submitted,\
-  "has-error": form.password.$invalid && submitted }')
-    label(for='password') Password *
-    input.form-control(type='password', id='password', name='password', ng-require='requirePassword', ng-model='user.password', ng-minlength='3', mongoose-error='')
-    p.help-block(ng-show='(form.password.$error.minlength || form.password.$error.required) && submitted')
-      | Password must be at least 3 characters.
-    p.help-block(ng-show='form.password.$error.mongoose')
-      | {{ errors.password }}
-      
-  .form-group(ng-class='{ "has-success": form.confirmPassword.$valid && submitted,\
-  "has-error": form.confirmPassword.$invalid && submitted }')
-    label(for='confirmPassword') Confirm Password *
-    input.form-control(compare-to='user.password', ng-require='requirePassword', type='password', id='confirmPassword', name='confirmPassword', ng-model='user.confirmPassword')
-    p.help-block(ng-show='(form.confirmPassword.$error.compareTo) && submitted')
-      | Passwords do not match.
+  if requirePassword
+    .form-group(ng-class='{ "has-success": form.password.$valid && submitted,\
+    "has-error": form.password.$invalid && submitted }')
+      label(for='password') Password *
+      input.form-control(type='password', id='password', name='password', ng-require='requirePassword', ng-model='user.password', ng-minlength='3', mongoose-error='')
+      p.help-block(ng-show='(form.password.$error.minlength || form.password.$error.required) && submitted')
+        | Password must be at least 3 characters.
+      p.help-block(ng-show='form.password.$error.mongoose')
+        | {{ errors.password }}
+        
+    .form-group(ng-class='{ "has-success": form.confirmPassword.$valid && submitted,\
+    "has-error": form.confirmPassword.$invalid && submitted }')
+      label(for='confirmPassword') Confirm Password *
+      input.form-control(compare-to='user.password', ng-require='requirePassword', type='password', id='confirmPassword', name='confirmPassword', ng-model='user.confirmPassword')
+      p.help-block(ng-show='(form.confirmPassword.$error.compareTo) && submitted')
+        | Passwords do not match.
   
   .form-group(ng-class='{ "has-success": form.firstName.$valid && submitted,\
   "has-error": form.firstName.$invalid && submitted }')
