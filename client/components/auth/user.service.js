@@ -24,6 +24,12 @@ angular.module('speechBubbleApp')
           id: 'updateRole'
         }
       },
+      updateSubscription: {
+        method: 'PUT',
+        params: {
+          id: 'updateSubscription'
+        }
+      },
       update: {
         method: 'PUT',
         params: {

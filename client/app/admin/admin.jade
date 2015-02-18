@@ -1,5 +1,16 @@
 extends ../../layout/2_column
 
+block sidebar
+  form(ng-submit='search()')
+    .form-group
+      label.control-label Search
+      input.form-control(ng-model='searchText')
+        
+    .form-group
+      a.pull-right.btn.btn-link(ng-click='cancel()') Clear
+      | 
+      button.btn.btn-primary(type='submit') Search
+
 block content
   .table-content
     table.table.table-striped
@@ -10,9 +21,10 @@ block content
           th Name
           th Role
           th Active
+          th Subscribe
           th Actions
       tbody
-        tr(ng-repeat='user in users')
+        tr(ng-repeat='user in users | filter:textToFilter ')
           td {{ user.email }}
           td {{ user.firstName }} {{ user.lastName }}
           td
@@ -20,4 +32,7 @@ block content
               option(value='', disabled, selected) Please select
               
           td: input(type='checkbox', ng-model='user.active', ng-change='updateStatus(user)')
+          td: input(type='checkbox', ng-model='user.subscribe', ng-change='updateSubscription(user)')
           td: a(href='#', ng-click='delete(user.email, user)') delete
+  
+  pagination.pagination-sm(total-items='totalItems', max-size='10', items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true')

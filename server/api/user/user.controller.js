@@ -134,6 +134,19 @@ exports.updateRole = function(req, res, next) {
 };
 
 /**
+ * Set user role
+ */
+exports.updateSubscription = function(req, res, next) {
+  User.findOne({ email: req.body.email },
+    function(err, user) {
+      user.subscribe = req.body.subscribe;
+      user.save(function() {
+        res.send(200);
+      });
+    });
+};
+
+/**
  * Get my info
  */
 exports.me = function(req, res, next) {

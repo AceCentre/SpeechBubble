@@ -4,6 +4,7 @@
   font-weight: bold;
   padding: 10px 20px;
   text-transform: uppercase;
+  text-shadow: none;
   @include transition(background-color ease 300ms);
 
   @media (max-width: $screen-xs-max) {
@@ -14,6 +15,14 @@
   &:hover, &:active, &:focus {
     outline: 0;
     text-decoration: none;
+  }
+}
+
+.btn-link {
+  color: $secondaryColor;
+
+  &:hover {
+    color: $primaryColor;
   }
 }
 
