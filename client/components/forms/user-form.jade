@@ -11,19 +11,19 @@ form.form(name='form', ng-submit='save(form)', novalidate='')
     p.help-block(ng-show='form.email.$error.mongoose')
       | {{ errors.email }}
       
-  .form-group(ng-class='{ "has-success": form.password.$valid && submitted,\
+  .form-group(ng-if='requirePassword', ng-class='{ "has-success": form.password.$valid && submitted,\
   "has-error": form.password.$invalid && submitted }')
     label(for='password') Password *
-    input.form-control(type='password', id='password', name='password', ng-require='requirePassword', ng-model='user.password', ng-minlength='3', mongoose-error='')
+    input.form-control(type='password', id='password', name='password', ng-model='user.password', ng-minlength='3', mongoose-error='', required='')
     p.help-block(ng-show='(form.password.$error.minlength || form.password.$error.required) && submitted')
       | Password must be at least 3 characters.
     p.help-block(ng-show='form.password.$error.mongoose')
       | {{ errors.password }}
       
-  .form-group(ng-class='{ "has-success": form.confirmPassword.$valid && submitted,\
+  .form-group(ng-if='requirePassword', ng-class='{ "has-success": form.confirmPassword.$valid && submitted,\
   "has-error": form.confirmPassword.$invalid && submitted }')
     label(for='confirmPassword') Confirm Password *
-    input.form-control(compare-to='user.password', ng-require='requirePassword', type='password', id='confirmPassword', name='confirmPassword', ng-model='user.confirmPassword')
+    input.form-control(compare-to='user.password', type='password', id='confirmPassword', name='confirmPassword', ng-model='user.confirmPassword', required='')
     p.help-block(ng-show='(form.confirmPassword.$error.compareTo) && submitted')
       | Passwords do not match.
   
@@ -42,13 +42,19 @@ form.form(name='form', ng-submit='save(form)', novalidate='')
     label(for='description') Description
     select.form-control(id='description', name='description', ng-model='user.description')
       option(value='', disabled, selected) Please select
-      option(ng-repeat='item in descriptions', value='{{ item }}') {{ item }}
+      option(value='professional') Professional
+      option(value='parent') Parent
+      option(value='aac user') AAC user
+      option(value='other') Other
       
   .form-group
     label(for='region') Region
     select.form-control(id='region', name='region', ng-model='user.region')
       option(value='', disabled, selected) Please select
-      option(ng-repeat='item in regions', value='{{ item }}') {{ item }}
+      option(value='UK') UK
+      option(value='Europe') Europe
+      option(value='USA') USA
+      option(value='other') Other
       
   .checkbox
     label

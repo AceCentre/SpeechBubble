@@ -33,17 +33,6 @@
       <div ng-include='"components/footer/footer.html"'></div>
     </div>
 
-    <!-- Google Analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-4785216-2');
-      ga('send', 'pageview');
-    </script>
-
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
@@ -61,30 +50,43 @@
       <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,client}) app/app.js -->
-        <script src="app/app.js"></script>
-          <!-- injector:js -->
-          <script src="app/account/account.js"></script>
-          <script src="app/account/login/login.controller.js"></script>
-          <script src="app/account/settings/settings.controller.js"></script>
-          <script src="app/account/signup/signup.controller.js"></script>
-          <script src="app/account/signup/signup.directives.js"></script>
-          <script src="app/admin/admin.controller.js"></script>
-          <script src="app/admin/admin.js"></script>
-          <script src="app/contact/contact.controller.js"></script>
-          <script src="app/contact/contact.js"></script>
-          <script src="app/main/main.controller.js"></script>
-          <script src="app/main/main.js"></script>
-          <script src="components/auth/auth.service.js"></script>
-          <script src="components/auth/user.service.js"></script>
-          <script src="components/footer/footer.controller.js"></script>
-          <script src="components/modal/modal.service.js"></script>
-          <script src="components/mongoose-error/mongoose-error.directive.js"></script>
-          <script src="components/navbar/navbar.controller.js"></script>
-          <!-- endinjector -->
-        <!-- endbuild -->
+    <!-- build:js({.tmp,client}) app/app.js -->
+    <script src="app/app.js"></script>
+      <!-- injector:js -->
+      <script src="app/account/account.js"></script>
+      <script src="app/account/edit/edit.controller.js"></script>
+      <script src="app/account/login/login.controller.js"></script>
+      <script src="app/account/settings/settings.controller.js"></script>
+      <script src="app/account/signup/signup.controller.js"></script>
+      <script src="app/account/signup/signup.directives.js"></script>
+      <script src="app/admin/admin.controller.js"></script>
+      <script src="app/admin/admin.js"></script>
+      <script src="app/contact/contact.controller.js"></script>
+      <script src="app/contact/contact.js"></script>
+      <script src="app/main/main.controller.js"></script>
+      <script src="app/main/main.js"></script>
+      <script src="components/auth/auth.service.js"></script>
+      <script src="components/auth/user.service.js"></script>
+      <script src="components/footer/footer.controller.js"></script>
+      <script src="components/modal/modal.service.js"></script>
+      <script src="components/mongoose-error/mongoose-error.directive.js"></script>
+      <script src="components/navbar/navbar.controller.js"></script>
+      <!-- endinjector -->
+    <!-- endbuild -->
 
-        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-4785216-2');
+      ga('send', 'pageview');
+    </script>
+
+    <!-- Share This Widget -->
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">stLight.options({publisher: "1a33a405-810e-46c1-94ea-0da41500c34e", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 </body>
 </html>

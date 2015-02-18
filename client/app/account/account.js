@@ -14,9 +14,14 @@ angular.module('speechBubbleApp')
         controller: 'SignupCtrl'
       })
       .state('settings', {
-        url: '/settings',
+        url: '/account/change-password',
         templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsCtrl',
         authenticate: true
+      })
+      .state('edit', {
+        url: '/account/edit',
+        templateUrl: 'app/account/edit/edit.html',
+        controller: 'EditCtrl'
       });
   });

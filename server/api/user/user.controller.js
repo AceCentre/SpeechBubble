@@ -108,6 +108,32 @@ exports.changePassword = function(req, res, next) {
 };
 
 /**
+ * Activate/De-activate user
+ */
+exports.updateStatus = function(req, res, next) {
+  User.findOne({ email: req.body.email },
+    function(err, user) {
+      user.active = req.body.active;
+      user.save(function() {
+        res.send(200);
+      });
+    });
+};
+
+/**
+ * Set user role
+ */
+exports.updateRole = function(req, res, next) {
+  User.findOne({ email: req.body.email },
+    function(err, user) {
+      user.role = req.body.role;
+      user.save(function() {
+        res.send(200);
+      });
+    });
+};
+
+/**
  * Get my info
  */
 exports.me = function(req, res, next) {
@@ -118,6 +144,28 @@ exports.me = function(req, res, next) {
     if (err) return next(err);
     if (!user) return res.json(401);
     res.json(user);
+  });
+};
+
+/**
+ * Get my info
+ */
+exports.update = function(req, res, next) {
+  var userId = req.user._id;
+  delete req.body.role;
+
+  User.findById(userId, function (err, user) {
+    user.email = req.body.email;
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.description = req.body.description;
+    user.region = req.body.region;
+    user.subscribe = req.body.subscribe;
+
+    user.save(function(err) {
+      if (err) return validationError(res, err);
+      res.send(200);
+    });
   });
 };
 
