@@ -10,6 +10,7 @@ block content
           th Name
           th Role
           th Active
+          th Actions
       tbody
         tr(ng-repeat='user in users')
           td {{ user.email }}
@@ -19,3 +20,4 @@ block content
               option(value='', disabled, selected) Please select
               
           td: input(type='checkbox', ng-model='user.active', ng-change='updateStatus(user)')
+          td: a(href='#', ng-click='delete(user.email, user)') delete
