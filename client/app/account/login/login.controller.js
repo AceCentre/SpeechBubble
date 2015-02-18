@@ -17,7 +17,7 @@ angular.module('speechBubbleApp')
           // Logged in, redirect to home
           $location.path('/');
         })
-        .catch( function(err) {
+        ['catch']( function(err) {
           $scope.errors.other = err.message;
         });
       }

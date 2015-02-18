@@ -33,7 +33,7 @@ angular.module('speechBubbleApp')
          * @param  {Function} del - callback, ran when delete is confirmed
          * @return {Function}     - the function to open the modal (ex. myModalFn)
          */
-        delete: function(del) {
+        'delete': function(del) {
           del = del || angular.noop;
 
           /**

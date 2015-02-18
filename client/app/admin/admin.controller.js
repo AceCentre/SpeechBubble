@@ -7,7 +7,7 @@ angular.module('speechBubbleApp')
     $scope.users = User.query();
     $scope.roles = ['admin', 'user'];
 
-    $scope.delete = function(user) {
+    $scope['delete'] = function(user) {
       User.remove({ id: user._id });
       angular.forEach($scope.users, function(u, i) {
         if (u === user) {

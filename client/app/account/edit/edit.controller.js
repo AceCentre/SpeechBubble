@@ -16,7 +16,7 @@ angular.module('speechBubbleApp')
         .then(function() {
           $location.path('/account');
         })
-        .catch( function(err) {
+        ['catch']( function(err) {
           err = err.data;
           $scope.errors = {};
 

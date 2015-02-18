@@ -26,7 +26,7 @@ angular.module('speechBubbleApp')
           // Account created, redirect to home
           $location.path('/');
         })
-        .catch( function(err) {
+        ['catch']( function(err) {
           err = err.data;
           $scope.errors = {};
 
