@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
-    $scope.requirePassword = true;
+  .controller('EditCtrl', function ($scope, User, $location) {
+    $scope.requirePassword = false;
     $scope.user = {};
-    $scope.errors = {};
 
     $scope.descriptions = ['professional', 'parent', 'aac user', 'other'];
     $scope.regions = ['UK', 'Europe', 'USA', 'Other'];
@@ -13,18 +12,9 @@ angular.module('speechBubbleApp')
       $scope.submitted = true;
 
       if(form.$valid) {
-        Auth.createUser({
-          firstName: $scope.user.firstName,
-          lastName: $scope.user.lastName,
-          description: $scope.user.description,
-          subscribe: $scope.user.subscribe,
-          region: $scope.user.region,
-          email: $scope.user.email,
-          password: $scope.user.password
-        })
-        .then( function() {
-          // Account created, redirect to home
-          $location.path('/');
+        User.update($scope.user).$promise
+        .then(function() {
+          $location.path('/account');
         })
         ['catch']( function(err) {
           err = err.data;
@@ -39,7 +29,12 @@ angular.module('speechBubbleApp')
       }
     };
 
-    $scope.loginOauth = function(provider) {
-      $window.location.href = '/auth/' + provider;
-    };
+    User.get(function(user) {
+      $scope.user.email = user.email;
+      $scope.user.firstName = user.firstName;
+      $scope.user.lastName = user.lastName;
+      $scope.user.description = user.description;
+      $scope.user.region = user.region;
+      $scope.user.subscribe = user.subscribe;
+    });
   });

@@ -117,7 +117,7 @@ angular.module('speechBubbleApp')
         if(currentUser.hasOwnProperty('$promise')) {
           currentUser.$promise.then(function() {
             cb(true);
-          }).catch(function() {
+          })['catch'](function() {
             cb(false);
           });
         } else if(currentUser.hasOwnProperty('role')) {

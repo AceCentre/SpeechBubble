@@ -33,7 +33,7 @@ angular.module('speechBubbleApp')
          * @param  {Function} del - callback, ran when delete is confirmed
          * @return {Function}     - the function to open the modal (ex. myModalFn)
          */
-        delete: function(del) {
+        'delete': function(del) {
           del = del || angular.noop;
 
           /**
@@ -52,13 +52,13 @@ angular.module('speechBubbleApp')
                 title: 'Confirm Delete',
                 html: '<p>Are you sure you want to delete <strong>' + name + '</strong> ?</p>',
                 buttons: [{
-                  classes: 'btn-danger',
+                  classes: 'btn-primary',
                   text: 'Delete',
                   click: function(e) {
                     deleteModal.close(e);
                   }
                 }, {
-                  classes: 'btn-default',
+                  classes: 'btn-tertiary',
                   text: 'Cancel',
                   click: function(e) {
                     deleteModal.dismiss(e);

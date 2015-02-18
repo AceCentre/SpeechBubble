@@ -6,6 +6,8 @@
 'use strict';
 
 var User = require('../api/user/user.model');
+var chance = require('chance').Chance();
+var _ = require('lodash');
 
 User.find({}).remove(function() {
   User.create({
@@ -23,4 +25,14 @@ User.find({}).remove(function() {
       console.log('finished populating users');
     }
   );
+
+  _.times(200, function() {
+      User.create({
+        provider: 'local',
+        firstName: chance.first(),
+        lastName: chance.last(),
+        email: chance.email(),
+        password: chance.word()
+      });
+  });
 });
