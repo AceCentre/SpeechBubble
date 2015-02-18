@@ -16,12 +16,7 @@ angular.module('speechBubbleApp')
       });
     });
 
-    $scope.updateStatus = function(user) {
-      User.updateStatus(user);
-    };
-
-    $scope.updateRole = function(user) {
-      User.updateRole(user);
-    };
+    $scope.updateStatus = User.updateStatus;
+    $scope.updateRole = User.updateRole;
 
   });
