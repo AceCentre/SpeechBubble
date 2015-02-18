@@ -21,7 +21,7 @@ angular.module('speechBubbleApp')
       $scope.textToFilter = $scope.searchText = '';
     };
 
-    $scope['delete'] = Modal.confirm.delete(function(user) { // callback when modal is confirmed
+    $scope['delete'] = Modal.confirm['delete'](function(user) { // callback when modal is confirmed
       User.remove({ id: user._id });
       angular.forEach($scope.users, function(u, i) {
         if (u === user) {
