@@ -14,6 +14,7 @@ router.put('/me', auth.isAuthenticated(), controller.update);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/updateStatus', auth.hasRole('admin'), controller.updateStatus);
 router.put('/updateRole', auth.hasRole('admin'), controller.updateRole);
+router.put('/updateSubscription', auth.hasRole('admin'), controller.updateSubscription);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 
