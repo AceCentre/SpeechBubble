@@ -12,6 +12,24 @@ angular.module('speechBubbleApp')
           controller:'password'
         }
       },
+      updateStatus: {
+        method: 'PUT',
+        params: {
+          id: 'updateStatus'
+        }
+      },
+      updateRole: {
+        method: 'PUT',
+        params: {
+          id: 'updateRole'
+        }
+      },
+      update: {
+        method: 'PUT',
+        params: {
+          id:'me'
+        }
+      },
       get: {
         method: 'GET',
         params: {

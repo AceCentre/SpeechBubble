@@ -5,6 +5,7 @@ angular.module('speechBubbleApp')
 
     // Use the User $resource to fetch all users
     $scope.users = User.query();
+    $scope.roles = ['admin', 'user'];
 
     $scope.delete = function(user) {
       User.remove({ id: user._id });
@@ -14,4 +15,13 @@ angular.module('speechBubbleApp')
         }
       });
     };
+
+    $scope.updateStatus = function(user) {
+      User.updateStatus(user);
+    };
+
+    $scope.updateRole = function(user) {
+      User.updateRole(user);
+    };
+
   });

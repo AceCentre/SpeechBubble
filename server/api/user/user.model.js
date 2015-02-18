@@ -16,7 +16,7 @@ var UserSchema = new Schema({
   },
   region: {
     type: String,
-    enum: ['', 'UK', 'Europe', 'USA', 'Other']
+    enum: ['', 'UK', 'Europe', 'USA', 'other']
   },
   email: { type: String, lowercase: true },
   subscribe: {
@@ -26,6 +26,10 @@ var UserSchema = new Schema({
   role: {
     type: String,
     default: 'user'
+  },
+  active: {
+    type: Boolean,
+    default: true
   },
   hashedPassword: String,
   provider: String,

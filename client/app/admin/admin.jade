@@ -1,12 +1,21 @@
 extends ../../layout/2_column
 
 block content
-    p
-      | The delete user and user index api routes are restricted to users with the 'admin' role.
-    ul.list-group
-      li.list-group-item(ng-repeat='user in users')
-        strong {{user.name}}
-        br
-        span.text-muted {{user.email}}
-        a.trash(ng-click='delete(user)')
-          span.glyphicon.glyphicon-trash.pull-right
+  .table-content
+    table.table.table-striped
+      caption Users
+      thead
+        tr
+          th Email
+          th Name
+          th Role
+          th Active
+      tbody
+        tr(ng-repeat='user in users')
+          td {{ user.email }}
+          td {{ user.firstName }} {{ user.lastName }}
+          td
+            select(ng-model='user.role', ng-options='role as role for role in roles', ng-change='updateRole(user)')
+              option(value='', disabled, selected) Please select
+              
+          td: input(type='checkbox', ng-model='user.active', ng-change='updateStatus(user)')
