@@ -24,7 +24,7 @@ block content
           th Subscribe
           th Actions
       tbody
-        tr(ng-repeat='user in users | filter:textToFilter ')
+        tr(ng-repeat='user in users | filter:textToFilter | from:((currentPage - 1) * itemsPerPage) | limitTo: itemsPerPage')
           td {{ user.email }}
           td {{ user.firstName }} {{ user.lastName }}
           td
@@ -35,4 +35,5 @@ block content
           td: input(type='checkbox', ng-model='user.subscribe', ng-change='updateSubscription(user)')
           td: a(href='#', ng-click='delete(user.email, user)') delete
   
-  pagination.pagination-sm(total-items='totalItems', max-size='10', items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true')
+  .text-center
+    pagination.pagination-sm(total-items='totalItems', max-size='10', items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true')
