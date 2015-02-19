@@ -215,6 +215,7 @@ exports.activate = function(req, res, next) {
   }, function(err, user) {
     if (err) return next(err);
     if (!user) return res.send(400);
+    user.active = true;
     res.send(200);
   });
 }

@@ -29,13 +29,18 @@ var UserSchema = new Schema({
   },
   active: {
     type: Boolean,
-    default: true
+    default: false
   },
   activationCode: {
     type: String,
     default: function() {
       return uuid.v4()
     }
+  },
+  // site privacy/cookie policy
+  accept: {
+    type: Boolean,
+    default: false
   },
   hashedPassword: String,
   provider: String,
