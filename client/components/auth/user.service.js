@@ -41,6 +41,12 @@ angular.module('speechBubbleApp')
         params: {
           id:'me'
         }
+      },
+      activate: {
+        method: 'GET',
+        params: {
+          id: 'activate'
+        }
       }
 	  });
   });

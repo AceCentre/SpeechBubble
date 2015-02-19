@@ -22,13 +22,15 @@ angular.module('speechBubbleApp')
           region: $scope.user.region,
           email: $scope.user.email,
           password: $scope.user.password,
-          captcha: $scope.user.captcha
+          captcha: $scope.user.captcha,
+          accept: $scope.user.accept
         })
         .then( function() {
           // Account created, redirect to home
           $location.path('/');
         })
         ['catch']( function(err) {
+          grecaptcha.reset();
           err = err.data;
           $scope.errors = {};
 

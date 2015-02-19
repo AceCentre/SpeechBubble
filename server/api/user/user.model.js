@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 var authTypes = ['twitter', 'facebook', 'google'];
 var MailChimpAPI = require('mailchimp').MailChimpAPI;
-var apiKey = '';
+var uuid = require('node-uuid');
 
 var UserSchema = new Schema({
   firstName: { type: String, required: true },
@@ -29,7 +29,18 @@ var UserSchema = new Schema({
   },
   active: {
     type: Boolean,
-    default: true
+    default: false
+  },
+  activationCode: {
+    type: String,
+    default: function() {
+      return uuid.v4()
+    }
+  },
+  // site privacy/cookie policy
+  accept: {
+    type: Boolean,
+    default: false
   },
   hashedPassword: String,
   provider: String,
