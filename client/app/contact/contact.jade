@@ -38,10 +38,14 @@ block content
           p.help-block(ng-show='form.messageBody.$error.required && submitted')
             | A message is required
 
-        .form-group.has-error
-          p.help-block(ng-show='form.email.$error.required && form.password.$error.required && submitted')
-            | Please enter your email and password.
-          p.help-block {{ errors.other }}
+        .form-group(ng-class='{ "has-success": form.captcha.$valid && submitted,\
+        "has-error": form.captcha.$invalid && submitted }')
+          div.g-recaptcha(data-sitekey='6LdNWgITAAAAAK3XKid8mCCuG5h-qOaVw4kwMPdr')
+          input.hide(id='captcha', name='captcha', ng-model='message.captcha', required='')
+          p.help-block(ng-show='form.captcha.$error.required && submitted')
+            | Please validate you are not a robot.          
 
         button.btn.btn-primary(type='submit') Send message
     
+  script(src='https://www.google.com/recaptcha/api.js')
+      

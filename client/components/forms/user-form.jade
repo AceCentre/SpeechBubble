@@ -60,9 +60,19 @@ form.form(name='form', ng-submit='save(form)', novalidate='')
     label
       input(type='checkbox', ng-model='user.subscribe')
       | I would like to join the Speech Bubble mailing list
+      
+      
+  .form-group(ng-if='requirePassword', ng-class='{ "has-success": form.captcha.$valid && submitted,\
+  "has-error": form.captcha.$invalid && submitted }')
+    div.g-recaptcha(data-sitekey='6LdNWgITAAAAAK3XKid8mCCuG5h-qOaVw4kwMPdr')
+    input.hide(id='captcha', name='captcha', ng-model='user.captcha', required='', mongoose-error='')
+    p.help-block(ng-show='form.captcha.$error.required && submitted')
+      | Please validate you are not a robot.
 
   button.btn.btn-secondary(type='submit') Submit
   
   br
   br
   small * Required fields
+  
+  script(src='https://www.google.com/recaptcha/api.js')
