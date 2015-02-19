@@ -56,13 +56,35 @@ form.form(name='form', ng-submit='save(form)', novalidate='')
       option(value='USA') USA
       option(value='other') Other
       
+      
+  .form-group(ng-if='requirePassword', ng-class='{ "has-success": form.captcha.$valid && submitted,\
+  "has-error": form.captcha.$invalid && submitted }')
+    div.g-recaptcha(data-sitekey='6LdNWgITAAAAAK3XKid8mCCuG5h-qOaVw4kwMPdr')
+    input.hide(id='captcha', name='captcha', ng-model='user.captcha', required='', mongoose-error='')
+    p.help-block(ng-show='form.captcha.$error.required && submitted')
+      | Please validate you are not a robot.
+      
   .checkbox
     label
       input(type='checkbox', ng-model='user.subscribe')
       | I would like to join the Speech Bubble mailing list
+      
+  .checkbox(ng-if='requirePassword', ng-class='{ "has-success": form.accept.$valid && submitted,\
+  "has-error": form.accept.$invalid && submitted }')
+    label
+      input(id='accept', name='accept', type='checkbox', ng-model='user.accept', required='')
+      | I have read and accept the site 
+      a(href='/privacy/', target='_blank') privacy policy
+      |.
+      
+    p.help-block(ng-show='form.accept.$error.required && submitted')
+      | You must accept the privacy policy to continue.
+  
 
-  button.btn.btn-secondary(type='submit') Submit
+  button.btn.btn-primary(type='submit') Submit
   
   br
   br
   small * Required fields
+  
+  script(src='https://www.google.com/recaptcha/api.js')

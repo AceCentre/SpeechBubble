@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp', [
+  'ngAria',
   'ngCookies',
   'ngResource',
   'ngSanitize',

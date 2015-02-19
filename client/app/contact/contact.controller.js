@@ -14,6 +14,8 @@ angular.module('speechBubbleApp')
 
     $scope.send = function(form) {
       $scope.submitted = true;
+      $scope.message.captcha = grecaptcha.getResponse();
+
       if(form.$valid) {
         $http.post('/api/contact', $scope.message)
         .success(function() {
@@ -23,6 +25,6 @@ angular.module('speechBubbleApp')
           $location.path('/contact/failure');
         });
       }
-    }
+    };
 
   });

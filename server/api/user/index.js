@@ -16,6 +16,7 @@ router.put('/updateStatus', auth.hasRole('admin'), controller.updateStatus);
 router.put('/updateRole', auth.hasRole('admin'), controller.updateRole);
 router.put('/updateSubscription', auth.hasRole('admin'), controller.updateSubscription);
 router.get('/:id', auth.isAuthenticated(), controller.show);
+router.get('/activate/:id', controller.activate);
 router.post('/', controller.create);
 
 module.exports = router;

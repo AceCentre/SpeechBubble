@@ -1,8 +1,8 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="speechBubbleApp"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org"id="ng-app" ng-app="speechBubbleApp"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org"id="ng-app" ng-app="speechBubbleApp"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" xmlns:ng="http://angularjs.org"id="ng-app" ng-app="speechBubbleApp"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,8 +20,21 @@
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
+
+    <!--[if lte IE 8]>
+      <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+      </script>
+    <![endif]-->
   </head>
-  <body id="ng-app" ng-app="speechBubbleApp">
+  <body>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -32,15 +45,17 @@
       <div ui-view=""></div>
       <div ng-include='"components/footer/footer.html"'></div>
     </div>
+
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/es5-shim/es5-sham.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <script src="bower_components/respond/dest/respond.min.js"></script>
     <![endif]-->
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
-      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angularjs-ie8-build/dist/angular.js"></script>
       <script src="bower_components/angular-resource/angular-resource.js"></script>
       <script src="bower_components/angular-cookies/angular-cookies.js"></script>
       <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -48,6 +63,7 @@
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/respond/dest/respond.src.js"></script>
+      <script src="bower_components/angular-aria/angular-aria.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -55,6 +71,7 @@
     <script src="app/app.js"></script>
       <!-- injector:js -->
       <script src="app/account/account.js"></script>
+      <script src="app/account/activate/activate.controller.js"></script>
       <script src="app/account/edit/edit.controller.js"></script>
       <script src="app/account/login/login.controller.js"></script>
       <script src="app/account/settings/settings.controller.js"></script>

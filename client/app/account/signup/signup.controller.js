@@ -11,6 +11,7 @@ angular.module('speechBubbleApp')
 
     $scope.save = function(form) {
       $scope.submitted = true;
+      $scope.user.captcha = grecaptcha.getResponse();
 
       if(form.$valid) {
         Auth.createUser({
@@ -20,13 +21,16 @@ angular.module('speechBubbleApp')
           subscribe: $scope.user.subscribe,
           region: $scope.user.region,
           email: $scope.user.email,
-          password: $scope.user.password
+          password: $scope.user.password,
+          captcha: $scope.user.captcha,
+          accept: $scope.user.accept
         })
         .then( function() {
           // Account created, redirect to home
           $location.path('/');
         })
         ['catch']( function(err) {
+          grecaptcha.reset();
           err = err.data;
           $scope.errors = {};
 
@@ -35,6 +39,7 @@ angular.module('speechBubbleApp')
             form[field].$setValidity('mongoose', false);
             $scope.errors[field] = error.message;
           });
+
         });
       }
     };
