@@ -30,6 +30,7 @@ angular.module('speechBubbleApp')
           $location.path('/');
         })
         ['catch']( function(err) {
+          grecaptcha.reset();
           err = err.data;
           $scope.errors = {};
 
