@@ -23,5 +23,10 @@ angular.module('speechBubbleApp')
         url: '/account/edit',
         templateUrl: 'app/account/edit/edit.html',
         controller: 'EditCtrl'
+      })
+      .state('activate', {
+        url: '/account/activate/:id',
+        templateUrl: 'app/account/activate/activate.html',
+        controller: 'ActivateCtrl'
       });
   });

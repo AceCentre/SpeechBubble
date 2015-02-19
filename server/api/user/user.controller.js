@@ -48,7 +48,8 @@ exports.create = function (req, res, next) {
           mandrill_client.messages.send({
             message: {
               html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
-                user: user
+                user: user,
+                activationUrl: process.env.DOMAIN + '/account/activate/' + user.activationCode
               }),
               subject: 'Welcome to Speech Bubble',
               from_email: process.env.SUPPORT_EMAIL,
@@ -204,3 +205,16 @@ exports.update = function(req, res, next) {
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
 };
+
+/**
+ * Email verification
+ */
+exports.activate = function(req, res, next) {
+  User.findOne({
+    activationCode: req.params.id
+  }, function(err, user) {
+    if (err) return next(err);
+    if (!user) return res.send(400);
+    res.send(200);
+  });
+}
