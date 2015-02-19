@@ -8,6 +8,7 @@ var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
 var path = require('path');
 var jade = require('jade');
+var request = require('request');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -28,38 +29,53 @@ exports.index = function(req, res) {
  * Creates a new user
  */
 exports.create = function (req, res, next) {
+  var userIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
-  newUser.save(function(err, user) {
-    if (err) return validationError(res, err);
 
-    mandrill_client.messages.send({
-      message: {
-        html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
-          user: user
-        }),
-        subject: 'Welcome to Speech Bubble',
-        from_email: process.env.SUPPORT_EMAIL,
-        from_name: 'Speech Bubble',
-        to: [{
-          email: user.email,
-          name: user.firstName + ' ' + user.lastName,
-          type: 'to'
-        }],
-        auto_text: true
-      }
-    }, function(result) {
-      if(res.reject_reason) {
-        res.send(500, result.reject_reason);
+  var captchaUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' + process.env.CAPTCHA_API_KEY + '&response=' + req.body.captcha + '&remoteip=' + userIp;
+
+  request({ url: captchaUrl, json: true }, function(captchaErr, captchaRes, captchaBody) {
+
+      if(captchaBody.success) {
+        newUser.save(function(err, user) {
+          if (err) return validationError(res, err);
+
+          var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
+          res.json({ token: token });
+
+          mandrill_client.messages.send({
+            message: {
+              html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
+                user: user
+              }),
+              subject: 'Welcome to Speech Bubble',
+              from_email: process.env.SUPPORT_EMAIL,
+              from_name: 'Speech Bubble',
+              to: [{
+                email: user.email,
+                name: user.firstName + ' ' + user.lastName,
+                type: 'to'
+              }],
+              auto_text: true
+            }
+          }, function(result) {
+            if(result.reject_reason) {
+              res.send(400, result.reject_reason);
+            } else {
+              res.send(200);
+            }
+          });
+
+        });
       } else {
-        res.send(200);
+        return res.send(400);
       }
-    });
 
-    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
-  });
+    }
+  );
+
 };
 
 /**
