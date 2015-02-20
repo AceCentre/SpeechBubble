@@ -1,14 +1,18 @@
+.main-content form {
+  margin-top: 30px;
+}
+
+select {
+    border-radius: 0;
+}
+
 .form-control {
+  border-radius: 0;
   &:active, &:focus {
     outline: 0;
     box-shadow: inset 0 0 5px rgba(0,0,0,.2);
     border: 1px solid darken($backgroundColor, 20%);
   }
-}
-
-.g-recaptcha {
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 .checkbox a {
