@@ -1,24 +1,27 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminCtrl', function ($scope, $http, Auth, User, Modal) {
+  .controller('AdminCtrl', function ($scope, $http, Auth, User, Modal, filterFilter) {
 
     // Use the User $resource to fetch all users
     $scope.users = User.query();
+    $scope.filteredUsers = $scope.users;
     $scope.roles = ['admin', 'user'];
     $scope.itemsPerPage = 10;
     $scope.totalItems = 0;
     $scope.currentPage = 1;
 
     $scope.searchText = ''; // text in search input
-    $scope.textToFilter = '' // text to filter results by
 
     $scope.search = function() {
-      $scope.textToFilter = $scope.searchText;
+      $scope.currentPage = 1;
+      $scope.filteredUsers = filterFilter($scope.users, $scope.searchText);
+      $scope.totalItems = $scope.filteredUsers.length;
     };
 
     $scope.cancel = function() {
-      $scope.textToFilter = $scope.searchText = '';
+      $scope.searchText = '';
+      $scope.search();
     };
 
     $scope['delete'] = Modal.confirm['delete'](function(user) { // callback when modal is confirmed

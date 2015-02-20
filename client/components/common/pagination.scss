@@ -1,0 +1,24 @@
+.pagination > .active > a {
+  background: $secondaryColor;
+  border-color: $secondaryColor;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: lighten($secondaryColor, 15%);
+    border-color: lighten($secondaryColor, 15%);
+    outline: none;
+  }
+}
+
+.pagination > li > a,
+ {
+  color: $secondaryColor;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $secondaryColor;
+    outline: none;
+  }
+}

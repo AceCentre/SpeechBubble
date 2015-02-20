@@ -24,7 +24,7 @@ block content
           th Subscribe
           th Actions
       tbody
-        tr(ng-repeat='user in users | filter:textToFilter | from:((currentPage - 1) * itemsPerPage) | limitTo: itemsPerPage')
+        tr(ng-repeat='user in filteredUsers | from:((currentPage - 1) * itemsPerPage) | limitTo: itemsPerPage')
           td {{ user.email }}
           td {{ user.firstName }} {{ user.lastName }}
           td
