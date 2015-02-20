@@ -1,6 +1,10 @@
 table {
   margin-bottom: 0;
 
+  a {
+    color: $primaryColor;
+  }
+
   > thead {
     > tr {
       > th,
