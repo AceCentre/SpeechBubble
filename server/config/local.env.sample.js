@@ -25,6 +25,8 @@ module.exports = {
 
   SUPPORT_EMAIL: 'example@example.com',
 
+  CAPTCHA_API_KEY: 'api-key',
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };
