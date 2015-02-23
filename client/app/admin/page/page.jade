@@ -1,0 +1,31 @@
+extends ../../../layout/2_column
+
+block content
+  
+  h1 Page Administration
+  
+  p
+    | The page administration routes are restricted to users with the 'admin' role.
+    
+  button(ng-click='modal()') New page
+    
+  table.table.table-striped(ng-show="pages.length")
+    thead
+      tr
+        th Title
+        th Slug
+        th Active
+        th Comments
+        th Registration
+        th Actions
+    tbody
+      tr(ng-repeat='page in pages')
+        td {{ page.title }}
+        td {{ page.slug }}
+        td {{ page.isActive }}
+        td 
+          span.glyphicon(ng-class='page.enableComments ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
+        td 
+          span.glyphicon(ng-class='page.registrationRequired ? "glyphicon-ok-circle": "glyphicon-remove-circle"') 
+        td
+          a(ng-click='delete(page.slug, page)') Delete

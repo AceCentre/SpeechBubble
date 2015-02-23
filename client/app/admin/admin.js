@@ -7,5 +7,10 @@ angular.module('speechBubbleApp')
         url: '/admin/users',
         templateUrl: 'app/admin/admin.html',
         controller: 'AdminCtrl'
+      })
+      .state('pages', {
+        url: '/admin/pages',
+        templateUrl: 'app/admin/page/page.html',
+        controller: 'AdminPageCtrl'
       });
   });
