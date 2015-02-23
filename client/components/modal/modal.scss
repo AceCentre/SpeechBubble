@@ -1,3 +1,20 @@
+.modal-header {
+  background-color: $secondaryColor;
+
+  h3 {
+    color: #fff;
+  }
+
+  .close {
+    color: #fff;
+    @include opacity(1);
+
+    &:hover, &:active, &:focus {
+      @include opacity(.8);
+    }
+  }
+}
+
 .modal-primary,
 .modal-info,
 .modal-success,

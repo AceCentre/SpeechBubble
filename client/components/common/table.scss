@@ -14,6 +14,15 @@ table {
       }
     }
   }
+
+  .glyphicon-ok-circle {
+    color: #419641;
+  }
+
+  .glyphicon-remove-circle {
+    color: #d9534f;
+  }
+
 }
 
 .table-wrapper {
@@ -33,8 +42,12 @@ caption {
  */
 td.actions {
 
-  a:hover, a:focus, a:active {
+  a {
     color: $secondaryColor;
+  }
+
+  a:hover, a:focus, a:active {
+    color: $primaryColor;
   }
 
   a + a {
