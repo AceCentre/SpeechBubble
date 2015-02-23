@@ -32,15 +32,21 @@ angular.module('speechBubbleApp')
 
 angular.module('speechBubbleApp')
   .controller('AdminPageModalCtrl', function($scope, Page, $modalInstance, currentPage, pages) {
-    $scope.currentPage = currentPage || {};
+    $scope.currentPage = new Page(currentPage);
 
     $scope.save = function() {
-      var page = new Page($scope.currentPage);
-
-      page.$save(function() {
-        pages.push(page);
-        $modalInstance.close();
-      });
+      // If we pass a currentPage we are editing therefore we should PUT not POST
+      if(currentPage) {
+        Page.update($scope.currentPage, function() {
+          angular.copy($scope.currentPage, currentPage);
+          $modalInstance.close();
+        });
+      } else {
+        $scope.currentPage.$save(function() {
+          pages.push($scope.currentPage);
+          $modalInstance.close();
+        });
+      }
     };
 
     $scope.cancel = function() {

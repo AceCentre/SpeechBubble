@@ -12,7 +12,8 @@ angular.module('speechBubbleApp')
       },
       'save':   {method:'POST'},
       'query':  {method:'GET', isArray:true},
-      'delete': {method:'DELETE'}
+      'delete': {method:'DELETE'},
+      'update': {method: 'PUT'}
     });
 
   });
