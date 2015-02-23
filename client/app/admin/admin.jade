@@ -34,7 +34,7 @@ block content
               
           td: input(type='checkbox', ng-model='user.active', ng-change='updateStatus(user)')
           td: input(type='checkbox', ng-model='user.subscribe', ng-change='updateSubscription(user)')
-          td: a(href='#', ng-click='delete(user.email, user)') delete
+          td.actions: a(href='#', ng-click='delete(user.email, user)'): span.glyphicon.glyphicon-trash
   
   .text-center
     pagination.pagination-sm(total-items='totalItems', max-size='10', items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true')

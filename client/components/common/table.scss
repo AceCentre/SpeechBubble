@@ -27,3 +27,17 @@ caption {
   text-align: left;
   margin-bottom: 10px;
 }
+
+/**
+ * Table cell containing action icons
+ */
+td.actions {
+
+  a:hover, a:focus, a:active {
+    color: $secondaryColor;
+  }
+
+  a + a {
+    margin-left: 5px;
+  }
+}
