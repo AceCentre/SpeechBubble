@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var formidable = require('formidable');
 var fs = require('fs');
+var path = require('path');
 
 // Get list of uploads
 exports.index = function(req, res) {
@@ -25,7 +26,18 @@ exports.create = function(req, res) {
 
 // Deletes a upload from the DB.
 exports.destroy = function(req, res) {
+  var file = path.resolve(process.env.UPLOAD_DIR, req.params.filename);
 
+  fs.exists(file, function(yes) {
+    if(yes) {
+      fs.unlink(file, function(err) {
+        if(err) { return handleError(res, err); }
+        res.send(200);
+      });
+    } else {
+      res.send(404);
+    }
+  });
 };
 
 function handleError(res, err) {

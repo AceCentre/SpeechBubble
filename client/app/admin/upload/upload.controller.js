@@ -10,6 +10,16 @@ angular.module('speechBubbleApp')
       $scope.files = data;
     });
 
+    $scope['delete'] = function(filename) {
+      $http['delete']('/api/upload/' + filename).success(function() {
+        angular.forEach($scope.files, function(f, i) {
+          if (f === filename) {
+            $scope.files.splice(i, 1);
+          }
+        });
+      });
+    }
+
     $scope.upload = function (files) {
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {

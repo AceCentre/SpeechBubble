@@ -7,6 +7,6 @@ var router = express.Router();
 
 router.get('/', controller.index);
 router.post('/', controller.create);
-router.delete('/:id', controller.destroy);
+router.delete('/:filename', controller.destroy);
 
 module.exports = router;
