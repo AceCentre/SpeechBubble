@@ -7,16 +7,19 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
-router.get('/', auth.hasRole('admin'), controller.index);
-router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+// Authenticated User
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/me', auth.isAuthenticated(), controller.update);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
-router.put('/updateStatus', auth.hasRole('admin'), controller.updateStatus);
-router.put('/updateRole', auth.hasRole('admin'), controller.updateRole);
-router.put('/updateSubscription', auth.hasRole('admin'), controller.updateSubscription);
 router.get('/:id', auth.isAuthenticated(), controller.show);
+
+// Admin
+router.get('/', auth.hasRole('admin'), controller.index);
+router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+router.put('/:id', auth.hasRole('admin'), controller.adminUpdate);
+
+// User
 router.get('/activate/:id', controller.activate);
 router.post('/', controller.create);
 
-module.exports = router;
+module.exports = router

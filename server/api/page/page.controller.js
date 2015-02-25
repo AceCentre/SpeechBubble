@@ -5,10 +5,10 @@ var Page = require('./page.model');
 
 // Get a single page
 exports.show = function(req, res) {
-  console.log(req.params);
   Page.findOne({ slug: req.params.slug, isActive: true }, function (err, page) {
     if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
+    if(page.registrationRequired && !req.user) { return res.send(401); }
     return res.json(page);
   });
 };
@@ -36,7 +36,6 @@ exports.update = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
     var updated = _.merge(page, req.body);
-    console.log(updated);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, page);

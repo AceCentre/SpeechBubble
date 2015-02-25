@@ -125,45 +125,6 @@ exports.changePassword = function(req, res, next) {
 };
 
 /**
- * Activate/De-activate user
- */
-exports.updateStatus = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.active = req.body.active;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
- * Set user role
- */
-exports.updateRole = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.role = req.body.role;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
- * Set user role
- */
-exports.updateSubscription = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.subscribe = req.body.subscribe;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
  * Get my info
  */
 exports.me = function(req, res, next) {
@@ -178,24 +139,40 @@ exports.me = function(req, res, next) {
 };
 
 /**
- * Get my info
+ * Update my info
  */
 exports.update = function(req, res, next) {
   var userId = req.user._id;
-  delete req.body.role;
+  User.findOneAndUpdate({
+    _id: userId
+  }, {
+    email: req.body.email,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName || '',
+    description: req.body.description || '',
+    region: req.body.region || '',
+    subscribe: req.body.subscribe
+  }, function(err) {
+    if (err) return validationError(res, err);
+    res.send(200);
+  });
+};
 
-  User.findById(userId, function (err, user) {
-    user.email = req.body.email;
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.description = req.body.description;
-    user.region = req.body.region;
-    user.subscribe = req.body.subscribe;
-
-    user.save(function(err) {
-      if (err) return validationError(res, err);
-      res.send(200);
-    });
+/**
+ * Admin update user info
+ * restriction: 'admin'
+ */
+exports.adminUpdate = function(req, res, next) {
+  User.findOneAndUpdate({
+    _id: req.params.id
+  }, {
+    email: req.body.email,
+    role: req.body.role,
+    active: req.body.active,
+    subscribe: req.body.subscribe
+  }, function(err) {
+    if (err) return validationError(res, err);
+    res.send(200);
   });
 };
 
