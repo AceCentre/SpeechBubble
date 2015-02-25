@@ -12,5 +12,10 @@ angular.module('speechBubbleApp')
         url: '/admin/pages',
         templateUrl: 'app/admin/page/page.html',
         controller: 'AdminPageCtrl'
+      })
+      .state('upload', {
+        url: '/admin/upload',
+        templateUrl: 'app/admin/upload/upload.html',
+        controller: 'AdminUploadCtrl'
       });
   });
