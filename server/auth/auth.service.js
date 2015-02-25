@@ -9,6 +9,14 @@ var compose = require('composable-middleware');
 var User = require('../api/user/user.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
 
+var jwtQueryParam = function jwt(req, res, next) {
+  // allow access_token to be passed through query parameter as well
+  if(req.query && req.query.hasOwnProperty('access_token')) {
+    req.headers.authorization = 'Bearer ' + req.query.access_token;
+  }
+  validateJwt(req, res, next);
+};
+
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
@@ -16,18 +24,30 @@ var validateJwt = expressJwt({ secret: config.secrets.session });
 function isAuthenticated() {
   return compose()
     // Validate jwt
-    .use(function(req, res, next) {
-      // allow access_token to be passed through query parameter as well
-      if(req.query && req.query.hasOwnProperty('access_token')) {
-        req.headers.authorization = 'Bearer ' + req.query.access_token;
-      }
-      validateJwt(req, res, next);
-    })
+    .use(jwtQueryParam)
     // Attach user to request
     .use(function(req, res, next) {
       User.findById(req.user._id, function (err, user) {
         if (err) return next(err);
         if (!user) return res.send(401);
+        req.user = user;
+        next();
+      });
+    });
+}
+
+/**
+ * Attaches the user object to the request if authenticated
+ * Otherwise returns 403
+ */
+function isAuthenticatedNo403() {
+  return compose()
+    // Validate jwt
+    .use(jwtQueryParam)
+    // Attach user to request
+    .use(function(req, res, next) {
+      User.findById(req.user._id, function (err, user) {
+        if (err) return next(err);
         req.user = user;
         next();
       });
@@ -81,6 +101,7 @@ function redirectForPasswordCreation(req, res, next) {
 }
 
 exports.isAuthenticated = isAuthenticated;
+exports.isAuthenticatedNo403 = isAuthenticatedNo403;
 exports.hasRole = hasRole;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;
