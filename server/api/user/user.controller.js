@@ -125,19 +125,6 @@ exports.changePassword = function(req, res, next) {
 };
 
 /**
- * Activate/De-activate user
- */
-exports.updateStatus = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.active = req.body.active;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
  * Get my info
  */
 exports.me = function(req, res, next) {
@@ -156,28 +143,26 @@ exports.me = function(req, res, next) {
  */
 exports.update = function(req, res, next) {
   var userId = req.user._id;
-  delete req.body.role;
-
-  User.findById(userId, function (err, user) {
-    user.email = req.body.email;
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.description = req.body.description;
-    user.region = req.body.region;
-    user.subscribe = req.body.subscribe;
-
-    user.save(function(err) {
-      if (err) return validationError(res, err);
-      res.send(200);
-    });
+  User.findOneAndUpdate({
+    _id: userId
+  }, {
+    email: req.body.email,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName || '',
+    description: req.body.description || '',
+    region: req.body.region || '',
+    subscribe: req.body.subscribe
+  }, function(err) {
+    if (err) return validationError(res, err);
+    res.send(200);
   });
 };
 
 /**
  * Admin update user info
+ * restriction: 'admin'
  */
 exports.adminUpdate = function(req, res, next) {
-  console.log('admin update');
   User.findOneAndUpdate({
     _id: req.params.id
   }, {
