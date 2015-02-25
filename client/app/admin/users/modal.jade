@@ -1,0 +1,62 @@
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title User Administration
+  
+form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
+  .modal-body
+
+      .form-group(ng-class='{ "has-success": form.currentUserEmail.$valid && submitted,\
+      "has-error": form.currentUserEmail.$invalid && submitted }')
+        label.control-label.col-sm-2(for="currentUserEmail") Email *
+        .col-sm-10
+          input.form-control(id='currentUserEmail', name='currentUserEmail', type='email', ng-model='currentUser.email', required='', mongoose-error='')
+          p.help-block(ng-show='form.currentUserEmail.$error.email && submitted')
+              | Doesn't look like a valid email.
+          p.help-block(ng-show='form.currentUserEmail.$error.required && submitted')
+            | Email address is required
+          p.help-block(ng-show='form.currentUserEmail.$error.mongoose')
+          | {{ errors.email }}
+            
+      .form-group
+        label.control-label.col-sm-2 Role
+        .col-sm-10
+          select.form-control(ng-model='currentUser.role', ng-options='role as role for role in roles')
+                  option(value='', disabled, selected) Please select
+                  
+          p.alert.alert-danger(ng-show='currentUser.role === "admin"')
+            | This user role is set to Admin, please ensure this is correct before saving any changes!
+            
+      .form-group
+        label.control-label.col-sm-2 First Name
+        .col-sm-10
+          p.form-control-static {{ currentUser.firstName }}
+            
+      .form-group
+        label.control-label.col-sm-2 Last Name
+        .col-sm-10
+          p.form-control-static {{ currentUser.lastName }}
+          
+      .form-group
+        label.control-label.col-sm-2 Description
+        .col-sm-10
+          p.form-control-static {{ currentUser.description || 'None chosen' }}
+          
+      .form-group
+        label.control-label.col-sm-2 Region
+        .col-sm-10
+          p.form-control-static {{ currentUser.region || 'None chosen' }}
+        
+      .form-group    
+        .col-sm-10.col-sm-offset-2  
+          .checkbox
+            label
+              input(type='checkbox', ng-model='currentUser.active')
+              | Account active
+          .checkbox
+            label
+              input(type='checkbox', ng-model='currentUser.subscribe')
+              | Newsletter Subscription
+              
+  .modal-footer
+    button.btn.btn-primary() Save
+    a.btn.btn-tertiary(ng-click='cancel()') Cancel

@@ -138,32 +138,6 @@ exports.updateStatus = function(req, res, next) {
 };
 
 /**
- * Set user role
- */
-exports.updateRole = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.role = req.body.role;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
- * Set user role
- */
-exports.updateSubscription = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.subscribe = req.body.subscribe;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
  * Get my info
  */
 exports.me = function(req, res, next) {
@@ -178,7 +152,7 @@ exports.me = function(req, res, next) {
 };
 
 /**
- * Get my info
+ * Update my info
  */
 exports.update = function(req, res, next) {
   var userId = req.user._id;
@@ -196,6 +170,24 @@ exports.update = function(req, res, next) {
       if (err) return validationError(res, err);
       res.send(200);
     });
+  });
+};
+
+/**
+ * Admin update user info
+ */
+exports.adminUpdate = function(req, res, next) {
+  console.log('admin update');
+  User.findOneAndUpdate({
+    _id: req.params.id
+  }, {
+    email: req.body.email,
+    role: req.body.role,
+    active: req.body.active,
+    subscribe: req.body.subscribe
+  }, function(err) {
+    if (err) return validationError(res, err);
+    res.send(200);
   });
 };
 
