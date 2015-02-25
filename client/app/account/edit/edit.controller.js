@@ -12,6 +12,7 @@ angular.module('speechBubbleApp')
       $scope.submitted = true;
 
       if(form.$valid) {
+        console.log(User);
         User.update($scope.user).$promise
         .then(function() {
           $location.path('/account');

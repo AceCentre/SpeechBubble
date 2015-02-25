@@ -22,7 +22,8 @@ angular.module('speechBubbleApp')
       .state('edit', {
         url: '/account/edit',
         templateUrl: 'app/account/edit/edit.html',
-        controller: 'EditCtrl'
+        controller: 'EditCtrl',
+        authenticate: true
       })
       .state('activate', {
         url: '/account/activate/:id',
