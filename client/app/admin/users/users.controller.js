@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminCtrl', function ($scope, $http, Auth, User, Modal, filterFilter) {
+  .controller('AdminUsersCtrl', function ($scope, $http, Auth, User, Modal, filterFilter) {
 
     // Use the User $resource to fetch all users
     $scope.users = User.query();
