@@ -18,7 +18,11 @@ var UserSchema = new Schema({
     type: String,
     enum: ['', 'UK', 'Europe', 'USA', 'other']
   },
-  email: { type: String, lowercase: true },
+  email: {
+    type: String,
+    lowercase: true,
+    unique: true
+  },
   subscribe: {
     type: Boolean,
     default: false
