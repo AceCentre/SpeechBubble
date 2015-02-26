@@ -15,5 +15,5 @@ block content
         td {{ file }}
         td: img.img-responsive.file-preview(ng-src='/assets/images/uploads/{{file}}')
         td.actions
-          a(ng-click='delete(file)', target='_blank'): span.glyphicon.glyphicon-trash
+          a(ng-click='delete(file, file)', target='_blank'): span.glyphicon.glyphicon-trash
           a(ng-href='/assets/images/uploads/{{file}}', target='_blank'): span.glyphicon.glyphicon-eye-open

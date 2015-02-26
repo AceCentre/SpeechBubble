@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminUploadCtrl', function ($scope, $upload, $http) {
+  .controller('AdminUploadCtrl', function ($scope, $upload, $http, Modal) {
     $scope.$watch('files', function () {
         $scope.upload($scope.files);
     });
@@ -10,15 +10,15 @@ angular.module('speechBubbleApp')
       $scope.files = data;
     });
 
-    $scope['delete'] = function(filename) {
-      $http['delete']('/api/upload/' + filename).success(function() {
+    $scope['delete'] = Modal.confirm['delete'](function(file) { // callback when modal is confirmed
+      $http['delete']('/api/upload/' + file).success(function() {
         angular.forEach($scope.files, function(f, i) {
-          if (f === filename) {
+          if (f === file) {
             $scope.files.splice(i, 1);
           }
         });
       });
-    }
+    });
 
     $scope.upload = function (files) {
         if (files && files.length) {
