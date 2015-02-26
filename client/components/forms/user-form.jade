@@ -67,7 +67,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
   .form-group(ng-if='requirePassword', ng-class='{ "has-success": form.captcha.$valid && submitted,\
   "has-error": form.captcha.$invalid && submitted }')
     .col-sm-9.col-sm-offset-3
-      div.g-recaptcha(data-sitekey='6LdNWgITAAAAAK3XKid8mCCuG5h-qOaVw4kwMPdr')
+      div.g-recaptcha(data-sitekey='6LcbZgITAAAAAGfQjvTRWxPsnpUME6aNhBY-WZ9F')
       input.hide(id='captcha', name='captcha', ng-model='user.captcha', required='', mongoose-error='')
       p.help-block(ng-show='form.captcha.$error.required && submitted')
         | Please validate you are not a robot.
