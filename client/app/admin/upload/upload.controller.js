@@ -2,8 +2,8 @@
 
 angular.module('speechBubbleApp')
   .controller('AdminUploadCtrl', function ($scope, $upload, $http, Modal) {
-    $scope.$watch('files', function () {
-        $scope.upload($scope.files);
+    $scope.$watch('filesToUpload', function () {
+        $scope.upload($scope.filesToUpload);
     });
 
     $http.get('/api/upload').success(function(data) {
@@ -13,7 +13,7 @@ angular.module('speechBubbleApp')
     $scope['delete'] = Modal.confirm['delete'](function(file) { // callback when modal is confirmed
       $http['delete']('/api/upload/' + file).success(function() {
         angular.forEach($scope.files, function(f, i) {
-          if (f === file) {
+          if (f.name === file) {
             $scope.files.splice(i, 1);
           }
         });
@@ -22,18 +22,18 @@ angular.module('speechBubbleApp')
 
     $scope.upload = function (files) {
         if (files && files.length) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                $upload.upload({
-                    url: '/api/upload/',
-                    file: file
-                }).progress(function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-                }).success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                });
-            }
+          files.forEach(function(file, i) {
+            $upload.upload({
+                url: '/api/upload/',
+                file: file
+            }).progress(function (evt) {
+                file.progress = parseInt(100.0 * evt.loaded / evt.total);
+                file.name = evt.config.file.name;
+            }).success(function (data, status, headers, config) {
+                $scope.files.push(data);
+                file.complete = true;
+            });
+          });
         }
     };
   });

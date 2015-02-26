@@ -5,7 +5,7 @@ angular.module('speechBubbleApp')
     $scope.pages = Page.query();
 
     $scope.modal = function(page) {
-      
+
       $modal.open({
         templateUrl: 'app/admin/page/modal.html',
         size: 'lg',

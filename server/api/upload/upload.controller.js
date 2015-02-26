@@ -4,12 +4,13 @@ var _ = require('lodash');
 var formidable = require('formidable');
 var fs = require('fs');
 var path = require('path');
+var _ = require('lodash');
 
 // Get list of uploads
 exports.index = function(req, res) {
   fs.readdir(process.env.UPLOAD_DIR, function(err, files) {
     if(err) { return handleError(res, err); }
-    res.json(files);
+    res.json(_.map(files, function(file) { return { image: '/assets/images/uploads/' + file, name: file }}));
   });
 };
 
@@ -20,7 +21,11 @@ exports.create = function(req, res) {
   form.keepExtensions = true;
   form.parse(req, function(err, fields, files) {
     if(err) { return handleError(res, err); }
-    res.send(200);
+    var filename = files.file.path.split('/').pop();
+    res.send(200, {
+      image: '/assets/images/uploads/' + filename,
+      name: filename
+    });
   });
 };
 
