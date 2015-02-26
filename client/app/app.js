@@ -7,7 +7,8 @@ angular.module('speechBubbleApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'ngCkeditor'
+  'ngCkeditor',
+  'angularFileUpload'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $locationProvider.html5Mode(true);

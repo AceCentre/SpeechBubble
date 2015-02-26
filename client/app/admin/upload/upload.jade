@@ -1,0 +1,19 @@
+extends ../../../layout/2_column
+
+block content
+  button.btn.btn-primary.pull-right(ng-file-select, ng-model='files', ng-multiple='true') Add files
+  h1 Upload files
+
+  table.table.table-striped
+    thead
+      tr
+        th Filename
+        th Preview
+        th Actions
+    tbody
+      tr(ng-repeat='file in files')
+        td {{ file }}
+        td: img.img-responsive.file-preview(ng-src='/assets/images/uploads/{{file}}')
+        td.actions
+          a(ng-click='delete(file, file)', target='_blank'): span.glyphicon.glyphicon-trash
+          a(ng-href='/assets/images/uploads/{{file}}', target='_blank'): span.glyphicon.glyphicon-eye-open

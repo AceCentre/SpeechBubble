@@ -27,6 +27,8 @@ module.exports = {
 
   CAPTCHA_API_KEY: 'api-key',
 
+  UPLOAD_DIR: '/path/to/upload/dir',
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };
