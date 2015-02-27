@@ -1,27 +1,22 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var PageSchema = new Schema({
+var PageSchema = Schema({
   slug: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
-  title: String,
-  content: String,
-  isActive: {
+  published: {
     type: Boolean,
     default: false
   },
-  enableComments: {
-    type: Boolean,
-    default: false
-  },
-  registrationRequired: {
-    type: Boolean,
-    default: false
-  }
+  _revisions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PageRevision'
+  }]
 });
 
 module.exports = mongoose.model('Page', PageSchema);

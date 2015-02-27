@@ -1,57 +1,61 @@
 'use strict';
 
 var _ = require('lodash');
+var mongoose = require('mongoose');
 var Page = require('./page.model');
+var PageRevision = require('./page-revision.model');
 
-// Get a single page
 exports.show = function(req, res) {
-  Page.findOne({ slug: req.params.slug, isActive: true }, function (err, page) {
+  Page
+  .findOne({
+    slug: req.params.slug,
+    published: true
+  })
+  .populate({
+      path: '_revisions',
+      match: { status: 'published' },
+      options: { limit: 1 }
+  })
+  .exec(function(err, page) {
     if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-    if(page.registrationRequired && !req.user) { return res.send(401); }
-    return res.json(page);
+    return res.send(200, page);
   });
 };
 
-// Lists all flat pages in the DB.
-exports.list = function(req, res) {
-  Page.find({}, function(err, pages) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, pages);
-  });
-};
-
-// Creates a new page in the DB.
 exports.create = function(req, res) {
-  Page.create(req.body, function(err, page) {
+  Page.create({ slug: req.body.slug }, function(err, page) {
     if(err) { return handleError(res, err); }
-    return res.json(201, page);
+    return res.send(200, page);
   });
 };
 
-// Updates an existing page in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Page.findById(req.params.id, function (err, page) {
-    if (err) { return handleError(res, err); }
+  Page.findById(req.params.id, function(err, page) {
+    if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-    var updated = _.merge(page, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, page);
+    PageRevision.create(req.body, function(err, revision) {
+      if(err) { return handleError(res, err); }
+      page._revisions.push( revision._id );
+      res.send(200, page);
     });
   });
 };
 
-// Deletes a page from the DB.
-exports.destroy = function(req, res) {
-  Page.findById(req.params.id, function (err, page) {
+exports.list = function(req, res) {
+  Page
+  .find()
+  .populate('_revisions')
+  .exec(function(err, pages) {
     if(err) { return handleError(res, err); }
-    if(!page) { return res.send(404); }
-    page.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
+    res.send(200, pages);
+  });
+};
+
+exports.destroy = function(req, res) {
+  Page.findByIdAndRemove(req.params.id, function(err) {
+    if(err) { return handleError(res, err); }
+    res.send(204);
   });
 };
 

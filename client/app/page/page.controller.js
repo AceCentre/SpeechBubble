@@ -4,8 +4,8 @@ angular.module('speechBubbleApp')
   .controller('PageCtrl', function ($scope, Page, $stateParams, $location) {
     Page.get({ id: $stateParams.path.split('/').join('') }, function(res) {
       $scope.content = res.content;
-      $scope.enableComments = res.enableComments;
+      $scope.comments = res.comments;
     }, function() {
-      $location.path('/404/');
+      $location.path('/404/').replace();
     });
   });

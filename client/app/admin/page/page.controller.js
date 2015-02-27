@@ -4,22 +4,19 @@ angular.module('speechBubbleApp')
   .controller('AdminPageCtrl', function ($scope, Page, $modal, Modal) {
     $scope.pages = Page.query();
 
-    $scope.modal = function(page) {
-      
+    $scope.create = function() {
       $modal.open({
-        templateUrl: 'app/admin/page/modal.html',
-        size: 'lg',
-        controller: 'AdminPageModalCtrl',
+        templateUrl: 'app/admin/page/create.html',
+        controller: 'AdminPageCreateCtrl',
         resolve: {
-          currentPage: function() {
-            return page
-          },
           pages: function() {
-            return $scope.pages;
+            return $scope.pages
           }
         }
       });
     };
+
+
 
     $scope['delete'] = Modal.confirm['delete'](function(page) { // callback when modal is confirmed
       Page.remove({ id: page._id });
@@ -29,29 +26,5 @@ angular.module('speechBubbleApp')
         }
       });
     });
-  });
-
-angular.module('speechBubbleApp')
-  .controller('AdminPageModalCtrl', function($scope, Page, $modalInstance, currentPage, pages) {
-    $scope.currentPage = new Page(currentPage);
-
-    $scope.save = function() {
-      // If we pass a currentPage we are editing therefore we should PUT not POST
-      if(currentPage) {
-        Page.update($scope.currentPage, function() {
-          angular.copy($scope.currentPage, currentPage);
-          $modalInstance.close();
-        });
-      } else {
-        $scope.currentPage.$save(function() {
-          pages.push($scope.currentPage);
-          $modalInstance.close();
-        });
-      }
-    };
-
-    $scope.cancel = function() {
-      $modalInstance.dismiss();
-    };
 
   });
