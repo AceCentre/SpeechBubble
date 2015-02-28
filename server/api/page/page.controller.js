@@ -75,8 +75,13 @@ exports.list = function(req, res) {
 };
 
 exports.destroy = function(req, res) {
-  Page.findByIdAndRemove(req.params.id, function(err) {
+  Page.findById(req.params.id, function(err, page) {
     if(err) { return handleError(res, err); }
+    if(!page) { return res.send(404); }
+    PageRevision.remove({ _id: { $in: page._revisions } }, function(err) {
+      if(err) { return handleError(res, err); }
+      page.remove();
+    });
     res.send(204);
   });
 };
