@@ -34,4 +34,8 @@ angular.module('speechBubbleApp')
       $modalInstance.dismiss();
     };
 
+    $scope.$watch('page.slug', function() {
+      $scope.url = (window.location.origin + '/' + $scope.page.slug);
+    });
+
   });
