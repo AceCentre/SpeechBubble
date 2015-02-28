@@ -32,6 +32,17 @@ form.form-horizontal(ng-submit='update()', novalidate)
                 input(type='checkbox', ng-model='page.registration')
                 | Registration
 
+    .panel.panel-default
+      .panel-heading History
+      .panel-body
+
+        .form-group
+          label.control-label.col-sm-2(for="Revisions") Revisions
+          .col-sm-10
+            select.form-control(id='Revisions', ng-options='i as i._id for i in page._revisions', type='text', ng-model='revision', ng-required)
+              option(value='', disabled, selected) Revert revision
+
+    .panel.panel-default
       .panel-heading Content
       .panel-body
 
