@@ -8,7 +8,8 @@ var PageRevisionSchema = Schema({
   content: String,
   status: {
     type: String,
-    enum: ['draft', 'published']
+    enum: ['draft', 'published'],
+    default: 'draft'
   },
   author: {
     type: Schema.Types.ObjectId,
@@ -17,16 +18,6 @@ var PageRevisionSchema = Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  },
-  // Page allow comments
-  comments: {
-    type: Boolean,
-    default: false
-  },
-  // Page only to be displayed to authenticated users
-  registration: {
-    type: Boolean,
-    default: false
   }
 }, { collection: 'revisions' });
 

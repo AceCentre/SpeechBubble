@@ -9,7 +9,16 @@ var PageSchema = Schema({
     required: true,
     unique: true
   },
-  published: {
+  visibility: {
+    type: String,
+    enum: ['hidden', 'public'],
+    default: 'hidden'
+  },
+  comments: {
+    type: Boolean,
+    default: false
+  },
+  registration: {
     type: Boolean,
     default: false
   },

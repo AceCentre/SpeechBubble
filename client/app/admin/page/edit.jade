@@ -5,35 +5,50 @@
 form.form-horizontal(ng-submit='save(currentPage)', novalidate)
   .modal-body
 
-      .form-group
-        label.control-label.col-sm-2(for="currentPageTitle") Title
-        .col-sm-10
-          input.form-control(id='currentPageTitle', type='text', ng-model='currentPage.title', ng-required)
+    .panel.panel-default
+      .panel-heading Publish
+      .panel-body
+        .form-group
+          label.control-label.col-sm-2(for="Slug") URL
+          .col-sm-10
+            input.form-control(id='Slug', type='text', ng-model='page.slug', ng-required)
 
-      .form-group
-        label.control-label.col-sm-2(for="currentPageSlug") Slug
-        .col-sm-10
-          input.form-control(id='currentPageSlug', type='text', ng-model='currentPage.slug', ng-required)
+        .form-group
+          label.control-label.col-sm-2(for="Slug") Visibility
+          .col-sm-10
+            select.form-control(id='Visibility', ng-options='i as i for i in options.visibility', type='text', ng-model='page.visibility', ng-required)
 
-      .form-group
-        label.control-label.col-sm-2(for="currentPageContent") Content
-        .col-sm-10
-          textarea(id='currentPageContent', ckeditor, ng-model='currentPage.content')
+        .form-group
+          .col-sm-10.col-sm-offset-2
 
-      .form-group
-        .col-sm-10.col-sm-offset-2
-          .checkbox
-            label
-              input(type='checkbox', ng-model='currentPage.published')
-              | Published
-          .checkbox
-            label
-              input(type='checkbox', ng-model='currentPage.comments')
-              | Comments
-          .checkbox
-            label
-              input(type='checkbox', ng-model='currentPage.registration')
-              | Registration
+            .checkbox
+              label
+                input(type='checkbox', ng-model='page.comments')
+                | Comments
+
+            .checkbox
+              label
+                input(type='checkbox', ng-model='page.registration')
+                | Registration
+
+      .panel-heading Content
+      .panel-body
+
+        .form-group
+          label.control-label.col-sm-2(for="Title") Title
+          .col-sm-10
+            input.form-control(id='Title', type='text', ng-model='revision.title', ng-required)
+
+
+        .form-group
+          label.control-label.col-sm-2(for="Content") Content
+          .col-sm-10
+            textarea(id='Content', ckeditor, ng-model='revision.content')
+
+        .form-group
+          .col-sm-10.col-sm-offset-2
+
+
 
   .modal-footer
     button.btn.btn-primary() Save

@@ -16,7 +16,21 @@ angular.module('speechBubbleApp')
       });
     };
 
-
+    $scope.edit = function(page) {
+      $modal.open({
+        templateUrl: 'app/admin/page/edit.html',
+        controller: 'AdminPageEditCtrl',
+        size: 'lg',
+        resolve: {
+          pages: function() {
+            return $scope.pages
+          },
+          page: function() {
+            return page
+          }
+        }
+      });
+    };
 
     $scope['delete'] = Modal.confirm['delete'](function(page) { // callback when modal is confirmed
       Page.remove({ id: page._id });
