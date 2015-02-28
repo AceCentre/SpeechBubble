@@ -17,8 +17,8 @@ angular.module('speechBubbleApp')
         ['Format', 'Bold', 'Italic'],
         ['Link', 'Unlink'],
         ['NumberedList', 'BulletedList'],
-        ['Indent', 'Outdent', 'HorizontalRule'],
-        ['Table', 'Image'],
+        ['Indent', 'Outdent', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['Table', 'Image', 'HorizontalRule'],
         ['Source']
       ],
       extraPlugins: "imagebrowser",
