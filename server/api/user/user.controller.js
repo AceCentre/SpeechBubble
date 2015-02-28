@@ -62,7 +62,6 @@ exports.create = function (req, res, next) {
               auto_text: true
             }
           }, function(result) {
-            console.log(result);
             if(result.reject_reason) {
               res.send(400, result.reject_reason);
             } else {
@@ -72,7 +71,7 @@ exports.create = function (req, res, next) {
 
         });
       } else {
-        return res.send(400, 'Re-captcha error, please verify again.');
+        return res.send(422, 'Re-captcha error, please verify again.');
       }
 
     }
