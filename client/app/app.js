@@ -8,11 +8,13 @@ angular.module('speechBubbleApp', [
   'ui.router',
   'ui.bootstrap',
   'ngCkeditor',
-  'angularFileUpload'
+  'angularFileUpload',
+  'angular-growl'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+    growlProvider.globalTimeToLive({success: 2000, error: 5000, warning: 2000, info: 2000});
   })
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {

@@ -13,6 +13,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-growl-v2/build/angular-growl.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -51,6 +52,8 @@
       <div ng-include='"components/footer/footer.html"'></div>
     </div>
 
+    <div growl></div>
+
     <script src="/assets/javascript/ckeditor/ckeditor.js"></script>
     <script>
       CKEDITOR.config.extraPlugins = "imagebrowser";
@@ -77,6 +80,7 @@
       <script src="bower_components/angular-aria/angular-aria.js"></script>
       <script src="bower_components/ng-ckeditor/ng-ckeditor.js"></script>
       <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+      <script src="bower_components/angular-growl-v2/build/angular-growl.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
