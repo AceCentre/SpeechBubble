@@ -41,7 +41,8 @@ exports.update = function(req, res) {
     PageRevision.create({
       title: req.body.title,
       status: req.body.status,
-      content: req.body.content
+      content: req.body.content,
+      author: req.user._id,
     }, function(err, revision) {
       if(err) { return handleError(res, err); }
 
