@@ -16,9 +16,13 @@ exports.show = function(req, res) {
       match: { status: 'published' },
       options: { limit: 1 }
   })
+  .lean()
   .exec(function(err, page) {
     if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
+    if(!page._revisions.length) { return res.send(404); }
+    page.revision = page._revisions[0];
+    delete page._revisions;
     return res.send(200, page);
   });
 };
@@ -45,10 +49,9 @@ exports.update = function(req, res) {
       page.visibility = req.body.visibility;
       page.slug = req.body.slug;
       page.comments = req.body.comments;
-      page.registration = req.body.registration;
 
       // push revision to page history
-      page._revisions.unshift( revision._id );
+      page._revisions.push( revision._id );
 
       page.save(function(err, page) {
         res.send(200, page);

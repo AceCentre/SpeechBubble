@@ -18,10 +18,6 @@ var PageSchema = Schema({
     type: Boolean,
     default: false
   },
-  registration: {
-    type: Boolean,
-    default: false
-  },
   _revisions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PageRevision'

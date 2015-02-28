@@ -8,7 +8,8 @@ angular.module('speechBubbleApp')
     }
 
     $scope.page = page;
-    $scope.revision = page._revisions[0];
+    $scope.revisions = page._revisions.slice().reverse();
+    $scope.revision = page._revisions[page._revisions.length -1];
 
     $scope.options = {
       visibility: ['hidden', 'public'],
@@ -19,14 +20,15 @@ angular.module('speechBubbleApp')
       Page.update({
         _id: $scope.page._id,
         slug: $scope.page.slug,
+        visibility: $scope.page.visibility,
         comments: $scope.page.comments,
-        registration: $scope.page.registration,
         title: $scope.revision.title,
         content: $scope.revision.content,
         status: $scope.revision.status
       }, function(res) {
-        angular.copy(page, res);
-        $modalInstance.dismiss();
+        pages = Page.query(function() {
+          $modalInstance.dismiss();
+        });
       });
     };
 

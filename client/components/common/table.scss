@@ -37,10 +37,19 @@ caption {
   margin-bottom: 10px;
 }
 
+th.icon,
+td.icon {
+  text-align: center;
+  width: 80px;
+}
+
 /**
  * Table cell containing action icons
  */
+th.actions,
 td.actions {
+  text-align: center;
+  width: 100px;
 
   a {
     color: $secondaryColor;
