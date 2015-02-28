@@ -4,18 +4,34 @@ angular.module('speechBubbleApp')
   .controller('AdminPageCtrl', function ($scope, Page, $modal, Modal) {
     $scope.pages = Page.query();
 
+<<<<<<< HEAD
     $scope.modal = function(page) {
 
+=======
+    $scope.create = function() {
+>>>>>>> feature/flat-pages
       $modal.open({
-        templateUrl: 'app/admin/page/modal.html',
-        size: 'lg',
-        controller: 'AdminPageModalCtrl',
+        templateUrl: 'app/admin/page/create.html',
+        controller: 'AdminPageCreateCtrl',
         resolve: {
-          currentPage: function() {
-            return page
-          },
           pages: function() {
-            return $scope.pages;
+            return $scope.pages
+          }
+        }
+      });
+    };
+
+    $scope.edit = function(page) {
+      $modal.open({
+        templateUrl: 'app/admin/page/edit.html',
+        controller: 'AdminPageEditCtrl',
+        size: 'lg',
+        resolve: {
+          pages: function() {
+            return $scope.pages
+          },
+          page: function() {
+            return page
           }
         }
       });
@@ -29,29 +45,5 @@ angular.module('speechBubbleApp')
         }
       });
     });
-  });
-
-angular.module('speechBubbleApp')
-  .controller('AdminPageModalCtrl', function($scope, Page, $modalInstance, currentPage, pages) {
-    $scope.currentPage = new Page(currentPage);
-
-    $scope.save = function() {
-      // If we pass a currentPage we are editing therefore we should PUT not POST
-      if(currentPage) {
-        Page.update($scope.currentPage, function() {
-          angular.copy($scope.currentPage, currentPage);
-          $modalInstance.close();
-        });
-      } else {
-        $scope.currentPage.$save(function() {
-          pages.push($scope.currentPage);
-          $modalInstance.close();
-        });
-      }
-    };
-
-    $scope.cancel = function() {
-      $modalInstance.dismiss();
-    };
 
   });

@@ -1,0 +1,57 @@
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Page Edit
+
+form.form-horizontal(ng-submit='update()', novalidate)
+  .modal-body
+
+    .panel.panel-default
+      .panel-heading Publish
+      .panel-body
+        .form-group
+          label.control-label.col-sm-2(for="Slug") URL
+          .col-sm-10
+            input.form-control(id='Slug', type='text', ng-model='page.slug', ng-required)
+
+        .form-group
+          label.control-label.col-sm-2(for="Slug") Visibility
+          .col-sm-10
+            select.form-control(id='Visibility', ng-options='i as i for i in options.visibility', type='text', ng-model='page.visibility', ng-required)
+              option(value='', disabled, selected) Select visibility
+
+        .form-group
+          .col-sm-10.col-sm-offset-2
+
+            .checkbox
+              label
+                input(type='checkbox', ng-model='page.comments')
+                | Comments
+
+            .checkbox
+              label
+                input(type='checkbox', ng-model='page.registration')
+                | Registration
+
+      .panel-heading Content
+      .panel-body
+
+        .form-group
+          label.control-label.col-sm-2(for="Title") Title
+          .col-sm-10
+            input.form-control(id='Title', type='text', ng-model='revision.title', ng-required)
+
+        .form-group
+          label.control-label.col-sm-2(for="Status") Status
+          .col-sm-10
+            select.form-control(id='Status', ng-options='i as i for i in options.status', type='text', ng-model='revision.status', ng-required)
+              option(value='', disabled, selected) Select status
+
+        .form-group
+          label.control-label.col-sm-2(for="Content") Content
+          .col-sm-10
+            textarea(id='Content', ckeditor, ng-model='revision.content')
+
+
+  .modal-footer
+    button.btn.btn-primary() Save
+    a.btn.btn-tertiary(ng-click='cancel()') Cancel

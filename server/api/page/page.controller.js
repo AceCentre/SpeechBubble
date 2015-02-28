@@ -1,57 +1,76 @@
 'use strict';
 
 var _ = require('lodash');
+var mongoose = require('mongoose');
 var Page = require('./page.model');
+var PageRevision = require('./page-revision.model');
 
-// Get a single page
 exports.show = function(req, res) {
-  Page.findOne({ slug: req.params.slug, isActive: true }, function (err, page) {
+  Page
+  .findOne({
+    slug: req.params.slug,
+    visibility: 'public'
+  })
+  .populate({
+      path: '_revisions',
+      match: { status: 'published' },
+      options: { limit: 1 }
+  })
+  .exec(function(err, page) {
     if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-    if(page.registrationRequired && !req.user) { return res.send(401); }
-    return res.json(page);
+    return res.send(200, page);
   });
 };
 
-// Lists all flat pages in the DB.
-exports.list = function(req, res) {
-  Page.find({}, function(err, pages) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, pages);
-  });
-};
-
-// Creates a new page in the DB.
 exports.create = function(req, res) {
-  Page.create(req.body, function(err, page) {
+  Page.create({ slug: req.body.slug }, function(err, page) {
     if(err) { return handleError(res, err); }
-    return res.json(201, page);
+    return res.send(200, page);
   });
 };
 
-// Updates an existing page in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Page.findById(req.params.id, function (err, page) {
-    if (err) { return handleError(res, err); }
+  Page.findById(req.body._id, function(err, page) {
+    if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-    var updated = _.merge(page, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, page);
+    PageRevision.create({
+      title: req.body.title,
+      status: req.body.status,
+      content: req.body.content
+    }, function(err, revision) {
+      if(err) { return handleError(res, err); }
+
+      // update page properties
+      page.visibility = req.body.visibility;
+      page.slug = req.body.slug;
+      page.comments = req.body.comments;
+      page.registration = req.body.registration;
+
+      // push revision to page history
+      page._revisions.unshift( revision._id );
+
+      page.save(function(err, page) {
+        res.send(200, page);
+      });
     });
   });
 };
 
-// Deletes a page from the DB.
-exports.destroy = function(req, res) {
-  Page.findById(req.params.id, function (err, page) {
+exports.list = function(req, res) {
+  Page
+  .find()
+  .populate('_revisions')
+  .exec(function(err, pages) {
     if(err) { return handleError(res, err); }
-    if(!page) { return res.send(404); }
-    page.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
+    res.send(200, pages);
+  });
+};
+
+exports.destroy = function(req, res) {
+  Page.findByIdAndRemove(req.params.id, function(err) {
+    if(err) { return handleError(res, err); }
+    res.send(204);
   });
 };
 
