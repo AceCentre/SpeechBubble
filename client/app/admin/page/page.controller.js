@@ -4,12 +4,7 @@ angular.module('speechBubbleApp')
   .controller('AdminPageCtrl', function ($scope, Page, $modal, Modal) {
     $scope.pages = Page.query();
 
-<<<<<<< HEAD
-    $scope.modal = function(page) {
-
-=======
     $scope.create = function() {
->>>>>>> feature/flat-pages
       $modal.open({
         templateUrl: 'app/admin/page/create.html',
         controller: 'AdminPageCreateCtrl',
