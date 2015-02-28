@@ -40,7 +40,7 @@ form.form-horizontal(ng-submit='update()', novalidate)
         .form-group
           label.control-label.col-sm-2(for="Revisions") Revisions
           .col-sm-10
-            select.form-control(id='Revisions', ng-options='i as i._id for i in page._revisions', type='text', ng-model='revision', ng-required)
+            select.form-control(id='Revisions', ng-options='i._id.toString() + " (" + i.status + ")" for i in page._revisions', type='text', ng-model='revision', ng-required)
               option(value='', disabled, selected) Revert revision
 
     .panel.panel-default
