@@ -9,9 +9,10 @@ form.form-horizontal(ng-submit='update()', novalidate)
       .panel-heading Publish
       .panel-body
         .form-group
-          label.control-label.col-sm-2(for="Slug") URL
+          label.control-label.col-sm-2(for="Slug") Slug
           .col-sm-10
             input.form-control(id='Slug', type='text', ng-model='page.slug', ng-required)
+            p.help-block {{ url }}
 
         .form-group
           label.control-label.col-sm-2(for="Slug") Visibility
@@ -32,6 +33,17 @@ form.form-horizontal(ng-submit='update()', novalidate)
                 input(type='checkbox', ng-model='page.registration')
                 | Registration
 
+    .panel.panel-default(ng-if='revisions.length')
+      .panel-heading History
+      .panel-body
+
+        .form-group
+          label.control-label.col-sm-2(for="Revisions") Revisions
+          .col-sm-10
+            select.form-control(id='Revisions', ng-options='i._id.toString() + " (" + i.status + ")" for i in revisions', type='text', ng-model='revision', ng-required)
+              option(value='', disabled, selected) Revert revision
+
+    .panel.panel-default
       .panel-heading Content
       .panel-body
 

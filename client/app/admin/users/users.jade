@@ -5,15 +5,14 @@ block sidebar
     .form-group
       label.control-label Search
       input.form-control(ng-model='searchText')
-        
+
     .form-group
       a.pull-right.btn.btn-link(ng-click='cancel()') Clear
-      | 
       button.btn.btn-primary(type='submit') Search
 
 block content
   h1 User Administration
-  
+
   .table-wrapper
     table.table.table-striped
       thead
@@ -21,22 +20,22 @@ block content
           th Email
           th Name
           th Role
-          th Active
-          th Subscribe
-          th Actions
+          th.icon Active
+          th.icon Subscribe
+          th.actions Actions
       tbody
         tr(ng-repeat='user in filteredUsers | from:((currentPage - 1) * itemsPerPage) | limitTo: itemsPerPage')
-          td {{ user.email }}
+          td: a(href='mailto:{{ user.email }}'){{ user.email }}
           td {{ user.firstName }} {{ user.lastName }}
           td {{ user.role }}
-          td
+          td.icon
             span.glyphicon(ng-class='user.active ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
-          td
+          td.icon
             span.glyphicon(ng-class='user.subscribe ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
-              
+
           td.actions
             a(href='#', ng-click='modal(user)'): span.glyphicon.glyphicon-edit
             a(href='#', ng-click='delete(user.email, user)'): span.glyphicon.glyphicon-trash
-  
+
   .text-center
     pagination.pagination-sm(total-items='totalItems', max-size='10', items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true')

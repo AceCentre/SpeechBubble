@@ -4,6 +4,30 @@ angular.module('speechBubbleApp')
   .controller('AdminPageCtrl', function ($scope, Page, $modal, Modal) {
     $scope.pages = Page.query();
 
+    $scope.isPublic = function(page) {
+      return (page.visibility === 'public');
+    };
+
+    $scope.isVisible = function(page) {
+      var isPublic = (page.visibility === 'public');
+      var isPublished = false;
+      if(isPublic) {
+        angular.forEach(page._revisions, function(r) {
+          if(r.status === 'published') {
+            isPublished = true;
+          }
+        });
+      }
+      return (isPublic && isPublished);
+    };
+
+    $scope.hasDrafts = function(page) {
+      if(page._revisions.length) {
+        return (page._revisions[page._revisions.length -1].status === 'draft');
+      }
+      return false;
+    };
+
     $scope.create = function() {
       $modal.open({
         templateUrl: 'app/admin/page/create.html',
@@ -17,7 +41,7 @@ angular.module('speechBubbleApp')
     };
 
     $scope.edit = function(page) {
-      $modal.open({
+      var modalInstance = $modal.open({
         templateUrl: 'app/admin/page/edit.html',
         controller: 'AdminPageEditCtrl',
         size: 'lg',
@@ -29,6 +53,10 @@ angular.module('speechBubbleApp')
             return page
           }
         }
+      });
+
+      modalInstance.result.then(function() {
+        $scope.pages = Page.query();
       });
     };
 

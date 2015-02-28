@@ -3,12 +3,9 @@
 angular.module('speechBubbleApp')
   .controller('AdminPageEditCtrl', function($scope, $modalInstance, Page, pages, page) {
 
-    if(!page._revisions.length) {
-      page._revisions.push({});
-    }
-
     $scope.page = page;
-    $scope.revision = page._revisions[0];
+    $scope.revisions = page._revisions.slice().reverse();
+    $scope.revision = page._revisions[page._revisions.length -1];
 
     $scope.options = {
       visibility: ['hidden', 'public'],
@@ -19,19 +16,22 @@ angular.module('speechBubbleApp')
       Page.update({
         _id: $scope.page._id,
         slug: $scope.page.slug,
+        visibility: $scope.page.visibility,
         comments: $scope.page.comments,
-        registration: $scope.page.registration,
         title: $scope.revision.title,
         content: $scope.revision.content,
         status: $scope.revision.status
       }, function(res) {
-        angular.copy(page, res);
-        $modalInstance.dismiss();
+        $modalInstance.close(res);
       });
     };
 
     $scope.cancel = function() {
       $modalInstance.dismiss();
     };
+
+    $scope.$watch('page.slug', function() {
+      $scope.url = (window.location.origin + '/' + $scope.page.slug);
+    });
 
   });
