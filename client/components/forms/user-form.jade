@@ -83,9 +83,7 @@ form.form-horizontal(name='form', novalidate='')
       "has-error": form.accept.$invalid && submitted }')
         label
           input(id='accept', name='accept', type='checkbox', ng-model='user.accept', required='')
-          | I have read and accept the site
-          a(href='/privacy/', target='_blank') privacy policy
-          |.
+          | I have read and accept the site #[a(href='/privacy/', target='_blank') privacy policy].
 
         p.help-block(ng-show='form.accept.$error.required && submitted')
           | You must accept the privacy policy to continue.
