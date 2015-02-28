@@ -3,8 +3,12 @@
 angular.module('speechBubbleApp')
   .controller('AdminPageEditCtrl', function($scope, $modalInstance, Page, pages, page) {
 
+    if(!page._revisions.length) {
+      page._revisions.push({});
+    }
+
     $scope.page = page;
-    $scope.revision = page._revisions[0] || {};
+    $scope.revision = page._revisions[0];
 
     $scope.options = {
       visibility: ['hidden', 'public'],
@@ -13,6 +17,7 @@ angular.module('speechBubbleApp')
 
     $scope.update = function() {
       Page.update({
+        _id: $scope.page._id,
         slug: $scope.page.slug,
         comments: $scope.page.comments,
         registration: $scope.page.registration,

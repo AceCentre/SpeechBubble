@@ -13,14 +13,13 @@ block content
     thead
       tr
         th Page
-        th Published
+        th Visibility
         th Actions
     tbody
       tr(ng-repeat='page in pages')
         td
           a(ng-href='/{{ page.slug }}/', target='_blank') /{{ page.slug }}/
-        td
-          span.glyphicon(ng-class='page.published ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
+        td {{ page.visibility }}
         td.actions
           a(href='#', ng-click='edit(page)'): span.glyphicon.glyphicon-edit
           a(href='#', ng-click='delete(page.slug, page)'): span.glyphicon.glyphicon-trash

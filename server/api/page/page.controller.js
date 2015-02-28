@@ -31,13 +31,28 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  Page.findById(req.params.id, function(err, page) {
+  Page.findById(req.body._id, function(err, page) {
     if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-    PageRevision.create(req.body, function(err, revision) {
+    PageRevision.create({
+      title: req.body.title,
+      status: req.body.status,
+      content: req.body.content
+    }, function(err, revision) {
       if(err) { return handleError(res, err); }
-      page._revisions.push( revision._id );
-      res.send(200, page);
+
+      // update page properties
+      page.visibility = req.body.visibility;
+      page.slug = req.body.slug;
+      page.comments = req.body.comments;
+      page.registration = req.body.registration;
+
+      // push revision to page history
+      page._revisions.unshift( revision._id );
+
+      page.save(function(err, page) {
+        res.send(200, page);
+      });
     });
   });
 };
