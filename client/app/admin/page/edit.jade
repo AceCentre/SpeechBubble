@@ -33,7 +33,7 @@ form.form-horizontal(ng-submit='update()', novalidate)
                 input(type='checkbox', ng-model='page.registration')
                 | Registration
 
-    .panel.panel-default
+    .panel.panel-default(ng-if='revisions.length')
       .panel-heading History
       .panel-body
 

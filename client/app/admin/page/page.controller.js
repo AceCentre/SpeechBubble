@@ -41,7 +41,7 @@ angular.module('speechBubbleApp')
     };
 
     $scope.edit = function(page) {
-      $modal.open({
+      var modalInstance = $modal.open({
         templateUrl: 'app/admin/page/edit.html',
         controller: 'AdminPageEditCtrl',
         size: 'lg',
@@ -53,6 +53,10 @@ angular.module('speechBubbleApp')
             return page
           }
         }
+      });
+
+      modalInstance.result.then(function() {
+        $scope.pages = Page.query();
       });
     };
 

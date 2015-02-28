@@ -3,10 +3,6 @@
 angular.module('speechBubbleApp')
   .controller('AdminPageEditCtrl', function($scope, $modalInstance, Page, pages, page) {
 
-    if(!page._revisions.length) {
-      page._revisions.push({});
-    }
-
     $scope.page = page;
     $scope.revisions = page._revisions.slice().reverse();
     $scope.revision = page._revisions[page._revisions.length -1];
@@ -26,9 +22,7 @@ angular.module('speechBubbleApp')
         content: $scope.revision.content,
         status: $scope.revision.status
       }, function(res) {
-        pages = Page.query(function() {
-          $modalInstance.dismiss();
-        });
+        $modalInstance.close(res);
       });
     };
 

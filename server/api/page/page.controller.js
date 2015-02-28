@@ -54,7 +54,10 @@ exports.update = function(req, res) {
       page._revisions.push( revision._id );
 
       page.save(function(err, page) {
-        res.send(200, page);
+        if(err) { return handleError(res, err); }
+        page.populate('_revisions', function(err, page) {
+          return res.send(200, page);
+        });
       });
     });
   });
