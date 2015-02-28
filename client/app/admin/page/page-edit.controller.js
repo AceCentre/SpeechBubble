@@ -12,6 +12,19 @@ angular.module('speechBubbleApp')
       status: ['draft', 'published']
     };
 
+    $scope.editorOptions = {
+      toolbar: [
+        ['Format', 'Bold', 'Italic'],
+        ['Link', 'Unlink'],
+        ['NumberedList', 'BulletedList'],
+        ['Indent', 'Outdent', 'HorizontalRule'],
+        ['Table', 'Image'],
+        ['Source']
+      ],
+      extraPlugins: "imagebrowser",
+      imageBrowser_listUrl: "/api/upload/"
+    };
+
     $scope.update = function() {
       Page.update({
         _id: $scope.page._id,
