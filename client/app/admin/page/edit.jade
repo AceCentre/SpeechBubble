@@ -15,32 +15,22 @@ form.form-horizontal(ng-submit='update()', novalidate)
             p.help-block {{ url }}
 
         .form-group
-          label.control-label.col-sm-2(for="Slug") Visibility
+          label.control-label.col-sm-2(for="Visible") Visible
           .col-sm-10
-            select.form-control(id='Visibility', ng-options='i as i for i in options.visibility', type='text', ng-model='page.visibility', ng-required)
-              option(value='', disabled, selected) Select visibility
+            input(type='checkbox', id='Visible', ng-model='page.visible', bs-switch='', switch-off-text='No', switch-on-text='Yes')
 
         .form-group
-          .col-sm-10.col-sm-offset-2
-
-            .checkbox
-              label
-                input(type='checkbox', ng-model='page.comments')
-                | Comments
-
-            .checkbox
-              label
-                input(type='checkbox', ng-model='page.registration')
-                | Registration
+          label.control-label.col-sm-2(for="Comments") Comments
+          .col-sm-10
+            input(type='checkbox', id='Comments', ng-model='page.comments', bs-switch='', switch-off-text='No', switch-on-text='Yes')
 
     .panel.panel-default(ng-if='revisions.length')
       .panel-heading History
       .panel-body
-
         .form-group
           label.control-label.col-sm-2(for="Revisions") Revisions
           .col-sm-10
-            select.form-control(id='Revisions', ng-options='i._id.toString() + " (" + i.status + ")" for i in revisions', type='text', ng-model='revision', ng-required)
+            select.form-control(id='Revisions', ng-options='revisionLabel(i) for i in revisions', type='text', ng-model='revision', ng-required)
               option(value='', disabled, selected) Revert revision
 
     .panel.panel-default
@@ -53,10 +43,9 @@ form.form-horizontal(ng-submit='update()', novalidate)
             input.form-control(id='Title', type='text', ng-model='revision.title', ng-required)
 
         .form-group
-          label.control-label.col-sm-2(for="Status") Status
+          label.control-label.col-sm-2(for="Published") Published
           .col-sm-10
-            select.form-control(id='Status', ng-options='i as i for i in options.status', type='text', ng-model='revision.status', ng-required)
-              option(value='', disabled, selected) Select status
+            input(type='checkbox', id='Published', ng-model='revision.published', bs-switch='', switch-off-text='No', switch-on-text='Yes')
 
         .form-group
           label.control-label.col-sm-2(for="Content") Content

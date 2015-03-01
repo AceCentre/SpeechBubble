@@ -6,10 +6,9 @@ var Schema = mongoose.Schema;
 var PageRevisionSchema = Schema({
   title: String,
   content: String,
-  status: {
-    type: String,
-    enum: ['draft', 'published'],
-    default: 'draft'
+  published: {
+    type: Boolean,
+    default: false
   },
   author: {
     type: Schema.Types.ObjectId,

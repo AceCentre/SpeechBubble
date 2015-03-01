@@ -13,7 +13,7 @@ exports.show = function(req, res) {
   })
   .populate({
       path: '_revisions',
-      match: { status: 'published' },
+      match: { published: true },
       options: { limit: 1 }
   })
   .lean()
@@ -40,14 +40,14 @@ exports.update = function(req, res) {
     if(!page) { return res.send(404); }
     PageRevision.create({
       title: req.body.title,
-      status: req.body.status,
+      published: req.body.published,
       content: req.body.content,
       author: req.user._id,
     }, function(err, revision) {
       if(err) { return handleError(res, err); }
 
       // update page properties
-      page.visibility = req.body.visibility;
+      page.visible = req.body.visible;
       page.slug = req.body.slug;
       page.comments = req.body.comments;
 
