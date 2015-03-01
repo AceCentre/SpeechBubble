@@ -14,7 +14,7 @@ exports.show = function(req, res) {
   .populate({
       path: '_revisions',
       match: { published: true },
-      options: { limit: 1 }
+      options: { limit: 1, sort: { createdAt: 'desc' } }
   })
   .lean()
   .exec(function(err, page) {
