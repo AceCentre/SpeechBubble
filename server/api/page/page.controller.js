@@ -9,7 +9,7 @@ exports.show = function(req, res) {
   Page
   .findOne({
     slug: req.params.slug,
-    visibility: 'public'
+    visible: true
   })
   .populate({
       path: '_revisions',
