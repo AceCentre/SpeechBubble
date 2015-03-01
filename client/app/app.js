@@ -10,7 +10,7 @@ angular.module('speechBubbleApp', [
   'ngCkeditor',
   'angularFileUpload',
   'angular-growl',
-  //'frapontillo.bootstrap-switch'
+  'frapontillo.bootstrap-switch'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider) {
     $locationProvider.html5Mode(true);
