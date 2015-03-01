@@ -30,7 +30,7 @@ form.form-horizontal(ng-submit='update()', novalidate)
         .form-group
           label.control-label.col-sm-2(for="Revisions") Revisions
           .col-sm-10
-            select.form-control(id='Revisions', ng-options='revisionLabel(i) for i in revisions', type='text', ng-model='revision', ng-required)
+            select.form-control(id='Revisions', ng-options='revisionLabel(i) for i in revisions', type='text', ng-model='current.revision', ng-required)
               option(value='', disabled, selected) Revert revision
 
     .panel.panel-default
@@ -40,17 +40,17 @@ form.form-horizontal(ng-submit='update()', novalidate)
         .form-group
           label.control-label.col-sm-2(for="Title") Title
           .col-sm-10
-            input.form-control(id='Title', type='text', ng-model='revision.title', ng-required)
+            input.form-control(id='Title', type='text', ng-model='current.revision.title', ng-required)
 
         .form-group
           label.control-label.col-sm-2(for="Published") Published
           .col-sm-10
-            input(type='checkbox', id='Published', ng-model='revision.published', bs-switch='', switch-off-text='No', switch-on-text='Yes')
+            input(type='checkbox', id='Published', ng-model='current.revision.published', bs-switch='', switch-off-text='No', switch-on-text='Yes')
 
         .form-group
           label.control-label.col-sm-2(for="Content") Content
           .col-sm-10
-            textarea(id='Content', ckeditor='editorOptions', ng-model='revision.content')
+            textarea(id='Content', ckeditor='editorOptions', ng-model='current.revision.content')
 
 
   .modal-footer

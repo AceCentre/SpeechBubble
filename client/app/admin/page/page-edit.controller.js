@@ -5,7 +5,9 @@ angular.module('speechBubbleApp')
 
     $scope.page = page;
     $scope.revisions = page._revisions.slice().reverse();
-    $scope.revision = page._revisions[page._revisions.length -1];
+    $scope.current = {
+      revision: page._revisions[page._revisions.length -1]
+    };
 
     $scope.revisionLabel = function(revision) {
       var id = revision._id;
@@ -32,9 +34,9 @@ angular.module('speechBubbleApp')
         slug: $scope.page.slug,
         visible: $scope.page.visible,
         comments: $scope.page.comments,
-        title: $scope.revision.title,
-        content: $scope.revision.content,
-        published: $scope.revision.published
+        title: $scope.current.revision.title,
+        content: $scope.current.revision.content,
+        published: $scope.current.revision.published
       }, function(res) {
         $modalInstance.close(res);
       });
