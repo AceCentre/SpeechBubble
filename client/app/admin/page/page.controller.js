@@ -4,16 +4,12 @@ angular.module('speechBubbleApp')
   .controller('AdminPageCtrl', function ($scope, Page, $modal, Modal) {
     $scope.pages = Page.query();
 
-    $scope.isPublic = function(page) {
-      return (page.visibility === 'public');
-    };
-
     $scope.isVisible = function(page) {
-      var isPublic = (page.visibility === 'public');
+      var isPublic = page.visible;
       var isPublished = false;
-      if(isPublic) {
+      if(page.visible) {
         angular.forEach(page._revisions, function(r) {
-          if(r.status === 'published') {
+          if(r.published) {
             isPublished = true;
           }
         });
@@ -23,7 +19,7 @@ angular.module('speechBubbleApp')
 
     $scope.hasDrafts = function(page) {
       if(page._revisions.length) {
-        return (page._revisions[page._revisions.length -1].status === 'draft');
+        return !(page._revisions[page._revisions.length -1].published);
       }
       return false;
     };

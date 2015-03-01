@@ -9,10 +9,9 @@ var PageSchema = Schema({
     required: true,
     unique: true
   },
-  visibility: {
-    type: String,
-    enum: ['hidden', 'public'],
-    default: 'hidden'
+  visible: {
+    type: Boolean,
+    default: false
   },
   comments: {
     type: Boolean,
