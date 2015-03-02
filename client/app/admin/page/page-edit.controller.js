@@ -38,21 +38,24 @@ angular.module('speechBubbleApp')
       imageBrowser_listUrl: "/api/upload/"
     };
 
-    $scope.update = function(message) {
-      Page.update({
-        _id: $scope.page._id,
-        slug: $scope.page.slug,
-        visible: $scope.page.visible,
-        comments: $scope.page.comments,
-        title: $scope.current.revision.title,
-        content: $scope.current.revision.content,
-        published: $scope.current.revision.published
-      }, function(res, close) {
-        if(message) {
-          growl.success(message);
-        }
-        $modalInstance.close();
-      });
+    $scope.update = function(form, message) {
+      $scope.submitted = true;
+      if(form.$valid) {
+        Page.update({
+          _id: $scope.page._id,
+          slug: $scope.page.slug,
+          visible: $scope.page.visible,
+          comments: $scope.page.comments,
+          title: $scope.current.revision.title,
+          content: $scope.current.revision.content,
+          published: $scope.current.revision.published
+        }, function(res, close) {
+          if(message) {
+            growl.success(message);
+          }
+          $modalInstance.close();
+        });
+      }
     };
 
     $scope.cancel = function() {

@@ -2,7 +2,7 @@
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Page Edit
 
-form.form-horizontal(ng-submit='update("Page saved")', novalidate)
+form.form-horizontal(name='form', ng-submit='update(form, "Page saved")', novalidate='')
   .modal-body
 
     .panel.panel-default
@@ -52,20 +52,26 @@ form.form-horizontal(ng-submit='update("Page saved")', novalidate)
       .panel-heading Content
       .panel-body
 
-        .form-group
+        .form-group(ng-class='{ "has-success": form.Title.$valid && submitted,\
+        "has-error": form.Title.$invalid && submitted }')
           label.control-label.col-sm-2(for="Title") Title
           .col-sm-10
-            input.form-control(id='Title', type='text', ng-model='current.revision.title', ng-required)
+            input.form-control(id='Title', name='Title', type='text', ng-model='current.revision.title', required='')
+            p.help-block(ng-show='form.Title.$error.required && submitted')
+              | Page title is required
 
         .form-group
           label.control-label.col-sm-2(for="Published") Published
           .col-sm-10
             input(type='checkbox', id='Published', ng-model='current.revision.published', bs-switch='', switch-off-text='No', switch-on-text='Yes')
 
-        .form-group
+        .form-group(ng-class='{ "has-success": form.Content.$valid && submitted,\
+        "has-error": form.Content.$invalid && submitted }')
           label.control-label.col-sm-2(for="Content") Content
           .col-sm-10
-            textarea(id='Content', ckeditor='editorOptions', ng-model='current.revision.content')
+            textarea(id='Content', name='Content', ckeditor='editorOptions', ng-model='current.revision.content', required='')
+            p.help-block(ng-show='form.Content.$error.required && submitted')
+              | Page content is required
 
 
   .modal-footer
