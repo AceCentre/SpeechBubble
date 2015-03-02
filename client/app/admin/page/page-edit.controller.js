@@ -1,12 +1,22 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminPageEditCtrl', function($scope, $modalInstance, Page, pages, page) {
+  .controller('AdminPageEditCtrl', function($scope, $modalInstance, Page, pages, page, growl) {
 
     $scope.page = page;
     $scope.revisions = page._revisions.slice().reverse();
+    $scope.revisionsPerPage = 5;
+    $scope.currentPage = 1;
+
     $scope.current = {
       revision: page._revisions[page._revisions.length -1]
+    };
+
+    $scope.revert = function(revision) {
+      $scope.current.revision.title = revision.title;
+      $scope.current.revision.content = revision.content;
+      $scope.current.revision.published = false;
+      growl.warning('Set as current draft');
     };
 
     $scope.revisionLabel = function(revision) {
@@ -28,7 +38,7 @@ angular.module('speechBubbleApp')
       imageBrowser_listUrl: "/api/upload/"
     };
 
-    $scope.update = function() {
+    $scope.update = function(message) {
       Page.update({
         _id: $scope.page._id,
         slug: $scope.page.slug,
@@ -37,8 +47,11 @@ angular.module('speechBubbleApp')
         title: $scope.current.revision.title,
         content: $scope.current.revision.content,
         published: $scope.current.revision.published
-      }, function(res) {
-        $modalInstance.close(res);
+      }, function(res, close) {
+        if(message) {
+          growl.success(message);
+        }
+        $modalInstance.close();
       });
     };
 
