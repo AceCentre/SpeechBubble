@@ -24,7 +24,7 @@ angular.module('speechBubbleApp')
       $scope.current.revision.title = revision.title;
       $scope.current.revision.content = revision.content;
       $scope.current.revision.published = false;
-      growl.warning('Set as current draft');
+      growl.warning('Set as working draft.');
     };
 
     $scope.revisionLabel = function(revision) {

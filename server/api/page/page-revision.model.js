@@ -28,7 +28,6 @@ PageRevisionSchema.path('note').validate(function(value, respond) {
 
 PageRevisionSchema.pre('save', function(next) {
   var now = new Date();
-  console.log(now);
   if(!this.createdAt) {
     this.createdAt = now;
   }

@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var mongoose = require('mongoose');
 var Page = require('./page.model');
+var User = require('../user/user.model');
 var PageRevision = require('./page-revision.model');
 
 exports.show = function(req, res) {
@@ -12,9 +13,9 @@ exports.show = function(req, res) {
     visible: true
   })
   .populate({
-      path: '_revisions',
-      match: { published: true },
-      options: { limit: 1, sort: { createdAt: 'desc' } }
+    path: '_revisions',
+    match: { published: true },
+    options: { limit: 1, sort: { createdAt: 'desc' } }
   })
   .lean()
   .exec(function(err, page) {
@@ -100,7 +101,13 @@ exports.list = function(req, res) {
   .populate('_revisions')
   .exec(function(err, pages) {
     if(err) { return handleError(res, err); }
-    res.send(200, pages);
+    PageRevision.populate(pages, {
+      path: '_revisions.author',
+      select: 'firstName lastName',
+      model: User
+    }, function(err, result) {
+      res.send(200, pages);
+    });
   });
 };
 
