@@ -10,14 +10,30 @@ var PageRevisionSchema = Schema({
     type: Boolean,
     default: false
   },
+  note: String,
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: Date,
+  updatedAt: Date
 }, { collection: 'revisions' });
+
+PageRevisionSchema.path('note').validate(function(value, respond) {
+  if(this.published) {
+    respond(!!value);
+  }
+  respond(true);
+}, 'Please provide a commit note');
+
+PageRevisionSchema.pre('save', function(next) {
+  var now = new Date();
+  console.log(now);
+  if(!this.createdAt) {
+    this.createdAt = now;
+  }
+  this.updatedAt = now;
+  next();
+});
 
 module.exports = mongoose.model('PageRevision', PageRevisionSchema);

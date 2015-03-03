@@ -4,13 +4,21 @@ angular.module('speechBubbleApp')
   .controller('AdminPageEditCtrl', function($scope, $modalInstance, Page, pages, page, growl) {
 
     $scope.page = page;
-    $scope.revisions = page._revisions.slice().reverse();
+    $scope.revisions = page._revisions;
     $scope.revisionsPerPage = 5;
     $scope.currentPage = 1;
 
-    $scope.current = {
-      revision: page._revisions[page._revisions.length -1]
-    };
+    var previous = page._revisions.slice()[page._revisions.length -1];
+
+    if(previous) {
+      $scope.current = {
+        revision: {
+          title: previous.title || '',
+          published: previous.published || false,
+          content: previous.content || ''
+        }
+      };
+    }
 
     $scope.revert = function(revision) {
       $scope.current.revision.title = revision.title;
@@ -39,6 +47,7 @@ angular.module('speechBubbleApp')
     };
 
     $scope.update = function(form, message) {
+      var note = $scope.current.revision.published ? $scope.current.revision.note: 'Draft';
       $scope.submitted = true;
       if(form.$valid) {
         Page.update({
@@ -48,7 +57,8 @@ angular.module('speechBubbleApp')
           comments: $scope.page.comments,
           title: $scope.current.revision.title,
           content: $scope.current.revision.content,
-          published: $scope.current.revision.published
+          published: $scope.current.revision.published,
+          note: note
         }, function(res, close) {
           if(message) {
             growl.success(message);
