@@ -6,6 +6,6 @@ var Schema = mongoose.Schema;
 
 var HardwareAdvancedSchema = ProductSchema.extend({
 
-});
+}, { collection: 'products' });
 
 module.exports = mongoose.model('ProductHardwareAdvanced', HardwareAdvancedSchema);

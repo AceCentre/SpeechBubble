@@ -6,6 +6,6 @@ var Schema = mongoose.Schema;
 
 var SoftwareSchema = ProductSchema.extend({
 
-});
+}, { collection: 'products' });
 
 module.exports = mongoose.model('ProductSoftware', SoftwareSchema);
