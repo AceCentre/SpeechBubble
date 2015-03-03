@@ -6,17 +6,18 @@ var crypto = require('crypto');
 var authTypes = ['twitter', 'facebook', 'google'];
 var MailChimpAPI = require('mailchimp').MailChimpAPI;
 var uuid = require('node-uuid');
+var ENUM = require('../../enum');
 
 var UserSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: String,
   description: {
     type: String,
-    enum: ['', 'professional', 'parent', 'aac user', 'other']
+    enum: ENUM.USER_DESCRIPTION
   },
   region: {
     type: String,
-    enum: ['', 'UK', 'Europe', 'USA', 'other']
+    enum: ENUM.REGION
   },
   email: {
     type: String,
