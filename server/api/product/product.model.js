@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var ProductSchema = new Schema({
   supplier: {
-    type: Schema.Types.ObjectId;
+    type: Schema.Types.ObjectId,
     ref: 'Supplier'
   }
 }, { collection: 'products' });
