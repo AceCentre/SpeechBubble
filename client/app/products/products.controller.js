@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ProductsCtrl', function ($scope, $location, Product, growl) {
+  .controller('ProductsCtrl', function ($scope, $window, $location, Product, growl) {
 
     $scope.limit = Number($location.search().limit) || 10;
     $scope.skip = Number($location.search().skip) || 0;
@@ -19,6 +19,7 @@ angular.module('speechBubbleApp')
       }, function(res) {
         $scope.products = res.products;
         $scope.total = res.total;
+        $window.scrollTo(0,0);
       }, function() {
         growl.error('Sorry a problem occurred.');
       });
