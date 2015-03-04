@@ -8,11 +8,18 @@ exports.index = function(req, res) {
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;
 
-  console.log(skip, limit);
-
-  Product.find({}, { skip: skip, limit: limit }, function (err, products) {
+  Product.find().count(function(err, total) {
     if(err) { return handleError(res, err); }
-    return res.json(200, products);
+    Product.find()
+    .skip(skip)
+    .limit(limit)
+    .exec(function (err, products) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, {
+        total: total,
+        products: products
+      });
+    });
   });
 };
 

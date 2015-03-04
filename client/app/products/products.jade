@@ -2,17 +2,21 @@ extends ../../layout/2_column
 
 block content
   h1 Products
+  p Displaying {{ skip + 1 }}-{{ skip + limit }} of {{ total }} products
 
+  hr
   .text-center
-    pagination.pagination-sm(total-items='products.length', max-size='10', items-per-page='productsPerPage', ng-model='currentPage', boundary-links='true')
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
+  hr
 
-
-  .media(ng-repeat='product in products | from:((currentPage - 1) * productsPerPage) | limitTo: productsPerPage')
+  .media(ng-repeat='product in products')
     .media-left
       img.media-object(src='http://placehold.it/64x64')
     .media-body
       h4.media-heading {{ product.name }}
       {{ product.description }}
 
+  hr
   .text-center
-    pagination.pagination-sm(total-items='products.length', max-size='10', items-per-page='productsPerPage', ng-model='currentPage', boundary-links='true')
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
+  hr
