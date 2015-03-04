@@ -51,6 +51,13 @@ angular.module('speechBubbleApp', [
       controller: 'SupplierCtrl'
     })
 
+    // products
+    .state('products', {
+      url: '/products',
+      templateUrl: 'app/products/products.html',
+      controller: 'ProductsCtrl'
+    })
+
     // Account
     .state('login', {
       url: '/login',

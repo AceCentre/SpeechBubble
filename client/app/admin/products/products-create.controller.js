@@ -15,11 +15,12 @@ angular.module('speechBubbleApp')
     $scope.create = function() {
       var template;
 
-      console.log(templates, $scope.type);
-
       switch($scope.type) {
         case 'Simple':
           template = templates.simple;
+          break;
+        case 'Advanced':
+          template = templates.advanced;
           break;
       }
 

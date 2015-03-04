@@ -10,7 +10,8 @@ angular.module('speechBubbleApp')
 
     var templates = {
       create: 'app/admin/products/create.html',
-      simple: 'app/admin/products/types/simple.html'
+      simple: 'app/admin/products/types/simple.html',
+      advanced: 'app/admin/products/types/advanced.html'
     };
 
     $scope.create = function() {
