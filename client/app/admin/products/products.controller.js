@@ -1,16 +1,8 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ProductsCtrl', function ($scope, $modal, Product) {
-    $scope.products = Product.query({
-      skip: 10,
-      limit: 10
-    });
-
-    // pagination
-    $scope.productsPerPage = 10;
-    $scope.currentPage = 1;
-
+  .controller('AdminProductsCtrl', function ($scope, $modal, Product) {
+    // Create/Edit
     var templates = {
       create: 'app/admin/products/create.html',
       simple: 'app/admin/products/types/simple.html',
@@ -28,5 +20,4 @@ angular.module('speechBubbleApp')
         }
       });
     };
-
   });

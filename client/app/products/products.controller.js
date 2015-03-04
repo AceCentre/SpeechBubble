@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ProductsCtrl', function ($scope, $window, $location, Product, growl) {
+  .controller('ProductsCtrl', function ($scope, $window, $modal, $location, Product, growl) {
 
     $scope.limit = Number($location.search().limit) || 10;
     $scope.skip = Number($location.search().skip) || 0;

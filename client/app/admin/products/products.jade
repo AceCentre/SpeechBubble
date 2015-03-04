@@ -4,22 +4,31 @@ block content
   button.btn.btn-primary.pull-right(ng-click='create()') New Product
   h1 Product Administration
   
-  table.table.table-striped
-    thead
-      tr
-        th Name
-        th Type
-        th Discontinued
-        th.actions Actions
-    tbody
-      tr(ng-repeat='product in products | from:((currentPage - 1) * productsPerPage) | limitTo: productsPerPage')
-        td {{ product.name }}
-        td {{ product.__t | type }}
-        td.icon
-          span.glyphicon(ng-class='product.discontinued ? "glyphicon-remove-circle": "glyphicon-ok-circle"')
-        td.actions
-          a(href='#', ng-click='edit(product)'): span.glyphicon.glyphicon-edit
-          a(href='#', ng-click='delete(products.name, product)'): span.glyphicon.glyphicon-trash
-            
-  .text-center
-    pagination.pagination-sm(total-items='products.length', max-size='10', items-per-page='productsPerPage', ng-model='currentPage', boundary-links='true')
+  div(ng-controller='ProductsCtrl')
+    
+    hr
+    .text-center
+      pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
+    hr
+  
+    table.table.table-striped
+      thead
+        tr
+          th Name
+          th Type
+          th Discontinued
+          th.actions Actions
+      tbody
+        tr(ng-repeat='product in products')
+          td {{ product.name }}
+          td {{ product.__t | type }}
+          td.icon
+            span.glyphicon(ng-class='product.discontinued ? "glyphicon-remove-circle": "glyphicon-ok-circle"')
+          td.actions
+            a(href='#', ng-click='edit(product)'): span.glyphicon.glyphicon-edit
+            a(href='#', ng-click='delete(products.name, product)'): span.glyphicon.glyphicon-trash
+              
+    hr
+    .text-center
+      pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
+    hr
