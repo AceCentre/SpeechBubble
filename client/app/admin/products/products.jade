@@ -14,7 +14,7 @@ block content
     tbody
       tr(ng-repeat='product in products | from:((currentPage - 1) * productsPerPage) | limitTo: productsPerPage')
         td {{ product.name }}
-        td {{ product.__t }}
+        td {{ product.__t | type }}
         td.icon
           span.glyphicon(ng-class='product.discontinued ? "glyphicon-remove-circle": "glyphicon-ok-circle"')
         td.actions
