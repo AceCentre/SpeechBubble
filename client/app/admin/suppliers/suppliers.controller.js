@@ -15,7 +15,6 @@ angular.module('speechBubbleApp')
     };
 
     $scope.edit = function(supplier) {
-      $scope.current = supplier;
       $modal.open({
         templateUrl: 'app/admin/suppliers/edit.html',
         controller: 'AdminSupplierEditCtrl',
@@ -23,8 +22,8 @@ angular.module('speechBubbleApp')
           suppliers: function() {
             return $scope.suppliers;
           },
-          current: function() {
-            return $scope.current;
+          supplier: function() {
+            return supplier;
           }
         }
       });

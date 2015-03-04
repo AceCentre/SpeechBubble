@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminSupplierEditCtrl', function($scope, $modalInstance, Supplier, growl, current, suppliers) {
+.controller('AdminSupplierEditCtrl', function($scope, $modalInstance, Supplier, growl, supplier, suppliers) {
 
-  $scope.current = current;
+  $scope.supplier = supplier;
   $scope.regions = ['UK', 'Europe', 'USA', 'Other'];
 
   $scope.cancel = function() {
@@ -13,8 +13,8 @@ angular.module('speechBubbleApp')
   $scope.save = function(form) {
     $scope.submitted = true;
     if(form.$valid) {
-      if(current._id) {
-        Supplier.update($scope.current,
+      if(supplier._id) {
+        Supplier.update($scope.supplier,
           function() {
             $modalInstance.close();
             growl.success('Supplier updated.');
@@ -23,7 +23,7 @@ angular.module('speechBubbleApp')
             growl.error(res.error);
           });
       } else {
-        Supplier.create($scope.current,
+        Supplier.create($scope.supplier,
           function() {
             $modalInstance.close();
             growl.success('Supplier created.');
