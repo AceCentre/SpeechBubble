@@ -2,3 +2,10 @@ extends ../../layout/2_column
 
 block content
   h1 Products
+
+  .media(ng-repeat='p in products')
+    .media-left
+      img.media-object(src='http://placehold.it/64x64')
+    .media-body
+      h4 {{ p.name }}
+      {{ p.description }}

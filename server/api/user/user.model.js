@@ -145,6 +145,9 @@ UserSchema
       next();
   })
   .pre('save', function(next) {
+    if(process.env.NODE_ENV === 'development') {
+      return next();
+    }
     // Update MailChimp Subscription on save
     var user = this;
 
