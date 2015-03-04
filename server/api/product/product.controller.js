@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var Product = require('./product.model');
+var Product = require('./product.model').Model;
 
 // Get list of products
 exports.index = function(req, res) {
