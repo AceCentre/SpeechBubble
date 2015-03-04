@@ -19,7 +19,7 @@ angular.module('speechBubbleApp')
       }, function(res) {
         $scope.products = res.products;
         $scope.total = res.total;
-        $window.scrollTo(0,0);
+        $('html, body').animate({ scrollTop: 0 }, 400);
       }, function() {
         growl.error('Sorry a problem occurred.');
       });
