@@ -5,7 +5,12 @@ var Product = require('./product.model').Model;
 
 // Get list of products
 exports.index = function(req, res) {
-  Product.find(function (err, products) {
+  var skip = req.query.skip || 0;
+  var limit = req.query.limit || 10;
+
+  console.log(skip, limit);
+
+  Product.find({}, { skip: skip, limit: limit }, function (err, products) {
     if(err) { return handleError(res, err); }
     return res.json(200, products);
   });

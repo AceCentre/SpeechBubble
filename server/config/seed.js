@@ -24,7 +24,7 @@ Product.find().remove(function() {
           regions: chance.pick(regions, chance.integer({ min: 0, max: regions.length - 1}))
         }, function(err, supplier) {
           ProductSimple.create({
-            name: chance.word(),
+            name: chance.sentence(),
             description: chance.paragraph(),
             discontinued: chance.bool(),
             supplier: supplier._id

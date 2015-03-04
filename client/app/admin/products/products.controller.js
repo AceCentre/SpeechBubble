@@ -2,7 +2,10 @@
 
 angular.module('speechBubbleApp')
   .controller('ProductsCtrl', function ($scope, $modal, Product) {
-    $scope.products = Product.query();
+    $scope.products = Product.query({
+      skip: 10,
+      limit: 10
+    });
 
     // pagination
     $scope.productsPerPage = 10;
