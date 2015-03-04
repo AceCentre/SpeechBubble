@@ -1,2 +1,16 @@
-.col-md-12
-    | This is the supplier view.
+extends ../../layout/2_column
+
+block content
+  h1 Suppliers
+
+  table.table.table-striped
+    thead
+      tr
+        th Name
+        th Website
+        th Regions
+    tbody
+      tr(ng-repeat='s in suppliers')
+        td {{ s.name }}
+        td {{ s.url }}
+        td {{ s.regions }}

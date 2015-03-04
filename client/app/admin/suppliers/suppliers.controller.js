@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('SupplierCtrl', function ($scope, Supplier) {
+  .controller('AdminSuppliersCtrl', function ($scope, Supplier) {
     $scope.suppliers = Supplier.query();
   });

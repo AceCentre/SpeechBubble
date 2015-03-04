@@ -7,13 +7,19 @@ angular.module('speechBubbleApp')
       'title': 'Home',
       'link': '/'
     }, {
-      'title': 'Support us',
+      'title': 'Products',
       'children': [
-        { 'title': 'Donate', 'link': 'https://www.justgiving.com/acecentre/' }
+        { 'title': 'Browse', 'link': '/products' },
+        { 'title': 'Suppliers', 'link': '/suppliers' }
       ]
     }, {
-      'title': 'Contact',
-      'link': '/contact'
+      'title': 'Help',
+      'children': [
+        { 'title': 'About', 'link': '/about' },
+        { 'title': 'Contribute', 'link': '/contribute' },
+        { 'title': 'FAQ', 'link': '/help' },
+        { 'title': 'Contact', 'link': '/contact' }
+      ]
     }];
 
     $scope.accountMenu = [
@@ -23,6 +29,7 @@ angular.module('speechBubbleApp')
 
     $scope.adminMenu = [
       { 'title': 'User moderation', 'link': '/admin/users' },
+      { 'title': 'Suppliers moderation', 'link': '/admin/suppliers' },
       { 'title': 'Page moderation', 'link': '/admin/pages' },
       { 'title': 'File administration', 'link': '/admin/upload' }
     ];

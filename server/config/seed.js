@@ -6,10 +6,15 @@
 'use strict';
 
 var User = require('../api/user/user.model');
+var Supplier = require('../api/supplier/supplier.model');
 var chance = require('chance').Chance();
 var _ = require('lodash');
 
-User.find({}).remove(function() {
+Supplier.find().remove(function() {
+  
+});
+
+User.find().remove(function() {
   User.create({
     provider: 'local',
     firstName: 'User',

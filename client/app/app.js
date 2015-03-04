@@ -45,8 +45,8 @@ angular.module('speechBubbleApp', [
     })
 
     // Supplier
-    .state('supplier', {
-      url: '/supplier',
+    .state('suppliers', {
+      url: '/suppliers',
       templateUrl: 'app/supplier/supplier.html',
       controller: 'SupplierCtrl'
     })
