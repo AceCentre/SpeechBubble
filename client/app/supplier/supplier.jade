@@ -13,4 +13,4 @@ block content
       tr(ng-repeat='s in suppliers')
         td {{ s.name }}
         td {{ s.url }}
-        td {{ s.regions }}
+        td {{ s.regions.join(', ') }}

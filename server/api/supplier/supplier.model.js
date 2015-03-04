@@ -12,7 +12,7 @@ var SupplierSchema = new Schema({
   url: String,
   supportDetails: String,
   regions: {
-    type: String,
+    type: [String],
     enum: ENUM.REGION
   }
 });

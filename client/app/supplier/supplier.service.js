@@ -3,7 +3,7 @@
 angular.module('speechBubbleApp')
   .factory('Supplier', function ($resource) {
 
-    return $resource('/api/page/:id', { id: '@_id' }, {
+    return $resource('/api/supplier/:id', { id: '@_id' }, {
       'get': {
         method:'GET',
         params: {

@@ -29,7 +29,7 @@ angular.module('speechBubbleApp')
 
     $scope.adminMenu = [
       { 'title': 'User moderation', 'link': '/admin/users' },
-      { 'title': 'Suppliers moderation', 'link': '/admin/suppliers' },
+      { 'title': 'Supplier moderation', 'link': '/admin/suppliers' },
       { 'title': 'Page moderation', 'link': '/admin/pages' },
       { 'title': 'File administration', 'link': '/admin/upload' }
     ];

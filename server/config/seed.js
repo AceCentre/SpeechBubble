@@ -9,9 +9,18 @@ var User = require('../api/user/user.model');
 var Supplier = require('../api/supplier/supplier.model');
 var chance = require('chance').Chance();
 var _ = require('lodash');
+var ENUM = require('../enum');
 
 Supplier.find().remove(function() {
-  
+  var regions = ENUM.REGION.slice(1);
+  _.times(200, function() {
+      Supplier.create({
+        name: chance.word() + ' Ltd',
+        url: chance.url(),
+        supportDetails: chance.email(),
+        regions: chance.pick(regions, chance.integer({ min: 0, max: regions.length - 1}))
+      });
+  });
 });
 
 User.find().remove(function() {

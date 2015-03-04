@@ -1,0 +1,35 @@
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Supplier
+
+form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
+  .modal-body
+    .form-group(ng-class='{ "has-success": form.Name.$valid && submitted,\
+    "has-error": form.Name.$invalid && submitted }')
+      label.control-label.col-sm-2(for="Name") Name
+      .col-sm-10
+        input.form-control(id='Name', name='Name', type='text', ng-model='current.name', required='')
+        p.help-block(ng-show='form.Name.$error.required && submitted')
+          | Supplier name is required
+          
+    .form-group(ng-class='{ "has-success": form.Url.$valid && submitted,\
+    "has-error": form.Url.$invalid && submitted }')
+      label.control-label.col-sm-2(for="Url") URL
+      .col-sm-10
+        input.form-control(id='Url', name='Url', type='text', ng-model='current.url')
+          
+    .form-group(ng-class='{ "has-success": form.SupportDetails.$valid && submitted,\
+    "has-error": form.SupportDetails.$invalid && submitted }')
+      label.control-label.col-sm-2(for="SupportDetails") Support
+      .col-sm-10
+        input.form-control(id='SupportDetails', name='SupportDetails', type='text', ng-model='current.supportDetails')
+          
+    .form-group(ng-class='{ "has-success": form.Regions.$valid && submitted,\
+    "has-error": form.Regions.$invalid && submitted }')
+      label.control-label.col-sm-2(for="Regions") Regions
+      .col-sm-10
+        select.form-control(id='Regions', name='Regions', ng-options='r as r for r in regions', type='text', ng-model='current.regions', multiple='multiple')
+
+  .modal-footer
+    button.btn.btn-primary() Save
+    a.btn.btn-tertiary(ng-click='cancel()') Cancel
