@@ -18,6 +18,7 @@ block content
         td {{ supplier.regions.join(', ') }}
         td.actions
           a(href='#', ng-click='edit(supplier)'): span.glyphicon.glyphicon-edit
+          a(href='#', ng-click='delete(supplier.name, supplier)'): span.glyphicon.glyphicon-trash
             
   .text-center
     pagination.pagination-sm(total-items='suppliers.length', max-size='10', items-per-page='suppliersPerPage', ng-model='currentPage', boundary-links='true')
