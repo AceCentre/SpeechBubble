@@ -5,9 +5,29 @@ var Supplier = require('./supplier.model');
 
 // Get list of suppliers
 exports.index = function(req, res) {
-  Supplier.find(function (err, suppliers) {
+  var skip = req.query.skip || 0;
+  var limit = req.query.limit || 10;
+  var re = new RegExp(req.query.term, 'i');
+  var query = [
+    { name: re }
+  ];
+
+  Supplier
+  .find()
+  .or(query)
+  .count(function(err, total) {
     if(err) { return handleError(res, err); }
-    return res.json(200, suppliers);
+    Supplier.find()
+    .or(query)
+    .skip(skip)
+    .limit(limit)
+    .exec(function (err, suppliers) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, {
+        total: total,
+        users: suppliers
+      });
+    });
   });
 };
 

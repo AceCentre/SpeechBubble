@@ -22,7 +22,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
     "has-error": form.SupportDetails.$invalid && submitted }')
       label.control-label.col-sm-2(for="SupportDetails") Support
       .col-sm-10
-        input.form-control(id='SupportDetails', name='SupportDetails', type='text', ng-model='supplier.supportDetails')
+        textarea.form-control(id='SupportDetails', name='SupportDetails', type='text', ng-model='supplier.supportDetails', rows='5')
           
     .form-group(ng-class='{ "has-success": form.Regions.$valid && submitted,\
     "has-error": form.Regions.$invalid && submitted }')

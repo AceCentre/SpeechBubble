@@ -4,6 +4,11 @@ block content
   button.btn.btn-primary.pull-right(ng-click='create()') New supplier
   h1 Supplier Administration
   
+  hr
+  .text-center
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
+  hr
+  
   table.table.table-striped
     thead
       tr
@@ -12,7 +17,7 @@ block content
         th Regions
         th.actions Actions
     tbody
-      tr(ng-repeat='supplier in suppliers | from:((currentPage - 1) * suppliersPerPage) | limitTo: suppliersPerPage')
+      tr(ng-repeat='supplier in suppliers')
         td {{ supplier.name }}
         td: a(ng-href='{{ supplier.url }}', target='_blank') {{ supplier.url }}
         td {{ supplier.regions.join(', ') }}
@@ -20,5 +25,7 @@ block content
           a(href='#', ng-click='edit(supplier)'): span.glyphicon.glyphicon-edit
           a(href='#', ng-click='delete(supplier.name, supplier)'): span.glyphicon.glyphicon-trash
             
+  hr
   .text-center
-    pagination.pagination-sm(total-items='suppliers.length', max-size='10', items-per-page='suppliersPerPage', ng-model='currentPage', boundary-links='true')
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
+  hr
