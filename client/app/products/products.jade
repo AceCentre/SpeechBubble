@@ -3,8 +3,9 @@ extends ../../layout/2_column
 block content
   h1 Products
   p Displaying {{ skip + 1 }}-{{ skip + limit }} of {{ total }} products
+  p {{ search.text }}
 
-  hr
+  hr    
   .text-center
     pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
   hr

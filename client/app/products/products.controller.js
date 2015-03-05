@@ -8,11 +8,8 @@ angular.module('speechBubbleApp')
     $scope.page = ($scope.skip / $scope.limit) + 1;
     $scope.total = 0;
 
-    $scope.$watch('page', function(page, lastPage) {
+    function updateResults(page, lastPage) {
       $scope.skip = ($scope.page - 1) * $scope.limit;
-      if(page !== lastPage) {
-        $location.search({ limit: $scope.limit, skip: $scope.skip });
-      }
       Product.query({
         skip: $scope.skip,
         limit: $scope.limit
@@ -20,9 +17,16 @@ angular.module('speechBubbleApp')
         $scope.products = res.products;
         $scope.total = res.total;
         $('html, body').stop().animate({ scrollTop: 0 }, 400);
-      }, function() {
-        growl.error('Sorry a problem occurred.');
+      }, function(err) {
+        growl.error(err);
       });
-    });
+    }
+
+    $scope.reset = function() {
+      $scope.page = 1;
+      updateResults();
+    };
+
+    $scope.$watch('page', updateResults);
 
   });
