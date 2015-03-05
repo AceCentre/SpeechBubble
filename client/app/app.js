@@ -48,7 +48,12 @@ angular.module('speechBubbleApp', [
     .state('suppliers', {
       url: '/suppliers',
       templateUrl: 'app/supplier/supplier.html',
-      controller: 'SupplierCtrl'
+      controller: 'ResultsCtrl',
+      resolve: {
+        endpoint: function() {
+          return '/api/supplier/:id'
+        }
+      }
     })
 
     // products

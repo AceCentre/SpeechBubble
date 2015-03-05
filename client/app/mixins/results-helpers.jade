@@ -1,0 +1,13 @@
+mixin media()
+  .media(ng-repeat='item in items')
+    .media-left
+      img.media-object(src='http://placehold.it/64x64')
+    .media-body
+      h4.media-heading {{ item.name }}
+      {{ item.description }}
+
+mixin pagination()
+  hr
+  .text-center
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
+  hr

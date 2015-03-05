@@ -1,7 +1,14 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ProductsCtrl', function ($scope, $window, $modal, $location, Product, growl) {
+  .controller('ResultsCtrl', function ($scope, $resource, $location, endpoint, growl) {
+
+    var api = $resource(endpoint,
+        { id: '@_id' },
+        {
+          query: { method: 'GET' }
+        }
+      );
 
     $scope.limit = Number($location.search().limit) || 10;
     $scope.skip = Number($location.search().skip) || 0;
@@ -10,12 +17,12 @@ angular.module('speechBubbleApp')
 
     function updateResults() {
       $scope.skip = ($scope.page - 1) * $scope.limit;
-      Product.query({
+      api.query({
         skip: $scope.skip,
         limit: $scope.limit,
         term: $scope.search.term
       }, function(res) {
-        $scope.items = res.products;
+        $scope.items = res.items;
         $scope.total = res.total;
         $('html, body').stop().animate({ scrollTop: 0 }, 400);
       }, function(err) {

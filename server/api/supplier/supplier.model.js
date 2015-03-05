@@ -9,12 +9,16 @@ var SupplierSchema = new Schema({
     type: String,
     required: true
   },
+  address: [{
+    address1: String,
+    address2: String,
+    city: String,
+    county: String,
+    country: String,
+    postCode: String
+  }],
   url: String,
-  supportDetails: String,
-  regions: {
-    type: [String],
-    enum: ENUM.REGION
-  }
+  supportDetails: String
 });
 
 module.exports = mongoose.model('Supplier', SupplierSchema);

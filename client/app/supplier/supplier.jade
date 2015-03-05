@@ -1,16 +1,19 @@
 extends ../../layout/2_column
+include ../mixins/results-helpers
 
 block content
   h1 Suppliers
+  
+  +pagination()
 
   table.table.table-striped
     thead
       tr
         th Name
         th Website
-        th Regions
     tbody
-      tr(ng-repeat='s in suppliers')
-        td {{ s.name }}
-        td {{ s.url }}
-        td {{ s.regions.join(', ') }}
+      tr(ng-repeat='item in items')
+        td {{ item.name }}
+        td {{ item.url }}
+
+  +pagination()
