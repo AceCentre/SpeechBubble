@@ -2,21 +2,26 @@ extends ../../layout/2_column
 
 block content
   h1 Products
-  p Displaying #[strong {{ skip + 1 }}-{{ skip + limit }}] of #[strong{{ total }}] products
+  
+  div(ng-hide='total')
+    p No products found. Click #[a(href='/products', target='_self') here] to view all products
 
-  hr    
-  .text-center
-    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
-  hr
+  div(ng-hide='!total')
+    p Displaying #[strong {{ skip + 1 }}-{{ skip + limit }}] of #[strong{{ total }}] products
+    
+    hr    
+    .text-center
+      pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
+    hr
 
-  .media(ng-repeat='product in products')
-    .media-left
-      img.media-object(src='http://placehold.it/64x64')
-    .media-body
-      h4.media-heading {{ product.name }}
-      {{ product.description }}
+    .media(ng-repeat='product in products')
+      .media-left
+        img.media-object(src='http://placehold.it/64x64')
+      .media-body
+        h4.media-heading {{ product.name }}
+        {{ product.description }}
 
-  hr
-  .text-center
-    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
-  hr
+    hr
+    .text-center
+      pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
+    hr

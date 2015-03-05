@@ -35,11 +35,11 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
  }
 
  a {
-   color: $secondaryColor;
+   color: $primaryColor;
  }
 
  a:hover, a:active, a:focus {
-   color: $primaryColor;
+   color: $secondaryColor;
  }
 
  .container {

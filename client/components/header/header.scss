@@ -7,6 +7,16 @@
   margin-bottom: 20px;
   background: #fff;
   border-top: 4px solid $backgroundColor;
+
+  form {
+    a {
+      color: $secondaryColor;
+    }
+
+    a:hover, a:active, a:focus {
+      color: $primaryColor;
+    }
+  }
 }
 
 .header-logo {

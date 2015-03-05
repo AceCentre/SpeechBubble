@@ -23,11 +23,6 @@ angular.module('speechBubbleApp')
       });
     }
 
-    $scope.reset = function() {
-      $scope.page = 1;
-      updateResults();
-    };
-
     $scope.$watch('page', updateResults);
 
   });

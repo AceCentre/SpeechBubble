@@ -3,6 +3,6 @@
 angular.module('speechBubbleApp')
   .controller('MainCtrl', function ($scope, $location, $http) {
     $scope.search = {
-      term: $location.search().searchTerm || ''
+      term: $location.search().term || ''
     };
   });

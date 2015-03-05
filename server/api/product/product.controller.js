@@ -8,9 +8,20 @@ exports.index = function(req, res) {
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;
 
-  Product.find().count(function(err, total) {
+  var re = new RegExp(req.query.term, 'i');
+  var query = [
+    { name: re },
+    { description: re }
+  ];
+
+  Product
+  .find()
+  .or(query)
+  .count(function(err, total) {
     if(err) { return handleError(res, err); }
-    Product.find()
+    Product
+    .find()
+    .or(query)
     .skip(skip)
     .limit(limit)
     .exec(function (err, products) {
