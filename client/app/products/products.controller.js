@@ -8,7 +8,7 @@ angular.module('speechBubbleApp')
     $scope.page = ($scope.skip / $scope.limit) + 1;
     $scope.total = 0;
 
-    function updateResults(page, lastPage) {
+    function updateResults() {
       $scope.skip = ($scope.page - 1) * $scope.limit;
       Product.query({
         skip: $scope.skip,

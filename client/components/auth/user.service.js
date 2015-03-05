@@ -2,10 +2,9 @@
 
 angular.module('speechBubbleApp')
   .factory('User', function ($resource) {
-    return $resource('/api/users/:id/:controller', {
-      id: '@_id'
-    },
+    return $resource('/api/users/:id/:controller', { id: '@_id' },
     {
+      query:  { method:'GET' },
       changePassword: {
         method: 'PUT',
         params: {

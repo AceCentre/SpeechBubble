@@ -19,9 +19,31 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
-    if(err) return res.send(500, err);
-    res.json(200, users);
+  var skip = req.query.skip || 0;
+  var limit = req.query.limit || 10;
+  var re = new RegExp(req.query.term, 'i');
+  var query = [
+    { email: re },
+    { firstName: re },
+    { lastName: re }
+  ];
+
+  User
+  .find()
+  .or(query)
+  .count(function(err, total) {
+    if(err) { return handleError(res, err); }
+    User.find()
+    .or(query)
+    .skip(skip)
+    .limit(limit)
+    .exec(function (err, users) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, {
+        total: total,
+        users: users
+      });
+    });
   });
 };
 

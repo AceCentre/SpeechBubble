@@ -1,17 +1,30 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminUsersCtrl', function ($scope, $modal, Auth, User, Modal, filterFilter) {
+  .controller('AdminUsersCtrl', function ($scope, $location, $modal, Auth, User, Modal, growl) {
 
-    // Use the User $resource to fetch all users
-    $scope.users = User.query();
-    $scope.filteredUsers = $scope.users;
-    $scope.roles = ['admin', 'user'];
-    $scope.itemsPerPage = 10;
-    $scope.totalItems = 0;
-    $scope.currentPage = 1;
+    $scope.limit = Number($location.search().limit) || 10;
+    $scope.skip = Number($location.search().skip) || 0;
+    $scope.term = $location.search().term;
+    $scope.page = ($scope.skip / $scope.limit) + 1;
+    $scope.total = 0;
 
-    $scope.searchText = ''; // text in search input
+    function updateResults() {
+      $scope.skip = ($scope.page - 1) * $scope.limit;
+      User.query({
+        skip: $scope.skip,
+        limit: $scope.limit,
+        term: $location.search().term
+      }, function(res) {
+        $scope.users = res.users;
+        $scope.total = res.total;
+        $('html, body').stop().animate({ scrollTop: 0 }, 400);
+      }, function(err) {
+        growl.error('Sorry an error occured.');
+      });
+    }
+
+    $scope.$watch('page', updateResults);
 
     $scope.modal = function(user) {
 
@@ -30,17 +43,6 @@ angular.module('speechBubbleApp')
       });
     };
 
-    $scope.search = function() {
-      $scope.currentPage = 1;
-      $scope.filteredUsers = filterFilter($scope.users, $scope.searchText);
-      $scope.totalItems = $scope.filteredUsers.length;
-    };
-
-    $scope.cancel = function() {
-      $scope.searchText = '';
-      $scope.search();
-    };
-
     $scope['delete'] = Modal.confirm['delete'](function(user) { // callback when modal is confirmed
       User.remove({ id: user._id });
       angular.forEach($scope.users, function(u, i) {
@@ -48,10 +50,6 @@ angular.module('speechBubbleApp')
           $scope.users.splice(i, 1);
         }
       });
-    });
-
-    $scope.$watchCollection('users', function() {
-      $scope.totalItems = $scope.users.length;
     });
 
   });

@@ -1,17 +1,22 @@
 extends ../../../layout/2_column
 
 block sidebar
-  form(ng-submit='search()')
+  form(action='', method='GET')
     .form-group
-      label.control-label Search
-      input.form-control(ng-model='searchText')
+      label.control-label(for='Term') Search
+      input.form-control(id='Term', name='term', ng-model='term')
 
     .form-group
-      a.pull-right.btn.btn-link(ng-click='cancel()') Clear
+      a.pull-right.btn.btn-link(href='/admin/users', target='_self') Clear
       button.btn.btn-primary(type='submit') Search
 
 block content
   h1 User Administration
+  
+  hr
+  .text-center
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
+  hr
 
   .table-wrapper
     table.table.table-striped
@@ -24,7 +29,7 @@ block content
           th.icon Subscribe
           th.actions Actions
       tbody
-        tr(ng-repeat='user in filteredUsers | from:((currentPage - 1) * itemsPerPage) | limitTo: itemsPerPage')
+        tr(ng-repeat='user in users')
           td: a(href='mailto:{{ user.email }}'){{ user.email }}
           td {{ user.firstName }} {{ user.lastName }}
           td {{ user.role }}
@@ -37,5 +42,7 @@ block content
             a(href='#', ng-click='modal(user)'): span.glyphicon.glyphicon-edit
             a(href='#', ng-click='delete(user.email, user)'): span.glyphicon.glyphicon-trash
 
+  hr
   .text-center
-    pagination.pagination-sm(total-items='totalItems', max-size='10', items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true')
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
+  hr
