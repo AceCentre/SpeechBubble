@@ -11,7 +11,7 @@ angular.module('speechBubbleApp')
         }
       },
       'create': { method: 'POST' },
-      'query':  { method:'GET', isArray:true },
+      'query':  { method:'GET' },
       'delete': { method:'DELETE' },
       'update': { method: 'PUT' }
     });
