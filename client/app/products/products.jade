@@ -2,8 +2,7 @@ extends ../../layout/2_column
 
 block content
   h1 Products
-  p Displaying {{ skip + 1 }}-{{ skip + limit }} of {{ total }} products
-  p {{ search.text }}
+  p Displaying #[strong {{ skip + 1 }}-{{ skip + limit }}] of #[strong{{ total }}] products
 
   hr    
   .text-center

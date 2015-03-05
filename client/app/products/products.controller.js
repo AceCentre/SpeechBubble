@@ -12,7 +12,8 @@ angular.module('speechBubbleApp')
       $scope.skip = ($scope.page - 1) * $scope.limit;
       Product.query({
         skip: $scope.skip,
-        limit: $scope.limit
+        limit: $scope.limit,
+        term: $scope.search.term
       }, function(res) {
         $scope.products = res.products;
         $scope.total = res.total;
