@@ -4,16 +4,17 @@ include ../mixins/results-helpers
 block content
   h1 Suppliers
   
-  +pagination()
+  div(ng-controller='ResultsCtrl')
+    +pagination()
 
-  table.table.table-striped
-    thead
-      tr
-        th Name
-        th Website
-    tbody
-      tr(ng-repeat='item in items')
-        td {{ item.name }}
-        td {{ item.url }}
+    table.table.table-striped
+      thead
+        tr
+          th Name
+          th Website
+      tbody
+        tr(ng-repeat='item in items')
+          td {{ item.name }}
+          td {{ item.url }}
 
-  +pagination()
+    +pagination()

@@ -1,14 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ResultsCtrl', function ($scope, $resource, $location, endpoint, growl) {
+  .controller('ResultsCtrl', function ($scope, $resource, $location, growl) {
 
-    var api = $resource(endpoint,
-        { id: '@_id' },
-        {
-          query: { method: 'GET' }
-        }
-      );
+    var api = $resource($scope.endpoint, { id: '@_id' }, { query: { method: 'GET' } });
 
     $scope.limit = Number($location.search().limit) || 10;
     $scope.skip = Number($location.search().skip) || 0;

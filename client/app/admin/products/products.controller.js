@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($scope, $modal, Product) {
+  .controller('AdminProductsCtrl', function ($scope, $modal) {
+    $scope.endpoint = '/api/product/:id';
     // Create/Edit
     var templates = {
       create: 'app/admin/products/create.html',

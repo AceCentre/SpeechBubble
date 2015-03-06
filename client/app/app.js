@@ -48,24 +48,14 @@ angular.module('speechBubbleApp', [
     .state('suppliers', {
       url: '/suppliers',
       templateUrl: 'app/supplier/supplier.html',
-      controller: 'ResultsCtrl',
-      resolve: {
-        endpoint: function() {
-          return '/api/supplier/:id'
-        }
-      }
+      controller: 'SupplierCtrl'
     })
 
     // products
     .state('products', {
       url: '/products',
       templateUrl: 'app/products/products.html',
-      controller: 'ResultsCtrl',
-      resolve: {
-        endpoint: function() {
-          return '/api/product/:id'
-        }
-      }
+      controller: 'ProductsCtrl'
     })
 
     // Account
@@ -114,6 +104,11 @@ angular.module('speechBubbleApp', [
       url: '/admin/suppliers',
       templateUrl: 'app/admin/suppliers/suppliers.html',
       controller: 'AdminSupplierCtrl',
+      resolve: {
+        endpoint: function() {
+          return '/api/supplier/:id'
+        }
+      },
       authenticate: true
     })
     .state('admin-products', {
