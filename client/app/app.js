@@ -60,7 +60,12 @@ angular.module('speechBubbleApp', [
     .state('products', {
       url: '/products',
       templateUrl: 'app/products/products.html',
-      controller: 'ProductsCtrl'
+      controller: 'ResultsCtrl',
+      resolve: {
+        endpoint: function() {
+          return '/api/product/:id'
+        }
+      }
     })
 
     // Account
