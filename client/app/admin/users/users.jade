@@ -1,4 +1,5 @@
 extends ../../../layout/2_column
+include ../../mixins/results-helpers
 
 block sidebar
   form(action='', method='GET')
@@ -13,36 +14,31 @@ block sidebar
 block content
   h1 User Administration
   
-  hr
-  .text-center
-    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
-  hr
+  div(ng-controller='ResultsCtrl')
+    +pagination()
 
-  .table-wrapper
-    table.table.table-striped
-      thead
-        tr
-          th Email
-          th Name
-          th Role
-          th.icon Active
-          th.icon Subscribe
-          th.actions Actions
-      tbody
-        tr(ng-repeat='user in users')
-          td: a(href='mailto:{{ user.email }}'){{ user.email }}
-          td {{ user.firstName }} {{ user.lastName }}
-          td {{ user.role }}
-          td.icon
-            span.glyphicon(ng-class='user.active ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
-          td.icon
-            span.glyphicon(ng-class='user.subscribe ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
+    .table-wrapper
+      table.table.table-striped
+        thead
+          tr
+            th Email
+            th Name
+            th Role
+            th.icon Active
+            th.icon Subscribe
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in items')
+            td: a(href='mailto:{{ item.email }}'){{ item.email }}
+            td {{ item.firstName }} {{ item.lastName }}
+            td {{ item.role }}
+            td.icon
+              span.glyphicon(ng-class='item.active ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
+            td.icon
+              span.glyphicon(ng-class='item.subscribe ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
 
-          td.actions
-            a(href='#', ng-click='modal(user)'): span.glyphicon.glyphicon-edit
-            a(href='#', ng-click='delete(user.email, user)'): span.glyphicon.glyphicon-trash
-
-  hr
-  .text-center
-    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true', ng-change='')
-  hr
+            td.actions
+              a(href='#', ng-click='modal(item)'): span.glyphicon.glyphicon-edit
+              a(href='#', ng-click='delete(item.email, item)'): span.glyphicon.glyphicon-trash
+                
+    +pagination()

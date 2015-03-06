@@ -104,11 +104,6 @@ angular.module('speechBubbleApp', [
       url: '/admin/suppliers',
       templateUrl: 'app/admin/suppliers/suppliers.html',
       controller: 'AdminSupplierCtrl',
-      resolve: {
-        endpoint: function() {
-          return '/api/supplier/:id'
-        }
-      },
       authenticate: true
     })
     .state('admin-products', {
