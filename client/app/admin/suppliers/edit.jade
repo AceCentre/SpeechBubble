@@ -4,31 +4,98 @@
 
 form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
   .modal-body
-    .form-group(ng-class='{ "has-success": form.Name.$valid && submitted,\
-    "has-error": form.Name.$invalid && submitted }')
-      label.control-label.col-sm-2(for="Name") Name
-      .col-sm-10
-        input.form-control(id='Name', name='Name', type='text', ng-model='supplier.name', required='')
-        p.help-block(ng-show='form.Name.$error.required && submitted')
-          | Supplier name is required
+    .panel.panel-default
+      .panel-heading Details
+      .panel-body
+        .form-group(ng-class='{ "has-success": form.Name.$valid && submitted,\
+        "has-error": form.Name.$invalid && submitted }')
+          label.control-label.col-sm-2(for="Name") Name
+          .col-sm-10
+            input.form-control(id='Name', name='Name', type='text', ng-model='supplier.name', required='')
+            p.help-block(ng-show='form.Name.$error.required && submitted')
+              | Supplier name is required
+              
+        .form-group(ng-class='{ "has-success": form.Url.$valid && submitted,\
+        "has-error": form.Url.$invalid && submitted }')
+          label.control-label.col-sm-2(for="Url") URL
+          .col-sm-10
+            input.form-control(id='Url', name='Url', type='text', ng-model='supplier.url')
+              
+        .form-group(ng-class='{ "has-success": form.SupportDetails.$valid && submitted,\
+        "has-error": form.SupportDetails.$invalid && submitted }')
+          label.control-label.col-sm-2(for="SupportDetails") Support
+          .col-sm-10
+            textarea.form-control(id='SupportDetails', name='SupportDetails', type='text', ng-model='supplier.supportDetails', rows='5')
+      
+    .panel.panel-default(ng-show='supplier.locations.length')
+      .panel-heading Locations
+      .panel-body
+        table.table.table-striped
+          thead
+            tr 
+              th Address
+              th Address 2 
+              th City
+              th County
+              th Postcode
+              th Country
+          tbody
+            tr(ng-repeat='loc in supplier.locations')
+              td {{ loc.address1 }}
+              td {{ loc.address2 }}
+              td {{ loc.city }}
+              td {{ loc.county }}
+              td {{ loc.postcode }}
+              td {{ loc.country }}
+              
+    .panel.panel-default
+      .panel-heading Add location
+      .panel-body
+              
+        div(ng-form, name='lForm')
           
-    .form-group(ng-class='{ "has-success": form.Url.$valid && submitted,\
-    "has-error": form.Url.$invalid && submitted }')
-      label.control-label.col-sm-2(for="Url") URL
-      .col-sm-10
-        input.form-control(id='Url', name='Url', type='text', ng-model='supplier.url')
-          
-    .form-group(ng-class='{ "has-success": form.SupportDetails.$valid && submitted,\
-    "has-error": form.SupportDetails.$invalid && submitted }')
-      label.control-label.col-sm-2(for="SupportDetails") Support
-      .col-sm-10
-        textarea.form-control(id='SupportDetails', name='SupportDetails', type='text', ng-model='supplier.supportDetails', rows='5')
-          
-    .form-group(ng-class='{ "has-success": form.Regions.$valid && submitted,\
-    "has-error": form.Regions.$invalid && submitted }')
-      label.control-label.col-sm-2(for="Regions") Regions
-      .col-sm-10
-        select.form-control(id='Regions', name='Regions', ng-options='r as r for r in regions', type='text', ng-model='supplier.regions', multiple='multiple')
+          .form-group(ng-class='{ "has-success": lForm.Address1.$valid && submitted,\
+          "has-error": lForm.Address1.$invalid && submitted }')
+            label.control-label.col-sm-2(for="Address1") Address 1
+            .col-sm-10
+              input.form-control(id='Address1', name='Address1', type='text', ng-model='location.address1')
+                
+          .form-group(ng-class='{ "has-success": lForm.Address2.$valid && submitted,\
+          "has-error": lForm.Address2.$invalid && submitted }')
+            label.control-label.col-sm-2(for="Address2") Address 2
+            .col-sm-10
+              input.form-control(id='Address2', name='Address2', type='text', ng-model='location.address2') 
+              
+          .form-group(ng-class='{ "has-success": lForm.City.$valid && submitted,\
+          "has-error": lForm.City.$invalid && submitted }')
+            label.control-label.col-sm-2(for="City") City
+            .col-sm-10
+              input.form-control(id='City', name='City', type='text', ng-model='location.city')
+                
+          .form-group(ng-class='{ "has-success": lForm.County.$valid && submitted,\
+          "has-error": lForm.County.$invalid && submitted }')
+            label.control-label.col-sm-2(for="County") County
+            .col-sm-10
+              input.form-control(id='County', name='County', type='text', ng-model='location.county')
+                
+          .form-group(ng-class='{ "has-success": lForm.Postcode.$valid && submitted,\
+          "has-error": lForm.Postcode.$invalid && submitted }')
+            label.control-label.col-sm-2(for="Postcode") Postcode
+            .col-sm-10
+              input.form-control(id='Postcode', name='Postcode', type='text', ng-model='location.postcode')
+                
+          .form-group
+            label.control-label.col-sm-2(for='Country') Country
+            .col-sm-10
+              select.form-control(id='Country', name='Country', ng-model='location.country')
+                option(value='', disabled, selected) Please select
+                option(value='UK') UK
+                option(value='Europe') Europe
+                option(value='USA') USA
+                option(value='other') Other
+              
+          a.btn.btn-secondary.pull-right(ng-click='addLocation(lForm)') Add location  
+    
 
   .modal-footer
     button.btn.btn-primary() Save

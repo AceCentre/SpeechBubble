@@ -17,6 +17,7 @@ angular.module('speechBubbleApp')
       $modal.open({
         templateUrl: 'app/admin/suppliers/edit.html',
         controller: 'AdminSupplierEditCtrl',
+        size: 'lg',
         resolve: {
           suppliers: function() {
             return $scope.items;

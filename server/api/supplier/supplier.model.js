@@ -9,7 +9,7 @@ var SupplierSchema = new Schema({
     type: String,
     required: true
   },
-  address: [{
+  locations: [{
     address1: String,
     address2: String,
     city: String,

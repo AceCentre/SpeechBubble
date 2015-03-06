@@ -14,13 +14,11 @@ block content
         tr
           th Name
           th Website
-          th Regions
           th.actions Actions
       tbody
         tr(ng-repeat='item in items')
           td {{ item.name }}
           td: a(ng-href='{{ item.url }}', target='_blank') {{ item.url }}
-          td {{ item.regions.join(', ') }}
           td.actions
             a(href='#', ng-click='edit(item)'): span.glyphicon.glyphicon-edit
             a(href='#', ng-click='delete(item.name, item)'): span.glyphicon.glyphicon-trash

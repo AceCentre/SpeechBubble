@@ -6,6 +6,12 @@ angular.module('speechBubbleApp')
   $scope.supplier = supplier;
   $scope.regions = ['UK', 'Europe', 'USA', 'Other'];
 
+  $scope.addLocation = function(form) {
+    if(form.$valid) {
+      $scope.supplier.locations.push($scope.location);
+    }
+  };
+
   $scope.cancel = function() {
     $modalInstance.dismiss();
   };
