@@ -1,3 +1,5 @@
+include ../../mixins/form-helpers
+
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Supplier
@@ -6,20 +8,9 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
   .modal-body
     .panel.panel-default
       .panel-heading Details
-      .panel-body
-        .form-group(ng-class='{ "has-success": form.Name.$valid && submitted,\
-        "has-error": form.Name.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Name") Name
-          .col-sm-10
-            input.form-control(id='Name', name='Name', type='text', ng-model='supplier.name', required='')
-            p.help-block(ng-show='form.Name.$error.required && submitted')
-              | Supplier name is required
-              
-        .form-group(ng-class='{ "has-success": form.Url.$valid && submitted,\
-        "has-error": form.Url.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Url") URL
-          .col-sm-10
-            input.form-control(id='Url', name='Url', type='text', ng-model='supplier.url')
+      .panel-body              
+        +input('form', 'supplier', 'text', 'name', true)
+        +input('form', 'supplier', '', 'url', true)
               
         .form-group(ng-class='{ "has-success": form.SupportDetails.$valid && submitted,\
         "has-error": form.SupportDetails.$invalid && submitted }')
@@ -40,7 +31,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
               th Postcode
               th Country
           tbody
-            tr(ng-repeat='loc in supplier.locations')
+            tr(ng-repeat='loc in supplier.locations track by $index')
               td {{ loc.address1 }}
               td {{ loc.address2 }}
               td {{ loc.city }}
@@ -53,46 +44,24 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
       .panel-body
               
         div(ng-form, name='lForm')
+          +input('lForm', 'location', 'text', 'address1', true)
+          +input('lForm', 'location', 'text', 'address2', false)
+          +input('lForm', 'location', 'text', 'city', true)
+          +input('lForm', 'location', 'text', 'county', true)
+          +input('lForm', 'location', 'text', 'postcode', true)
           
-          .form-group(ng-class='{ "has-success": lForm.Address1.$valid && submitted,\
-          "has-error": lForm.Address1.$invalid && submitted }')
-            label.control-label.col-sm-2(for="Address1") Address 1
+          .form-group(ng-class='{ "has-success": lForm.country.$valid && submitted,\
+          "has-error": lForm.country.$invalid && lForm.$submitted }')
+            label.control-label.col-sm-2(for='country') Country
             .col-sm-10
-              input.form-control(id='Address1', name='Address1', type='text', ng-model='location.address1')
-                
-          .form-group(ng-class='{ "has-success": lForm.Address2.$valid && submitted,\
-          "has-error": lForm.Address2.$invalid && submitted }')
-            label.control-label.col-sm-2(for="Address2") Address 2
-            .col-sm-10
-              input.form-control(id='Address2', name='Address2', type='text', ng-model='location.address2') 
-              
-          .form-group(ng-class='{ "has-success": lForm.City.$valid && submitted,\
-          "has-error": lForm.City.$invalid && submitted }')
-            label.control-label.col-sm-2(for="City") City
-            .col-sm-10
-              input.form-control(id='City', name='City', type='text', ng-model='location.city')
-                
-          .form-group(ng-class='{ "has-success": lForm.County.$valid && submitted,\
-          "has-error": lForm.County.$invalid && submitted }')
-            label.control-label.col-sm-2(for="County") County
-            .col-sm-10
-              input.form-control(id='County', name='County', type='text', ng-model='location.county')
-                
-          .form-group(ng-class='{ "has-success": lForm.Postcode.$valid && submitted,\
-          "has-error": lForm.Postcode.$invalid && submitted }')
-            label.control-label.col-sm-2(for="Postcode") Postcode
-            .col-sm-10
-              input.form-control(id='Postcode', name='Postcode', type='text', ng-model='location.postcode')
-                
-          .form-group
-            label.control-label.col-sm-2(for='Country') Country
-            .col-sm-10
-              select.form-control(id='Country', name='Country', ng-model='location.country')
+              select.form-control(id='country', name='country', ng-model='location.country', required)
                 option(value='', disabled, selected) Please select
                 option(value='UK') UK
                 option(value='Europe') Europe
                 option(value='USA') USA
                 option(value='other') Other
+              p.help-block(ng-show='lForm.country.$error.required && lForm.$submitted')
+                | Country is required
               
           a.btn.btn-secondary.pull-right(ng-click='addLocation(lForm)') Add location  
     

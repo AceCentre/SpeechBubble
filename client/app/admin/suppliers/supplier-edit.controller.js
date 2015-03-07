@@ -7,8 +7,11 @@ angular.module('speechBubbleApp')
   $scope.regions = ['UK', 'Europe', 'USA', 'Other'];
 
   $scope.addLocation = function(form) {
+    form.$setSubmitted();
     if(form.$valid) {
       $scope.supplier.locations.push($scope.location);
+      $scope.location = {};
+      form.$setPristine();
     }
   };
 

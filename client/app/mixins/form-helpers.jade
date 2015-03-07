@@ -1,0 +1,14 @@
+mixin input(form, model, type, id, required)
+  if required
+    .form-group(ng-class='{ "has-success": #{form}.#{id}.$valid && #{form}.$submitted,\
+    "has-error": lForm.#{id}.$invalid && #{form}.$submitted }')
+      label.control-label.col-sm-2(for="#{id}") #{id}
+      .col-sm-10
+        input.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
+        p.help-block(ng-show='#{form}.#{id}.$error.required && #{form}.$submitted')
+          | #{id} is required
+  else
+    .form-group
+      label.control-label.col-sm-2(for="#{id}") #{id}
+      .col-sm-10
+        input.form-control(id='#{id}', name='#{id}', type='text', ng-model='#{model}.#{id}')
