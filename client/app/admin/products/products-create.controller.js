@@ -12,6 +12,8 @@ angular.module('speechBubbleApp')
       'Vocabulary'
     ];
 
+    $scope.product = {};
+
     $scope.create = function() {
       var template;
 
@@ -22,6 +24,9 @@ angular.module('speechBubbleApp')
         case 'Advanced':
           template = templates.advanced;
           break;
+        case 'Vocabulary':
+          template = templates.vocabulary;
+          break;
       }
 
       $modalInstance.close();
@@ -29,6 +34,7 @@ angular.module('speechBubbleApp')
       $modal.open({
         templateUrl: template,
         controller: 'AdminProductEditCtrl',
+        size: 'lg',
         resolve: {
           templates: function() {
             return templates;

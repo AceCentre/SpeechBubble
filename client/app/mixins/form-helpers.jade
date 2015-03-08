@@ -12,3 +12,50 @@ mixin input(form, model, type, id, required)
       label.control-label.col-sm-2(for="#{id}") #{id}
       .col-sm-10
         input.form-control(id='#{id}', name='#{id}', type='text', ng-model='#{model}.#{id}')
+
+mixin radio(model, id, value, label)
+  div.radio
+    label 
+      input(type='radio', ng-model='#{model}.#{id}', name='#{id}', value='#{value}')
+      | #{label}
+      
+mixin checkbox(model, id, label)
+  div.checkbox
+    label
+      input(type='checkbox', name='#{id}', ng-model='#{model}.#{id}')
+      | #{label}
+
+mixin switch(model, id)
+  input(type='checkbox', name='#{id}', ng-model='#{model}.#{id}', bs-switch='', switch-off-text='No', switch-on-text='Yes')
+
+mixin accessMethodOptions(dependsOn)
+  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}KeyguardsAvailable')
+    .panel-heading Are specially designed keyguards available?
+    .panel-body
+      +switch('product', id + 'KeyguardsAvailable')
+      
+  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
+    .panel-heading Is there a minimum target size?
+    .panel-body
+      +switch('product', id + 'MinimumTarget')
+      
+      .panel.panel-default(ng-if='product.#{dependsOn} && product.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
+        .panel-heading What is this size? (mm)
+        .panel-body
+          input(type='number', ng-required='product.#{dependsOn}MinimumTarget', ng-model='product.#{dependsOn}MinimumTargetSize')
+            
+  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
+    .panel-heading What is the maximum number of locations per page?
+    .panel-body
+      input(type='number', ng-model='product.#{dependsOn}MaximumLocations')
+        
+  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}Options')
+    .panel-heading What scanning options are available (without additional software)
+    .panel-body
+      +checkbox('product', dependsOn + 'Options.crosshair', 'Crosshair')
+      +checkbox('product', dependsOn + 'Options.columnRow', 'Column Row')
+      +checkbox('product', dependsOn + 'Options.rowColumn', 'Row Column')
+      +checkbox('product', dependsOn + 'Options.block', 'Block')
+      +checkbox('product', dependsOn + 'Options.quartered', 'Quartered')
+      +checkbox('product', dependsOn + 'Options.morse', 'Morse')
+      
