@@ -4,11 +4,11 @@ include ../../mixins/form-helpers
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Supplier
 
-form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
-  .modal-body
-    .panel.panel-default
-      .panel-heading Details
-      .panel-body              
+.modal-body
+  .panel.panel-default
+    .panel-heading Details
+    .panel-body   
+      form.form-horizontal(name='form', novalidate='')       
         +input('form', 'supplier', 'text', 'name', true)
         +input('form', 'supplier', '', 'url', true)
               
@@ -18,54 +18,54 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate='')
           .col-sm-10
             textarea.form-control(id='SupportDetails', name='SupportDetails', type='text', ng-model='supplier.supportDetails', rows='5')
       
-    .panel.panel-default(ng-show='supplier.locations.length')
-      .panel-heading Locations
-      .panel-body
-        table.table.table-striped
-          thead
-            tr 
-              th Address
-              th Address 2 
-              th City
-              th County
-              th Postcode
-              th Country
-          tbody
-            tr(ng-repeat='loc in supplier.locations track by $index')
-              td {{ loc.address1 }}
-              td {{ loc.address2 }}
-              td {{ loc.city }}
-              td {{ loc.county }}
-              td {{ loc.postcode }}
-              td {{ loc.country }}
-              
-    .panel.panel-default
-      .panel-heading Add location
-      .panel-body
-              
-        div(ng-form, name='lForm')
-          +input('lForm', 'location', 'text', 'address1', true)
-          +input('lForm', 'location', 'text', 'address2', false)
-          +input('lForm', 'location', 'text', 'city', true)
-          +input('lForm', 'location', 'text', 'county', true)
-          +input('lForm', 'location', 'text', 'postcode', true)
-          
-          .form-group(ng-class='{ "has-success": lForm.country.$valid && submitted,\
-          "has-error": lForm.country.$invalid && lForm.$submitted }')
-            label.control-label.col-sm-2(for='country') Country
-            .col-sm-10
-              select.form-control(id='country', name='country', ng-model='location.country', required)
-                option(value='', disabled, selected) Please select
-                option(value='UK') UK
-                option(value='Europe') Europe
-                option(value='USA') USA
-                option(value='other') Other
-              p.help-block(ng-show='lForm.country.$error.required && lForm.$submitted')
-                | Country is required
-              
-          a.btn.btn-secondary.pull-right(ng-click='addLocation(lForm)') Add location  
-    
+  .panel.panel-default(ng-show='supplier.locations.length')
+    .panel-heading Locations
+    .panel-body
+      table.table.table-striped
+        thead
+          tr 
+            th Address
+            th Address 2 
+            th City
+            th County
+            th Postcode
+            th Country
+        tbody
+          tr(ng-repeat='loc in supplier.locations track by $index')
+            td {{ loc.address1 }}
+            td {{ loc.address2 }}
+            td {{ loc.city }}
+            td {{ loc.county }}
+            td {{ loc.postcode }}
+            td {{ loc.country }}
+            
+  .panel.panel-default
+    .panel-heading Add location
+    .panel-body
+            
+      div(ng-form, name='lForm')
+        +input('lForm', 'location', 'text', 'address1', true)
+        +input('lForm', 'location', 'text', 'address2', false)
+        +input('lForm', 'location', 'text', 'city', true)
+        +input('lForm', 'location', 'text', 'county', true)
+        +input('lForm', 'location', 'text', 'postcode', true)
+        
+        .form-group(ng-class='{ "has-success": lForm.country.$valid && submitted,\
+        "has-error": lForm.country.$invalid && lForm.$submitted }')
+          label.control-label.col-sm-2(for='country') Country
+          .col-sm-10
+            select.form-control(id='country', name='country', ng-model='location.country', required)
+              option(value='', disabled, selected) Please select
+              option(value='UK') UK
+              option(value='Europe') Europe
+              option(value='USA') USA
+              option(value='other') Other
+            p.help-block(ng-show='lForm.country.$error.required && lForm.$submitted')
+              | Country is required
+            
+        a.btn.btn-secondary.pull-right(ng-click='addLocation(lForm)') Add location  
+  
 
-  .modal-footer
-    button.btn.btn-primary() Save
-    a.btn.btn-tertiary(ng-click='cancel()') Cancel
+.modal-footer
+  button.btn.btn-primary(ng-click='save(form)') Save
+  a.btn.btn-tertiary(ng-click='cancel()') Cancel
