@@ -30,6 +30,7 @@ include ../../mixins/form-helpers
             th County
             th Postcode
             th Country
+            th.actions Actions
         tbody
           tr(ng-repeat='loc in supplier.locations track by $index')
             td {{ loc.address1 }}
@@ -38,6 +39,8 @@ include ../../mixins/form-helpers
             td {{ loc.county }}
             td {{ loc.postcode }}
             td {{ loc.country }}
+            td.actions
+              a(href='#', ng-click='deleteLocation(loc)'): span.glyphicon.glyphicon-trash
             
   .panel.panel-default
     .panel-heading Add location

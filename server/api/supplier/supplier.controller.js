@@ -52,14 +52,18 @@ exports.create = function(req, res) {
 // Updates an existing supplier in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  Supplier.findById(req.params.id, function (err, supplier) {
+  Supplier.findByIdAndUpdate(req.params.id, {
+    $set: {
+      name: req.body.name,
+      url: req.body.url,
+      supportDetails: req.body.supportDetails,
+      locations: req.body.locations
+    }
+  }, function (err, supplier) {
+    console.log(err);
     if (err) { return handleError(res, err); }
     if(!supplier) { return res.send(404); }
-    var updated = _.merge(supplier, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, supplier);
-    });
+    return res.json(200, supplier);
   });
 };
 

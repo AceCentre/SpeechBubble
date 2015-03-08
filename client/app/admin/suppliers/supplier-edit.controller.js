@@ -18,6 +18,13 @@ angular.module('speechBubbleApp')
     }
   };
 
+  $scope.deleteLocation = function(loc) {
+    var i = $scope.supplier.locations.indexOf(loc);
+    if(i !== -1) {
+      $scope.supplier.locations.splice(i, 1);
+    }
+  };
+
   $scope.cancel = function() {
     $modalInstance.dismiss();
   };
@@ -27,21 +34,23 @@ angular.module('speechBubbleApp')
     if(form.$valid) {
       if(supplier._id) {
         Supplier.update($scope.supplier,
-          function() {
+          function(res) {
+            angular.copy(res, supplier);
             $modalInstance.close();
             growl.success('Supplier updated.');
           },
           function(res) {
-            growl.error(res.error);
+            growl.error('An error occurred.');
           });
       } else {
         Supplier.create($scope.supplier,
-          function() {
+          function(res) {
+            angular.copy(res, supplier);
             $modalInstance.close();
             growl.success('Supplier created.');
           },
           function(res) {
-            growl.error(res.error);
+            growl.error('An error occurred.');
           });
       }
     }
