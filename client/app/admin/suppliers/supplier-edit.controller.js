@@ -9,6 +9,9 @@ angular.module('speechBubbleApp')
   $scope.addLocation = function(form) {
     form.$setSubmitted();
     if(form.$valid) {
+      if(!$scope.supplier.locations) {
+        $scope.supplier.locations = [];
+      }
       $scope.supplier.locations.push($scope.location);
       $scope.location = {};
       form.$setPristine();
