@@ -29,13 +29,4 @@ angular.module('speechBubbleApp')
       });
     };
 
-    $scope['delete'] = Modal.confirm['delete'](function(supplier) { // callback when modal is confirmed
-      Supplier.remove({ id: supplier._id });
-      angular.forEach($scope.items, function(s, i) {
-        if (s === supplier) {
-          $scope.items.splice(i, 1);
-        }
-      });
-    });
-
   });

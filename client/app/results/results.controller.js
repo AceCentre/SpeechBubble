@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ResultsCtrl', function ($scope, $resource, $location, growl) {
+  .controller('ResultsCtrl', function ($scope, $resource, $location, Modal, growl) {
 
     var api = $resource($scope.endpoint, { id: '@_id' }, { query: { method: 'GET' } });
 
@@ -24,6 +24,15 @@ angular.module('speechBubbleApp')
         growl.error(err);
       });
     }
+
+    $scope['delete'] = Modal.confirm['delete'](function(item) { // callback when modal is confirmed
+      api.remove({ id: item._id });
+      angular.forEach($scope.items, function(current, index) {
+        if (current === item) {
+          $scope.items.splice(index, 1);
+        }
+      });
+    });
 
     $scope.$watch('page', updateResults);
 
