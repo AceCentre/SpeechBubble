@@ -35,6 +35,7 @@ exports.index = function(req, res) {
     if(err) { return handleError(res, err); }
     User.find()
     .or(query)
+    .sort({ firstName: 'asc' })
     .skip(skip)
     .limit(limit)
     .exec(function (err, users) {

@@ -98,6 +98,7 @@ exports.update = function(req, res) {
 exports.list = function(req, res) {
   Page
   .find()
+  .sort({ slug: 'asc' })
   .populate('_revisions')
   .exec(function(err, pages) {
     if(err) { return handleError(res, err); }

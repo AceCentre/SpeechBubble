@@ -19,6 +19,7 @@ exports.index = function(req, res) {
     if(err) { return handleError(res, err); }
     Supplier.find()
     .or(query)
+    .sort({ name: 'asc' })
     .skip(skip)
     .limit(limit)
     .exec(function (err, suppliers) {

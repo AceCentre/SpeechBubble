@@ -22,6 +22,7 @@ exports.index = function(req, res) {
     Product
     .find()
     .or(query)
+    .sort({ name: 'asc' })
     .skip(skip)
     .limit(limit)
     .exec(function (err, products) {
