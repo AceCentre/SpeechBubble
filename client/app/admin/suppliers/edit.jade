@@ -43,7 +43,7 @@ include ../../mixins/form-helpers
     .panel-heading Add location
     .panel-body
             
-      div(ng-form, name='lForm')
+      div.form-horizontal(ng-form, name='lForm')
         +input('lForm', 'location', 'text', 'address1', true)
         +input('lForm', 'location', 'text', 'address2', false)
         +input('lForm', 'location', 'text', 'city', true)
