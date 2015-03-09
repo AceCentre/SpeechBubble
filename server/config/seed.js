@@ -8,7 +8,6 @@
 var User = require('../api/user/user.model');
 var Supplier = require('../api/supplier/supplier.model');
 var Product = require('../api/product/product.model').Model;
-var ProductSimple = require('../api/product/types/product-hardware-simple');
 var chance = require('chance').Chance();
 var _ = require('lodash');
 var ENUM = require('../enum');
