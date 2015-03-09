@@ -1,3 +1,5 @@
+include ../../mixins/form-helpers
+
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Create product
@@ -7,8 +9,7 @@ form.form-horizontal(ng-submit='create()', novalidate)
     .form-group
       label.control-label.col-sm-2(for="slug") Type
       .col-sm-10
-        select.form-control(ng-options='p as p for p in productTypes', ng-model='type')
-          option(value='', disabled, selected) Select a product type
+        +radio('product', 'type', 'HardwareVocabulary', 'Hardware Vocabulary')
           
   .modal-footer
     button.btn.btn-primary() Create

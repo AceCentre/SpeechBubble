@@ -3,28 +3,19 @@
 angular.module('speechBubbleApp')
   .controller('AdminProductCreateCtrl', function($scope, $modalInstance, $modal, templates) {
 
-    $scope.productTypes = [
-      'Simple',
-      'Advanced',
-      'Low-tech',
-      'Accessory',
-      'Software',
-      'Vocabulary'
-    ];
-
     $scope.product = {};
 
     $scope.create = function() {
       var template;
 
-      switch($scope.type) {
+      switch($scope.product.type) {
         case 'Simple':
           template = templates.simple;
           break;
         case 'Advanced':
           template = templates.advanced;
           break;
-        case 'Vocabulary':
+        case 'HardwareVocabulary':
           template = templates.vocabulary;
           break;
       }
