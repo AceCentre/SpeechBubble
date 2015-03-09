@@ -13,6 +13,23 @@ mixin input(form, model, type, id, required)
       .col-sm-10
         input.form-control(id='#{id}', name='#{id}', type='text', ng-model='#{model}.#{id}')
 
+mixin textarea(form, model, type, id, required)
+  if required
+    .form-group(ng-class='{ "has-success": #{form}.#{id}.$valid && #{form}.$submitted,\
+    "has-error": lForm.#{id}.$invalid && #{form}.$submitted }')
+      label.control-label.col-sm-2(for="#{id}") #{id}
+      .col-sm-10
+        textarea.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
+        p.help-block(ng-show='#{form}.#{id}.$error.required && #{form}.$submitted')
+          | #{id} is required
+  else
+    .form-group
+      label.control-label.col-sm-2(for="#{id}") #{id}
+      .col-sm-10
+        textarea.form-control(id='#{id}', name='#{id}', type='text', ng-model='#{model}.#{id}')
+
+
+
 mixin radio(model, id, value, label)
   div.radio
     label 
@@ -29,33 +46,33 @@ mixin switch(model, id)
   input(type='checkbox', name='#{id}', ng-model='#{model}.#{id}', bs-switch='', switch-off-text='No', switch-on-text='Yes')
 
 mixin accessMethodOptions(dependsOn)
-  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}KeyguardsAvailable')
+  .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}KeyguardsAvailable')
     .panel-heading Are specially designed keyguards available?
     .panel-body
-      +switch('product', id + 'KeyguardsAvailable')
+      +switch('product.features', dependsOn + 'KeyguardsAvailable')
       
-  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
+  .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
     .panel-heading Is there a minimum target size?
     .panel-body
-      +switch('product', id + 'MinimumTarget')
+      +switch('product.features', dependsOn + 'MinimumTarget')
       
-      .panel.panel-default(ng-if='product.#{dependsOn} && product.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
+      .panel.panel-default(ng-if='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
         .panel-heading What is this size? (mm)
         .panel-body
-          input(type='number', ng-required='product.#{dependsOn}MinimumTarget', ng-model='product.#{dependsOn}MinimumTargetSize')
+          input(type='number', ng-required='product.features.#{dependsOn}MinimumTarget', ng-model='product.features.#{dependsOn}MinimumTargetSize')
             
-  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
+  .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
     .panel-body
-      input(type='number', ng-model='product.#{dependsOn}MaximumLocations')
+      input(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
         
-  .panel.panel-default(ng-if='product.#{dependsOn}', destroy='#{dependsOn}Options')
+  .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}Options')
     .panel-heading What scanning options are available (without additional software)
     .panel-body
-      +checkbox('product', dependsOn + 'Options.crosshair', 'Crosshair')
-      +checkbox('product', dependsOn + 'Options.columnRow', 'Column Row')
-      +checkbox('product', dependsOn + 'Options.rowColumn', 'Row Column')
-      +checkbox('product', dependsOn + 'Options.block', 'Block')
-      +checkbox('product', dependsOn + 'Options.quartered', 'Quartered')
-      +checkbox('product', dependsOn + 'Options.morse', 'Morse')
+      +checkbox('product.features', dependsOn + 'Options.crosshair', 'Crosshair')
+      +checkbox('product.features', dependsOn + 'Options.columnRow', 'Column Row')
+      +checkbox('product.features', dependsOn + 'Options.rowColumn', 'Row Column')
+      +checkbox('product.features', dependsOn + 'Options.block', 'Block')
+      +checkbox('product.features', dependsOn + 'Options.quartered', 'Quartered')
+      +checkbox('product.features', dependsOn + 'Options.morse', 'Morse')
       

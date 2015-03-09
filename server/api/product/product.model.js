@@ -12,6 +12,7 @@ var ProductSchema = new Schema({
     type: String,
     required: true
   },
+  features: Schema.Types.Mixed,
   images: [{
     url: {
       type: String,
