@@ -16,6 +16,7 @@ var ENUM = require('../enum');
 Product.find().remove(function() {
   Supplier.find().remove(function() {
     var regions = ENUM.REGION.slice(1);
+    var types = ENUM.PRODUCT_TYPES;
     _.times(200, function() {
         Supplier.create({
           name: chance.word() + ' Ltd',
@@ -23,9 +24,10 @@ Product.find().remove(function() {
           supportDetails: chance.email(),
           regions: chance.pick(regions, chance.integer({ min: 0, max: regions.length - 1}))
         }, function(err, supplier) {
-          ProductSimple.create({
+          Product.create({
             name: chance.sentence(),
             description: chance.paragraph(),
+            type: chance.pick(types, chance.integer({ min: 0, max: types.length - 1})),
             discontinued: chance.bool(),
             supplier: supplier._id
           });

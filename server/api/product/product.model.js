@@ -1,7 +1,8 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ENUM = require('../../enum');
 
 var ProductSchema = new Schema({
   name: {
@@ -11,6 +12,10 @@ var ProductSchema = new Schema({
   description: {
     type: String,
     required: true
+  },
+  type: {
+    type: String,
+    enum: ENUM.PRODUCT_TYPES
   },
   features: Schema.Types.Mixed,
   images: [{

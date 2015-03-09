@@ -11,6 +11,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel-body
         +input('form', 'product', 'text', 'name')
         +textarea('form', 'product', 'text', 'description')
+        input(type='hidden', ng-init='product.type = "ProductHardwareVocabulary"')
+        
     .panel.panel-default
       .panel-heading How is the vocabulary primarily represented?
       .panel-body        

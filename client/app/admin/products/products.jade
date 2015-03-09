@@ -19,7 +19,7 @@ block content
       tbody
         tr(ng-repeat='item in items')
           td {{ item.name }}
-          td {{ item.__t | type }}
+          td {{ item.type | type }}
           td.icon
             span.glyphicon(ng-class='product.discontinued ? "glyphicon-remove-circle": "glyphicon-ok-circle"')
           td.actions
