@@ -1,7 +1,7 @@
 mixin input(form, model, type, id, required)
   if required
     .form-group(ng-class='{ "has-success": #{form}.#{id}.$valid && #{form}.$submitted,\
-    "has-error": lForm.#{id}.$invalid && #{form}.$submitted }')
+    "has-error": #{form}.#{id}.$invalid && #{form}.$submitted }')
       label.control-label.col-sm-2(for="#{id}") #{id}
       .col-sm-10
         input.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
@@ -16,7 +16,7 @@ mixin input(form, model, type, id, required)
 mixin textarea(form, model, type, id, required)
   if required
     .form-group(ng-class='{ "has-success": #{form}.#{id}.$valid && #{form}.$submitted,\
-    "has-error": lForm.#{id}.$invalid && #{form}.$submitted }')
+    "has-error": #{form}.#{id}.$invalid && #{form}.$submitted }')
       label.control-label.col-sm-2(for="#{id}") #{id}
       .col-sm-10
         textarea.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
@@ -59,7 +59,12 @@ mixin accessMethodOptions(dependsOn)
       .panel.panel-default(ng-if='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
         .panel-heading What is this size? (mm)
         .panel-body
-          input(type='number', ng-required='product.features.#{dependsOn}MinimumTarget', ng-model='product.features.#{dependsOn}MinimumTargetSize')
+          div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
+          "has-error": form.#{dependsOn}MinimumTargetSize.$invalid && form.$submitted }')
+            input.form-control(id='#{dependsOn}MinimumTargetSize', name='#{dependsOn}MinimumTargetSize', type='number', ng-model='product.features.#{dependsOn}MinimumTargetSize', required)
+            p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.required && form.$submitted')
+                | Minimum target size is required
+            
             
   .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
