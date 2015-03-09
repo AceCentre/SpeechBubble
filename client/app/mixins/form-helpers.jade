@@ -69,7 +69,7 @@ mixin accessMethodOptions(dependsOn)
   .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
     .panel-body
-      input(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
+      input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
         
   .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}Options')
     .panel-heading What scanning options are available (without additional software)
