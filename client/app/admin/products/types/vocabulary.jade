@@ -62,28 +62,28 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
                 +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
                 +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Similar meaning locations')
                 
-          <!-- Phrases only -->
-          .panel.panel-default(ng-if='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
-            .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
-            .panel-body
-              +switch('product.features', 'presentRelatedPhrases')
-              
-          <!-- Phrases only -->
-          .panel.panel-default(ng-if='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
-            .panel-heading How are phrases on the start page largely organised?
-            .panel-body
-              +radio('product.features', 'phrasesOrganisedStart', 'singular', 'Singular words')
-              +radio('product.features', 'phrasesOrganisedStart', 'phrases', 'Phrases (e.g. "I want")')
-              +radio('product.features', 'phrasesOrganisedStart', 'singularAndPhrases', 'Singluar words & Phrases')
-              
-          <!-- Phrases only -->
-          .panel.panel-default(ng-if='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
-            .panel-heading How are phrases organised across the rest of the device?
-            .panel-body
-              +radio('product.features', 'phrasesOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
-              +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-              +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Similar meaning locations')
-      
+            <!-- Phrases only -->
+            .panel.panel-default(ng-if='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
+              .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
+              .panel-body
+                +switch('product.features', 'presentRelatedPhrases')
+                
+            <!-- Phrases only -->
+            .panel.panel-default(ng-if='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
+              .panel-heading How are phrases on the start page largely organised?
+              .panel-body
+                +radio('product.features', 'phrasesOrganisedStart', 'singular', 'Singular words')
+                +radio('product.features', 'phrasesOrganisedStart', 'phrases', 'Phrases (e.g. "I want")')
+                +radio('product.features', 'phrasesOrganisedStart', 'singularAndPhrases', 'Singluar words & Phrases')
+                
+            <!-- Phrases only -->
+            .panel.panel-default(ng-if='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
+              .panel-heading How are phrases organised across the rest of the device?
+              .panel-body
+                +radio('product.features', 'phrasesOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
+                +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+                +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Similar meaning locations')
+        
     .panel.panel-default
       .panel-heading What access method is this designed for? (multiple allowed)
       .panel-body
