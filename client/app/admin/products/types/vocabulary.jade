@@ -84,20 +84,63 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
                 +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Similar meaning locations')
         
+    <!-- Shared access method questions -->
+    mixin accessMethodOptions(dependsOn)
+          
+      .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
+        .panel-heading Is there a minimum target size?
+        .panel-body
+          +switch('product.features', dependsOn + 'MinimumTarget')
+          
+          .panel.panel-default(ng-if='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
+            .panel-heading What is this size? (mm)
+            .panel-body
+              div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
+              "has-error": form.#{dependsOn}MinimumTargetSize.$invalid && form.$submitted }')
+                input.form-control(id='#{dependsOn}MinimumTargetSize', name='#{dependsOn}MinimumTargetSize', type='number', ng-model='product.features.#{dependsOn}MinimumTargetSize', required, min='5')
+                p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.required && form.$submitted')
+                    | Minimum target size is required
+                p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
+                    | Minimum target size should be greater than 5
+                
+                
+      .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
+        .panel-heading What is the maximum number of locations per page?
+        .panel-body
+          input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
+
+        
     .panel.panel-default
       .panel-heading What access method is this designed for? (multiple allowed)
       .panel-body
+        <!-- Touch -->
         +checkbox('product.features', 'accessMethodTouch', 'Touch')
+        .panel.panel-default(ng-if='product.features.accessMethodTouch', destroy='accessMethodTouchKeyguardsAvailable')
+          .panel-heading Are specially designed keyguards available?
+          .panel-body
+            +switch('product.features', 'accessMethodTouchKeyguardsAvailable')
+            
         +accessMethodOptions('accessMethodTouch')
         
+        <!-- Mouse or alternative -->
         +checkbox('product.features', 'accessMethodMouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
         +accessMethodOptions('accessMethodMouseOrAlternative')
         
+        <!-- Eyegaze -->
         +checkbox('product.features', 'accessMethodEyegaze', 'Eyegaze')
         +accessMethodOptions('accessMethodEyegaze')
         
+        <!-- Switch -->
         +checkbox('product.features', 'accessMethodSwitch', 'Switch')
-        +accessMethodOptions('accessMethodSwitch')
+        .panel.panel-default(ng-if='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
+          .panel-heading What scanning options are available (without additional software)
+          .panel-body
+            +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
+            +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
+            +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
+            +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
+            +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
+            +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
       
       
   .modal-footer
