@@ -42,10 +42,10 @@ var ProductSchema = new Schema({
     type: Boolean,
     default: false
   },
-  supplier: {
+  suppliers: [{
     type: Schema.Types.ObjectId,
     ref: 'Supplier'
-  }
+  }]
 }, { collection: 'products' });
 
 module.exports = {

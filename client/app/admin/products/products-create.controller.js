@@ -9,13 +9,13 @@ angular.module('speechBubbleApp')
       var template;
 
       switch($scope.product.type) {
-        case 'Simple':
+      case 'HardwareSimple':
           template = templates.simple;
           break;
-        case 'Advanced':
+        case 'HardwareAdvanced':
           template = templates.advanced;
           break;
-        case 'HardwareVocabulary':
+        case 'Vocabulary':
           template = templates.vocabulary;
           break;
       }

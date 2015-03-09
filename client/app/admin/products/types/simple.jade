@@ -1,3 +1,5 @@
+include ../../../mixins/form-helpers
+
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Simple product
@@ -5,16 +7,11 @@
 form.form-horizontal(name='form', ng-submit='create()', novalidate)
   .modal-body
     .panel.panel-default
-      .panel-heading Details
+      .panel-heading Product details
       .panel-body
-
-        .form-group(ng-class='{ "has-success": form.Name.$valid && submitted,\
-        "has-error": form.Name.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Title") Name
-          .col-sm-10
-            input.form-control(id='Name', name='Name', type='text', ng-model='current.name', required='')
-            p.help-block(ng-show='form.Name.$error.required && submitted')
-              | Name is required
+        +input('form', 'product', 'text', 'name', 'required')
+        +textarea('form', 'product', 'text', 'description', 'required')
+        input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
           
   .modal-footer
     button.btn.btn-primary() Create
