@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, growl) {
+.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, ProductOptions, growl) {
+
+  $scope.synthetisedSpeechOptions = ProductOptions.speech;
 
   function getResults(res) {
     return {
@@ -60,23 +62,6 @@ angular.module('speechBubbleApp')
       $scope.temp.moreInformationLabel = '';
     }
   };
-
-  $scope.synthetisedSpeechOptions = [
-    'Acapela',
-    'AT&T',
-    'Cepstral',
-    'CereProc',
-    'eSpeak',
-    'Ekho',
-    'Festival',
-    'FreeTTS',
-    'Ivona',
-    'Neospeech',
-    'Nuance Loquendo',
-    'Nuance Vocalizer',
-    'Praat',
-    'Nuance SVOX'
-  ];
 
   $scope.cancel = function() {
     $modalInstance.dismiss();
