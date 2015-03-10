@@ -47,6 +47,23 @@ angular.module('speechBubbleApp')
     }
   };
 
+  $scope.synthetisedSpeechOptions = [
+    'Acapela',
+    'AT&T',
+    'Cepstral',
+    'CereProc',
+    'eSpeak',
+    'Ekho',
+    'Festival',
+    'FreeTTS',
+    'Ivona',
+    'Neospeech',
+    'Nuance Loquendo',
+    'Nuance Vocalizer',
+    'Praat',
+    'Nuance SVOX'
+  ];
+
   $scope.cancel = function() {
     $modalInstance.dismiss();
   };

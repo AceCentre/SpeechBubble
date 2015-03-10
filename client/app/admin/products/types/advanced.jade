@@ -5,7 +5,7 @@ include ./form-helpers
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Advanced product
 
-form.form-horizontal(name='form', ng-submit='create()', novalidate)
+form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
   .modal-body
     .panel.panel-default
       .panel-heading Product details

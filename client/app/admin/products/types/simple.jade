@@ -5,7 +5,7 @@ include ./form-helpers
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Simple product
 
-form.form-horizontal(name='form', ng-submit='create()', novalidate)
+form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
   .modal-body
     .panel.panel-default
       .panel-heading Product details
@@ -30,9 +30,22 @@ form.form-horizontal(name='form', ng-submit='create()', novalidate)
         +switch('product.features', 'premadeVocabularies')
         
         .panel.panel-default(ng-if='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
-          .panel-heading Select vocabularies
+          .panel-heading Available vocabularies
           .panel-body
             input(type='hidden', ui-select2='select2VocabularyOptions', ng-model="selectedVocabularies", data-placeholder="Select vocabularies")
+          
+    <!-- Speech Type -->
+    .panel.panel-default
+      .panel-heading Speech type options
+      .panel-body
+        +checkbox('product.features', 'speechTypeSynthesised', 'Synthesised')
+        .panel.panel-default(ng-if='product.features.speechTypeSynthesised', destroy='synthetisedSpeechTypes')
+          .panel-heading Synthesized speech type options
+          .panel-body
+            select(ui-select2, multiple, ng-model='product.features.speechTypeSynthesisedTypes', data-placeholder='Select options')
+              option(ng-repeat='item in synthetisedSpeechOptions', value='{{ item }}') {{ item }}
+                
+        +checkbox('product.features', 'speechTypeRecorded', 'Recorded')
           
   .modal-footer
     button.btn.btn-primary() Create

@@ -20,8 +20,6 @@ exports.index = function(req, res) {
     query.type = type;
   }
 
-  console.log(query);
-
   Product
   .find(query)
   .or(orQuery)
