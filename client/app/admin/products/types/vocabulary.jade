@@ -1,4 +1,5 @@
 include ../../../mixins/form-helpers
+include ./form-helpers
 
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
@@ -9,18 +10,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     .panel.panel-default
       .panel-heading Product Details
       .panel-body
-        +input('form', 'product', 'text', 'name', 'required')
-        +textarea('form', 'product', 'text', 'description', 'required')
-        .form-group
-          label.col-sm-2.control-label(for='discontinued') Discontinued
-          .col-sm-10
-            +switch('product', 'discontinued')
-        .form-group
-          label.col-sm-2.control-label(for='supplier') Supplier
-          .col-sm-10
-            input(type='hidden', ui-select2='select2Options', ng-model="selectedSuppliers", data-placeholder="Select supplier")
-            
         input(type='hidden', ng-init='product.type = "ProductVocabulary"')
+        +productDetails()
         
     .panel.panel-default
       .panel-heading How is the vocabulary primarily represented?
@@ -92,31 +83,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
                 +radio('product.features', 'phrasesOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Similar meaning locations')
-        
-    <!-- Shared access method questions -->
-    mixin accessMethodOptions(dependsOn)
-          
-      .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
-        .panel-heading Is there a minimum target size?
-        .panel-body
-          +switch('product.features', dependsOn + 'MinimumTarget')
-          
-          .panel.panel-default(ng-if='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
-            .panel-heading What is this size? (mm)
-            .panel-body
-              div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
-              "has-error": form.#{dependsOn}MinimumTargetSize.$invalid && form.$submitted }')
-                input.form-control(id='#{dependsOn}MinimumTargetSize', name='#{dependsOn}MinimumTargetSize', type='number', ng-model='product.features.#{dependsOn}MinimumTargetSize', required, min='5')
-                p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.required && form.$submitted')
-                    | Minimum target size is required
-                p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
-                    | Minimum target size should be greater than 5
-                
-                
-      .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
-        .panel-heading What is the maximum number of locations per page?
-        .panel-body
-          input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
 
         
     .panel.panel-default

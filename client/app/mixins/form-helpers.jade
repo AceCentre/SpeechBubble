@@ -1,17 +1,17 @@
-mixin input(form, model, type, id, required)
-  if required
-    .form-group(ng-class='{ "has-success": #{form}.#{id}.$valid && #{form}.$submitted,\
-    "has-error": #{form}.#{id}.$invalid && #{form}.$submitted }')
-      label.control-label.col-sm-2(for="#{id}") #{id}
+mixin input(model, type, id, label, requiredForm)
+  if requiredForm
+    .form-group(ng-class='{ "has-success": #{requiredForm}.#{id}.$valid && #{requiredForm}.$submitted,\
+    "has-error": #{requiredForm}.#{id}.$invalid && #{requiredForm}.$submitted }')
+      label.control-label.col-sm-2(for="#{id}") #{label}
       .col-sm-10
         input.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
-        p.help-block(ng-show='#{form}.#{id}.$error.required && #{form}.$submitted')
-          | #{id} is required
+        p.help-block(ng-show='#{requiredForm}.#{id}.$error.required && #{requiredForm}.$submitted')
+          | #{label} is required
   else
     .form-group
-      label.control-label.col-sm-2(for="#{id}") #{id}
+      label.control-label.col-sm-2(for="#{id}") #{label}
       .col-sm-10
-        input.form-control(id='#{id}', name='#{id}', type='text', ng-model='#{model}.#{id}')
+        input.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}')
 
 mixin textarea(form, model, type, id, required)
   if required

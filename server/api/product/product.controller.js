@@ -7,21 +7,29 @@ var Product = require('./product.model').Model;
 exports.index = function(req, res) {
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;
+  var type = req.query.type;
 
   var re = new RegExp(req.query.term, 'i');
-  var query = [
+  var orQuery = [
     { name: re },
     { description: re }
   ];
+  var query = {};
+
+  if(type) {
+    query.type = type;
+  }
+
+  console.log(query);
 
   Product
-  .find()
-  .or(query)
+  .find(query)
+  .or(orQuery)
   .count(function(err, total) {
     if(err) { return handleError(res, err); }
     Product
-    .find()
-    .or(query)
+    .find(query)
+    .or(orQuery)
     .sort({ name: 'asc' })
     .skip(skip)
     .limit(limit)

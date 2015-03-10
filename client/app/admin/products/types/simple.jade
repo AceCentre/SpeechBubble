@@ -1,4 +1,5 @@
 include ../../../mixins/form-helpers
+include ./form-helpers
 
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
@@ -9,9 +10,29 @@ form.form-horizontal(name='form', ng-submit='create()', novalidate)
     .panel.panel-default
       .panel-heading Product details
       .panel-body
-        +input('form', 'product', 'text', 'name', 'required')
-        +textarea('form', 'product', 'text', 'description', 'required')
         input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
+        +productDetails()
+      
+    <!-- Message Levels -->  
+    .panel.panel-default
+      .panel-heading Message levels
+      .panel-body 
+        +input('product.features', 'number', 'messageLevels', 'Total')
+        .panel.panel-default(ng-if='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
+          .panel-heading Message number per level
+          .panel-body
+            +input('product.features', 'number', 'messageLevelsPerLevel', 'Total', 'form')
+    
+    <!-- Premade vocabularies -->
+    .panel.panel-default
+      .panel-heading Any pre­made vocabularies available?
+      .panel-body
+        +switch('product.features', 'premadeVocabularies')
+        
+        .panel.panel-default(ng-if='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
+          .panel-heading Select vocabularies
+          .panel-body
+            input(type='hidden', ui-select2='select2VocabularyOptions', ng-model="selectedVocabularies", data-placeholder="Select vocabularies")
           
   .modal-footer
     button.btn.btn-primary() Create

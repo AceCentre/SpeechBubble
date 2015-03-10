@@ -3,6 +3,34 @@
 angular.module('speechBubbleApp')
 .controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, growl) {
 
+  function getResults(res) {
+    return {
+      results: res.items.map(function(item) {
+        return {
+          id: item._id,
+          text: item.name
+        }
+      })
+    }
+  }
+
+  $scope.select2VocabularyOptions = {
+    multiple: true,
+    ajax: {
+      delay: 250,
+      url: '/api/product/',
+      data: function(term) {
+        return {
+          term: term,
+          limit: 0,
+          skip: 0,
+          type: 'ProductVocabulary'
+        }
+      },
+      results: getResults
+    }
+  };
+
   $scope.select2Options = {
     multiple: true,
     ajax: {
@@ -15,16 +43,7 @@ angular.module('speechBubbleApp')
           skip: 0
         };
       },
-      results: function(res) {
-        return {
-          results: res.items.map(function(item) {
-            return {
-              id: item._id,
-              text: item.name
-            }
-          })
-        }
-      }
+      results: getResults
     }
   };
 

@@ -1,4 +1,5 @@
 include ../../../mixins/form-helpers
+include ./form-helpers
 
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
@@ -9,9 +10,8 @@ form.form-horizontal(name='form', ng-submit='create()', novalidate)
     .panel.panel-default
       .panel-heading Product details
       .panel-body
-        +input('form', 'product', 'text', 'name', 'required')
-        +textarea('form', 'product', 'text', 'description', 'required')
         input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
+        +productDetails()
           
   .modal-footer
     button.btn.btn-primary() Create

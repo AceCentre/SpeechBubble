@@ -9,8 +9,8 @@ include ../../mixins/form-helpers
     .panel-heading Details
     .panel-body   
       form.form-horizontal(name='form', novalidate='')       
-        +input('form', 'supplier', 'text', 'name', true)
-        +input('form', 'supplier', '', 'url', true)
+        +input('supplier', 'text', 'name', 'Name', 'form')
+        +input('supplier', 'url', 'url', 'Url', 'form')
               
         .form-group(ng-class='{ "has-success": form.SupportDetails.$valid && submitted,\
         "has-error": form.SupportDetails.$invalid && submitted }')
@@ -47,11 +47,11 @@ include ../../mixins/form-helpers
     .panel-body
             
       div.form-horizontal(ng-form, name='lForm')
-        +input('lForm', 'location', 'text', 'address1', true)
-        +input('lForm', 'location', 'text', 'address2', false)
-        +input('lForm', 'location', 'text', 'city', true)
-        +input('lForm', 'location', 'text', 'county', true)
-        +input('lForm', 'location', 'text', 'postcode', true)
+        +input('location', 'text', 'address1', 'Address 1', 'lForm')
+        +input('location', 'text', 'address2', 'Address 2')
+        +input('location', 'text', 'city', 'City', 'lForm')
+        +input('location', 'text', 'county', 'County', 'lForm')
+        +input('location', 'text', 'postcode', 'Postcode', 'lForm')
         
         .form-group(ng-class='{ "has-success": lForm.country.$valid && submitted,\
         "has-error": lForm.country.$invalid && lForm.$submitted }')
