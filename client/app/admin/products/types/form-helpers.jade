@@ -10,7 +10,7 @@ mixin productDetails()
     .col-sm-10
       input(type='hidden', ui-select2='select2Options', ng-model="selectedSuppliers", data-placeholder="Select supplier")
 
-<!-- Shared access method questions -->
+<!-- Shared: Vocabulary access method questions -->
 mixin accessMethodOptions(dependsOn)
       
   .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
@@ -34,3 +34,26 @@ mixin accessMethodOptions(dependsOn)
     .panel-heading What is the maximum number of locations per page?
     .panel-body
       input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
+
+<!-- Shared: Hardware -->
+mixin sharedHardware()
+  .panel.panel-default
+    .panel-heading More information
+    .panel-body
+      table.table.table-striped(ng-show='product.features.moreInformationLinks.length')
+        thead
+          tr 
+            th Label
+            th URL
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.features.moreInformationLinks track by $index')
+            td {{ item.label }}
+            td {{ item.url }}
+            td.actions
+              a(href='#', ng-click='deleteInformationLink(item)'): span.glyphicon.glyphicon-trash
+                
+      div(ng-form, name='moreInformationLinksForm')
+        +input('text', 'temp', 'moreInformationLabel', 'Label', 'moreInformationLinksForm')
+        +input('text', 'temp', 'moreInformationUrl', 'URL', 'moreInformationLinksForm')
+        button.btn.btn-secondary.pull-right(ng-click='addMoreInformation(moreInformationLinksForm)') Add

@@ -47,6 +47,20 @@ angular.module('speechBubbleApp')
     }
   };
 
+  $scope.addMoreInformation = function(form) {
+    if(form.$valid) {
+      if(!product.features.moreInformationLinks) {
+        $scope.product.features.moreInformationLinks = [];
+      }
+      $scope.product.features.moreInformationLinks.push({
+        label: $scope.temp.moreInformationLabel,
+        url: $scope.temp.moreInformationUrl
+      });
+      $scope.temp.moreInformationLabel = '';
+      $scope.temp.moreInformationLabel = '';
+    }
+  };
+
   $scope.synthetisedSpeechOptions = [
     'Acapela',
     'AT&T',

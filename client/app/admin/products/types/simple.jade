@@ -47,6 +47,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
                 
         +checkbox('product.features', 'speechTypeRecorded', 'Recorded')
           
+    +sharedHardware()
   .modal-footer
     button.btn.btn-primary() Create
     a.btn.btn-tertiary(ng-click='cancel()') Cancel

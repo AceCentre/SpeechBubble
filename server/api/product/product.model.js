@@ -9,6 +9,7 @@ var ProductSchema = new Schema({
     type: String,
     required: true
   },
+  summary: String,
   description: {
     type: String,
     required: true
