@@ -15,16 +15,50 @@ angular.module('speechBubbleApp')
 
   $scope.addMoreInformation = function(form) {
     if(form.$valid) {
-      if(!$scope.product.features.moreInformationLinks) {
-        $scope.product.features.moreInformationLinks = [];
-      }
+      $scope.product.features = $scope.product.features || {};
+      $scope.product.features.moreInformationLinks = $scope.product.features.moreInformationLinks || [];
+      $scope.temp = $scope.temp || {};
+
       $scope.product.features.moreInformationLinks.push({
         label: $scope.temp.moreInformationLabel,
         url: $scope.temp.moreInformationUrl
       });
       $scope.temp.moreInformationLabel = '';
-      $scope.temp.moreInformationLabel = '';
+      $scope.temp.moreInformationUrl = '';
     }
   };
+
+  $scope.save = function(form) {
+    console.log(form);
+    $scope.submitted = true;
+    if($scope.product && form.$valid) {
+      $scope.product.suppliers = $scope.selectedSuppliers.map(function(item) {
+        return item.id;
+      });
+      if($scope.product._id) {
+        Product.update($scope.product,
+          function(res) {
+            angular.copy(res, $scope.product);
+            $modalInstance.close();
+            growl.success('Product updated.');
+          },
+          function(res) {
+            growl.error('An error occurred.');
+          });
+      } else {
+        Product.create($scope.product,
+          function(res) {
+            angular.copy(res, $scope.product);
+            $modalInstance.close();
+            growl.success('Product created.');
+          },
+          function(res) {
+            growl.error('An error occurred.');
+          });
+      }
+    }
+  };
+
+
 
 });

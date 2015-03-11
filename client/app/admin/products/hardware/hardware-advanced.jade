@@ -37,7 +37,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +checkbox('temp', 'mobilePhoneOther', 'Other')
         textarea.form-control(ng-if='temp.mobilePhoneOther', ng-model='product.features.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
         
-        
+    +sharedHardware()
         
   .modal-footer
     button.btn.btn-primary() Create
