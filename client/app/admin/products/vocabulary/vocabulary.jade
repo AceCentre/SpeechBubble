@@ -19,6 +19,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +radio('product.features', 'presentation', 'textOnly', 'Text only')
         +radio('product.features', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
         +radio('product.features', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
+        +radio('product.features', 'presentation', 'visualScenes', 'Visual Scenes')
         
         <!-- Text only -->
         .panel.panel-default(ng-if='product.features.presentation === "textOnly"', destroy='presentationText')
