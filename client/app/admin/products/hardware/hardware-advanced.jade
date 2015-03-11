@@ -12,7 +12,33 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel-body
         input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
         +productDetails()
+        
+    .panel.panel-default
+      .panel-heading Supported operating systems
+      .panel-body
+        select(ui-select2, multiple, ng-model='product.features.devices', data-placeholder='Select options')
+          option(ng-repeat='item in devices', value='{{ item }}') {{ item }}
           
+    .panel.panel-default
+      .panel-heading Can I JUST run it as a communication aid and nothing else?
+      .panel-body
+        +switch('product.features', 'dedicated')
+        
+    .panel.panel-default
+      .panel-heading Accessibility features
+      .panel-body  
+        textarea.form-control(ng-model='product.features.accessibilityFeatures', name='accessibilityFeatures', id='accessibilityFeatures')
+    
+    .panel.panel-default
+      .panel-heading Mobile phone capabilities
+      .panel-body
+        +checkbox('product.features', 'mobilePhoneViaAACSoftware', 'Phone/Texting controllable from AAC Software,')
+        +checkbox('product.features', 'mobilePhoneViaCopyPaste', 'Phone/texting controllable via copy/paste functionality')
+        +checkbox('temp', 'mobilePhoneOther', 'Other')
+        textarea.form-control(ng-if='temp.mobilePhoneOther', ng-model='product.features.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
+        
+        
+        
   .modal-footer
     button.btn.btn-primary() Create
     a.btn.btn-tertiary(ng-click='cancel()') Cancel

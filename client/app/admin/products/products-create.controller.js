@@ -11,11 +11,11 @@ angular.module('speechBubbleApp')
 
       switch($scope.product.type) {
         case 'HardwareSimple':
-          controller = 'AdminProductEditCtrl';
+          controller = 'AdminProductHardwareEditCtrl';
           template = 'app/admin/products/hardware/hardware-simple.html';
           break;
         case 'HardwareAdvanced':
-          controller = 'AdminProductEditCtrl';
+          controller = 'AdminProductHardwareEditCtrl';
           template = 'app/admin/products/hardware/hardware-advanced.html';
           break;
         case 'Vocabulary':

@@ -1,67 +1,11 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, ProductOptions, growl) {
+.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, ProductOptions, ProductSelect2Options, growl) {
 
   $scope.synthetisedSpeechOptions = ProductOptions.speech;
-
-  function getResults(res) {
-    return {
-      results: res.items.map(function(item) {
-        return {
-          id: item._id,
-          text: item.name
-        }
-      })
-    }
-  }
-
-  $scope.select2VocabularyOptions = {
-    multiple: true,
-    ajax: {
-      delay: 250,
-      url: '/api/product/',
-      data: function(term) {
-        return {
-          term: term,
-          limit: 0,
-          skip: 0,
-          type: 'ProductVocabulary'
-        }
-      },
-      results: getResults
-    }
-  };
-
-  $scope.select2Options = {
-    multiple: true,
-    ajax: {
-      delay: 250,
-      url: '/api/supplier/',
-      data: function(term) {
-        return {
-          term: term,
-          limit: 0,
-          skip: 0
-        };
-      },
-      results: getResults
-    }
-  };
-
-  $scope.addMoreInformation = function(form) {
-    if(form.$valid) {
-      if(!product.features.moreInformationLinks) {
-        $scope.product.features.moreInformationLinks = [];
-      }
-      $scope.product.features.moreInformationLinks.push({
-        label: $scope.temp.moreInformationLabel,
-        url: $scope.temp.moreInformationUrl
-      });
-      $scope.temp.moreInformationLabel = '';
-      $scope.temp.moreInformationLabel = '';
-    }
-  };
+  $scope.select2VocabularyOptions = ProductSelect2Options.vocabulary;
+  $scope.select2Options = ProductSelect2Options.supplier;
 
   $scope.cancel = function() {
     $modalInstance.dismiss();
