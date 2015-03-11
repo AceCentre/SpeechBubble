@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, ProductOptions, ProductSelect2Options, growl) {
+.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, current, ProductOptions, ProductSelect2Options, growl) {
 
+  $scope.product = current;
   $scope.synthetisedSpeechOptions = ProductOptions.speech;
   $scope.select2VocabularyOptions = ProductSelect2Options.vocabulary;
   $scope.select2Options = ProductSelect2Options.supplier;

@@ -1,35 +1,25 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductCreateCtrl', function($scope, $modalInstance, $modal) {
+  .controller('AdminProductCreateCtrl', function($scope, $modalInstance, $modal, ProductTemplate) {
 
     $scope.product = {};
 
     $scope.create = function() {
-      var template;
-      var controller;
 
-      switch($scope.product.type) {
-        case 'HardwareSimple':
-          controller = 'AdminProductHardwareEditCtrl';
-          template = 'app/admin/products/hardware/hardware-simple.html';
-          break;
-        case 'HardwareAdvanced':
-          controller = 'AdminProductHardwareEditCtrl';
-          template = 'app/admin/products/hardware/hardware-advanced.html';
-          break;
-        case 'Vocabulary':
-          controller = 'AdminProductEditCtrl';
-          template = 'app/admin/products/vocabulary/vocabulary.html';
-          break;
-      };
+      var modal = ProductTemplate($scope.product);
 
       $modalInstance.close();
 
       $modal.open({
-        templateUrl: template,
-        controller: controller,
-        size: 'lg'
+        templateUrl: modal.template,
+        controller: modal.controller,
+        size: 'lg',
+        resolve: {
+          current: function() {
+            return $scope.product
+          }
+        }
       });
     };
 

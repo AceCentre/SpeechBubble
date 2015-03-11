@@ -9,9 +9,9 @@ form.form-horizontal(ng-submit='create()', novalidate)
     .form-group
       label.control-label.col-sm-2(for="slug") Type
       .col-sm-10
-        +radio('product', 'type', 'HardwareSimple', 'Hardware Simple')
-        +radio('product', 'type', 'HardwareAdvanced', 'Hardware Advanced')
-        +radio('product', 'type', 'Vocabulary', 'Vocabulary')
+        +radio('product', 'type', 'ProductHardwareSimple', 'Hardware Simple')
+        +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced')
+        +radio('product', 'type', 'ProductVocabulary', 'Vocabulary')
           
   .modal-footer
     button.btn.btn-primary() Create

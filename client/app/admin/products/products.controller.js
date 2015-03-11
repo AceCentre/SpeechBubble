@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($scope, $modal) {
+  .controller('AdminProductsCtrl', function ($scope, $modal, ProductTemplate) {
     $scope.endpoint = '/api/product/:id';
 
     $scope.create = function() {
@@ -10,4 +10,21 @@ angular.module('speechBubbleApp')
         controller: 'AdminProductCreateCtrl'
       });
     };
+
+    $scope.edit = function(product) {
+
+      var modal = ProductTemplate(product);
+
+      $modal.open({
+        templateUrl: modal.template,
+        controller: modal.controller,
+        size: 'lg',
+        resolve: {
+          current: function() {
+            return product
+          }
+        }
+      });
+    };
+
   });

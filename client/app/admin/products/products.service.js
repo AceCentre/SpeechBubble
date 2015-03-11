@@ -17,6 +17,32 @@ angular.module('speechBubbleApp')
     });
 
   })
+  .factory('ProductTemplate', function() {
+    return function(product) {
+      var template;
+      var controller;
+
+      switch(product.type) {
+      case 'ProductHardwareSimple':
+          controller = 'AdminProductHardwareEditCtrl';
+          template = 'app/admin/products/hardware/hardware-simple.html';
+          break;
+        case 'ProductHardwareAdvanced':
+          controller = 'AdminProductHardwareEditCtrl';
+          template = 'app/admin/products/hardware/hardware-advanced.html';
+          break;
+        case 'ProductVocabulary':
+          controller = 'AdminProductEditCtrl';
+          template = 'app/admin/products/vocabulary/vocabulary.html';
+          break;
+      };
+
+      return {
+        template: template,
+        controller: controller
+      };
+    }
+  })
   .factory('ProductSelect2Options', function() {
     function getResults(res) {
       return {

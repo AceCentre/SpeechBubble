@@ -6,7 +6,7 @@ mixin productDetails()
     .col-sm-10
       +switch('product', 'discontinued')
   .form-group
-    label.col-sm-2.control-label(for='supplier') Supplier
+    label.col-sm-2.control-label(for='supplier') Suppliers
     .col-sm-10
       input(type='hidden', ui-select2='select2Options', ng-model="selectedSuppliers", data-placeholder="Select supplier")
 
