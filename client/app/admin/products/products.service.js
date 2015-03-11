@@ -23,7 +23,7 @@ angular.module('speechBubbleApp')
       var controller;
 
       switch(product.type) {
-      case 'ProductHardwareSimple':
+        case 'ProductHardwareSimple':
           controller = 'AdminProductHardwareEditCtrl';
           template = 'app/admin/products/hardware/hardware-simple.html';
           break;

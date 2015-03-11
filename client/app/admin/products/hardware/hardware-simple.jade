@@ -33,6 +33,11 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           .panel-heading Available vocabularies
           .panel-body
             input(type='hidden', ui-select2='select2VocabularyOptions', ng-model="selectedVocabularies", data-placeholder="Select vocabularies")
+              
+        .panel.panel-default(ng-if='product.features.premadeVocabularies', destroy='numberOfVoices')
+          .panel-heading Total voices
+          .panel-body 
+            input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
           
     <!-- Speech Type -->
     .panel.panel-default
