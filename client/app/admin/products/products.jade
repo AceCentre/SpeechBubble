@@ -21,7 +21,7 @@ block content
           td {{ item.name }}
           td {{ item.type | type }}
           td.icon
-            span.glyphicon(ng-class='product.discontinued ? "glyphicon-remove-circle": "glyphicon-ok-circle"')
+            span.glyphicon(ng-class='item.discontinued ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
           td.actions
             a(href='#', ng-click='edit(item)'): span.glyphicon.glyphicon-edit
             a(href='#', ng-click='delete(item.name, item)'): span.glyphicon.glyphicon-trash
