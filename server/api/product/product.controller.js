@@ -68,17 +68,11 @@ exports.update = function(req, res) {
   req.body.suppliers = req.body.suppliers.map(function(supplier) {
     return _.isString(supplier) ? supplier: supplier._id;
   });
-  Product
-  .findById(req.params.id)
-    .populate('suppliers')
-    .exec(function (err, product) {
-      if (err) { return handleError(res, err); }
-      if(!product) { return res.send(404); }
-      Product.update(product, req.body, function(err) {
-        if (err) { return handleError(res, err); }
-        return res.json(200, product);
-      })
-    });
+  Product.findByIdAndUpdate(req.params.id, req.body, { overwrite: true }, function (err, product) {
+    if (err) { return handleError(res, err); }
+    if(!product) { return res.send(404); }
+    return res.json(200, product);
+  });
 };
 
 // Deletes a product from the DB.

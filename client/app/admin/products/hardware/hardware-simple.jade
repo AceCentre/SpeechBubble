@@ -18,7 +18,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel-heading Message levels
       .panel-body
         input.form-control(type='number', ng-model='product.features.messageLevels')
-        .panel.panel-default(ng-if='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
+        .panel.panel-default(ng-show='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
           .panel-heading Message number per level
           .panel-body
             input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
@@ -29,15 +29,15 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel-body
         +switch('product.features', 'premadeVocabularies')
 
-        .panel.panel-default(ng-if='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
+        .panel.panel-default(ng-show='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
           .panel-heading Available vocabularies
           .panel-body
             ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.premadeVocabulariesAvailable")
               ui-select-match(placeholder="Select a vocabulary") {{$item.name}}
-              ui-select-choices(repeat="item in vocabularyOptions", refresh='refreshVocabularies($select.search)', refresh-delay='500')
+              ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
                 div {{item.name}}
 
-        .panel.panel-default(ng-if='product.features.premadeVocabularies', destroy='numberOfVoices')
+        .panel.panel-default(ng-show='product.features.premadeVocabularies', destroy='numberOfVoices')
           .panel-heading Total voices
           .panel-body
             input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
@@ -47,7 +47,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel-heading Speech type options
       .panel-body
         +checkbox('product.features', 'speechTypeSynthesised', 'Synthesised')
-        .panel.panel-default(ng-if='product.features.speechTypeSynthesised', destroy='synthetisedSpeechTypes')
+        .panel.panel-default(ng-show='product.features.speechTypeSynthesised', destroy='speechTypeSynthesisedTypes')
           .panel-heading Synthesized speech type options
           .panel-body
             ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.speechTypeSynthesisedTypes")

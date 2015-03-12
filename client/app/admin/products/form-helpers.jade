@@ -10,30 +10,30 @@ mixin productDetails()
     .col-sm-10
       ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.suppliers")
         ui-select-match(placeholder="Select a supplier") {{$item.name}}
-        ui-select-choices(repeat="item in supplierOptions", refresh='refreshSuppliers($select.search)', refresh-delay='500')
+        ui-select-choices(repeat="item in supplierOptions | filter: $select.search", refresh='refreshSuppliers($select.search)', refresh-delay='500')
           div {{item.name}}
 
 <!-- Shared: Access method questions -->
 mixin accessMethodOptions(dependsOn)
 
-  .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
+  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
     .panel-heading Is there a minimum target size?
     .panel-body
       +switch('product.features', dependsOn + 'MinimumTarget')
 
-      .panel.panel-default(ng-if='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
+      .panel.panel-default(ng-show='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
         .panel-heading What is this size? (mm)
         .panel-body
           div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
           "has-error": form.#{dependsOn}MinimumTargetSize.$invalid && form.$submitted }')
-            input.form-control(id='#{dependsOn}MinimumTargetSize', name='#{dependsOn}MinimumTargetSize', type='number', ng-model='product.features.#{dependsOn}MinimumTargetSize', required, min='5')
+            input.form-control(id='#{dependsOn}MinimumTargetSize', name='#{dependsOn}MinimumTargetSize', type='number', ng-model='product.features.#{dependsOn}MinimumTargetSize', ng-required='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', min='5')
             p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.required && form.$submitted')
                 | Minimum target size is required
             p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
                 | Minimum target size should be greater than 5
 
 
-  .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
+  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
     .panel-body
       input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
@@ -70,7 +70,7 @@ mixin sharedHardware()
       +checkbox('product.features.mountingOptions', 'carryingStrap', 'Carrying strap available')
 
       +checkbox('temp', 'mountingOther', 'Other')
-      textarea.form-control(ng-if='temp.mountingOther', destroy='mountingOtherDetails', ng-model='product.features.mountingOtherDetails')
+      textarea.form-control(ng-show='temp.mountingOther', destroy='mountingOtherDetails', ng-model='product.features.mountingOtherDetails')
 
   .panel.panel-default
     .panel-heading Dimensions
@@ -89,9 +89,9 @@ mixin sharedHardware()
     .panel-heading Enviro Control capabilities
     .panel-body
       +radio('product.features', 'enviroControl', 'built-in', 'Built-in')
-      textarea.form-control(ng-if='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
+      textarea.form-control(ng-show='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
       +radio('product.features', 'enviroControl', 'additional', 'Additional hardware available')
-      textarea.form-control(ng-if='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
+      textarea.form-control(ng-show='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
       +radio('product.features', 'enviroControl', '', 'None')
 
   .panel.panel-default
@@ -99,17 +99,17 @@ mixin sharedHardware()
     .panel-body
       <!-- Touch -->
       +checkbox('product.features', 'accessMethodTouch', 'Touch')
-      .panel.panel-default(ng-if='product.features.accessMethodTouch', destroy='accessMethodTouchType')
+      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchType')
         .panel-heading Touch screen
         .panel-body
           +radio('product.features', 'accessMethodTouchType', 'resistive', 'Resisitive')
           +radio('product.features', 'accessMethodTouchType', 'capacitive', 'Capacitive')
-      .panel.panel-default(ng-if='product.features.accessMethodTouch', destroy='accessMethodTouchRequireGestures')
+      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchRequireGestures')
         .panel-heading Are specialist gestures etc required to control the device?
         .panel-body
           +switch('product.features', 'accessMethodTouchRequireGestures')
 
-      .panel.panel-default(ng-if='product.features.accessMethodTouch', destroy='touchFeatures')
+      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='touchFeatures')
         .panel-heading What Touch features are available?
         .panel-body
           +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
@@ -118,7 +118,7 @@ mixin sharedHardware()
           +checkbox('product.features.touchFeatures', 'debounce', 'Debounce')
           +checkbox('product.features.touchFeatures', 'auditoryFishing', 'Auditory fishing')
           +checkbox('temp', 'touchFeaturesOther', 'Other')
-          textarea.form-control(ng-if='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
+          textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
 
       +accessMethodOptions('accessMethodTouch')
 
@@ -127,8 +127,8 @@ mixin sharedHardware()
       +accessMethodOptions('accessMethodMouseOrAlternative')
       <!-- Eyegaze -->
       +checkbox('product.features', 'accessMethodEyegaze', 'Eyegaze')
-      .panel.panel-default(ng-if='product.features.accessMethodEyegaze', destroy='accessMethodEyeGazePause')
-        .panel-heading Pause on­screen or off­screen?
+      .panel.panel-default(ng-show='product.features.accessMethodEyegaze', destroy='accessMethodEyeGazePause')
+        .panel-heading Pause on-screen or off-screen?
         .panel-body
           +radio('product.features', 'accessMethodEyeGazePause', 'on-screen', 'On-screen')
           +radio('product.features', 'accessMethodEyeGazePause', 'off-screen', 'Off-screen')
@@ -136,7 +136,7 @@ mixin sharedHardware()
       +accessMethodOptions('accessMethodEyegaze')
       <!-- Switch -->
       +checkbox('product.features', 'accessMethodSwitch', 'Switch')
-      .panel.panel-default(ng-if='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
+      .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
         .panel-heading What scanning options are available (without additional software)
         .panel-body
           +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
