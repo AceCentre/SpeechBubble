@@ -2,7 +2,6 @@
 
 angular.module('speechBubbleApp')
   .factory('Product', function ($resource) {
-
     return $resource('/api/product/:id', { id: '@_id' }, {
       'get': {
         method:'GET',
@@ -15,7 +14,6 @@ angular.module('speechBubbleApp')
       'delete': { method:'DELETE' },
       'update': { method: 'PUT' }
     });
-
   })
   .factory('ProductTemplate', function() {
     return function(product) {
@@ -42,51 +40,6 @@ angular.module('speechBubbleApp')
         controller: controller
       };
     }
-  })
-  .factory('ProductSelect2Options', function() {
-    function getResults(res) {
-      return {
-        results: res.items.map(function(item) {
-          return {
-            id: item._id,
-            text: item.name
-          }
-        })
-      }
-    }
-    return {
-      vocabulary: {
-        multiple: true,
-        ajax: {
-          delay: 250,
-          url: '/api/product/',
-          data: function(term) {
-            return {
-              term: term,
-              limit: 0,
-              skip: 0,
-              type: 'ProductVocabulary'
-            }
-          },
-          results: getResults
-        }
-      },
-      supplier: {
-        multiple: true,
-        ajax: {
-          delay: 250,
-          url: '/api/supplier/',
-          data: function(term) {
-            return {
-              term: term,
-              limit: 0,
-              skip: 0
-            };
-          },
-          results: getResults
-        }
-      }
-    };
   })
   .factory('ProductOptions', function () {
 

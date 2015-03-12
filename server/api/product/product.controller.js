@@ -31,6 +31,7 @@ exports.index = function(req, res) {
     .sort({ name: 'asc' })
     .skip(skip)
     .limit(limit)
+    .populate('suppliers')
     .exec(function (err, products) {
       if(err) { return handleError(res, err); }
       return res.json(200, {
@@ -52,6 +53,9 @@ exports.show = function(req, res) {
 
 // Creates a new product in the DB.
 exports.create = function(req, res) {
+  req.body.suppliers = req.body.suppliers.map(function(supplier) {
+    return _.isString(supplier) ? supplier: supplier._id;
+  });
   Product.create(req.body, function(err, product) {
     if(err) { return handleError(res, err); }
     return res.json(201, product);
@@ -61,15 +65,20 @@ exports.create = function(req, res) {
 // Updates an existing product in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  Product.findById(req.params.id, function (err, product) {
-    if (err) { return handleError(res, err); }
-    if(!product) { return res.send(404); }
-    var updated = _.merge(product, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, product);
-    });
+  req.body.suppliers = req.body.suppliers.map(function(supplier) {
+    return _.isString(supplier) ? supplier: supplier._id;
   });
+  Product
+  .findById(req.params.id)
+    .populate('suppliers')
+    .exec(function (err, product) {
+      if (err) { return handleError(res, err); }
+      if(!product) { return res.send(404); }
+      Product.update(product, req.body, function(err) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, product);
+      })
+    });
 };
 
 // Deletes a product from the DB.

@@ -1,13 +1,26 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductHardwareEditCtrl', function($scope, $modalInstance, Product, current, ProductOptions, ProductSelect2Options, growl) {
+.controller('AdminProductHardwareEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, growl) {
 
   $scope.product = current;
   $scope.devices = ProductOptions.devices;
-  $scope.synthetisedSpeechOptions = ProductOptions.speech;
-  $scope.select2VocabularyOptions = ProductSelect2Options.vocabulary;
-  $scope.select2Options = ProductSelect2Options.supplier;
+  $scope.speechOptions = ProductOptions.speech;
+  $scope.suppliers = ProductOptions.suppliers;
+  $scope.supplierOptions = [];
+  $scope.vocabularyOptions = [];
+
+  $scope.refreshSuppliers = function(term) {
+    Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {
+      $scope.supplierOptions = res.items;
+    });
+  };
+
+  $scope.refreshVocabularies = function(term) {
+    Product.query({ type: 'ProductVocabulary', term: term, limit: 0, skip: 0 }, function(res) {
+      $scope.vocabularyOptions = res.items;
+    });
+  };
 
   $scope.cancel = function() {
     $modalInstance.dismiss();
@@ -29,16 +42,11 @@ angular.module('speechBubbleApp')
   };
 
   $scope.save = function(form) {
-    console.log(form);
     $scope.submitted = true;
     if($scope.product && form.$valid) {
-      $scope.product.suppliers = $scope.selectedSuppliers.map(function(item) {
-        return item.id;
-      });
       if($scope.product._id) {
         Product.update($scope.product,
           function(res) {
-            angular.copy(res, $scope.product);
             $modalInstance.close();
             growl.success('Product updated.');
           },
@@ -48,7 +56,7 @@ angular.module('speechBubbleApp')
       } else {
         Product.create($scope.product,
           function(res) {
-            angular.copy(res, $scope.product);
+            angular.copy(res.toJSON(), $scope.product);
             $modalInstance.close();
             growl.success('Product created.');
           },

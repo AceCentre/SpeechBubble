@@ -15,7 +15,7 @@
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/angular-growl-v2/build/angular-growl.css" />
       <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
-      <link rel="stylesheet" href="bower_components/select2/select2.css" />
+      <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -34,6 +34,10 @@
         document.createElement('ng:include');
         document.createElement('ng:pluralize');
         document.createElement('ng:view');
+
+        document.createElement('ui-select');
+        document.createElement('ui-select-match');
+        document.createElement('ui-select-choices');
       </script>
     <![endif]-->
   </head>
@@ -80,8 +84,7 @@
       <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
       <script src="bower_components/angular-growl-v2/build/angular-growl.js"></script>
       <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
-      <script src="bower_components/select2/select2.js"></script>
-      <script src="bower_components/angular-ui-select2/src/select2.js"></script>
+      <script src="bower_components/angular-ui-select/dist/select.js"></script>
       <!-- endbower -->
       <script src="assets/javascript/angular-bootstrap-switch/angular-bootstrap-switch.js"></script>
     <!-- endbuild -->

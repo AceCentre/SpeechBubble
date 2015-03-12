@@ -11,7 +11,7 @@ angular.module('speechBubbleApp', [
   'angularFileUpload',
   'angular-growl',
   'frapontillo.bootstrap-switch',
-  'ui.select2'
+  'ui.select'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider) {
     $locationProvider.html5Mode(true);

@@ -24,11 +24,11 @@ Product.find().remove(function() {
           regions: chance.pick(regions, chance.integer({ min: 0, max: regions.length - 1}))
         }, function(err, supplier) {
           Product.create({
-            name: chance.sentence(),
+            name: chance.word(),
             description: chance.paragraph(),
             type: chance.pick(types, chance.integer({ min: 0, max: types.length - 1})),
             discontinued: chance.bool(),
-            supplier: supplier._id
+            suppliers: [supplier._id]
           });
         });
     });
