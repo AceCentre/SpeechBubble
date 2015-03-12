@@ -12,12 +12,12 @@ mixin productDetails()
 
 <!-- Shared: Access method questions -->
 mixin accessMethodOptions(dependsOn)
-      
+
   .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
     .panel-heading Is there a minimum target size?
     .panel-body
       +switch('product.features', dependsOn + 'MinimumTarget')
-      
+
       .panel.panel-default(ng-if='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
         .panel-heading What is this size? (mm)
         .panel-body
@@ -28,8 +28,8 @@ mixin accessMethodOptions(dependsOn)
                 | Minimum target size is required
             p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
                 | Minimum target size should be greater than 5
-            
-            
+
+
   .panel.panel-default(ng-if='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
     .panel-body
@@ -37,26 +37,6 @@ mixin accessMethodOptions(dependsOn)
 
 <!-- Shared: Hardware -->
 mixin sharedHardware()
-  .panel.panel-default
-    .panel-heading More information
-    .panel-body
-      table.table.table-striped(ng-show='product.features.moreInformationLinks.length')
-        thead
-          tr 
-            th Label
-            th URL
-            th.actions Actions
-        tbody
-          tr(ng-repeat='item in product.features.moreInformationLinks track by $index')
-            td {{ item.label }}
-            td {{ item.url }}
-            td.actions
-              a(href='#', ng-click='deleteInformationLink(item)'): span.glyphicon.glyphicon-trash
-                
-      div(ng-form, name='moreInformationLinksForm')
-        +input('temp', 'text', 'moreInformationLabel', 'Label')
-        +input('temp', 'url', 'moreInformationUrl', 'URL')
-        button.btn.btn-secondary.pull-right(ng-click='addMoreInformation(moreInformationLinksForm)') Add
 
   .panel.panel-default
     .panel-heading Guide price
@@ -65,13 +45,13 @@ mixin sharedHardware()
       +input('product.features.price', 'text', 'aud', 'AUD ($)')
       +input('product.features.price', 'text', 'usd', 'USD ($)')
       +input('product.features.price', 'text', 'euro', 'Euro (€)')
-      
+
   .panel.panel-default
     .panel-heading Support &amp; Warranty
     .panel-body
       +textarea('product.features', 'supportOptions', 'Support options')
       +textarea('product.features', 'warrantyOptions', 'Warranty options')
-      
+
   .panel.panel-default
     .panel-heading Battery
     .panel-body
@@ -110,7 +90,7 @@ mixin sharedHardware()
       +radio('product.features', 'enviroControl', 'additional', 'Additional hardware available')
       textarea.form-control(ng-if='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
       +radio('product.features', 'enviroControl', '', 'None')
-      
+
   .panel.panel-default
     .panel-heading What access method is this designed for? (multiple allowed)
     .panel-body
@@ -125,7 +105,7 @@ mixin sharedHardware()
         .panel-heading Are specialist gestures etc required to control the device?
         .panel-body
           +switch('product.features', 'accessMethodTouchRequireGestures')
-      
+
       .panel.panel-default(ng-if='product.features.accessMethodTouch', destroy='touchFeatures')
         .panel-heading What Touch features are available?
         .panel-body
@@ -136,9 +116,9 @@ mixin sharedHardware()
           +checkbox('product.features.touchFeatures', 'auditoryFishing', 'Auditory fishing')
           +checkbox('temp', 'touchFeaturesOther', 'Other')
           textarea.form-control(ng-if='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
-          
+
       +accessMethodOptions('accessMethodTouch')
-          
+
       <!-- Mouse or alternative -->
       +checkbox('product.features', 'accessMethodMouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
       +accessMethodOptions('accessMethodMouseOrAlternative')
@@ -149,7 +129,7 @@ mixin sharedHardware()
         .panel-body
           +radio('product.features', 'accessMethodEyeGazePause', 'on-screen', 'On-screen')
           +radio('product.features', 'accessMethodEyeGazePause', 'off-screen', 'Off-screen')
-          
+
       +accessMethodOptions('accessMethodEyegaze')
       <!-- Switch -->
       +checkbox('product.features', 'accessMethodSwitch', 'Switch')
@@ -162,4 +142,25 @@ mixin sharedHardware()
           +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
           +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
           +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
-      
+
+mixin addMoreInformation()
+  .panel.panel-default
+    .panel-heading More information
+    .panel-body
+      table.table.table-striped(ng-show='product.features.moreInformationLinks.length')
+        thead
+          tr
+            th Label
+            th URL
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.features.moreInformationLinks track by $index')
+            td {{ item.label }}
+            td {{ item.url }}
+            td.actions
+              a(href='#', ng-click='deleteInformationLink(item)'): span.glyphicon.glyphicon-trash
+
+      div(ng-form, name='moreInformationLinksForm')
+        +input('temp', 'text', 'moreInformationLabel', 'Label')
+        +input('temp', 'text', 'moreInformationUrl', 'URL')
+        a.btn.btn-secondary.pull-right(ng-click='addMoreInformation(moreInformationLinksForm)') Add

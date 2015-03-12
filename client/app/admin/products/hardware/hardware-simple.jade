@@ -12,33 +12,33 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel-body
         input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
         +productDetails()
-      
-    <!-- Message Levels -->  
+
+    <!-- Message Levels -->
     .panel.panel-default
       .panel-heading Message levels
-      .panel-body 
+      .panel-body
         input.form-control(type='number', ng-model='product.features.messageLevels')
         .panel.panel-default(ng-if='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
           .panel-heading Message number per level
           .panel-body
             input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
-    
+
     <!-- Premade vocabularies -->
     .panel.panel-default
       .panel-heading Any pre­made vocabularies available?
       .panel-body
         +switch('product.features', 'premadeVocabularies')
-        
+
         .panel.panel-default(ng-if='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
           .panel-heading Available vocabularies
           .panel-body
             input(type='hidden', ui-select2='select2VocabularyOptions', ng-model="selectedVocabularies", data-placeholder="Select vocabularies")
-              
+
         .panel.panel-default(ng-if='product.features.premadeVocabularies', destroy='numberOfVoices')
           .panel-heading Total voices
-          .panel-body 
+          .panel-body
             input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
-          
+
     <!-- Speech Type -->
     .panel.panel-default
       .panel-heading Speech type options
@@ -49,10 +49,12 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           .panel-body
             select(ui-select2, multiple, ng-model='product.features.speechTypeSynthesisedTypes', data-placeholder='Select options')
               option(ng-repeat='item in synthetisedSpeechOptions', value='{{ item }}') {{ item }}
-                
+
         +checkbox('product.features', 'speechTypeRecorded', 'Recorded')
-          
+
     +sharedHardware()
+    +addMoreInformation()
+
   .modal-footer
     button.btn.btn-primary() Create
     a.btn.btn-tertiary(ng-click='cancel()') Cancel
