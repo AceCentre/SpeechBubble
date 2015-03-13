@@ -11,8 +11,9 @@ form.form-horizontal(ng-submit='create()', novalidate)
       .col-sm-10
         +radio('product', 'type', 'ProductHardwareSimple', 'Hardware Simple')
         +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced')
+        +radio('product', 'type', 'ProductSoftware', 'Software / Application')
         +radio('product', 'type', 'ProductVocabulary', 'Vocabulary')
-          
+
   .modal-footer
     button.btn.btn-primary() Create
     a.btn.btn-tertiary(ng-click='cancel()') Cancel

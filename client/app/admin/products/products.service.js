@@ -29,17 +29,21 @@ angular.module('speechBubbleApp')
           controller = 'AdminProductHardwareEditCtrl';
           template = 'app/admin/products/hardware/hardware-advanced.html';
           break;
+        case 'ProductSoftware':
+          controller = 'AdminProductSoftwareEditCtrl';
+          template = 'app/admin/products/software/software.html';
+          break;
         case 'ProductVocabulary':
           controller = 'AdminProductEditCtrl';
           template = 'app/admin/products/vocabulary/vocabulary.html';
           break;
-      };
+      }
 
       return {
         template: template,
         controller: controller
       };
-    }
+    };
   })
   .factory('ProductOptions', function () {
 

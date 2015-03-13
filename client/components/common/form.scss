@@ -31,3 +31,7 @@ form .alert {
   background: #f5f5f5;
   padding: 8px 10px;
 }
+
+.ui-select-bootstrap .ui-select-choices-row.active>a {
+  background: $primaryColor;
+}
