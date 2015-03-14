@@ -66,6 +66,4 @@ angular.module('speechBubbleApp')
     }
   };
 
-
-
 });

@@ -7,7 +7,7 @@ include ../../mixins/form-helpers
 form.form-horizontal(ng-submit='create()', novalidate)
   .modal-body
     .form-group
-      label.control-label.col-sm-2(for="slug") Type
+      label.control-label.col-sm-2(for="type") Type
       .col-sm-10
         +radio('product', 'type', 'ProductHardwareSimple', 'Hardware Simple')
         +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced')

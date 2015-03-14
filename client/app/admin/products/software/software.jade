@@ -1,0 +1,17 @@
+include ../../../mixins/form-helpers
+include ../form-helpers
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Software product
+form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
+  .modal-body
+    .panel.panel-default
+      .panel-heading Product Details
+      .panel-body
+        input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
+        +productDetails()
+
+    +addMoreInformation()
+  .modal-footer
+    button.btn.btn-primary() Create
+    a.btn.btn-tertiary(ng-click='cancel()') Cancel

@@ -47,6 +47,8 @@ angular.module('speechBubbleApp')
   })
   .factory('ProductOptions', function () {
 
+    var suppliers = [];
+
     return {
       speech: [
         'Acapela',

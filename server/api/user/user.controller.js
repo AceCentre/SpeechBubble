@@ -210,12 +210,11 @@ exports.authCallback = function(req, res, next) {
  * Email verification
  */
 exports.activate = function(req, res, next) {
-  User.findOne({
+  User.findOneAndUpdate({
     activationCode: req.params.id
-  }, function(err, user) {
+  }, { active: true }, function(err, user) {
     if (err) return next(err);
     if (!user) return res.send(400);
-    user.active = true;
     res.send(200);
   });
-}
+};
