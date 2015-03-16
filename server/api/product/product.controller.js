@@ -8,13 +8,18 @@ exports.index = function(req, res) {
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;
   var type = req.query.type;
+  var term = req.query.term;
 
-  var re = new RegExp(req.query.term, 'i');
-  var orQuery = [
-    { name: re },
-    { description: re }
-  ];
+  var orQuery;
   var query = {};
+
+  if(term) {
+    var re = new RegExp(term, 'i');
+    orQuery = [
+      { name: re },
+      { description: re }
+    ];
+  }
 
   if(type) {
     query.type = type;

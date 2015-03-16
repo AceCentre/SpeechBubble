@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductHardwareEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, growl) {
+.controller('AdminProductHardwareEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, ProductLinks, growl) {
 
   $scope.product = current;
   $scope.devices = ProductOptions.devices;
   $scope.speechOptions = ProductOptions.speech;
+  $scope.productLinks = ProductLinks($scope);
   $scope.supplierOptions = [];
   $scope.vocabularyOptions = [];
 
@@ -23,21 +24,6 @@ angular.module('speechBubbleApp')
 
   $scope.cancel = function() {
     $modalInstance.dismiss();
-  };
-
-  $scope.addMoreInformation = function(form) {
-    if(form.$valid) {
-      $scope.product.features = $scope.product.features || {};
-      $scope.product.features.moreInformationLinks = $scope.product.features.moreInformationLinks || [];
-      $scope.temp = $scope.temp || {};
-
-      $scope.product.features.moreInformationLinks.push({
-        label: $scope.temp.moreInformationLabel,
-        url: $scope.temp.moreInformationUrl
-      });
-      $scope.temp.moreInformationLabel = '';
-      $scope.temp.moreInformationUrl = '';
-    }
   };
 
   $scope.save = function(form) {

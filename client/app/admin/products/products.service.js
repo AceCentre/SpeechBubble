@@ -45,6 +45,33 @@ angular.module('speechBubbleApp')
       };
     };
   })
+  // Provides generic add links functionality
+  // must be provided a scope
+  .factory('ProductLinks', function() {
+    return function(scope) {
+      return {
+        add: function (id, form) {
+          if (form.$valid) {
+            scope.product.features = scope.product.features || {};
+            scope.product.features[id] = scope.product.features[id] || [];
+
+            var label = scope.temp[id + 'Label'];
+            var url = scope.temp[id + 'Url'];
+
+            scope.product.features[id].push({
+              label: label,
+              url: url
+            });
+
+            scope.temp[id + 'Label'] =  scope.temp[id + 'Url'] = '';
+          }
+        },
+        delete: function (id, index) {
+          scope.product.features[id].splice(index, 1);
+        }
+      };
+    };
+  })
   .factory('ProductOptions', function () {
 
     var suppliers = [];

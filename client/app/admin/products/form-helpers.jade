@@ -172,12 +172,13 @@ mixin addLinks(id, label)
             td {{ item.label }}
             td {{ item.url }}
             td.actions
-              a(href='#', ng-click='deleteLink("#{id}", item)'): span.glyphicon.glyphicon-trash
+              a(href='#', ng-click='productLinks.delete("#{id}", $index)'): span.glyphicon.glyphicon-trash
 
       div(ng-form, name='#{id}Form')
-        +input('temp', 'text', '#{id}Label', 'Label')
-        +input('temp', 'text', '#{id}Url', 'URL')
-        a.btn.btn-secondary.pull-right(ng-click='addLink(#{id}Form)') Add
+        | {{ temp | json }}
+        +input('temp', 'text', id + 'Label', 'Label')
+        +input('temp', 'url', id + 'Url', 'URL')
+        a.btn.btn-secondary.pull-right(ng-click='productLinks.add("#{id}", #{id}Form)') Add
 
 
 
@@ -226,4 +227,8 @@ mixin supportedOperatingSystems()
           div {{ item }}
 
 
-
+mixin dedicated()
+  .panel.panel-default
+    .panel-heading Can I JUST run it as a communication aid and nothing else?
+    .panel-body
+      +switch('product.features', 'dedicated')
