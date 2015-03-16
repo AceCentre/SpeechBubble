@@ -47,6 +47,21 @@ mixin price()
       +input('product.features.price', 'text', 'usd', 'USD ($)')
       +input('product.features.price', 'text', 'euro', 'Euro (€)')
 
+  .panel.panel-default
+    .panel-heading Associated Costs
+    .panel-body
+      textarea.form-control(ng-model='product.features.associatedCosts')
+
+mixin enviroControl()
+  .panel.panel-default
+    .panel-heading Enviro Control capabilities
+    .panel-body
+      +radio('product.features', 'enviroControl', 'built-in', 'Built-in')
+      textarea.form-control(ng-show='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
+      +radio('product.features', 'enviroControl', 'additional', 'Additional hardware available')
+      textarea.form-control(ng-show='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
+      +radio('product.features', 'enviroControl', '', 'None')
+
 <!-- Shared: Hardware -->
 mixin sharedHardware()
 
@@ -88,14 +103,7 @@ mixin sharedHardware()
         .panel-body
           +switch('product.features.dimensions', 'sizeIncludingCase')
 
-  .panel.panel-default
-    .panel-heading Enviro Control capabilities
-    .panel-body
-      +radio('product.features', 'enviroControl', 'built-in', 'Built-in')
-      textarea.form-control(ng-show='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
-      +radio('product.features', 'enviroControl', 'additional', 'Additional hardware available')
-      textarea.form-control(ng-show='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
-      +radio('product.features', 'enviroControl', '', 'None')
+  +enviroControl()
 
   .panel.panel-default
     .panel-heading What access method is this designed for? (multiple allowed)
@@ -149,27 +157,29 @@ mixin sharedHardware()
           +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
           +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
 
-mixin addMoreInformation()
+mixin addLinks(id, label)
   .panel.panel-default
-    .panel-heading More information
+    .panel-heading #{label}
     .panel-body
-      table.table.table-striped(ng-show='product.features.moreInformationLinks.length')
+      table.table.table-striped(ng-show='product.features.#{id}.length')
         thead
           tr
             th Label
             th URL
             th.actions Actions
         tbody
-          tr(ng-repeat='item in product.features.moreInformationLinks track by $index')
+          tr(ng-repeat='item in product.features.#{id} track by $index')
             td {{ item.label }}
             td {{ item.url }}
             td.actions
-              a(href='#', ng-click='deleteInformationLink(item)'): span.glyphicon.glyphicon-trash
+              a(href='#', ng-click='deleteLink("#{id}", item)'): span.glyphicon.glyphicon-trash
 
-      div(ng-form, name='moreInformationLinksForm')
-        +input('temp', 'text', 'moreInformationLabel', 'Label')
-        +input('temp', 'text', 'moreInformationUrl', 'URL')
-        a.btn.btn-secondary.pull-right(ng-click='addMoreInformation(moreInformationLinksForm)') Add
+      div(ng-form, name='#{id}Form')
+        +input('temp', 'text', '#{id}Label', 'Label')
+        +input('temp', 'text', '#{id}Url', 'URL')
+        a.btn.btn-secondary.pull-right(ng-click='addLink(#{id}Form)') Add
+
+
 
 mixin speechTypeOptions()
   <!-- Speech Type -->
