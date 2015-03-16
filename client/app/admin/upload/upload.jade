@@ -1,0 +1,21 @@
+extends ../../../layout/2_column
+
+block content
+  button.btn.btn-primary.pull-right(ng-file-select, ng-model='filesToUpload', ng-multiple='true') Add files
+  h1 File Administration
+  
+  progressbar(ng-if='!file.complete', ng-repeat='file in filesToUpload', value='file.progress') {{ file.name }}
+
+  table.table.table-striped(ng-if='files.length')
+    thead
+      tr
+        th(width='100%') Preview
+        th Actions
+    tbody
+      tr(ng-repeat='file in files')
+        td: img.img-responsive.file-preview(ng-src='{{file.image}}')
+        td.actions
+          a(href='#', ng-click='delete(file.name, file.name)'): span.glyphicon.glyphicon-trash
+          a(ng-href='{{file.image}}', target='_blank'): span.glyphicon.glyphicon-eye-open
+            
+  p(ng-if='!files.length') No files uploaded.

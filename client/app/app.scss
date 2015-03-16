@@ -1,7 +1,7 @@
-$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
-@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+@import 'bootstrap-sass-official/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
 
 /**
@@ -11,6 +11,10 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
  $secondaryColor: #3B2E48;
  $backgroundColor: #F5F5F5;
  $footerBackgroundColor: #89898D;
+
+ .lt-ie9 .ng-hide {
+   display: none !important;
+ }
 
  html, body {
    height: 100%;
@@ -31,11 +35,11 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
  }
 
  a {
-   color: $secondaryColor;
+   color: $primaryColor;
  }
 
  a:hover, a:active, a:focus {
-   color: $primaryColor;
+   color: $secondaryColor;
  }
 
  .container {
@@ -54,11 +58,20 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'account/activate/activate.scss';
 @import 'account/edit/edit.scss';
 @import 'account/login/login.scss';
-@import 'admin/admin.scss';
+@import 'admin/page/page.scss';
+@import 'admin/products/products.scss';
+@import 'admin/suppliers/suppliers.scss';
+@import 'admin/upload/upload.scss';
+@import 'admin/users/users.scss';
 @import 'contact/contact.scss';
 @import 'main/main.scss';
+@import 'page/page.scss';
+@import 'products/products.scss';
+@import 'supplier/supplier.scss';
 @import 'common/buttons.scss';
 @import 'common/form.scss';
+@import 'common/layout.scss';
+@import 'common/pagination.scss';
 @import 'common/sidebar.scss';
 @import 'common/social.scss';
 @import 'common/table.scss';

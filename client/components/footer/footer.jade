@@ -1,6 +1,13 @@
+.container
+  .col-sm-9.col-sm-offset-3
+    div.social-share
+      span.st_facebook_hcount(displayText='Facebook')
+      span.st_twitter_hcount(displayText='Tweet')
+      span.st_linkedin_hcount(displayText='LinkedIn')
+
 footer.footer
 
-  div.container(ng-controller='FooterCtrl')
+  .container(ng-controller='FooterCtrl')
     a(href='http://www.acecentre.org.uk', target='_blank'): .footer-brand-ace-centre Ace Centre
     
     ul.footer-list-links
@@ -21,3 +28,4 @@ footer.footer
       br
       | Registered office: SpeechBubble, Hollinwood Business Centre, Albert Street, Oldham, OL8 3QL. 
       | VAT registration number 785728278
+      

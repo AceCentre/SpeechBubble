@@ -6,14 +6,125 @@ angular.module('speechBubbleApp', [
   'ngResource',
   'ngSanitize',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ngCkeditor',
+  'angularFileUpload',
+  'angular-growl',
+  'frapontillo.bootstrap-switch',
+  'ui.select'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
-    $urlRouterProvider
-      .otherwise('/');
-
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+    growlProvider.globalTimeToLive({success: 2000, error: 5000, warning: 2000, info: 2000});
+
+    /**
+     * Routes
+     */
+    $stateProvider
+
+    // Main
+    .state('main', {
+      url: '/',
+      templateUrl: 'app/main/main.html',
+      controller: 'MainCtrl'
+    })
+
+    // Contact
+    .state('contact', {
+      url: '/contact',
+      templateUrl: 'app/contact/contact.html',
+      controller: 'ContactCtrl'
+    })
+    .state('contact_success', {
+      url: '/contact/success',
+      templateUrl: 'app/contact/contact-success.html'
+    })
+    .state('contact_failure', {
+      url: '/contact/failure',
+      templateUrl: 'app/contact/contact-failure.html'
+    })
+
+    // Supplier
+    .state('suppliers', {
+      url: '/suppliers',
+      templateUrl: 'app/supplier/supplier.html',
+      controller: 'SupplierCtrl'
+    })
+
+    // products
+    .state('products', {
+      url: '/products',
+      templateUrl: 'app/products/products.html',
+      controller: 'ProductsCtrl'
+    })
+
+    // Account
+    .state('login', {
+      url: '/login',
+      templateUrl: 'app/account/login/login.html',
+      controller: 'LoginCtrl'
+    })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'app/account/signup/signup.html',
+      controller: 'SignupCtrl'
+    })
+    .state('settings', {
+      url: '/account/change-password',
+      templateUrl: 'app/account/settings/settings.html',
+      controller: 'SettingsCtrl',
+      authenticate: true
+    })
+    .state('edit', {
+      url: '/account/edit',
+      templateUrl: 'app/account/edit/edit.html',
+      controller: 'EditCtrl',
+      authenticate: true
+    })
+    .state('activate', {
+      url: '/account/activate/:id',
+      templateUrl: 'app/account/activate/activate.html',
+      controller: 'ActivateCtrl'
+    })
+
+    // Admin
+    .state('users', {
+      url: '/admin/users',
+      templateUrl: 'app/admin/users/users.html',
+      controller: 'AdminUsersCtrl',
+      authenticate: true
+    })
+    .state('pages', {
+      url: '/admin/pages',
+      templateUrl: 'app/admin/page/page.html',
+      controller: 'AdminPageCtrl',
+      authenticate: true
+    })
+    .state('admin-suppliers', {
+      url: '/admin/suppliers',
+      templateUrl: 'app/admin/suppliers/suppliers.html',
+      controller: 'AdminSupplierCtrl',
+      authenticate: true
+    })
+    .state('admin-products', {
+      url: '/admin/products',
+      templateUrl: 'app/admin/products/products.html',
+      controller: 'AdminProductsCtrl'
+    })
+    .state('upload', {
+      url: '/admin/upload',
+      templateUrl: 'app/admin/upload/upload.html',
+      controller: 'AdminUploadCtrl',
+      authenticate: true
+    })
+
+    // Pages
+    .state('otherwise', {
+        url: '*path',
+        templateUrl: 'app/page/page.html',
+        controller: 'PageCtrl'
+    });
   })
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {

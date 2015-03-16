@@ -19,9 +19,32 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
-    if(err) return res.send(500, err);
-    res.json(200, users);
+  var skip = req.query.skip || 0;
+  var limit = req.query.limit || 10;
+  var re = new RegExp(req.query.term, 'i');
+  var query = [
+    { email: re },
+    { firstName: re },
+    { lastName: re }
+  ];
+
+  User
+  .find()
+  .or(query)
+  .count(function(err, total) {
+    if(err) { return handleError(res, err); }
+    User.find()
+    .or(query)
+    .sort({ email: 'asc' })
+    .skip(skip)
+    .limit(limit)
+    .exec(function (err, users) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, {
+        total: total,
+        items: users
+      });
+    });
   });
 };
 
@@ -71,7 +94,7 @@ exports.create = function (req, res, next) {
 
         });
       } else {
-        return res.send(400);
+        return res.send(422, 'Re-captcha error, please verify again.');
       }
 
     }
@@ -125,45 +148,6 @@ exports.changePassword = function(req, res, next) {
 };
 
 /**
- * Activate/De-activate user
- */
-exports.updateStatus = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.active = req.body.active;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
- * Set user role
- */
-exports.updateRole = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.role = req.body.role;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
- * Set user role
- */
-exports.updateSubscription = function(req, res, next) {
-  User.findOne({ email: req.body.email },
-    function(err, user) {
-      user.subscribe = req.body.subscribe;
-      user.save(function() {
-        res.send(200);
-      });
-    });
-};
-
-/**
  * Get my info
  */
 exports.me = function(req, res, next) {
@@ -178,24 +162,40 @@ exports.me = function(req, res, next) {
 };
 
 /**
- * Get my info
+ * Update my info
  */
 exports.update = function(req, res, next) {
   var userId = req.user._id;
-  delete req.body.role;
+  User.findOneAndUpdate({
+    _id: userId
+  }, {
+    email: req.body.email,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName || '',
+    description: req.body.description || '',
+    region: req.body.region || '',
+    subscribe: req.body.subscribe
+  }, function(err) {
+    if (err) return validationError(res, err);
+    res.send(200);
+  });
+};
 
-  User.findById(userId, function (err, user) {
-    user.email = req.body.email;
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.description = req.body.description;
-    user.region = req.body.region;
-    user.subscribe = req.body.subscribe;
-
-    user.save(function(err) {
-      if (err) return validationError(res, err);
-      res.send(200);
-    });
+/**
+ * Admin update user info
+ * restriction: 'admin'
+ */
+exports.adminUpdate = function(req, res, next) {
+  User.findOneAndUpdate({
+    _id: req.params.id
+  }, {
+    email: req.body.email,
+    role: req.body.role,
+    active: req.body.active,
+    subscribe: req.body.subscribe
+  }, function(err) {
+    if (err) return validationError(res, err);
+    res.send(200);
   });
 };
 
@@ -210,12 +210,11 @@ exports.authCallback = function(req, res, next) {
  * Email verification
  */
 exports.activate = function(req, res, next) {
-  User.findOne({
+  User.findOneAndUpdate({
     activationCode: req.params.id
-  }, function(err, user) {
+  }, { active: true }, function(err, user) {
     if (err) return next(err);
     if (!user) return res.send(400);
-    user.active = true;
     res.send(200);
   });
-}
+};

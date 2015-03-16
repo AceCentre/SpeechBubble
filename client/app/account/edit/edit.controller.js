@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('EditCtrl', function ($scope, User, $location) {
+  .controller('EditCtrl', function ($scope, User, $location, growl) {
     $scope.requirePassword = false;
     $scope.user = {};
 
@@ -14,7 +14,7 @@ angular.module('speechBubbleApp')
       if(form.$valid) {
         User.update($scope.user).$promise
         .then(function() {
-          $location.path('/account');
+          growl.success('Details updated successfully.');
         })
         ['catch']( function(err) {
           err = err.data;

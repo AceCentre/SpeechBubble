@@ -1,0 +1,19 @@
+include ../../mixins/form-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Create product
+
+form.form-horizontal(ng-submit='create()', novalidate)
+  .modal-body
+    .form-group
+      label.control-label.col-sm-2(for="type") Type
+      .col-sm-10
+        +radio('product', 'type', 'ProductHardwareSimple', 'Hardware Simple')
+        +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced')
+        +radio('product', 'type', 'ProductSoftware', 'Software / Application')
+        +radio('product', 'type', 'ProductVocabulary', 'Vocabulary')
+
+  .modal-footer
+    button.btn.btn-primary() Create
+    a.btn.btn-tertiary(ng-click='cancel()') Cancel

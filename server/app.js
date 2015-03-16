@@ -16,7 +16,7 @@ var config = require('./config/environment');
 mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Populate DB with sample data
-if(config.seedDB) { require('./config/seed'); }
+if(config.seedDB || process.env.SEED_DB) { require('./config/seed'); }
 
 // Setup server
 var app = express();

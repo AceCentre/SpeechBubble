@@ -1,0 +1,30 @@
+extends ../../../layout/2_column
+include ../../mixins/results-helpers
+
+block content
+  button.btn.btn-primary.pull-right(ng-click='create()') New supplier
+  h1 Supplier Administration
+
+  div(ng-controller='ResultsCtrl')
+
+    div(ng-hide='total')
+      p No suppliers found.
+
+    div(ng-hide='!total')
+      +pagination()
+
+      table.table.table-striped
+        thead
+          tr
+            th Name
+            th Website
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in items')
+            td {{ item.name }}
+            td: a(ng-href='{{ item.url }}', target='_blank') {{ item.url }}
+            td.actions
+              a(href='#', ng-click='edit(item)'): span.glyphicon.glyphicon-edit
+              a(href='#', ng-click='delete(item.name, item)'): span.glyphicon.glyphicon-trash
+
+      +pagination()

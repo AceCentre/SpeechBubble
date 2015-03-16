@@ -1,5 +1,5 @@
 @import "compass/css3/user-interface";
-@import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_variables";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
 
 .header {
   padding-top: 20px;
@@ -7,6 +7,16 @@
   margin-bottom: 20px;
   background: #fff;
   border-top: 4px solid $backgroundColor;
+
+  form {
+    a {
+      color: $secondaryColor;
+    }
+
+    a:hover, a:active, a:focus {
+      color: $primaryColor;
+    }
+  }
 }
 
 .header-logo {
@@ -40,7 +50,6 @@
 
   .header-search-input {
     background: $backgroundColor;
-    border-radius: 4px;
     color: $secondaryColor;
     border: 0;
     padding: 8px 12px;

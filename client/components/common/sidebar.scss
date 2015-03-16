@@ -2,6 +2,7 @@
   background: #fff;
   padding-top: 20px;
   padding-bottom: 20px;
+  border: 1px solid darken($backgroundColor, 5%);
 
   @media (max-width: $screen-xs-max) {
       display: none;

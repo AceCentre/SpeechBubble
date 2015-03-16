@@ -2,34 +2,16 @@
 
 angular.module('speechBubbleApp')
   .factory('User', function ($resource) {
-    return $resource('/api/users/:id/:controller', {
-      id: '@_id'
-    },
+    return $resource('/api/users/:id/:controller', { id: '@_id' },
     {
+      query:  { method:'GET' },
       changePassword: {
         method: 'PUT',
         params: {
           controller:'password'
         }
       },
-      updateStatus: {
-        method: 'PUT',
-        params: {
-          id: 'updateStatus'
-        }
-      },
-      updateRole: {
-        method: 'PUT',
-        params: {
-          id: 'updateRole'
-        }
-      },
-      updateSubscription: {
-        method: 'PUT',
-        params: {
-          id: 'updateSubscription'
-        }
-      },
+      updateUser: {method: 'PUT'},
       update: {
         method: 'PUT',
         params: {

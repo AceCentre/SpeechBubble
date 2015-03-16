@@ -1,29 +1,65 @@
-div.table-content {
-  padding: 15px;
-  background: #fff;
-  border: 1px solid #bebec0;
-  border-radius: 5px;
+table {
+  margin-bottom: 0;
 
-  table {
-    margin-bottom: 0;
+  a {
+    color: $primaryColor;
+  }
 
-    > thead {
-      > tr {
-        > th,
-        > td {
-          border-top: 0;
-          border-bottom: 5px solid #bebec0;
-        }
+  > thead {
+    > tr {
+      > th,
+      > td {
+        border-top: 0;
+        border-bottom: 5px solid #bebec0;
       }
     }
   }
 
-  caption {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: $secondaryColor;
-    text-align: left;
-    margin-bottom: 10px;
+  .glyphicon-ok-circle {
+    color: #419641;
   }
 
+  .glyphicon-remove-circle {
+    color: #d9534f;
+  }
+
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+caption {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: $secondaryColor;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+th.icon,
+td.icon {
+  text-align: center;
+  width: 80px;
+}
+
+/**
+ * Table cell containing action icons
+ */
+th.actions,
+td.actions {
+  text-align: center;
+  width: 100px;
+
+  a {
+    color: $secondaryColor;
+  }
+
+  a:hover, a:focus, a:active {
+    color: $primaryColor;
+  }
+
+  a + a {
+    margin-left: 5px;
+  }
 }

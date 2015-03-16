@@ -1,0 +1,30 @@
+extends ../../../layout/2_column
+
+block content
+
+  button.btn.btn-primary.pull-right(ng-click='create()') New page
+
+  h1 Page Administration
+
+  p
+    | The page administration routes are restricted to users with the 'admin' role.
+
+  table.table.table-striped(ng-show="pages.length")
+    thead
+      tr
+        th Page
+        th.icon Visible
+        th.icon Drafts
+        th.actions Actions
+    tbody
+      tr(ng-repeat='page in pages')
+        td
+          a(ng-href='/{{ page.slug }}/', target='_blank') /{{ page.slug }}/
+        td.icon
+          span.glyphicon(ng-class='isVisible(page) ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
+        td.icon
+          span.glyphicon(ng-class='hasDrafts(page) ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
+        td.actions
+          a(href='#', ng-click='edit(page)'): span.glyphicon.glyphicon-edit
+          a(href='#', ng-click='delete(page.slug, page)'): span.glyphicon.glyphicon-trash
+          a(ng-href='/{{ page.slug }}/', target='_blank'): span.glyphicon.glyphicon-eye-open

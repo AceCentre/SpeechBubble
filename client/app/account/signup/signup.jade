@@ -1,23 +1,28 @@
 extends ../../../layout/2_column
 
 block content
+  
   h1 Register
-  p Enter your details below to join Speech Bubble or connect using your favourite social media account.
+  p Connect with your favourite social media account
 
-  .row
-    .col-sm-6
-      div(ng-include='"components/forms/user-form.html"')
-            
-    .col-sm-6
-      .social-connect
-        a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
-          i.fa.fa-facebook
-          |  Connect with Facebook
-        = ' '
-        a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
-          i.fa.fa-google-plus
-          |  Connect with Google+
-        = ' '
-        a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
-          i.fa.fa-twitter
-          |  Connect with Twitter
+  .social-connect.row
+    .col-sm-4
+      a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
+        i.fa.fa-facebook
+        |  Facebook
+      = ' '
+    .col-sm-4
+      a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
+        i.fa.fa-google-plus
+        |  Google+
+      = ' '
+    .col-sm-4
+      a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
+        i.fa.fa-twitter
+        |  Twitter
+          
+  hr   
+    
+  p Alternatively enter your details below to join Speech Bubble.
+
+  div(ng-include='"components/forms/user-form.html"')

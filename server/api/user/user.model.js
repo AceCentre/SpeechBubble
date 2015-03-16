@@ -6,19 +6,24 @@ var crypto = require('crypto');
 var authTypes = ['twitter', 'facebook', 'google'];
 var MailChimpAPI = require('mailchimp').MailChimpAPI;
 var uuid = require('node-uuid');
+var ENUM = require('../../enum');
 
 var UserSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: String,
   description: {
     type: String,
-    enum: ['', 'professional', 'parent', 'aac user', 'other']
+    enum: ENUM.USER_DESCRIPTION
   },
   region: {
     type: String,
-    enum: ['', 'UK', 'Europe', 'USA', 'other']
+    enum: ENUM.REGION
   },
-  email: { type: String, lowercase: true },
+  email: {
+    type: String,
+    lowercase: true,
+    index: { unique: true }
+  },
   subscribe: {
     type: Boolean,
     default: false
@@ -41,6 +46,10 @@ var UserSchema = new Schema({
   accept: {
     type: Boolean,
     default: false
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   },
   hashedPassword: String,
   provider: String,
@@ -134,6 +143,50 @@ UserSchema
       next(new Error('Invalid password'));
     else
       next();
+  })
+  .pre('save', function(next) {
+    if(process.env.NODE_ENV === 'development') {
+      return next();
+    }
+    // Update MailChimp Subscription on save
+    var user = this;
+
+    try {
+      var api = new MailChimpAPI(process.env.MAILCHIMP_API_KEY, { version : '2.0' });
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+    if(user.subscribe) {
+      api.lists_subscribe({
+        id: process.env.MAILCHIMP_LIST_ID,
+        update_existing: true,
+        email: {
+          email: user.email
+        },
+        merge_vars: {
+          FNAME: user.firstName,
+          LNAME: user.lastName
+        }
+      }, function(err, data) {
+        if(!err) {
+          console.log('subscribed: ' + user.email);
+        }
+      });
+    } else if(!user.isNew) {
+
+      api.lists_unsubscribe({
+        id: process.env.MAILCHIMP_LIST_ID,
+        email: {
+          email: user.email
+        }
+      }, function(err, data) {
+        if(!err) {
+          console.log('unsubscribed: ' + user.email);
+        }
+      });
+    }
+    next();
   });
 
 /**
@@ -174,43 +227,5 @@ UserSchema.methods = {
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
   }
 };
-
-// Update MailChimp Subscription on save
-UserSchema.post('save', function(doc) {
-  try {
-    var api = new MailChimpAPI(process.env.MAILCHIMP_API_KEY, { version : '2.0' });
-  } catch (err) {
-    console.log(err);
-    return;
-  }
-  if(doc.subscribe) {
-    api.lists_subscribe({
-      id: process.env.MAILCHIMP_LIST_ID,
-      update_existing: true,
-      email: {
-        email: doc.email
-      },
-      merge_vars: {
-        FNAME: doc.firstName,
-        LNAME: doc.lastName
-      }
-    }, function(err, data) {
-      if(!err) {
-        console.log('subscribed: ' + doc.email);
-      }
-    });
-  } else {
-    api.lists_unsubscribe({
-      id: process.env.MAILCHIMP_LIST_ID,
-      email: {
-        email: doc.email
-      }
-    }, function(err, data) {
-      if(!err) {
-        console.log('unsubscribed: ' + doc.email);
-      }
-    });
-  }
-});
 
 module.exports = mongoose.model('User', UserSchema);

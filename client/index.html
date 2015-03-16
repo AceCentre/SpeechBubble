@@ -13,6 +13,9 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-growl-v2/build/angular-growl.css" />
+      <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
+      <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -31,20 +34,33 @@
         document.createElement('ng:include');
         document.createElement('ng:pluralize');
         document.createElement('ng:view');
+
+        document.createElement('ui-select');
+        document.createElement('ui-select-match');
+        document.createElement('ui-select-choices');
       </script>
     <![endif]-->
   </head>
-  <body>
+  <body ng-cloak>
+    <noscript>
+      <div class="alert alert-danger" role="alert">
+        This site requires a JavaScript enabled web browser. Please enable JavaScript or <a href="http://browsehappy.com/">upgrade your browser</a>.
+      </div>
+    </noscript>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="page-content">
+    <div class="page-content" ng-controller='MainCtrl'>
       <div ng-include='"components/header/header.html"'></div>
       <div ui-view=""></div>
       <div ng-include='"components/footer/footer.html"'></div>
     </div>
+
+    <div growl></div>
+
+    <script src="/assets/javascript/ckeditor/ckeditor.js"></script>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -64,27 +80,53 @@
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/respond/dest/respond.src.js"></script>
       <script src="bower_components/angular-aria/angular-aria.js"></script>
+      <script src="bower_components/ng-ckeditor/ng-ckeditor.js"></script>
+      <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+      <script src="bower_components/angular-growl-v2/build/angular-growl.js"></script>
+      <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+      <script src="bower_components/angular-ui-select/dist/select.js"></script>
       <!-- endbower -->
+      <script src="assets/javascript/angular-bootstrap-switch/angular-bootstrap-switch.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,client}) app/app.js -->
     <script src="app/app.js"></script>
       <!-- injector:js -->
-      <script src="app/account/account.js"></script>
       <script src="app/account/activate/activate.controller.js"></script>
       <script src="app/account/edit/edit.controller.js"></script>
       <script src="app/account/login/login.controller.js"></script>
       <script src="app/account/settings/settings.controller.js"></script>
       <script src="app/account/signup/signup.controller.js"></script>
       <script src="app/account/signup/signup.directives.js"></script>
-      <script src="app/admin/admin.controller.js"></script>
-      <script src="app/admin/admin.js"></script>
+      <script src="app/admin/page/page-create.controller.js"></script>
+      <script src="app/admin/page/page-edit.controller.js"></script>
+      <script src="app/admin/page/page.controller.js"></script>
+      <script src="app/admin/page/page.service.js"></script>
+      <script src="app/admin/products/accessory/accessory.controller.js"></script>
+      <script src="app/admin/products/hardware/hardware.controller.js"></script>
+      <script src="app/admin/products/product-type.filter.js"></script>
+      <script src="app/admin/products/products-create.controller.js"></script>
+      <script src="app/admin/products/products-destroy.directive.js"></script>
+      <script src="app/admin/products/products-edit.controller.js"></script>
+      <script src="app/admin/products/products.controller.js"></script>
+      <script src="app/admin/products/products.service.js"></script>
+      <script src="app/admin/products/software/software.controller.js"></script>
+      <script src="app/admin/products/vocabulary/vocabulary.controller.js"></script>
+      <script src="app/admin/suppliers/supplier-edit.controller.js"></script>
+      <script src="app/admin/suppliers/suppliers.controller.js"></script>
+      <script src="app/admin/suppliers/suppliers.service.js"></script>
+      <script src="app/admin/upload/upload.controller.js"></script>
+      <script src="app/admin/users/users.controller.js"></script>
       <script src="app/contact/contact.controller.js"></script>
-      <script src="app/contact/contact.js"></script>
       <script src="app/main/main.controller.js"></script>
-      <script src="app/main/main.js"></script>
+      <script src="app/page/page.controller.js"></script>
+      <script src="app/products/products.controller.js"></script>
+      <script src="app/results/results.controller.js"></script>
+      <script src="app/supplier/supplier.controller.js"></script>
+      <script src="app/supplier/supplier.service.js"></script>
       <script src="components/auth/auth.service.js"></script>
       <script src="components/auth/user.service.js"></script>
+      <script src="components/comments/comments.directive.js"></script>
       <script src="components/filters/from.js"></script>
       <script src="components/footer/footer.controller.js"></script>
       <script src="components/modal/modal.service.js"></script>
@@ -105,7 +147,7 @@
     </script>
 
     <!-- Share This Widget -->
-    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">stLight.options({publisher: "1a33a405-810e-46c1-94ea-0da41500c34e", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 </body>
 </html>
