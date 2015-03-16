@@ -13,13 +13,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
         +productDetails()
 
-    .panel.panel-default
-      .panel-heading Supported operating systems
-      .panel-body
-        ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.devices")
-          ui-select-match(placeholder="Select operating systems") {{$item}}
-          ui-select-choices(repeat="item in devices | filter: $select.search")
-            div {{item}}
+    +supportedOperatingSystems()
 
     .panel.panel-default
       .panel-heading Can I JUST run it as a communication aid and nothing else?

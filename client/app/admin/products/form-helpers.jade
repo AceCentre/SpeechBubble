@@ -38,9 +38,7 @@ mixin accessMethodOptions(dependsOn)
     .panel-body
       input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
 
-<!-- Shared: Hardware -->
-mixin sharedHardware()
-
+mixin price()
   .panel.panel-default
     .panel-heading Guide price
     .panel-body
@@ -48,6 +46,11 @@ mixin sharedHardware()
       +input('product.features.price', 'text', 'aud', 'AUD ($)')
       +input('product.features.price', 'text', 'usd', 'USD ($)')
       +input('product.features.price', 'text', 'euro', 'Euro (€)')
+
+<!-- Shared: Hardware -->
+mixin sharedHardware()
+
+  +price()
 
   .panel.panel-default
     .panel-heading Support &amp; Warranty
@@ -167,3 +170,50 @@ mixin addMoreInformation()
         +input('temp', 'text', 'moreInformationLabel', 'Label')
         +input('temp', 'text', 'moreInformationUrl', 'URL')
         a.btn.btn-secondary.pull-right(ng-click='addMoreInformation(moreInformationLinksForm)') Add
+
+mixin speechTypeOptions()
+  <!-- Speech Type -->
+  .panel.panel-default
+    .panel-heading Speech type options
+    .panel-body
+      +checkbox('product.features', 'speechTypeSynthesised', 'Synthesised')
+      .panel.panel-default(ng-show='product.features.speechTypeSynthesised', destroy='speechTypeSynthesisedTypes')
+        .panel-heading Synthesized speech type options
+        .panel-body
+          ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.speechTypeSynthesisedTypes")
+            ui-select-match(placeholder="Select types") {{$item}}
+            ui-select-choices(repeat="item in speechOptions | filter: $select.search")
+              div {{ item }}
+          .panel.panel-default(ng-show='product.features.speechTypeSynthesisedTypes', destroy='numberOfVoices')
+            .panel-heading Total voices
+            .panel-body
+              input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
+      +checkbox('product.features', 'speechTypeRecorded', 'Recorded')
+
+mixin imageRepresentationSupported()
+  <!-- Image Representation Supported -->
+  .panel.panel-default
+    .panel-heading Image representation supported
+    .panel-body
+      +checkbox('product.features.imageRepresentation', 'photos', 'Photos')
+      +checkbox('product.features.imageRepresentation', 'symbols', 'Symbols')
+      .panel.panel-default(ng-show='product.features.imageRepresentation.symbols', destroy='')
+        .panel-heading Symbol systems supported
+        .panel-body
+          ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.symbols")
+            ui-select-match(placeholder="Select symbols") {{$item}}
+            ui-select-choices(repeat="item in symbols | filter: $select.search")
+              div {{ item }}
+      +checkbox('product.features.imageRepresentation', 'videos', 'Videos')
+
+mixin supportedOperatingSystems()
+  .panel.panel-default
+    .panel-heading Supported operating systems
+    .panel-body
+      ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.devices")
+        ui-select-match(placeholder="Select operating systems") {{$item}}
+        ui-select-choices(repeat="item in devices | filter: $select.search")
+          div {{ item }}
+
+
+

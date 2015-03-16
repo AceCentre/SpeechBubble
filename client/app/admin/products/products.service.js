@@ -105,6 +105,30 @@ angular.module('speechBubbleApp')
         'Apple iOS 6',
         'Apple iOS 7',
         'Apple iOS 8'
+      ],
+      symbols: [
+        'PCS - Thinline',
+        'PCS - Classic',
+        'PCS - Persona',
+        'PCS - High Contrast',
+        'PCS - Animations',
+        'Widgit - Standard',
+        'Widgit - VI',
+        'Snaps',
+        'Makaton Signs and Symbols',
+        'ARASAAC',
+        'Mulberry',
+        'SymbolStix',
+        'Noun Project',
+        'Pixon Pictures',
+        'Minspeak icons',
+        'Metacom',
+        'Ablenet',
+        'Smarty',
+        'Other',
+        'Bliss',
+        'Dynasims',
+        'Sclera'
       ]
     };
 

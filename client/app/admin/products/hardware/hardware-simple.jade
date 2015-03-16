@@ -37,25 +37,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
               ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
                 div {{item.name}}
 
-        .panel.panel-default(ng-show='product.features.premadeVocabularies', destroy='numberOfVoices')
-          .panel-heading Total voices
-          .panel-body
-            input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
-
-    <!-- Speech Type -->
-    .panel.panel-default
-      .panel-heading Speech type options
-      .panel-body
-        +checkbox('product.features', 'speechTypeSynthesised', 'Synthesised')
-        .panel.panel-default(ng-show='product.features.speechTypeSynthesised', destroy='speechTypeSynthesisedTypes')
-          .panel-heading Synthesized speech type options
-          .panel-body
-            ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.speechTypeSynthesisedTypes")
-              ui-select-match(placeholder="Select types") {{$item}}
-              ui-select-choices(repeat="item in speechOptions | filter: $select.search")
-                div {{item}}
-
-        +checkbox('product.features', 'speechTypeRecorded', 'Recorded')
+    +speechTypeOptions()
 
     +sharedHardware()
     +addMoreInformation()

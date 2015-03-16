@@ -6,6 +6,7 @@ angular.module('speechBubbleApp')
     $scope.product = current;
     $scope.devices = ProductOptions.devices;
     $scope.speechOptions = ProductOptions.speech;
+    $scope.symbols = ProductOptions.symbols;
     $scope.supplierOptions = [];
     $scope.vocabularyOptions = [];
 
