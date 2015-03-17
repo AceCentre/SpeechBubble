@@ -58,9 +58,12 @@ exports.show = function(req, res) {
 
 // Creates a new product in the DB.
 exports.create = function(req, res) {
-  req.body.suppliers = req.body.suppliers.map(function(supplier) {
-    return _.isString(supplier) ? supplier: supplier._id;
-  });
+  if(Array.isArray(req.body.suppliers)) {
+    req.body.suppliers = req.body.suppliers.map(function(supplier) {
+      return _.isString(supplier) ? supplier: supplier._id;
+    });
+  }
+
   Product.create(req.body, function(err, product) {
     if(err) { return handleError(res, err); }
     return res.json(201, product);
