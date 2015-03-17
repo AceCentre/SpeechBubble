@@ -175,7 +175,6 @@ mixin addLinks(id, label)
               a(href='#', ng-click='productLinks.delete("#{id}", $index)'): span.glyphicon.glyphicon-trash
 
       div(ng-form, name='#{id}Form')
-        | {{ temp | json }}
         +input('temp', 'text', id + 'Label', 'Label')
         +input('temp', 'url', id + 'Url', 'URL')
         a.btn.btn-secondary.pull-right(ng-click='productLinks.add("#{id}", #{id}Form)') Add
