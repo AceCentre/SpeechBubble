@@ -35,3 +35,13 @@ form .alert {
 .ui-select-bootstrap .ui-select-choices-row.active>a {
   background: $primaryColor;
 }
+
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {
+  background-color: $primaryColor;
+}
+
+.bootstrap-switch.bootstrap-switch-focused {
+  box-shadow: none;
+  border-color: #ccc;
+}

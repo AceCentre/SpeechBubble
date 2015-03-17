@@ -62,49 +62,7 @@ mixin enviroControl()
       textarea.form-control(ng-show='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
       +radio('product.features', 'enviroControl', '', 'None')
 
-<!-- Shared: Hardware -->
-mixin sharedHardware()
-
-  +price()
-
-  .panel.panel-default
-    .panel-heading Support &amp; Warranty
-    .panel-body
-      +textarea('product.features', 'supportOptions', 'Support options')
-      +textarea('product.features', 'warrantyOptions', 'Warranty options')
-
-  .panel.panel-default
-    .panel-heading Battery
-    .panel-body
-      +input('product.features.battery', 'number', 'batteryLife', 'Battery life (hours)')
-      +textarea('product.features.battery', 'spareBatteryOptions', 'Spare battery options')
-
-  .panel.panel-default
-    .panel-heading Mounting options
-    .panel-body
-      +checkbox('product.features.mountingOptions', 'daessy', 'Daessy')
-      +checkbox('product.features.mountingOptions', 'rehadapt', 'Rehadapt')
-      +checkbox('product.features.mountingOptions', 'tableStand', 'Table stand available')
-      +checkbox('product.features.mountingOptions', 'carryingStrap', 'Carrying strap available')
-
-      +checkbox('temp', 'mountingOther', 'Other')
-      textarea.form-control(ng-show='temp.mountingOther', destroy='mountingOtherDetails', ng-model='product.features.mountingOtherDetails')
-
-  .panel.panel-default
-    .panel-heading Dimensions
-    .panel-body
-      +input('product.features.dimensions', 'number', 'weight', 'Weight (kg)')
-      +input('product.features.dimensions', 'number', 'depth', 'Depth (mm)')
-      +input('product.features.dimensions', 'number', 'height', 'Height (mm)')
-      +input('product.features.dimensions', 'number', 'width', 'Width (mm)')
-      +input('product.features.dimensions', 'number', 'screenSize', 'Screen size (inches)')
-      .panel.panel-default
-        .panel-heading Are these dimensions with a case?
-        .panel-body
-          +switch('product.features.dimensions', 'sizeIncludingCase')
-
-  +enviroControl()
-
+mixin accessMethods()
   .panel.panel-default
     .panel-heading What access method is this designed for? (multiple allowed)
     .panel-body
@@ -156,6 +114,51 @@ mixin sharedHardware()
           +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
           +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
           +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+
+<!-- Shared: Hardware -->
+mixin sharedHardware()
+
+  +price()
+
+  .panel.panel-default
+    .panel-heading Support &amp; Warranty
+    .panel-body
+      +textarea('product.features', 'supportOptions', 'Support options')
+      +textarea('product.features', 'warrantyOptions', 'Warranty options')
+
+  .panel.panel-default
+    .panel-heading Battery
+    .panel-body
+      +input('product.features.battery', 'number', 'batteryLife', 'Battery life (hours)')
+      +textarea('product.features.battery', 'spareBatteryOptions', 'Spare battery options')
+
+  .panel.panel-default
+    .panel-heading Mounting options
+    .panel-body
+      +checkbox('product.features.mountingOptions', 'daessy', 'Daessy')
+      +checkbox('product.features.mountingOptions', 'rehadapt', 'Rehadapt')
+      +checkbox('product.features.mountingOptions', 'tableStand', 'Table stand available')
+      +checkbox('product.features.mountingOptions', 'carryingStrap', 'Carrying strap available')
+
+      +checkbox('temp', 'mountingOther', 'Other')
+      textarea.form-control(ng-show='temp.mountingOther', destroy='mountingOtherDetails', ng-model='product.features.mountingOtherDetails')
+
+  .panel.panel-default
+    .panel-heading Dimensions
+    .panel-body
+      +input('product.features.dimensions', 'number', 'weight', 'Weight (kg)')
+      +input('product.features.dimensions', 'number', 'depth', 'Depth (mm)')
+      +input('product.features.dimensions', 'number', 'height', 'Height (mm)')
+      +input('product.features.dimensions', 'number', 'width', 'Width (mm)')
+      +input('product.features.dimensions', 'number', 'screenSize', 'Screen size (inches)')
+      .panel.panel-default
+        .panel-heading Are these dimensions with a case?
+        .panel-body
+          +switch('product.features.dimensions', 'sizeIncludingCase')
+
+  +enviroControl()
+  +accessMethods()
+
 
 mixin addLinks(id, label)
   .panel.panel-default
@@ -231,3 +234,18 @@ mixin dedicated()
     .panel-heading Can I JUST run it as a communication aid and nothing else?
     .panel-body
       +switch('product.features', 'dedicated')
+
+mixin vocabularies()
+  <!-- Premade vocabularies -->
+  .panel.panel-default
+    .panel-heading Any premade vocabularies available?
+    .panel-body
+      +switch('product.features', 'premadeVocabularies')
+
+      .panel.panel-default(ng-show='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
+        .panel-heading Available vocabularies
+        .panel-body
+          ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.premadeVocabulariesAvailable")
+            ui-select-match(placeholder="Select a vocabulary") {{$item.name}}
+            ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
+              div {{item.name}}
