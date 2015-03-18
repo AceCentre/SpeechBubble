@@ -27,7 +27,7 @@ Product.find().remove(function() {
             name: chance.word(),
             description: chance.paragraph(),
             type: chance.pick(types, chance.integer({ min: 0, max: types.length - 1})),
-            discontinued: chance.bool(),
+            discontinued: chance.bool() || '',
             suppliers: [supplier._id]
           });
         });

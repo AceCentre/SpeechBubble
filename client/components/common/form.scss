@@ -45,3 +45,21 @@ form .alert {
   box-shadow: none;
   border-color: #ccc;
 }
+
+.btn-group.btn-group-switch {
+  .btn.btn-primary {
+    background: darken($backgroundColor, 10%);
+    color: #000;
+    box-shadow: none;
+
+    &.active {
+      background: $primaryColor;
+      color: #fff;
+      box-shadow: none;
+    }
+
+    & + .btn {
+      margin-left: 5px;
+    }
+  }
+}
