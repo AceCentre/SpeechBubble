@@ -7,12 +7,9 @@ block content
 
   div(ng-controller='ResultsCtrl')
 
-    div(ng-hide='total')
-      p No suppliers found.
-
+    +pageListingNotice('suppliers')
     div(ng-hide='!total')
       +pagination()
-
       table.table.table-striped
         thead
           tr
@@ -26,5 +23,4 @@ block content
             td.actions
               a(href='#', ng-click='edit(item)'): span.glyphicon.glyphicon-edit
               a(href='#', ng-click='delete(item.name, item)'): span.glyphicon.glyphicon-trash
-
       +pagination()

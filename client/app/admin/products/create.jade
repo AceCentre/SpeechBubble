@@ -20,6 +20,7 @@ form.form-horizontal(name='form', ng-submit='create(form)', novalidate)
             +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced', true)
             +radio('product', 'type', 'ProductSoftware', 'Software / Application', true)
             +radio('product', 'type', 'ProductVocabulary', 'Vocabulary', true)
+            +radio('product', 'type', 'ProductLowTech', 'Low-tech', true)
             p.help-block(ng-show='form.type.$error.required && form.$submitted')
               | Product type is required
 

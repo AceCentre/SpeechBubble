@@ -78,6 +78,10 @@ angular.module('speechBubbleApp')
           controller = 'AdminProductEditCtrl';
           template = 'app/admin/products/vocabulary/vocabulary.html';
           break;
+        case 'ProductLowTech':
+          controller = 'AdminProductLowTechEditCtrl';
+          template = 'app/admin/products/low-tech/low-tech.html';
+          break;
       }
 
       return {

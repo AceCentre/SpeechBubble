@@ -6,9 +6,7 @@ block content
 
   div(ng-controller='ResultsCtrl')
 
-    div(ng-hide='total')
-      p No suppliers found.
-
+    +pageListingNotice('suppliers')
     div(ng-hide='!total')
       +pagination()
 
