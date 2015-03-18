@@ -10,7 +10,12 @@ var _ = require('lodash');
 exports.index = function(req, res) {
   fs.readdir(process.env.UPLOAD_DIR, function(err, files) {
     if(err) { return handleError(res, err); }
-    res.json(_.map(files, function(file) { return { image: '/assets/images/uploads/' + file, name: file }}));
+    res.json(_.map(files, function(file) {
+      return {
+        image: '/assets/images/uploads/' + file,
+        name: file
+      };
+    }));
   });
 };
 

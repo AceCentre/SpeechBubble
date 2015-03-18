@@ -21,7 +21,7 @@ angular.module('speechBubbleApp')
         size: 'lg',
         resolve: {
           current: function() {
-            return product
+            return product;
           }
         }
       });

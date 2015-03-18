@@ -18,6 +18,7 @@ var passport = require('passport');
 var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
+var fs = require('fs');
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -41,8 +42,10 @@ module.exports = function(app) {
   }));
 
   if ('production' === env) {
+    fs.symlink(process.env.UPLOAD_DIR, path.join(config.root, 'public/assets/images/uploads'), 'dir', function(err) {
+      console.log(err);
+    });
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', config.root + '/public');
     app.use(morgan('dev'));
   }

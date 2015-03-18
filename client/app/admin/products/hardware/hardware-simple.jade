@@ -13,6 +13,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
         +productDetails()
 
+    +productImages()
     <!-- Message Levels -->
     .panel.panel-default
       .panel-heading Message levels
@@ -23,25 +24,11 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           .panel-body
             input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
 
-    <!-- Premade vocabularies -->
-    .panel.panel-default
-      .panel-heading Any premade vocabularies available?
-      .panel-body
-        +switch('product.features', 'premadeVocabularies')
-
-        .panel.panel-default(ng-show='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
-          .panel-heading Available vocabularies
-          .panel-body
-            ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.premadeVocabulariesAvailable")
-              ui-select-match(placeholder="Select a vocabulary") {{$item.name}}
-              ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
-                div {{item.name}}
-
+    +vocabularies()
     +speechTypeOptions()
-
     +sharedHardware()
-    +addMoreInformation()
+    +addLinks('moreInformationLinks', 'More information URLs')
 
   .modal-footer
-    button.btn.btn-primary() Create
+    button.btn.btn-primary() Save
     a.btn.btn-tertiary(ng-click='cancel()') Cancel

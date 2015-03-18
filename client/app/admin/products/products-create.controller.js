@@ -1,26 +1,37 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductCreateCtrl', function($scope, $modalInstance, $modal, ProductTemplate) {
+  .controller('AdminProductCreateCtrl', function($scope, $modalInstance, $modal, ProductTemplate, Product, growl) {
 
     $scope.product = {};
 
-    $scope.create = function() {
+    $scope.create = function(form) {
+      $scope.submitted = true;
 
-      var modal = ProductTemplate($scope.product);
+      if(form.$valid) {
+        Product.create($scope.product, function(res) {
+          $scope.product = res.toJSON();
 
-      $modalInstance.close();
+          var modal = ProductTemplate($scope.product);
 
-      $modal.open({
-        templateUrl: modal.template,
-        controller: modal.controller,
-        size: 'lg',
-        resolve: {
-          current: function() {
-            return $scope.product;
-          }
-        }
-      });
+          $modalInstance.close();
+
+          $modal.open({
+            templateUrl: modal.template,
+            controller: modal.controller,
+            size: 'lg',
+            resolve: {
+              current: function () {
+                return $scope.product;
+              }
+            }
+          });
+        }, function() {
+          growl.error('Could not create product.');
+        });
+
+      }
+
     };
 
     $scope.cancel = function() {

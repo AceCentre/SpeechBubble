@@ -20,7 +20,7 @@ mixin textarea(model, id, label, requiredForm)
       label.control-label.col-sm-2(for="#{id}") #{label}
       .col-sm-10
         textarea.form-control(rows='5', id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
-        p.help-block(ng-show='#{requiredForm}.#{id}.$error.required && #{form}.$submitted')
+        p.help-block(ng-show='#{requiredForm}.#{id}.$error.required && #{requiredForm}.$submitted')
           | #{id} is required
   else
     .form-group
@@ -28,12 +28,12 @@ mixin textarea(model, id, label, requiredForm)
       .col-sm-10
         textarea.form-control(id='#{id}', name='#{id}', type='text', ng-model='#{model}.#{id}')
 
-mixin radio(model, id, value, label)
+mixin radio(model, id, value, label, required)
   div.radio
-    label 
-      input(type='radio', ng-model='#{model}.#{id}', name='#{id}', value='#{value}')
+    label
+      input(type='radio', ng-model='#{model}.#{id}', name='#{id}', value='#{value}', ng-required='#{required}')
       | #{label}
-      
+
 mixin checkbox(model, id, label)
   div.checkbox
     label

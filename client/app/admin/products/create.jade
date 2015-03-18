@@ -4,15 +4,24 @@ include ../../mixins/form-helpers
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Create product
 
-form.form-horizontal(ng-submit='create()', novalidate)
+form.form-horizontal(name='form', ng-submit='create(form)', novalidate)
   .modal-body
-    .form-group
-      label.control-label.col-sm-2(for="type") Type
-      .col-sm-10
-        +radio('product', 'type', 'ProductHardwareSimple', 'Hardware Simple')
-        +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced')
-        +radio('product', 'type', 'ProductSoftware', 'Software / Application')
-        +radio('product', 'type', 'ProductVocabulary', 'Vocabulary')
+    .panel.panel-default
+      .panel-heading Product Details
+      .panel-body
+        +input('product', 'text', 'name', 'Name', 'form')
+        +textarea('product', 'description', 'Description', 'form')
+
+        .form-group(ng-class='{ "has-success": form.type.$valid && form.$submitted,\
+    "has-error": form.type.$invalid && form.$submitted }')
+          label.control-label.col-sm-2(for="type") Type
+          .col-sm-10
+            +radio('product', 'type', 'ProductHardwareSimple', 'Hardware Simple', true)
+            +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced', true)
+            +radio('product', 'type', 'ProductSoftware', 'Software / Application', true)
+            +radio('product', 'type', 'ProductVocabulary', 'Vocabulary', true)
+            p.help-block(ng-show='form.type.$error.required && form.$submitted')
+              | Product type is required
 
   .modal-footer
     button.btn.btn-primary() Create

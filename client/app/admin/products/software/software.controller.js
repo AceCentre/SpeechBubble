@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductSoftwareEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, growl) {
+  .controller('AdminProductSoftwareEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, ProductImages, growl) {
 
     $scope.product = current;
     $scope.devices = ProductOptions.devices;
@@ -9,6 +9,10 @@ angular.module('speechBubbleApp')
     $scope.symbols = ProductOptions.symbols;
     $scope.supplierOptions = [];
     $scope.vocabularyOptions = [];
+    $scope.deviceOptions = [];
+    $scope.images = ProductImages($scope);
+
+    $scope.$watch('imagesToUpload', $scope.images.add);
 
     $scope.refreshSuppliers = function(term) {
       Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {
@@ -21,6 +25,16 @@ angular.module('speechBubbleApp')
         $scope.vocabularyOptions = res.items;
       });
     };
+
+    $scope.refreshDevices = function(term) {
+      Product.query({ type: 'ProductHardwareAdvanced', term: term, limit: 0, skip: 0 }, function(res) {
+        $scope.deviceOptions = res.items;
+      });
+    };
+
+    $scope.$watch('product.features.dedicated', function() {
+      $scope.refreshDevices();
+    });
 
     $scope.cancel = function() {
       $modalInstance.dismiss();
