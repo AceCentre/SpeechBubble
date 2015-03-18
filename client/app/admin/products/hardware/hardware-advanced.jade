@@ -13,8 +13,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
         +productDetails()
 
+    +productImages()
     +supportedOperatingSystems()
-
     +dedicated()
 
     .panel.panel-default
@@ -35,5 +35,5 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +addLinks('moreInformationLinks', 'More information URLs')
 
   .modal-footer
-    button.btn.btn-primary() Create
+    button.btn.btn-primary() Save
     a.btn.btn-tertiary(ng-click='cancel()') Cancel

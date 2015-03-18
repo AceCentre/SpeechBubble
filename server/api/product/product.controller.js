@@ -1,7 +1,10 @@
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
 var _ = require('lodash');
 var Product = require('./product.model').Model;
+var formidable = require('formidable');
 
 // Get list of products
 exports.index = function(req, res) {
@@ -93,6 +96,101 @@ exports.destroy = function(req, res) {
       return res.send(204);
     });
   });
+};
+
+// lists product images
+exports.listImages = function(req, res) {
+  var id = req.params.productId;
+  var uploadDir = process.env.UPLOAD_DIR;
+  var dir = path.resolve(uploadDir, 'products', id);
+  fs.readdir(dir, function(err, files) {
+    if(err) { return res.send(404); }
+    res.json(_.map(files, function(file) {
+      return { image: '/assets/images/uploads/products/' + id + '/' + file, name: file };
+    }));
+  });
+};
+
+exports.deleteImage = function(req, res) {
+  var id = req.params.productId;
+  var imageId = req.params.imageId;
+
+  Product.findById(id, function(err, product) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!product) {
+      return res.send(404);
+    }
+
+    var image = product.images.id(imageId);
+
+    if(!image) {
+      return res.send(200, product.images);
+    }
+
+    var imageSrc = image.url.split('/');
+    var filename = imageSrc[imageSrc.length -1];
+
+    product.images.pull(imageId);
+
+    product.save(function(err, product) {
+      if (err) {
+        return handleError(res, err);
+      }
+      var file = process.env.UPLOAD_DIR + '/products/' + id + '/' + filename;
+      fs.unlink(file, function(err) {
+        if (err && err.code !== 'ENOENT') {
+          return handleError(res, err);
+        }
+        return res.send(200, product.images);
+      });
+    });
+  });
+};
+
+// Adds images to product
+exports.addImages = function(req, res) {
+  var id = req.params.productId;
+  var form = new formidable.IncomingForm();
+
+  Product.findById(id, function (err, product) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!product) {
+      return res.send(404);
+    }
+
+    var dir = process.env.UPLOAD_DIR + '/products/' + id;
+
+    fs.mkdir(process.env.UPLOAD_DIR + '/products/' + id, function(err) {
+      // Handle error unless directory exists
+      if (err && err.code !== 'EEXIST') {
+        return handleError(res, err);
+      }
+
+      form.uploadDir = dir;
+      form.keepExtensions = true;
+      form.parse(req, function(err, fields, files) {
+        if(err) { return handleError(res, err); }
+        var filename = files.file.path.split('/').pop();
+        var url = '/assets/images/uploads/products/' + id + '/' + filename;
+
+        product.images.push({
+          url: url,
+          summary: 'Product image'
+        });
+
+        product.save(function(err) {
+          if(err) { return handleError(res, err); }
+          res.send(200, product.images);
+        });
+      });
+    });
+
+  });
+
 };
 
 function handleError(res, err) {

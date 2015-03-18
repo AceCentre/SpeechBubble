@@ -15,6 +15,47 @@ angular.module('speechBubbleApp')
       'update': { method: 'PUT' }
     });
   })
+  .factory('ProductImages', function($upload, $http, growl) {
+    return function(scope) {
+      return {
+        add: function (files) {
+          if (files && files.length) {
+            files.forEach(function(file, i) {
+              $upload.upload({
+                url: '/api/product/upload/' + scope.product._id,
+                file: file
+              })
+              .progress(function (evt) {
+                file.progress = parseInt(100.0 * evt.loaded / evt.total);
+                file.name = evt.config.file.name;
+              })
+              .success(function (data, status, headers, config) {
+                scope.product.images.push(data[data.length - 1]);
+                file.complete = true;
+              })
+              .error(function(data, status, headers, config) {
+                  growl.error('Image could not be uploaded.');
+              });
+
+            });
+          }
+        },
+        remove: function(img) {
+          var index = scope.product.images.indexOf(img);
+          scope.product.images.splice(index, 1);
+
+          $http['delete']('/api/product/upload/' + scope.product._id + '/' +  img._id)
+          .success(function(data, status, headers, config) {
+            // image already remove from array
+          })
+          .error(function(data, status, headers, config) {
+            scope.product.images.push(img);
+            growl.error('Image could not be deleted.');
+          });
+        }
+      };
+    };
+  })
   .factory('ProductTemplate', function() {
     return function(product) {
       var template;

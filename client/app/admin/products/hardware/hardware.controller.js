@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductHardwareEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, ProductLinks, growl) {
+.controller('AdminProductHardwareEditCtrl', function($scope, $modal, $modalInstance, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductLinks, growl) {
 
   $scope.product = current;
   $scope.devices = ProductOptions.devices;
@@ -9,6 +9,9 @@ angular.module('speechBubbleApp')
   $scope.productLinks = ProductLinks($scope);
   $scope.supplierOptions = [];
   $scope.vocabularyOptions = [];
+  $scope.images = ProductImages($scope);
+
+  $scope.$watch('imagesToUpload', $scope.images.add);
 
   $scope.refreshSuppliers = function(term) {
     Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {

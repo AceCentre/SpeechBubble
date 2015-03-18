@@ -8,9 +8,10 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     .panel.panel-default
       .panel-heading Product Details
       .panel-body
-        input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
+        input(type='hidden', ng-init='product.type = "ProductSoftware"')
         +productDetails()
 
+    +productImages()
     +imageRepresentationSupported()
     +speechTypeOptions()
     +price()
@@ -69,5 +70,5 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +accessMethods()
 
   .modal-footer
-    button.btn.btn-primary() Create
+    button.btn.btn-primary() Save
     a.btn.btn-tertiary(ng-click='cancel()') Cancel

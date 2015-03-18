@@ -30,7 +30,7 @@ angular.module('speechBubbleApp')
         controller: 'AdminPageCreateCtrl',
         resolve: {
           pages: function() {
-            return $scope.pages
+            return $scope.pages;
           }
         }
       });
@@ -43,10 +43,10 @@ angular.module('speechBubbleApp')
         size: 'lg',
         resolve: {
           pages: function() {
-            return $scope.pages
+            return $scope.pages;
           },
           page: function() {
-            return page
+            return page;
           }
         }
       });

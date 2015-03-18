@@ -13,6 +13,29 @@ mixin productDetails()
         ui-select-choices(repeat="item in supplierOptions | filter: $select.search", refresh='refreshSuppliers($select.search)', refresh-delay='500')
           div {{item.name}}
 
+mixin productImages()
+  .panel.panel-default
+    .panel-heading Product Images
+    .panel-body
+      table.table.table-striped(ng-show='product.images.length')
+        thead
+          tr
+            th.preview Preview
+            th Summary
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.images')
+            td: img.img-responsive.img-thumbnail(ng-src='{{ item.url }}')
+            td: input.form-control(ng-model='item.summary')
+            td.actions
+              a(href='#', ng-click='images.remove(item)'): span.glyphicon.glyphicon-trash
+          tr(ng-repeat='file in imagesToUpload', ng-hide='file.complete')
+            td(colspan='3')
+              progressbar(ng-if='!file.complete', value='file.progress')
+
+      div.text-center
+        a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add images
+
 <!-- Shared: Access method questions -->
 mixin accessMethodOptions(dependsOn)
 
