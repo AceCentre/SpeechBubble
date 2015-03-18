@@ -4,7 +4,7 @@ mixin media()
       img.media-object(src='http://placehold.it/64x64')
     .media-body
       h4.media-heading {{ item.name }}
-      {{ item.description }}
+      | {{ item.description }}
 
 mixin pagination()
   hr
