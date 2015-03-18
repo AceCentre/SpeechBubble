@@ -65,10 +65,10 @@ mixin price()
   .panel.panel-default
     .panel-heading Guide price
     .panel-body
-      +input('product.features.price', 'text', 'gbp', 'GBP (£)')
-      +input('product.features.price', 'text', 'aud', 'AUD ($)')
-      +input('product.features.price', 'text', 'usd', 'USD ($)')
-      +input('product.features.price', 'text', 'euro', 'Euro (€)')
+      +input('product.features.price', 'number', 'gbp', 'GBP (£)')
+      +input('product.features.price', 'number', 'aud', 'AUD ($)')
+      +input('product.features.price', 'number', 'usd', 'USD ($)')
+      +input('product.features.price', 'number', 'euro', 'Euro (€)')
 
   .panel.panel-default
     .panel-heading Associated Costs
@@ -202,7 +202,7 @@ mixin addLinks(id, label)
 
       div(ng-form, name='#{id}Form')
         +input('temp', 'text', id + 'Label', 'Label')
-        +input('temp', 'url', id + 'Url', 'URL')
+        +url('temp', 'url', id + 'Url', 'URL')
         a.btn.btn-secondary.pull-right(ng-click='productLinks.add("#{id}", #{id}Form)') Add
 
 
