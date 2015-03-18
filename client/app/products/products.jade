@@ -6,12 +6,8 @@ block content
 
   div(ng-controller='ResultsCtrl')
 
-    div(ng-hide='total')
-      p No products found. Click #[a(href='/products', target='_self') here] to view all products
-
+    +pageListingNotice('products')
     div(ng-hide='!total')
-      p Displaying #[strong {{ skip + 1 }}-{{ skip + limit }}] of #[strong{{ total }}] products
-
       +pagination()
       +media()
       +pagination()

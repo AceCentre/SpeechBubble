@@ -90,13 +90,13 @@ mixin accessMethods()
     .panel-heading What access method is this designed for? (multiple allowed)
     .panel-body
       <!-- Touch -->
-      +checkbox('product.features', 'accessMethodTouch', 'Touch')
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchType')
+      +checkbox('product.features.accessMethods', 'touch', 'Touch')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchType')
         .panel-heading Touch screen
         .panel-body
-          +radio('product.features', 'accessMethodTouchType', 'resistive', 'Resisitive')
-          +radio('product.features', 'accessMethodTouchType', 'capacitive', 'Capacitive')
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchRequireGestures')
+          +radio('product.features.accessMethodTouchType', 'resistive', 'resistive', 'Resisitive')
+          +radio('product.features.accessMethodTouchType', 'capacitive', 'capacitive', 'Capacitive')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchRequireGestures')
         .panel-heading Are specialist gestures etc required to control the device?
         .panel-body
           +switch('product.features', 'accessMethodTouchRequireGestures')
@@ -115,11 +115,11 @@ mixin accessMethods()
       +accessMethodOptions('accessMethodTouch')
 
       <!-- Mouse or alternative -->
-      +checkbox('product.features', 'accessMethodMouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
+      +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
       +accessMethodOptions('accessMethodMouseOrAlternative')
       <!-- Eyegaze -->
-      +checkbox('product.features', 'accessMethodEyegaze', 'Eyegaze')
-      .panel.panel-default(ng-show='product.features.accessMethodEyegaze', destroy='accessMethodEyeGazePause')
+      +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
+      .panel.panel-default(ng-show='product.features.accessMethods.eyegaze', destroy='accessMethodEyeGazePause')
         .panel-heading Pause on-screen or off-screen?
         .panel-body
           +radio('product.features', 'accessMethodEyeGazePause', 'on-screen', 'On-screen')
@@ -127,8 +127,8 @@ mixin accessMethods()
 
       +accessMethodOptions('accessMethodEyegaze')
       <!-- Switch -->
-      +checkbox('product.features', 'accessMethodSwitch', 'Switch')
-      .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
+      +checkbox('product.features.accessMethods', 'switch', 'Switch')
+      .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
         .panel-heading What scanning options are available (without additional software)
         .panel-body
           +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
@@ -204,8 +204,6 @@ mixin addLinks(id, label)
         +input('temp', 'text', id + 'Label', 'Label')
         +url('temp', 'url', id + 'Url', 'URL')
         a.btn.btn-secondary.pull-right(ng-click='productLinks.add("#{id}", #{id}Form)') Add
-
-
 
 mixin speechTypeOptions()
   <!-- Speech Type -->
