@@ -28,11 +28,7 @@ Product.find().remove(function() {
             description: chance.paragraph(),
             type: chance.pick(types, chance.integer({ min: 0, max: types.length - 1})),
             discontinued: chance.bool(),
-            suppliers: [supplier._id],
-            images: [{
-              url: '/assets/images/products/default.png',
-              summary: 'No image'
-            }]
+            suppliers: [supplier._id]
           });
         });
     });
