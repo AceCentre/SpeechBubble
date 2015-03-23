@@ -13,6 +13,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
         +productDetails()
 
+    +revisions()
     +productImages()
     <!-- Message Levels -->
     .panel.panel-default

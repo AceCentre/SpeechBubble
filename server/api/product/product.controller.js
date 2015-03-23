@@ -3,7 +3,8 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
-var Product = require('./product.model').Model;
+var Product = require('./product.model');
+var ProductRevision = require('./product-revision.model');
 var formidable = require('formidable');
 
 // Get list of products
@@ -52,7 +53,11 @@ exports.index = function(req, res) {
 
 // Get a single product
 exports.show = function(req, res) {
-  Product.findById(req.params.id, function (err, product) {
+  Product
+  .findById(req.params.id)
+  .populate('suppliers')
+  .populate('_revisions')
+  .exec(function (err, product) {
     if(err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
     return res.json(product);
@@ -76,14 +81,38 @@ exports.create = function(req, res) {
 // Updates an existing product in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
+  
   req.body.suppliers = req.body.suppliers.map(function(supplier) {
     return _.isString(supplier) ? supplier: supplier._id;
   });
-  Product.findByIdAndUpdate(req.params.id, req.body, { overwrite: true }, function (err, product) {
+
+  Product.findById(req.params.id, function(err, product) {
     if (err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
-    return res.json(200, product);
+    ProductRevision.create(req.body, function(err, revision) {
+      if (err) {
+        return handleError(res, err);
+      }
+      product._revisions.push(revision._id);
+
+      if(req.user.role === 'admin' && req.body.publish) {
+        product.update(req.body, function(err, product) {
+          if (err) {
+            return handleError(res, err);
+          }
+          res.send(200, product);
+        });
+      } else {
+        product.save(function(err, product) {
+          if (err) {
+            return handleError(res, err);
+          }
+          res.send(200, product);
+        });
+      }
+    });
   });
+
 };
 
 // Deletes a product from the DB.
@@ -147,6 +176,29 @@ exports.deleteImage = function(req, res) {
       });
     });
   });
+};
+
+// Get product revisions for current user
+exports.userRevisions = function(req, res) {
+  if(req.user) {
+    Product
+      .findById(req.params.id)
+      .populate({
+        path: '_revisions',
+        match: { author: req.user._id }
+      })
+      .lean()
+      .exec(function(err, product) {
+        if (err) {
+          return handleError(res, err);
+        }
+        if (!product) {
+          return res.send(404);
+        }
+        return res.send(200, product.revisions);
+      });
+  }
+  return res.send(200, []);
 };
 
 // Adds images to product

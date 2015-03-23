@@ -3,53 +3,18 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ENUM = require('../../enum');
+var ProductBaseSchema = require('./product-base.schema');
+var extend = require('mongoose-schema-extend');
 
-var ProductSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  summary: String,
-  description: {
-    type: String,
-    required: true
-  },
+var ProductSchema = ProductBaseSchema.extend({
   type: {
     type: String,
     enum: ENUM.PRODUCT_TYPES
   },
-  features: Schema.Types.Mixed,
-  images: [{
-    url: {
-      type: String,
-      required: true
-    },
-    summary: {
-      type: String,
-      required: true
-    }
-  }],
-  videos: [{
-    url: {
-      type: String,
-      required: true
-    },
-    summary: {
-      type: String,
-      required: true
-    }
-  }],
-  discontinued: {
-    type: Boolean,
-    default: false
-  },
-  suppliers: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Supplier'
+  _revisions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ProductRevision'
   }]
 }, { collection: 'products' });
 
-module.exports = {
-  Schema: ProductSchema,
-  Model: mongoose.model('Product', ProductSchema)
-};
+module.exports = mongoose.model('Product', ProductSchema);

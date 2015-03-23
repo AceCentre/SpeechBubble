@@ -10,6 +10,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel-body
         input(type='hidden', ng-init='product.type = "ProductLowTech"')
         +productDetails()
+
+    +revisions()
     +productImages()
     +imageRepresentationSupported()
     +price()

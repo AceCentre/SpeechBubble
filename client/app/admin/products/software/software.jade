@@ -11,6 +11,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         input(type='hidden', ng-init='product.type = "ProductSoftware"')
         +productDetails()
 
+    +revisions()
     +productImages()
     +imageRepresentationSupported()
     +speechTypeOptions()

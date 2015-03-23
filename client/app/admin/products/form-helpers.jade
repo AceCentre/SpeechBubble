@@ -270,3 +270,28 @@ mixin vocabularies()
             ui-select-match(placeholder="Select a vocabulary") {{$item.name}}
             ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
               div {{item.name}}
+
+mixin revisions()
+  .panel.panel-default(ng-if='revisions.length')
+    .panel-heading History
+    .panel-body
+      table.table.table-striped
+        thead
+          tr
+            th Revision
+            th Note
+            th Author
+            th Date
+            th.actions Actions
+        tbody
+          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage')
+            td {{ rev._id }}
+            td {{ rev.note || "Draft" }}
+            td {{ rev.author.firstName }} {{ rev.author.lastName }}
+            td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
+            td.actions
+              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-open
+
+      .text-center
+        pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
+

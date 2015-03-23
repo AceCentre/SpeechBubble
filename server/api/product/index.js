@@ -7,12 +7,12 @@ var router = express.Router();
 
 // View Products
 router.get('/', controller.index);
+router.get('/:id/revisions', controller.userRevisions);
 router.get('/:id', controller.show);
 
 // Product Admin
-router.post('/', auth.hasRole('admin'), controller.create);
-router.put('/:id', auth.hasRole('admin'), controller.update);
-router.patch('/:id', auth.hasRole('admin'), controller.update);
+router.post('/', auth.isAuthenticated(), controller.create);
+router.put('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 
 // User Product Admin

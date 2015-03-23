@@ -4,6 +4,15 @@ angular.module('speechBubbleApp')
 .controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, growl) {
 
   $scope.product = current;
+
+  $scope.revisions = current._revisions;
+  $scope.revisionsPerPage = 5;
+  $scope.currentPage = 1;
+
+  $scope.revert = function(revision) {
+    $scope.product = revision;
+  };
+
   $scope.suppliers = ProductOptions.suppliers;
   $scope.supplierOptions = [];
 

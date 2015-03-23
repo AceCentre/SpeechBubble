@@ -1,0 +1,17 @@
+extends ../../layout/2_column
+
+block content
+  button.btn.btn-primary.pull-right(ng-click='edit(product)') Edit
+  h1 {{ product.name }}
+
+  hr
+
+  div.product-summary
+    img.img-responsive.img-thumbnail(src='http://placehold.it/200x200')
+    p {{ product.description }}
+
+  .panel.panel-default(ng-if='product.suppliers.length')
+    .panel-heading Suppliers
+    .panel-body
+      ul(ng-repeat='item in product.suppliers')
+        li {{ item.name }}

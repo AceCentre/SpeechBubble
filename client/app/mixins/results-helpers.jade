@@ -3,7 +3,7 @@ mixin media()
     .media-left
       img.media-object(src='http://placehold.it/64x64')
     .media-body
-      h4.media-heading {{ item.name }}
+      h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
       | {{ item.description }}
 
 mixin pagination()

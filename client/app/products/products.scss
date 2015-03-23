@@ -1,0 +1,10 @@
+.product-summary {
+  @include clearfix();
+  margin-top: 20px;
+}
+
+.product-summary .img-responsive {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  float: left;
+}

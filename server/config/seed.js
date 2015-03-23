@@ -7,7 +7,8 @@
 
 var User = require('../api/user/user.model');
 var Supplier = require('../api/supplier/supplier.model');
-var Product = require('../api/product/product.model').Model;
+var Product = require('../api/product/product.model');
+var ProductRevision = require('../api/product/product-revision.model');
 var chance = require('chance').Chance();
 var _ = require('lodash');
 var ENUM = require('../enum');
@@ -23,13 +24,22 @@ Product.find().remove(function() {
           supportDetails: chance.email(),
           regions: chance.pick(regions, chance.integer({ min: 0, max: regions.length - 1}))
         }, function(err, supplier) {
-          Product.create({
+          ProductRevision.create({
             name: chance.word(),
             description: chance.paragraph(),
-            type: chance.pick(types, chance.integer({ min: 0, max: types.length - 1})),
             discontinued: chance.bool() || '',
             suppliers: [supplier._id]
+          }, function(err, revision) {
+            Product.create({
+              name: chance.word(),
+              description: chance.paragraph(),
+              type: chance.pick(types, chance.integer({ min: 0, max: types.length - 1})),
+              discontinued: chance.bool() || '',
+              suppliers: [supplier._id],
+              _revisions: [revision._id]
+            });
           });
+
         });
     });
   });
