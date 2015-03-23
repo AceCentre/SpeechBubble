@@ -13,7 +13,7 @@ angular.module('speechBubbleApp')
         controller: 'AdminUserModalCtrl',
         resolve: {
           currentUser: function() {
-            return user
+            return user;
           },
           users: function() {
             return $scope.items;

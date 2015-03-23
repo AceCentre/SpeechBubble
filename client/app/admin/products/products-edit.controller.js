@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, growl) {
+.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, growl, Auth) {
 
   $scope.product = current;
 
   $scope.revisions = current._revisions;
   $scope.revisionsPerPage = 5;
   $scope.currentPage = 1;
+
+  $scope.isAdmin = Auth.isAdmin;
 
   $scope.revert = function(revision) {
     $scope.product = revision;

@@ -6,7 +6,9 @@ angular.module('speechBubbleApp')
   $scope.endpoint = '/api/product/:id';
 })
 
-.controller('ProductDetailCtrl', function($scope, product, $http, ProductTemplate, $modal) {
+.controller('ProductDetailCtrl', function($scope, product, $http, ProductTemplate, $modal, Auth) {
+  $scope.isLoggedIn = Auth.isLoggedIn;
+
   $scope.product = product.data;
   $scope.comments = true;
 
