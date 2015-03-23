@@ -7,7 +7,7 @@ var router = express.Router();
 
 // View Products
 router.get('/', controller.index);
-router.get('/:id/revisions', controller.userRevisions);
+router.get('/:id/revisions', auth.isAuthenticated(), controller.revisions);
 router.get('/:id', controller.show);
 
 // Product Admin

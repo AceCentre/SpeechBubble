@@ -36,6 +36,29 @@ mixin productImages()
       div.text-center
         a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add images
 
+mixin productVideos()
+  .panel.panel-default
+    .panel-heading Product Videos
+    .panel-body
+      table.table.table-striped(ng-show='product.videos.length')
+        thead
+          tr
+            th.preview Preview
+            th Summary
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.videos track by $index')
+            td
+              iframe(id='ytplayer', type='text/html', width='320', height='195', src=' {{ videos.getYoutubeUrl(item.url) }}', frameborder='0')
+            td: input.form-control(ng-model='item.summary')
+            td.actions
+              a(href='#', ng-click='videos.remove($index)'): span.glyphicon.glyphicon-trash
+
+      div(ng-form, name='productVideoForm')
+        +url('temp', 'url', 'productVideoUrl', 'URL')
+        +input('temp', 'text', 'productVideoSummary', 'Summary')
+        a.btn.btn-secondary.pull-right(ng-click='videos.add()') Add video
+
 <!-- Shared: Access method questions -->
 mixin accessMethodOptions(dependsOn)
 

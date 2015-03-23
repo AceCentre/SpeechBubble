@@ -81,7 +81,7 @@ exports.create = function(req, res) {
 // Updates an existing product in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  
+
   req.body.suppliers = req.body.suppliers.map(function(supplier) {
     return _.isString(supplier) ? supplier: supplier._id;
   });
@@ -179,26 +179,20 @@ exports.deleteImage = function(req, res) {
 };
 
 // Get product revisions for current user
-exports.userRevisions = function(req, res) {
-  if(req.user) {
-    Product
-      .findById(req.params.id)
-      .populate({
-        path: '_revisions',
-        match: { author: req.user._id }
-      })
-      .lean()
-      .exec(function(err, product) {
-        if (err) {
-          return handleError(res, err);
-        }
-        if (!product) {
-          return res.send(404);
-        }
-        return res.send(200, product.revisions);
-      });
-  }
-  return res.send(200, []);
+exports.revisions = function(req, res) {
+  Product
+    .findById(req.params.id)
+    .populate('_revisions')
+    .lean()
+    .exec(function(err, product) {
+      if (err) {
+        return handleError(res, err);
+      }
+      if (!product) {
+        return res.send(404);
+      }
+      return res.send(200, product._revisions);
+    });
 };
 
 // Adds images to product

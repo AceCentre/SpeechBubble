@@ -9,6 +9,10 @@ angular.module('speechBubbleApp')
     $scope.images = ProductImages($scope);
     $scope.productLinks = ProductLinks($scope);
 
+    $scope.revisions = current._revisions;
+    $scope.revisionsPerPage = 5;
+    $scope.currentPage = 1;
+
     $scope.$watch('imagesToUpload', $scope.images.add);
 
     $scope.refreshSuppliers = function(term) {

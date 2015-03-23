@@ -15,6 +15,27 @@ angular.module('speechBubbleApp')
       'update': { method: 'PUT' }
     });
   })
+  .factory('ProductVideos', function($sce) {
+    return function(scope) {
+      return {
+        add: function(url) {
+          scope.product.videos.push({
+            url: scope.temp.productVideoUrl,
+            summary: scope.temp.productVideoSummary
+          });
+          scope.temp.productVideoUrl = scope.temp.productVideoSummary = '';
+        },
+        remove: function(index) {
+          scope.product.videos.splice(index, 1);
+        },
+        getYoutubeUrl: function(url) {
+          var urlArray = url.split('/');
+          var embedId = urlArray[urlArray.length - 1];
+          return $sce.trustAsResourceUrl('//youtube.com/embed/' + embedId);
+        }
+      };
+    };
+  })
   .factory('ProductImages', function($upload, $http, growl) {
     return function(scope) {
       return {
