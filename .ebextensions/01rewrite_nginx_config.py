@@ -12,6 +12,10 @@ NGINX_CONF_FILE = '/etc/nginx/sites-enabled/00_elastic_beanstalk_proxy.conf'
 NGINX_CONFIG = """
   location ~ /resize/([\d-]+)x([\d-]+)/(.*)/(.*) {
      proxy_pass                  http://$server_addr/assets/images/uploads/products/$3/$4;
+     proxy_store on;
+     proxy_store_access group:r all:r;
+     proxy_store /sbuploads/proxy/store/$request_uri;
+     proxy_temp_path /sbuploads/proxy/tmp/;
      add_header X-Nginx-Image Resized;
      image_filter                resize $1 $2;
      image_filter_jpeg_quality   80;
