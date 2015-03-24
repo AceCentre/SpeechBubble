@@ -375,7 +375,8 @@ module.exports = function (grunt) {
           src: [
             'newrelic.js',
             'package.json',
-            'server/**/*'
+            'server/**/*',
+            '.ebextensions/**/*'
           ]
         }]
       },
