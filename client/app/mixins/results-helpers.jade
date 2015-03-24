@@ -16,5 +16,4 @@ mixin pageListingNotice(type)
   div(ng-hide='total')
     p No #{type} found.
 
-  div(ng-hide='!total')
-    p Displaying #[strong {{ skip + 1 }}-{{ skip + limit < total ? skip + limit: total }}] of #[strong{{ total }}] #{type}
+  p(ng-hide='!total', page-count='', page-type='#{type}')
