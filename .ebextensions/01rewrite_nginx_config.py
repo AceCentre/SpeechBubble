@@ -1,6 +1,7 @@
 #! /usr/bin/python
+# -*- coding: utf-8 -*-
 """Modifies nginx configuration file on AWS Elastic Beanstalk to support
-WebSocket connections."""
+http image filter connections."""
 
 __author__ = "Will Wade <will@e-wade.net>"
 __version__ = "0.0.2"
