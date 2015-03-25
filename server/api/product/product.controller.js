@@ -7,6 +7,12 @@ var Product = require('./product.model');
 var ProductRevision = require('./product-revision.model');
 var formidable = require('formidable');
 
+function mapSuppliers(suppliers) {
+  return suppliers.map(function(supplier) {
+    return _.isString(supplier) ? supplier: supplier._id;
+  });
+}
+
 // Get list of products
 exports.index = function(req, res) {
   var skip = req.query.skip || 0;
@@ -78,13 +84,67 @@ exports.create = function(req, res) {
   });
 };
 
-// Updates an existing product in the DB.
+// Adds a new revision to a product
+exports.publish = function(req, res) {
+  var productId = req.params.id;
+  var revisionId = req.params.revision;
+
+  Product
+  .findById(productId)
+  .lean()
+  .exec(function(err, product) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!product) {
+      return res.send(404);
+    }
+    ProductRevision
+    .findById(revisionId)
+    .lean()
+    .exec(function(err, revision) {
+      if (err) {
+        return handleError(res, err);
+      }
+      if (!revision) {
+        return res.send(404);
+      }
+
+      // delete revision document specific properties
+      delete revision._id;
+      delete revision.__t;
+      delete revision.createdAt;
+      delete revision.updatedAt;
+
+      revision._revisions = product._revisions;
+      revision.type = product.type;
+      revision.currentRevision = revisionId;
+
+      Product.update({ _id: productId }, revision, { overwrite: true, multi: false }, function(err, numberAffected, raw) {
+        if (err) {
+          return handleError(res, err);
+        }
+        Product
+        .findById(productId)
+        .populate('suppliers')
+        .exec(function(err, product) {
+          if (err) {
+            return handleError(res, err);
+          }
+          return res.send(200, product);
+        });
+      });
+    });
+
+  });
+};
+
+// Adds a new revision to a product.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-
-  req.body.suppliers = req.body.suppliers.map(function(supplier) {
-    return _.isString(supplier) ? supplier: supplier._id;
-  });
+  delete req.body.__t;
+  req.body.suppliers = mapSuppliers(req.body.suppliers);
+  req.body.author = req.user._id;
 
   Product.findById(req.params.id, function(err, product) {
     if (err) { return handleError(res, err); }
@@ -94,25 +154,14 @@ exports.update = function(req, res) {
         return handleError(res, err);
       }
       product._revisions.push(revision._id);
-
-      if(req.user.role === 'admin' && req.body.publish) {
-        product.update(req.body, function(err, product) {
+      product.save(function(err, product) {
           if (err) {
             return handleError(res, err);
           }
           res.send(200, product);
         });
-      } else {
-        product.save(function(err, product) {
-          if (err) {
-            return handleError(res, err);
-          }
-          res.send(200, product);
-        });
-      }
+      });
     });
-  });
-
 };
 
 // Deletes a product from the DB.
@@ -182,7 +231,12 @@ exports.deleteImage = function(req, res) {
 exports.revisions = function(req, res) {
   Product
     .findById(req.params.id)
-    .populate('_revisions')
+    .populate({
+      path: '_revisions',
+      options: {
+        sort: {createdAt: 'desc'}
+      }
+    })
     .lean()
     .exec(function(err, product) {
       if (err) {
@@ -191,7 +245,18 @@ exports.revisions = function(req, res) {
       if (!product) {
         return res.send(404);
       }
-      return res.send(200, product._revisions);
+      Product.populate(product, { path: '_revisions.suppliers', model: 'Supplier' }, function(err, product) {
+        Product.populate(product, {
+          path: '_revisions.author',
+          select: 'firstName lastName',
+          model: 'User'
+        }, function(err, product) {
+          if (err) {
+            return handleError(res, err);
+          }
+          return res.send(200, product._revisions);
+        });
+      });
     });
 };
 

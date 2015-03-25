@@ -28,6 +28,10 @@ angular.module('speechBubbleApp')
     $modalInstance.dismiss();
   };
 
+  $scope.publish = function() {
+    console.log($scope.product._id);
+  };
+
   $scope.save = function(form) {
     $scope.submitted = true;
     if($scope.product && form.$valid) {
@@ -35,7 +39,7 @@ angular.module('speechBubbleApp')
         Product.update($scope.product,
           function(res) {
             $modalInstance.close();
-            growl.success('Product updated.');
+            growl.success('Added new revision.');
           },
           function(res) {
             growl.error('An error occurred.');

@@ -35,5 +35,6 @@ angular.module('speechBubbleApp')
     });
 
     $scope.$watch('page', updateResults);
+    $scope.$on('resultsUpdated', updateResults);
 
   });

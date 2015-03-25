@@ -67,3 +67,16 @@ td.actions {
     margin-left: 5px;
   }
 }
+
+tr.edit-mode {
+  background: $secondaryColor !important;
+  color: #fff;
+
+  a {
+    color: #fff;
+  }
+
+  a:hover, a:focus, a:active {
+    color: $backgroundColor;
+  }
+}
