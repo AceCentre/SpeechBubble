@@ -28,13 +28,15 @@ Product.find().remove(function() {
             name: chance.word(),
             description: chance.paragraph(),
             discontinued: chance.bool() || '',
-            suppliers: [supplier._id]
+            suppliers: [supplier._id],
+            note: 'Test commit note'
           }, function(err, revision) {
             Product.create({
               name: chance.word(),
               description: chance.paragraph(),
               type: chance.pick(types, chance.integer({ min: 0, max: types.length - 1})),
               discontinued: chance.bool() || '',
+              note: 'Test published commit note',
               suppliers: [supplier._id],
               _revisions: [revision._id]
             });

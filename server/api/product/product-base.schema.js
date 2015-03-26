@@ -47,7 +47,10 @@ var ProductBaseSchema = new Schema({
     }
   }],
   features: Schema.Types.Mixed,
-  note: String,
+  note: {
+    type: String,
+    required: true
+  },
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
