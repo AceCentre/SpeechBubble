@@ -125,15 +125,34 @@ exports.publish = function(req, res) {
         if (err) {
           return handleError(res, err);
         }
-        Product
-        .findById(productId)
-        .populate('suppliers')
-        .exec(function(err, product) {
-          if (err) {
-            return handleError(res, err);
+        mandrill_client.messages.send({
+          message: {
+            html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
+              url: process.env.DOMAIN + '/products/' + req.params.id,
+              revision: revisionId
+            }),
+            subject: 'New Product Revision Published',
+            from_email: 'no-reply@speechbubble.org.uk',
+            from_name: 'Speech Bubble Admin',
+            to: [{
+              email: process.env.SUPPORT_EMAIL,
+              name: 'Speech Bubble Admin',
+              type: 'to'
+            }],
+            auto_text: true
           }
-          return res.send(200, product);
+        }, function(result) {
+          Product
+            .findById(productId)
+            .populate('suppliers')
+            .exec(function(err, product) {
+              if (err) {
+                return handleError(res, err);
+              }
+              return res.send(200, product);
+            });
         });
+
       });
     });
 
