@@ -1,61 +1,132 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('AdminProductEditCtrl', function($scope, $modalInstance, Product, Supplier, current, ProductOptions, growl, Auth) {
+  .controller('AdminProductEditCtrl', function(Auth, $timeout, $scope, $http, $modal, $modalInstance, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
 
-  $scope.product = current;
+    $scope.isAdmin = Auth.isAdmin;
 
-  $scope.revisions = current._revisions;
-  $scope.revisionsPerPage = 5;
-  $scope.currentPage = 1;
+    // Current working product
+    $scope.product = angular.copy(current);
+    $scope.current = current;
 
-  $scope.isAdmin = Auth.isAdmin;
+    // Product options
+    $scope.devices = ProductOptions.devices;
+    $scope.speechOptions = ProductOptions.speech;
+    $scope.productLinks = ProductLinks($scope);
+    $scope.supplierOptions = [];
+    $scope.vocabularyOptions = [];
+    $scope.symbols = ProductOptions.symbols;
 
-  $scope.revert = function(revision) {
-    $scope.product = revision;
-  };
+    // Add/remove media
+    $scope.images = ProductImages($scope);
+    $scope.videos = ProductVideos($scope);
 
-  $scope.suppliers = ProductOptions.suppliers;
-  $scope.supplierOptions = [];
+    // Revision pagination
+    $scope.revisions = [];
+    $scope.revisionsPerPage = 5;
+    $scope.currentPage = 1;
 
-  $scope.refreshSuppliers = function(term) {
-    Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {
-      $scope.supplierOptions = res.items;
-    });
-  };
+    function updateRevisions() {
+      $http.get('/api/product/' + current._id + '/revisions')
+        .success(function(res) {
+          $scope.revisions = res;
+        });
+    }
 
-  $scope.cancel = function() {
-    $modalInstance.dismiss();
-  };
+    // Fetch revisions on initialisation
+    updateRevisions();
 
-  $scope.publish = function() {
-    console.log($scope.product._id);
-  };
+    $scope.$watch('imagesToUpload', $scope.images.add);
 
-  $scope.save = function(form) {
-    $scope.submitted = true;
-    if($scope.product && form.$valid) {
-      if($scope.product._id) {
+    $scope.hasChanges = function() {
+      var hasChanges = !angular.equals($scope.product, current);
+      if($scope.currentRevision) {
+        // Clone and remove properties not required for equality checking
+        var currentRevision = angular.copy($scope.revisions[0]);
+        var currentProduct = angular.copy($scope.product);
+        delete currentProduct._id;
+        delete currentProduct.__t;
+        delete currentProduct.type;
+        delete currentRevision._id;
+        delete currentRevision.__t;
+        hasChanges = !angular.equals(currentRevision, currentProduct);
+      }
+      return hasChanges;
+    };
+
+    $scope.reset = function() {
+      $scope.product = current;
+    };
+
+    $scope.publish = function(revision) {
+      $http.post('/api/product/publish/' + current._id + '/' + revision._id)
+        .success(function(res) {
+          $scope.revert(res);
+          growl.success('Revision ' + revision._id + ' published.');
+        })
+        .error(function(res) {
+          growl.error('Could not publish revision.');
+        });
+    };
+
+    $scope.save = function(form) {
+      $scope.submitted = true;
+      if($scope.hasChanges()) {
+        if(!form.$valid) {
+          return growl.error('Form validation failure, please check your information.');
+        }
         Product.update($scope.product,
           function(res) {
+            current = res;
             $modalInstance.close();
-            growl.success('Added new revision.');
+            growl.success('Product updated.');
           },
           function(res) {
-            growl.error('An error occurred.');
+            growl.error('Product could not be saved.');
           });
       } else {
-        Product.create($scope.product,
-          function(res) {
-            angular.copy(res.toJSON(), $scope.product);
-            $modalInstance.close();
-            growl.success('Product created.');
-          },
-          function(res) {
-            growl.error('An error occurred.');
-          });
+        growl.warning('No changes to be saved.');
       }
-    }
-  };
+    };
 
-});
+    // Set current working draft to a revision
+    $scope.revert = function(revision) {
+      $scope.currentRevision = angular.copy(revision);
+      $scope.product = angular.copy(revision);
+      $scope.product._id = current._id;
+      $scope.product.currentRevision = $scope.product.currentRevision || revision._id;
+      $scope.product.type = current.type;
+      $timeout(function() {
+        // workaround - ui-select clears suppliers after replacing parent
+        $scope.product.suppliers = revision.suppliers;
+      });
+      growl.warning('Set as working draft.');
+    };
+
+    $scope.refreshSuppliers = function(term) {
+      Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {
+        $scope.supplierOptions = res.items;
+      });
+    };
+
+    $scope.refreshVocabularies = function(term) {
+      Product.query({ type: 'ProductVocabulary', term: term, limit: 0, skip: 0 }, function(res) {
+        $scope.vocabularyOptions = res.items;
+      });
+    };
+
+    $scope.refreshDevices = function(term) {
+      Product.query({ type: 'ProductHardwareAdvanced', term: term, limit: 0, skip: 0 }, function(res) {
+        $scope.deviceOptions = res.items;
+      });
+    };
+
+    $scope.$watch('product.features.dedicated', function() {
+      $scope.refreshDevices();
+    });
+
+    $scope.cancel = function() {
+      $modalInstance.dismiss();
+    };
+
+  });
