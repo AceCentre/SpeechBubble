@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductEditCtrl', function(Auth, $timeout, $scope, $http, $modal, $modalInstance, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
+  .controller('AdminProductEditCtrl', function(Auth, $timeout, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
 
     $scope.isAdmin = Auth.isAdmin;
 
@@ -36,6 +36,17 @@ angular.module('speechBubbleApp')
       });
     }
 
+    function publishRevision(revision) {
+      $http.post('/api/product/publish/' + current._id + '/' + revision._id)
+        .success(function(res) {
+          $scope.revert(res);
+          growl.success('Revision ' + revision._id + ' published.');
+        })
+        .error(function(res) {
+          growl.error('Could not publish revision.');
+        });
+    }
+
     // Fetch revisions on initialisation
     updateRevisions();
 
@@ -61,16 +72,9 @@ angular.module('speechBubbleApp')
       $scope.product = current;
     };
 
-    $scope.publish = function(revision) {
-      $http.post('/api/product/publish/' + current._id + '/' + revision._id)
-        .success(function(res) {
-          $scope.revert(res);
-          growl.success('Revision ' + revision._id + ' published.');
-        })
-        .error(function(res) {
-          growl.error('Could not publish revision.');
-        });
-    };
+    $scope.publish = Modal.confirm.submit(function(revision) { // callback when modal is confirmed
+      publishRevision(revision);
+    });
 
     $scope.save = function(form) {
       $scope.submitted = true;

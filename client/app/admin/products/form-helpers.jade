@@ -338,7 +338,7 @@ mixin productRevisions()
             td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
             td.actions
               a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
-              a(href='#', ng-click='publish(rev)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
+              a(href='#', ng-click='publish(rev._id, rev)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
 
       .text-center
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')

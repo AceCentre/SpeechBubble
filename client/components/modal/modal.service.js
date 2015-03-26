@@ -27,7 +27,50 @@ angular.module('speechBubbleApp')
 
       /* Confirmation modals */
       confirm: {
+        /**
+         * Create a function to open a confirmation modal (ex. ng-click='myModalFn(name, arg1, arg2...)')
+         * @param  {Function} fn - callback, ran when delete is confirmed
+         * @return {Function}     - the function to open the modal (ex. myModalFn)
+         */
+        'submit': function(fn) {
+          fn = fn || angular.noop;
 
+          /**
+           * Open a confirmation modal
+           * @param  {String} name   - name or info to show on modal
+           * @param  {All}           - any additional args are passed staight to callback
+           */
+          return function() {
+            var args = Array.prototype.slice.call(arguments),
+              revision = args.shift(),
+              confirmModal;
+
+            confirmModal = openModal({
+              modal: {
+                dismissable: true,
+                title: 'Confirm Publish',
+                html: '<p>Are you sure you want to publish <strong>' + revision + '</strong> ?</p>',
+                buttons: [{
+                  classes: 'btn-primary',
+                  text: 'Publish',
+                  click: function(e) {
+                    confirmModal.close(e);
+                  }
+                }, {
+                  classes: 'btn-tertiary',
+                  text: 'Cancel',
+                  click: function(e) {
+                    confirmModal.dismiss(e);
+                  }
+                }]
+              }
+            }, 'modal-danger');
+
+            confirmModal.result.then(function(event) {
+              fn.apply(event, args);
+            });
+          };
+        },
         /**
          * Create a function to open a delete confirmation modal (ex. ng-click='myModalFn(name, arg1, arg2...)')
          * @param  {Function} del - callback, ran when delete is confirmed
