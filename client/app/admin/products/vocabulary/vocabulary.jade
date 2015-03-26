@@ -24,7 +24,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
 
         <!-- Text only -->
         .panel.panel-default(ng-show='product.features.presentation === "textOnly"', destroy='presentationText')
-          .panel-heading How is the text primarily represented?
+          .panel-heading How is the text primarily organised?
           .panel-body
             +radio('product.features', 'presentationText', 'keyboard', 'Keyboard')
             +radio('product.features', 'presentationText', 'singleWords', 'Single words')
@@ -52,9 +52,9 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedStart')
               .panel-heading How are words on the start page largely organised?
               .panel-body
-                +radio('product.features', 'wordsOrganisedStart', 'singular', 'Singular words')
-                +radio('product.features', 'wordsOrganisedStart', 'phrases', 'Phrases (e.g. "I want")')
-                +radio('product.features', 'wordsOrganisedStart', 'singularAndPhrases', 'Singluar words & Phrases')
+                +radio('product.features', 'wordsOrganisedStart', 'singular', 'Core words')
+                +radio('product.features', 'wordsOrganisedStart', 'phrases', 'Starter Phrases (e.g. "I want")')
+                +radio('product.features', 'wordsOrganisedStart', 'singularAndPhrases', 'Category Links')
 
             <!-- Single words only -->
             .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
