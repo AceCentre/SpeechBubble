@@ -52,9 +52,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedStart')
               .panel-heading How are words on the start page largely organised?
               .panel-body
-                +radio('product.features', 'wordsOrganisedStart', 'singular', 'Core words')
-                +radio('product.features', 'wordsOrganisedStart', 'phrases', 'Starter Phrases (e.g. "I want")')
-                +radio('product.features', 'wordsOrganisedStart', 'singularAndPhrases', 'Category Links')
+                +radio('product.features', 'wordsOrganisedStart', 'core', 'Core words')
+                +radio('product.features', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
 
             <!-- Single words only -->
             .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
@@ -74,9 +73,9 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
               .panel-heading How are phrases on the start page largely organised?
               .panel-body
-                +radio('product.features', 'phrasesOrganisedStart', 'singular', 'Singular words')
-                +radio('product.features', 'phrasesOrganisedStart', 'phrases', 'Phrases (e.g. "I want")')
-                +radio('product.features', 'phrasesOrganisedStart', 'singularAndPhrases', 'Singluar words & Phrases')
+                +radio('product.features', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
+                +radio('product.features', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
+                +radio('product.features', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
 
             <!-- Phrases only -->
             .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
