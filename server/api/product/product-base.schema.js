@@ -1,10 +1,17 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ENUM = require('../../enum');
 
 var ProductBaseSchema = new Schema({
   name: {
     type: String,
     required: true
+  },
+  status: {
+    type: String,
+    enum: ENUM.REVISION_STATUS
   },
   summary: String,
   description: {
@@ -39,7 +46,23 @@ var ProductBaseSchema = new Schema({
       required: true
     }
   }],
-  features: Schema.Types.Mixed
+  features: Schema.Types.Mixed,
+  note: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  createdAt: Date,
+  updatedAt: Date
+});
+
+ProductBaseSchema.pre('save', function(next) {
+  var now = new Date();
+  if(!this.createdAt) {
+    this.createdAt = now;
+  }
+  this.updatedAt = now;
+  next();
 });
 
 module.exports = ProductBaseSchema;

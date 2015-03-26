@@ -11,6 +11,10 @@ var ProductSchema = ProductBaseSchema.extend({
     type: String,
     enum: ENUM.PRODUCT_TYPES
   },
+  currentRevision: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ProductRevision'
+  },
   _revisions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductRevision'

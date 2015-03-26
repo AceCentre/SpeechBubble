@@ -307,14 +307,38 @@ mixin revisions()
             th Date
             th.actions Actions
         tbody
-          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage')
+          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage', ng-class='{ "edit-mode": (product._id === rev._id) }')
             td {{ rev._id }}
             td {{ rev.note || "Draft" }}
             td {{ rev.author.firstName }} {{ rev.author.lastName }}
             td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
             td.actions
-              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-open
+              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
 
       .text-center
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
 
+mixin productRevisions()
+  .panel.panel-default(ng-if='revisions.length')
+    .panel-heading History
+    .panel-body
+      table.table.table-striped
+        thead
+          tr
+            th Revision
+            th Note
+            th Author
+            th Date
+            th.actions Actions
+        tbody
+          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage', ng-class='{ "edit-mode": (product._id === rev._id) }')
+            td {{ rev._id }} #[span(ng-if='product.currentRevision === rev._id') (current)]
+            td {{ rev.note || "Draft" }}
+            td {{ rev.author.firstName }} {{ rev.author.lastName }}
+            td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
+            td.actions
+              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
+              a(href='#', ng-click='publish(rev._id, rev)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
+
+      .text-center
+        pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')

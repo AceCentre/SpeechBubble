@@ -84,15 +84,15 @@ angular.module('speechBubbleApp')
 
       switch(product.type) {
         case 'ProductHardwareSimple':
-          controller = 'AdminProductHardwareEditCtrl';
+          controller = 'AdminProductEditCtrl';
           template = 'app/admin/products/hardware/hardware-simple.html';
           break;
         case 'ProductHardwareAdvanced':
-          controller = 'AdminProductHardwareEditCtrl';
+          controller = 'AdminProductEditCtrl';
           template = 'app/admin/products/hardware/hardware-advanced.html';
           break;
         case 'ProductSoftware':
-          controller = 'AdminProductSoftwareEditCtrl';
+          controller = 'AdminProductEditCtrl';
           template = 'app/admin/products/software/software.html';
           break;
         case 'ProductVocabulary':
@@ -100,7 +100,7 @@ angular.module('speechBubbleApp')
           template = 'app/admin/products/vocabulary/vocabulary.html';
           break;
         case 'ProductLowTech':
-          controller = 'AdminProductLowTechEditCtrl';
+          controller = 'AdminProductEditCtrl';
           template = 'app/admin/products/low-tech/low-tech.html';
           break;
       }

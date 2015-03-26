@@ -1,13 +1,19 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($scope, $modal, ProductTemplate) {
+  .controller('AdminProductsCtrl', function ($rootScope, $scope, $modal, ProductTemplate) {
     $scope.endpoint = '/api/product/:id';
 
     $scope.create = function() {
-      $modal.open({
+      var modalInstance = $modal.open({
         templateUrl: 'app/admin/products/create.html',
         controller: 'AdminProductCreateCtrl'
+      });
+
+      modalInstance.result.then(function() {
+        $rootScope.$broadcast('resultsUpdated');
+      }, function() {
+        $rootScope.$broadcast('resultsUpdated');
       });
     };
 
@@ -15,7 +21,7 @@ angular.module('speechBubbleApp')
 
       var modal = ProductTemplate(product);
 
-      $modal.open({
+      var modalInstance = $modal.open({
         templateUrl: modal.template,
         controller: modal.controller,
         size: 'lg',
@@ -24,6 +30,12 @@ angular.module('speechBubbleApp')
             return product;
           }
         }
+      });
+
+      modalInstance.result.then(function() {
+        $rootScope.$broadcast('resultsUpdated');
+      }, function() {
+        $rootScope.$broadcast('resultsUpdated');
       });
     };
 
