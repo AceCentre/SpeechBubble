@@ -20,7 +20,7 @@ angular.module('speechBubbleApp')
   };
 })
 
-.controller('ProductDetailCtrl', function($scope, product, ProductTemplate, $modal, Auth) {
+.controller('ProductDetailCtrl', function($scope, $location, product, ProductTemplate, $modal, Auth) {
   $scope.isLoggedIn = Auth.isLoggedIn;
 
   $scope.product = product.data;
@@ -41,5 +41,11 @@ angular.module('speechBubbleApp')
       }
     });
   };
+
+  if($location.search().edit) {
+    $scope.edit($scope.product);
+  }
+
+
 
 });

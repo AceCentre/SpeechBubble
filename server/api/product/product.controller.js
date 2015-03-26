@@ -3,9 +3,12 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
+var jade = require('jade');
 var Product = require('./product.model');
 var ProductRevision = require('./product-revision.model');
 var formidable = require('formidable');
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
 
 function mapSuppliers(suppliers) {
   return suppliers.map(function(supplier) {
@@ -156,7 +159,25 @@ exports.update = function(req, res) {
         if (err) {
           return handleError(res, err);
         }
-        res.send(200, product);
+        mandrill_client.messages.send({
+          message: {
+            html: jade.renderFile(path.resolve(__dirname, 'emails/new-revision.jade'), {
+              url: process.env.DOMAIN + '/products/' + req.params.id + '?edit',
+              revision: revision._id
+            }),
+            subject: 'New Product Revision',
+            from_email: 'no-reply@speechbubble.org.uk',
+            from_name: 'Speech Bubble Admin',
+            to: [{
+              email: process.env.SUPPORT_EMAIL,
+              name: 'Speech Bubble Admin',
+              type: 'to'
+            }],
+            auto_text: true
+          }
+        }, function(result) {
+          res.send(200, product);
+        });
       });
     });
   });
