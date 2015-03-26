@@ -1,0 +1,8 @@
+extends ../../layout/2_column
+include ../mixins/results-helpers
+block content
+  button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Rate
+  h1 {{ ratings.product.name }}
+  div(rating, ng-model="rating.averageRating", max="5", readonly="true")
+  a(ng-if='ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') {{ ratings.reviews.length }} reviews
+  a(ng-if='!ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') no reviews

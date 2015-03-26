@@ -26,6 +26,13 @@ angular.module('speechBubbleApp')
   $scope.product = product.data;
   $scope.comments = true;
 
+  $scope.rating = {
+    average: 3,
+    max: 5,
+    readonly: true,
+    total: 10
+  };
+
   $scope.edit = function(product) {
 
     var modal = ProductTemplate(product);
