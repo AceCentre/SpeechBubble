@@ -62,7 +62,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
               .panel-body
                 +radio('product.features', 'wordsOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
                 +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-                +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Similar meaning locations')
+                +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
             <!-- Phrases only -->
             .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
@@ -84,7 +84,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
               .panel-body
                 +radio('product.features', 'phrasesOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-                +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Similar meaning locations')
+                +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
 
     .panel.panel-default
