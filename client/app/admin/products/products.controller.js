@@ -5,9 +5,15 @@ angular.module('speechBubbleApp')
     $scope.endpoint = '/api/product/:id';
 
     $scope.create = function() {
-      $modal.open({
+      var modalInstance = $modal.open({
         templateUrl: 'app/admin/products/create.html',
         controller: 'AdminProductCreateCtrl'
+      });
+
+      modalInstance.result.then(function() {
+        $rootScope.$broadcast('resultsUpdated');
+      }, function() {
+        $rootScope.$broadcast('resultsUpdated');
       });
     };
 
