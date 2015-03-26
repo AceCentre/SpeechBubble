@@ -2,8 +2,22 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope) {
+.controller('ProductsCtrl', function ($scope, Auth, $modal, $rootScope) {
   $scope.endpoint = '/api/product/:id';
+  $scope.isLoggedIn = Auth.isLoggedIn;
+
+  $scope.create = function() {
+    var modalInstance = $modal.open({
+      templateUrl: 'app/admin/products/create.html',
+      controller: 'AdminProductCreateCtrl'
+    });
+
+    modalInstance.result.then(function() {
+      $rootScope.$broadcast('resultsUpdated');
+    }, function() {
+      $rootScope.$broadcast('resultsUpdated');
+    });
+  };
 })
 
 .controller('ProductDetailCtrl', function($scope, product, ProductTemplate, $modal, Auth) {
