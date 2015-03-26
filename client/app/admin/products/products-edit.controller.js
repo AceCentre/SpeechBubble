@@ -28,9 +28,12 @@ angular.module('speechBubbleApp')
 
     function updateRevisions() {
       $http.get('/api/product/' + current._id + '/revisions')
-        .success(function(res) {
-          $scope.revisions = res;
-        });
+      .success(function(res) {
+        $scope.revisions = res;
+      })
+      .error(function(res) {
+        growl.error('Could not fetch revisions.');
+      });
     }
 
     // Fetch revisions on initialisation
