@@ -71,12 +71,7 @@ angular.module('speechBubbleApp', [
     .state('productRating', {
       url: '/products/:id/ratings',
       templateUrl: 'app/rating/rating.html',
-      controller: 'ProductRatingCtrl',
-      resolve: {
-        ratings: function($stateParams, $http) {
-          return $http.get('/api/rating/' + $stateParams.id);
-        }
-      }
+      controller: 'ProductRatingCtrl'
     })
     .state('productDetail', {
       url: '/products/:id',
@@ -85,9 +80,6 @@ angular.module('speechBubbleApp', [
       resolve: {
         product: function($stateParams, $http) {
           return $http.get('/api/product/' + $stateParams.id);
-        },
-        ratings: function($stateParams, $http) {
-          return $http.get('/api/rating/' + $stateParams.id);
         }
       }
     })

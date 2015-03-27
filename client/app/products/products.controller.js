@@ -20,12 +20,15 @@ angular.module('speechBubbleApp')
   };
 })
 
-.controller('ProductDetailCtrl', function($scope, $location, product, ratings, ProductTemplate, $modal, Auth) {
+.controller('ProductDetailCtrl', function($scope, $location, product, Rating, ProductTemplate, $modal, Auth) {
   $scope.isLoggedIn = Auth.isLoggedIn;
 
   $scope.product = product.data;
-  $scope.ratings = ratings.data;
   $scope.comments = true;
+
+  Rating.get({ id: $scope.product._id }, function(res) {
+    $scope.ratings = res;
+  });
 
   $scope.edit = function(product) {
     var modal = ProductTemplate(product);

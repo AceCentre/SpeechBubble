@@ -20,5 +20,5 @@ mixin pageListingNotice(type)
 
 mixin ratings()
   div(rating, ng-model="ratings.averageRating", max="5", readonly="true")
-  a(ng-if='ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') {{ ratings.reviews.length }} reviews
-  a(ng-if='!ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') write a review
+  span.label.label-default {{ ratings.averageRating }}
+  p: a(ng-pluralize, count="ratings.reviews.length", ng-href='/products/{{ product._id }}/ratings', when="{'0': 'write a review', 'one': '1 review', 'other': '{} reviews'}")

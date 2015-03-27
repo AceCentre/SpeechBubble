@@ -43,24 +43,19 @@ exports.show = function(req, res) {
 
 };
 
-// Creates a new rating in the DB.
-exports.create = function(req, res) {
-  Rating.create(req.body, function(err, rating) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, rating);
-  });
-};
-
 // Updates an existing rating in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Rating.findById(req.params.id, function (err, rating) {
+  Rating.findOne({ product: req.params.id }, function (err, rating) {
     if (err) { return handleError(res, err); }
     if(!rating) { return res.send(404); }
-    var updated = _.merge(rating, req.body);
-    updated.save(function (err) {
+    rating.reviews.push({
+      author: req.user._id,
+      rating: req.body.rating,
+      comment: req.body.comment
+    });
+    rating.save(function(err, rating) {
       if (err) { return handleError(res, err); }
-      return res.json(200, rating);
+      res.send(200);
     });
   });
 };
