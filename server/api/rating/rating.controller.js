@@ -22,11 +22,13 @@ exports.show = function(req, res) {
         }, function(err, ratings) {
           if(err) { return handleError(res, err); }
           Rating
-          .populate(ratings, { path: 'product', model: 'Product' })
-          .exec(function(err, ratings) {
+          .populate(ratings, { path: 'product', model: 'Product' }, function(err, ratings) {
             RatingReview
             .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
               if(err) { return handleError(res, err); }
+              ratings.reviews = _.filter(ratings.reviews, function(review) {
+                return review.visible;
+              });
               return res.send(200, ratings);
             });
           });
@@ -36,6 +38,9 @@ exports.show = function(req, res) {
       RatingReview
       .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
         if(err) { return handleError(res, err); }
+        ratings.reviews = _.filter(ratings.reviews, function(review) {
+          return review.visible;
+        });
         res.send(200, ratings);
       });
     }
