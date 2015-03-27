@@ -3,8 +3,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var RatingReview = new Schema({
-  user: {
+var RatingReviewSchema = new Schema({
+  author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -31,7 +31,7 @@ var RatingSchema = new Schema({
     type: Number,
     default: 0
   },
-  reviews: [RatingReview]
+  reviews: [RatingReviewSchema]
 });
 
 RatingSchema.pre('save', function(next) {
@@ -41,7 +41,11 @@ RatingSchema.pre('save', function(next) {
     sum += review.rating;
   });
   this.averageRating = totalReviews && (sum / totalReviews);
+  console.log(this);
   next();
 });
 
-module.exports = mongoose.model('Rating', RatingSchema);
+module.exports = {
+  Rating: mongoose.model('Rating', RatingSchema),
+  RatingReview: mongoose.model('RatingReview', RatingReviewSchema)
+};

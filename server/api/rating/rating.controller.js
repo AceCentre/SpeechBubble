@@ -1,7 +1,8 @@
 'use strict';
 
 var _ = require('lodash');
-var Rating = require('./rating.model');
+var Rating = require('./rating.model').Rating;
+var RatingReview = require('./rating.model').RatingReview;
 var Product = require('../product/product.model');
 
 // Get a single rating
@@ -20,14 +21,23 @@ exports.show = function(req, res) {
           product: productId
         }, function(err, ratings) {
           if(err) { return handleError(res, err); }
-          Rating.populate(ratings, { path: 'product', model: 'Product' }, function(err, ratings) {
-            if(err) { return handleError(res, err); }
-            return res.send(200, ratings);
+          Rating
+          .populate(ratings, { path: 'product', model: 'Product' })
+          .exec(function(err, ratings) {
+            RatingReview
+            .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
+              if(err) { return handleError(res, err); }
+              return res.send(200, ratings);
+            });
           });
         });
       });
     } else {
-      return res.send(200, ratings);
+      RatingReview
+      .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
+        if(err) { return handleError(res, err); }
+        res.send(200, ratings);
+      });
     }
   });
 

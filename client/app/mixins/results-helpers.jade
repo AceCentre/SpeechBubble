@@ -17,3 +17,8 @@ mixin pageListingNotice(type)
     p No #{type} found.
 
   p(ng-hide='!total', page-count='', page-type='#{type}')
+
+mixin ratings()
+  div(rating, ng-model="ratings.averageRating", max="5", readonly="true")
+  a(ng-if='ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') {{ ratings.reviews.length }} reviews
+  a(ng-if='!ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') write a review

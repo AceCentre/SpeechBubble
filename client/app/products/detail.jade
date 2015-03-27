@@ -1,11 +1,10 @@
 extends ../../layout/2_column
+include ../mixins/results-helpers
 
 block content
   button.btn.btn-primary.pull-right(ng-click='edit(product)', ng-if='isLoggedIn()') Edit
   h1 {{ product.name }}
-  div(rating, ng-model="rating.average", max="rating.max", readonly="rating.readonly")
-  a(ng-if='rating.total', ng-href='/products/{{ product._id }}/ratings') {{ rating.total }} reviews
-  a(ng-if='!rating.total', ng-href='/products/{{ product._id }}/ratings') no reviews
+  +ratings()
 
   hr
 

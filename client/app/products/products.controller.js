@@ -20,23 +20,15 @@ angular.module('speechBubbleApp')
   };
 })
 
-.controller('ProductDetailCtrl', function($scope, $location, product, ProductTemplate, $modal, Auth) {
+.controller('ProductDetailCtrl', function($scope, $location, product, ratings, ProductTemplate, $modal, Auth) {
   $scope.isLoggedIn = Auth.isLoggedIn;
 
   $scope.product = product.data;
+  $scope.ratings = ratings.data;
   $scope.comments = true;
 
-  $scope.rating = {
-    average: 3,
-    max: 5,
-    readonly: true,
-    total: 10
-  };
-
   $scope.edit = function(product) {
-
     var modal = ProductTemplate(product);
-
     $modal.open({
       templateUrl: modal.template,
       controller: modal.controller,
@@ -52,7 +44,5 @@ angular.module('speechBubbleApp')
   if($location.search().edit) {
     $scope.edit($scope.product);
   }
-
-
 
 });

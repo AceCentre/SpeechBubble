@@ -75,6 +75,9 @@ angular.module('speechBubbleApp', [
       resolve: {
         product: function($stateParams, $http) {
           return $http.get('/api/product/' + $stateParams.id);
+        },
+        ratings: function($stateParams, $http) {
+          return $http.get('/api/rating/' + $stateParams.id);
         }
       }
     })

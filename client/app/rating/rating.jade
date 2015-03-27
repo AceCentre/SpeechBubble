@@ -3,6 +3,13 @@ include ../mixins/results-helpers
 block content
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Rate
   h1 {{ ratings.product.name }}
-  div(rating, ng-model="rating.averageRating", max="5", readonly="true")
-  a(ng-if='ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') {{ ratings.reviews.length }} reviews
-  a(ng-if='!ratings.reviews.length', ng-href='/products/{{ product._id }}/ratings') no reviews
+  +ratings()
+
+  hr
+
+  div.panel.panel-default(ng-repeat='review in ratings.reviews')
+    div.panel-heading
+      | {{ review.author.firstName }}
+      div.pull-right(rating, ng-model="review.rating", max="5", readonly="true")
+    div.panel-body
+      | {{ review.comment }}
