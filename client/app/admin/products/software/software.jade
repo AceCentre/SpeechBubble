@@ -17,21 +17,15 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +imageRepresentationSupported()
     +speechTypeOptions()
     +price()
-
-    .panel.panel-default
-      .panel-heading Support Multiple Users?
-      .panel-body
-        +switch('product.features', 'supportMultipleUsers')
-
     +enviroControl()
 
     .panel.panel-default
-      .panel-heading Control of another computer/device from software possible?
+      .panel-heading Software can control control a separate computer/device
       .panel-body
         +switch('product.features', 'controlAnotherDeviceFromSoftware')
 
     .panel.panel-default
-      .panel-heading Control of wider operating system possible from software?
+      .panel-heading Software can control operating system
       .panel-body
         +switch('product.features', 'controlOperatingSystemFromSoftware')
 
@@ -40,12 +34,12 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +addLinks('moreInformationLinks', 'More information URLs')
 
     .panel.panel-default
-      .panel-heading Editing Options
+      .panel-heading Editing options
       .panel-body
         textarea.form-control(ng-model='product.features.editingOptions')
 
     .panel.panel-default
-      .panel-heading Visual Options
+      .panel-heading Visual options
       .panel-body
         +checkbox('product.features.visualOptions', 'zoom', 'Zoom')
         +checkbox('product.features.visualOptions', 'cellHighlight', 'Cell Highlight')
@@ -53,14 +47,14 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +checkbox('product.features.visualOptions', 'editableFontStyles', 'Editable font styles')
 
         .panel.panel-default
-          .panel-heading More Information
+          .panel-heading More information
           .panel-body
             textarea.form-control(ng-model='product.features.visualOptionsMoreInfo')
 
     +dedicated()
 
     .panel.panel-default
-      .panel-heading Supported Devices
+      .panel-heading Supported devices
       .panel-body
         ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.supportedDevices")
           ui-select-match(placeholder="Select a devices") {{$item.name}}

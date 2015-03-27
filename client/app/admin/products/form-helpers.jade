@@ -101,7 +101,7 @@ mixin price()
 
 mixin enviroControl()
   .panel.panel-default
-    .panel-heading Enviro Control capabilities
+    .panel-heading Environmental control capabilities
     .panel-body
       +radio('product.features', 'enviroControl', 'built-in', 'Built-in')
       textarea.form-control(ng-show='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
@@ -111,7 +111,7 @@ mixin enviroControl()
 
 mixin accessMethods()
   .panel.panel-default
-    .panel-heading What access method is this designed for? (multiple allowed)
+    .panel-heading Access methods supported
     .panel-body
       <!-- Touch -->
       +checkbox('product.features.accessMethods', 'touch', 'Touch')
@@ -139,7 +139,7 @@ mixin accessMethods()
       +accessMethodOptions('accessMethodTouch')
 
       <!-- Mouse or alternative -->
-      +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
+      +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
       +accessMethodOptions('accessMethodMouseOrAlternative')
       <!-- Eyegaze -->
       +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
@@ -153,7 +153,7 @@ mixin accessMethods()
       <!-- Switch -->
       +checkbox('product.features.accessMethods', 'switch', 'Switch')
       .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
-        .panel-heading What scanning options are available (without additional software)
+        .panel-heading Scanning options available
         .panel-body
           +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
           +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
@@ -168,7 +168,7 @@ mixin sharedHardware()
   +price()
 
   .panel.panel-default
-    .panel-heading Support &amp; Warranty
+    .panel-heading Support and warranty
     .panel-body
       +textarea('product.features', 'supportOptions', 'Support options')
       +textarea('product.features', 'warrantyOptions', 'Warranty options')
@@ -180,7 +180,7 @@ mixin sharedHardware()
       +textarea('product.features.battery', 'spareBatteryOptions', 'Spare battery options')
 
   .panel.panel-default
-    .panel-heading Mounting options
+    .panel-heading Mounting
     .panel-body
       +checkbox('product.features.mountingOptions', 'daessy', 'Daessy')
       +checkbox('product.features.mountingOptions', 'rehadapt', 'Rehadapt')
@@ -197,7 +197,7 @@ mixin sharedHardware()
       +input('product.features.dimensions', 'number', 'depth', 'Depth (mm)')
       +input('product.features.dimensions', 'number', 'height', 'Height (mm)')
       +input('product.features.dimensions', 'number', 'width', 'Width (mm)')
-      +input('product.features.dimensions', 'number', 'screenSize', 'Screen size (inches)')
+      +input('product.features.dimensions', 'number', 'screenSize', 'Screen size (in)')
       .panel.panel-default
         .panel-heading Are these dimensions with a case?
         .panel-body
@@ -236,7 +236,7 @@ mixin speechTypeOptions()
     .panel-body
       +checkbox('product.features', 'speechTypeSynthesised', 'Synthesised')
       .panel.panel-default(ng-show='product.features.speechTypeSynthesised', destroy='speechTypeSynthesisedTypes')
-        .panel-heading Synthesized speech type options
+        .panel-heading Speech type
         .panel-body
           ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.speechTypeSynthesisedTypes")
             ui-select-match(placeholder="Select types") {{$item}}
@@ -251,7 +251,7 @@ mixin speechTypeOptions()
 mixin imageRepresentationSupported()
   <!-- Image Representation Supported -->
   .panel.panel-default
-    .panel-heading Image representation supported
+    .panel-heading Form of representation
     .panel-body
       +checkbox('product.features.imageRepresentation', 'photos', 'Photos')
       +checkbox('product.features.imageRepresentation', 'symbols', 'Symbols')
@@ -266,7 +266,7 @@ mixin imageRepresentationSupported()
 
 mixin supportedOperatingSystems()
   .panel.panel-default
-    .panel-heading Supported operating systems
+    .panel-heading Operating system
     .panel-body
       ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.devices")
         ui-select-match(placeholder="Select operating systems") {{$item}}
@@ -276,14 +276,14 @@ mixin supportedOperatingSystems()
 
 mixin dedicated()
   .panel.panel-default
-    .panel-heading Can I JUST run it as a communication aid and nothing else?
+    .panel-heading Hardware can be locked to communication software
     .panel-body
       +switch('product.features', 'dedicated')
 
 mixin vocabularies()
   <!-- Premade vocabularies -->
   .panel.panel-default
-    .panel-heading Any premade vocabularies available?
+    .panel-heading Ready-made vocabularies
     .panel-body
       +switch('product.features', 'premadeVocabularies')
 

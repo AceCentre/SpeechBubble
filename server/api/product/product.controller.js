@@ -133,10 +133,10 @@ exports.publish = function(req, res) {
             }),
             subject: 'New Product Revision Published',
             from_email: 'no-reply@speechbubble.org.uk',
-            from_name: 'Speech Bubble Admin',
+            from_name: 'SpeechBubble Admin',
             to: [{
               email: process.env.SUPPORT_EMAIL,
-              name: 'Speech Bubble Admin',
+              name: 'SpeechBubble Admin',
               type: 'to'
             }],
             auto_text: true
@@ -186,10 +186,10 @@ exports.update = function(req, res) {
             }),
             subject: 'New Product Revision',
             from_email: 'no-reply@speechbubble.org.uk',
-            from_name: 'Speech Bubble Admin',
+            from_name: 'SpeechBubble Admin',
             to: [{
               email: process.env.SUPPORT_EMAIL,
-              name: 'Speech Bubble Admin',
+              name: 'SpeechBubble Admin',
               type: 'to'
             }],
             auto_text: true

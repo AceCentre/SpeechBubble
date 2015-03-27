@@ -74,9 +74,9 @@ exports.create = function (req, res, next) {
                 user: user,
                 activationUrl: process.env.DOMAIN + '/account/activate/' + user.activationCode
               }),
-              subject: 'Welcome to Speech Bubble',
+              subject: 'Welcome to SpeechBubble',
               from_email: process.env.SUPPORT_EMAIL,
-              from_name: 'Speech Bubble',
+              from_name: 'SpeechBubble',
               to: [{
                 email: user.email,
                 name: user.firstName + ' ' + user.lastName,
