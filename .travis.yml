@@ -5,7 +5,9 @@ node_js:
 before_install: 
 - gem install sass compass
 - npm install -g bower grunt-cli
-install: npm install
+install: 
+- npm install
+- bower install
 before_script: grunt build
 services: mongodb
 deploy:
