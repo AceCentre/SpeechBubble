@@ -8,7 +8,7 @@ block content
 
     .form-group(ng-class='{ "has-success": form.email.$valid && submitted,\
     "has-error": form.email.$invalid && submitted }')
-      label.control-label.col-sm-3(for='email') Email *
+      label.control-label.col-sm-3(for='email') Your Email *
       .col-sm-9
         input.form-control(type='email', id='email', name='email', ng-model='message.email', required='', mongoose-error='')
         p.help-block(ng-show='form.email.$error.email && submitted')
@@ -27,7 +27,7 @@ block content
           | A first name is required
         
     .form-group
-      label.control-label.col-sm-3(for='lastName') Last Name
+      label.control-label.col-sm-3(for='lastName') Last Name  
       .col-sm-9
         input.form-control(type='text', id='lastName', name='lastName', ng-model='message.lastName')
         
