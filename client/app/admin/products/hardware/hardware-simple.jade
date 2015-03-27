@@ -8,7 +8,7 @@ include ../form-helpers
 form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
   .modal-body
     .panel.panel-default
-      .panel-heading Product Details
+      .panel-heading Product details
       .panel-body
         input(type='hidden', ng-init='product.type = "ProductHardwareSimple"')
         +productDetails()
