@@ -17,21 +17,15 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +imageRepresentationSupported()
     +speechTypeOptions()
     +price()
-
-    .panel.panel-default
-      .panel-heading Support Multiple Users?
-      .panel-body
-        +switch('product.features', 'supportMultipleUsers')
-
     +enviroControl()
 
     .panel.panel-default
-      .panel-heading Control of another computer/device from software possible?
+      .panel-heading Software can control control a separate computer/device
       .panel-body
         +switch('product.features', 'controlAnotherDeviceFromSoftware')
 
     .panel.panel-default
-      .panel-heading Control of wider operating system possible from software?
+      .panel-heading Software can control operating system
       .panel-body
         +switch('product.features', 'controlOperatingSystemFromSoftware')
 

@@ -25,10 +25,10 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     .panel.panel-default
       .panel-heading What access method is this designed for? (multiple allowed)
       .panel-body
-        +checkbox('product.features.accessMethods', 'finger', 'Finger')
-        +checkbox('product.features.accessMethods', 'grossPointing', 'Gross Pointing (e.g. Fist)')
+        +checkbox('product.features.accessMethods', 'finger', 'Finger pointing')
+        +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')
         +checkbox('product.features.accessMethods', 'eyePointing', 'Eye pointing')
-        +checkbox('product.features.accessMethods', 'scanning', 'Scanning')
+        +checkbox('product.features.accessMethods', 'scanning', 'Partner assisten scan')
 
   .modal-footer
     button.btn.btn-primary() Save
