@@ -15,5 +15,5 @@ block content
   .panel.panel-default(ng-if='product.suppliers.length')
     .panel-heading Suppliers
     .panel-body
-      ul(ng-repeat='item in product.suppliers')
+      ul.list-unstyled(ng-repeat='item in product.suppliers')
         li: a(ng-href='/suppliers/{{ item._id }}') {{ item.name }}
