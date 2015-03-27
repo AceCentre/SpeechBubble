@@ -16,4 +16,4 @@ block content
     .panel-heading Suppliers
     .panel-body
       ul(ng-repeat='item in product.suppliers')
-        li {{ item.name }}
+        li: a(ng-href='/suppliers/{{ item._id }}') {{ item.name }}

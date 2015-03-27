@@ -17,7 +17,8 @@ block content
             th Website
         tbody
           tr(ng-repeat='item in items')
-            td {{ item.name }}
+            td
+              a(ng-href='/suppliers/{{ item._id }}') {{ item.name }}
             td {{ item.url }}
 
       +pagination()
