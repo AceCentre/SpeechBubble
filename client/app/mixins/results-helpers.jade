@@ -13,7 +13,7 @@ mixin pagination()
   hr
 
 mixin pageListingNotice(type)
-  div(ng-hide='total')
+  div(ng-hide='total || initial')
     p No #{type} found.
 
   p(ng-hide='!total', page-count='', page-type='#{type}')

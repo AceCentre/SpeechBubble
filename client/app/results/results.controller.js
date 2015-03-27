@@ -5,6 +5,7 @@ angular.module('speechBubbleApp')
 
     var api = $resource($scope.endpoint, { id: '@_id' }, { query: { method: 'GET' } });
 
+    $scope.initial = true; // used to determine if we are yet to fetch results
     $scope.limit = Number($location.search().limit) || 10;
     $scope.skip = Number($location.search().skip) || 0;
     $scope.page = ($scope.skip / $scope.limit) + 1;
@@ -17,6 +18,7 @@ angular.module('speechBubbleApp')
         limit: $scope.limit,
         term: $scope.search.term
       }, function(res) {
+        $scope.initial = false;
         $scope.items = res.items;
         $scope.total = res.total;
         $('html, body').stop().animate({ scrollTop: 0 }, 400);
