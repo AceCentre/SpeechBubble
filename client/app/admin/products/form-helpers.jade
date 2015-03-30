@@ -287,6 +287,18 @@ mixin deviceSupportedOperatingSystems()
             ui-select-choices(repeat="item in devices | filter: $select.search")
               div {{ item }}
 
+      <!-- from the messageLevels mixin -->
+      .panel.panel-default(ng-model='product.features.messageLevels', ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
+        .panel-heading Message levels
+        .panel-body
+          input.form-control(type='number', ng-model='product.features.messageLevels')
+          .panel.panel-default(ng-show='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
+            .panel-heading Message number per level
+            .panel-body
+              input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
+        
+
+      
 
 mixin dedicated()
   .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='dedicated')
@@ -359,11 +371,11 @@ mixin productRevisions()
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
 
 mixin messageLevels()
-  .panel.panel-default(ng-model='product.features.messageLevels', ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
-    .panel-heading Message levels
-    .panel-body
-      input.form-control(type='number', ng-model='product.features.messageLevels')
-      .panel.panel-default(ng-show='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
-        .panel-heading Message number per level
-        .panel-body
-          input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
+    .panel.panel-default(ng-model='product.features.messageLevels', ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
+      .panel-heading Message levels
+      .panel-body
+        input.form-control(type='number', ng-model='product.features.messageLevels')
+        .panel.panel-default(ng-show='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
+          .panel-heading Message number per level
+          .panel-body
+            input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
