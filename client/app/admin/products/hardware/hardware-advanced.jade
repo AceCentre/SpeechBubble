@@ -3,7 +3,7 @@ include ../form-helpers
 
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
-  h3.modal-title Advanced product
+  h3.modal-title Hardware product
 
 form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
   .modal-body
@@ -16,14 +16,24 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +productRevisions()
     +productImages()
     +productVideos()
-    +supportedOperatingSystems()
-    +dedicated()
-
-    .panel.panel-default
-      .panel-heading Accessibility features
+    
+    <!-- Does have OS? -->
+    .panel.panel-default()
+      .panel-heading Does the device have an operating system?
       .panel-body
-        textarea.form-control(ng-model='product.features.accessibilityFeatures', name='accessibilityFeatures', id='accessibilityFeatures')
-
+        +switch('product.features', 'hasOperatingSystem')
+    
+    .panel.panel-default(ng-model='product.features.operatingSystem', ng-show='product.features.hasOperatingSystem > 0', destroy='messageLevelsPerLevel')
+      .panel-heading Operating system
+      .panel-body
+        ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.devices")
+          ui-select-match(placeholder="Select operating systems") {{$item}}
+          ui-select-choices(repeat="item in devices | filter: $select.search")
+            div {{ item }}
+    
+   <!-- Dedicated needs to go IF OS = true -->
+    +dedicated()
+    
     .panel.panel-default
       .panel-heading Mobile phone capabilities
       .panel-body
@@ -31,6 +41,18 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +checkbox('product.features', 'mobilePhoneViaCopyPaste', 'Phone/texting controllable via copy/paste functionality')
         +checkbox('temp', 'mobilePhoneOther', 'Other')
         textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
+
+
+    <!-- Message Levels - SHOWN IF OS = False -->
+    .panel.panel-default(ng-model='product.features.messageLevels', ng-show='product.features.hasOperatingSystem == 0', destroy='operatingSystem')
+      .panel-heading Message levels
+      .panel-body
+        input.form-control(type='number', ng-model='product.features.messageLevels')
+        .panel.panel-default(ng-show='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
+          .panel-heading Message number per level
+          .panel-body
+            input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
+
 
     +sharedHardware()
 
