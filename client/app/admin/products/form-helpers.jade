@@ -266,16 +266,30 @@ mixin imageRepresentationSupported()
 
 mixin supportedOperatingSystems()
   .panel.panel-default
-    .panel-heading Operating system
+    .panel-heading Operating systems
     .panel-body
-      ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.devices")
+      ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
         ui-select-match(placeholder="Select operating systems") {{$item}}
         ui-select-choices(repeat="item in devices | filter: $select.search")
           div {{ item }}
 
+mixin deviceSupportedOperatingSystems()
+  .panel.panel-default()
+    .panel-heading Does the device have an operating system?
+    .panel-body
+      +switch('product.features', 'hasOperatingSystem')
+
+      .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='operatingSystems')
+        .panel-heading Operating system
+        .panel-body
+          ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
+            ui-select-match(placeholder="Select operating systems") {{$item}}
+            ui-select-choices(repeat="item in devices | filter: $select.search")
+              div {{ item }}
+
 
 mixin dedicated()
-  .panel.panel-default
+  .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='dedicated')
     .panel-heading Hardware can be locked to communication software
     .panel-body
       +switch('product.features', 'dedicated')
@@ -343,3 +357,13 @@ mixin productRevisions()
 
       .text-center
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
+
+mixin messageLevels()
+  .panel.panel-default(ng-model='product.features.messageLevels', ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
+    .panel-heading Message levels
+    .panel-body
+      input.form-control(type='number', ng-model='product.features.messageLevels')
+      .panel.panel-default(ng-show='product.features.messageLevels > 0', destroy='messageLevelsPerLevel')
+        .panel-heading Message number per level
+        .panel-body
+          input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
