@@ -301,7 +301,7 @@ mixin deviceSupportedOperatingSystems()
 
 
 mixin dedicated()
-  .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='dedicated')
+  .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='dedicated')
     .panel-heading Hardware can be locked to communication software
     .panel-body
       +switch('product.features', 'dedicated')

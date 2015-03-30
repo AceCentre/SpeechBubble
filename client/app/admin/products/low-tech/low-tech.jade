@@ -15,10 +15,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +productImages()
     +imageRepresentationSupported()
     +price()
-    .panel.panel-default
-      .panel-heading Support Multiple Users?
-      .panel-body
-        +switch('product.features', 'supportMultipleUsers')
     +addLinks('supportLinks', 'Support URLs')
     +addLinks('purchaseLinks', 'Purchase URLs')
     +addLinks('moreInformationLinks', 'More information URLs')
