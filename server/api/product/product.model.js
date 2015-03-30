@@ -15,6 +15,16 @@ var ProductSchema = ProductBaseSchema.extend({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductRevision'
   },
+  ratings: {
+    average: {
+      type: Number,
+      default: 0
+    },
+    total: {
+      type: Number,
+      default: 0
+    }
+  },
   _revisions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductRevision'

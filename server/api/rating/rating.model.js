@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Product = require('../product/product.model');
 var _ = require('lodash');
 
 var RatingReviewSchema = new Schema({
@@ -53,6 +54,18 @@ RatingSchema.pre('save', function(next) {
 
   this.averageRating = totalReviews && (sum / totalReviews);
   next();
+});
+
+RatingSchema.post('save', function(next) {
+  var self = this;
+  Product.findByIdAndUpdate(self.product, {
+    ratings: {
+      average: self.averageRating,
+      total: self.reviews.length
+    }
+  }, function(err, product) {
+    console.log(err, product);
+  });
 });
 
 module.exports = {
