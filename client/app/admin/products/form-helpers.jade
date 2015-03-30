@@ -288,7 +288,7 @@ mixin deviceSupportedOperatingSystems()
               div {{ item }}
 
       <!-- from the messageLevels mixin -->
-      .panel.panel-default(ng-model='product.features.messageLevels', ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
+      .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
         .panel-heading Message levels
         .panel-body
           input.form-control(type='number', ng-model='product.features.messageLevels')
