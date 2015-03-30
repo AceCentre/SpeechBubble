@@ -7,4 +7,5 @@ angular.module('speechBubbleApp')
   $scope.cancel = function() {
     $modalInstance.dismiss();
   };
+
 });
