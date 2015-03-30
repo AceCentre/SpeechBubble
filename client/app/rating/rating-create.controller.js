@@ -17,7 +17,7 @@ angular.module('speechBubbleApp')
           function() {
             $modalInstance.close();
             $rootScope.$broadcast('resultsUpdated');
-            growl.success('Review Submitted.');
+            growl.success('Review submitted for moderation.');
           },
           function() {
             growl.error('Could not create review.');

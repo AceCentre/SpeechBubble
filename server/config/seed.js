@@ -57,13 +57,20 @@ User.find().remove(function() {
                   _revisions: [revision._id]
                 }, function(err, product) {
                   if(!err) {
-                    Rating.create({
-                      product: product._id,
-                      reviews: [{
-                        author: user._id,
-                        rating: 4,
-                        comment: 'really excellent'
-                      }]
+                    Rating.find().remove(function () {
+                      var reviews = [];
+                      _.times(chance.integer({min: 1, max: 20}), function () {
+                        reviews.push({
+                          author: user._id,
+                          rating: chance.integer({min: 1, max: 5}),
+                          comment: chance.paragraph(),
+                          visible: chance.bool()
+                        });
+                      });
+                      Rating.create({
+                        product: product._id,
+                        reviews: reviews
+                      });
                     });
                   }
                 });

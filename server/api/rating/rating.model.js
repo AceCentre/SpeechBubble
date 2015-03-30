@@ -1,7 +1,8 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var _ = require('lodash');
 
 var RatingReviewSchema = new Schema({
   author: {
@@ -18,6 +19,10 @@ var RatingReviewSchema = new Schema({
   comment: {
     type: String,
     required: true
+  },
+  visible: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -35,13 +40,18 @@ var RatingSchema = new Schema({
 });
 
 RatingSchema.pre('save', function(next) {
+  // only include approved ratings
+  var reviews = _.filter(this.reviews, function(review) {
+    return review.visible;
+  });
   var sum = 0;
-  var totalReviews = this.reviews.length;
-  this.reviews.forEach(function(review) {
+  var totalReviews = reviews.length;
+
+  reviews.forEach(function(review) {
     sum += review.rating;
   });
+
   this.averageRating = totalReviews && (sum / totalReviews);
-  console.log(this);
   next();
 });
 
