@@ -54,6 +54,11 @@ User.find().remove(function() {
                   discontinued: chance.bool() || '',
                   note: 'Test published commit note',
                   suppliers: [supplier._id],
+                  features: {
+                    price: {
+                      gbp: chance.integer({ min: 0, max: 2000 })
+                    }
+                  },
                   _revisions: [revision._id]
                 }, function(err, product) {
                   if(!err) {

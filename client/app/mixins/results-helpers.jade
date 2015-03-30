@@ -1,10 +1,21 @@
 mixin media()
   .media(ng-repeat='item in items')
     .media-left
-      img.media-object(src='http://placehold.it/64x64')
+      a(ng-href='/products/{{ item._id }}')
+        img.media-object(src='http://placehold.it/64x64')
     .media-body
       h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
-      | {{ item.description }}
+      div.row
+        div.col-md-9.item-listing-description
+          p {{ item.description | more:240 }}
+        div.col-md-3
+          dl
+            dt Type
+            dd {{ item.type | type }}
+            dt(ng-if='item.features.price.gbp') Guide Price
+            dd(ng-if='item.features.price.gbp') &pound;{{ item.features.price.gbp | number: 2 }}
+
+
 
 mixin pagination()
   hr
