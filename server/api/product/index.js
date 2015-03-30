@@ -13,7 +13,7 @@ router.put('/:id', auth.isAuthenticated(), controller.update); // Create a new p
 
 // View Products
 router.get('/', controller.index);
-router.get('/compare/', controller.index);
+router.get('/compare', controller.compare);
 router.get('/:id/revisions', auth.isAuthenticated(), controller.revisions);
 router.get('/:id', controller.show);
 

@@ -1,0 +1,17 @@
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Comparing {{ products.length }} {{ products[0].type | type | lowercase }} products
+
+.modal-body
+  h1
+
+  table.table.table-striped
+    thead
+      tr
+        th
+        th(ng-repeat='product in products') {{ product.name }}
+    tbody
+      tr
+        th Rating
+        th(ng-repeat='product in products')
+          div.ratings.fade(rating, ng-model="product.ratings.average", max="5", readonly="true", ng-class='{ in: product.ratings.total }')

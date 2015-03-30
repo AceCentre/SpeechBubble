@@ -16,6 +16,16 @@ function mapSuppliers(suppliers) {
   });
 }
 
+exports.compare = function(req, res) {
+  Product
+  .find({ '_id': { $in: req.query.products.split(',') }})
+  .limit(4)
+  .exec(function(err, products) {
+    if(err) { return handleError(res, err); }
+    res.send(200, products);
+  });
+};
+
 // Get list of products
 exports.index = function(req, res) {
   var skip = req.query.skip || 0;

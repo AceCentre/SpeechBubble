@@ -2,7 +2,7 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl) {
+.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate) {
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
@@ -21,10 +21,19 @@ angular.module('speechBubbleApp')
   };
 
   $scope.goCompare = function() {
-    var products = $scope.comparing.map(function(product) {
-      return product._id;
+    var modal = ProductCompareTemplate($scope.comparing[0]);
+
+    var modalInstance = $modal.open({
+      templateUrl: modal.template,
+      controller: modal.controller,
+      size: 'lg',
+      resolve: {
+        products: function() {
+          return $scope.comparing;
+        }
+      }
     });
-    $location.url('/products/compare/?products=' + products.join());
+
   };
 
   $scope.compare = function(product) {
