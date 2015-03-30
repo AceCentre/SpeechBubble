@@ -1,20 +1,20 @@
 mixin media()
-  .media(ng-repeat='item in items')
+  .media.product-listing(ng-repeat='item in items')
     .media-left
       a(ng-href='/products/{{ item._id }}')
         img.media-object(src='http://placehold.it/64x64')
     .media-body
-      h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
-      div.row
         div.col-md-9.item-listing-description
+          h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
           p {{ item.description | more:240 }}
         div.col-md-3
+          div.ratings(rating, ng-model="ratings.averageRating", max="5", readonly="true")
           dl
             dt Type
             dd {{ item.type | type }}
             dt(ng-if='item.features.price.gbp') Guide Price
             dd(ng-if='item.features.price.gbp') &pound;{{ item.features.price.gbp | number: 2 }}
-
+    hr(ng-if='!$last')
 
 
 mixin pagination()
@@ -30,6 +30,6 @@ mixin pageListingNotice(type)
   p(ng-hide='!total', page-count='', page-type='#{type}')
 
 mixin ratings()
-  div(rating, ng-model="ratings.averageRating", max="5", readonly="true")
+  div.ratings(rating, ng-model="ratings.averageRating", max="5", readonly="true")
   span.label.label-default(ng-if='ratings.averageRating') {{ ratings.averageRating | number: 2 }}
   p: a(ng-pluralize, count="ratings.reviews.length", ng-href='/products/{{ product._id }}/ratings', when="{'0': 'write a review', 'one': '1 review', 'other': '{} reviews'}")
