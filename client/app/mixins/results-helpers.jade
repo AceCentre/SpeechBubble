@@ -2,7 +2,7 @@ mixin media()
   .media.product-listing(ng-repeat='item in items')
     .media-left
       a(ng-href='/products/{{ item._id }}')
-        img.media-object(src='http://placehold.it/64x64')
+        img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
     .media-body
         div.col-md-9.item-listing-description
           h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}

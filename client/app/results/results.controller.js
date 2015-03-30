@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ResultsCtrl', function ($scope, $resource, $location, Modal, growl) {
+  .controller('ResultsCtrl', function ($scope, $resource, $location, Modal, growl, $sce) {
 
     var api = $resource($scope.endpoint, { id: '@_id' }, { query: { method: 'GET' } });
 
@@ -26,6 +26,10 @@ angular.module('speechBubbleApp')
         growl.error(err);
       });
     }
+
+    $scope.getThumbnail = function(item) {
+      return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
+    };
 
     $scope['delete'] = Modal.confirm['delete'](function(item) { // callback when modal is confirmed
       api.remove({ id: item._id });
