@@ -26,7 +26,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +checkbox('product.features', 'mobilePhoneViaCopyPaste', 'Phone/texting controllable via copy/paste functionality')
         +checkbox('temp', 'mobilePhoneOther', 'Other')
         textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
-        
+
     +messageLevels()
     +sharedHardware()
     +addLinks('moreInformationLinks', 'More information URLs')

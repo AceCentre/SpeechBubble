@@ -83,13 +83,9 @@ angular.module('speechBubbleApp')
       var controller;
 
       switch(product.type) {
-        case 'ProductHardwareSimple':
+        case 'ProductHardware':
           controller = 'AdminProductEditCtrl';
-          template = 'app/admin/products/hardware/hardware-simple.html';
-          break;
-        case 'ProductHardwareAdvanced':
-          controller = 'AdminProductEditCtrl';
-          template = 'app/admin/products/hardware/hardware-advanced.html';
+          template = 'app/admin/products/hardware/hardware.html';
           break;
         case 'ProductSoftware':
           controller = 'AdminProductEditCtrl';
