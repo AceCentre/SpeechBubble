@@ -5,6 +5,7 @@ angular.module('speechBubbleApp')
 .controller('ProductsCtrl', function ($scope, Auth, $modal, $rootScope) {
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
+  $scope.comparing = [];
 
   $scope.create = function() {
     var modalInstance = $modal.open({
@@ -17,6 +18,14 @@ angular.module('speechBubbleApp')
     }, function() {
       $rootScope.$broadcast('resultsUpdated');
     });
+  };
+
+  $scope.compare = function(product) {
+    $scope.comparing.push(product);
+  };
+
+  $scope.canCompareProduct = function(product) {
+    return $scope.comparing.length === 0 || ($scope.comparing[0].type === product.type);
   };
 })
 

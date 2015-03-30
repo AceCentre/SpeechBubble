@@ -1,6 +1,10 @@
 extends ../../layout/2_column
 include ../mixins/results-helpers
 
+block append sidebar
+  h2 Compare Products
+  
+
 block content
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
   h1 Products
