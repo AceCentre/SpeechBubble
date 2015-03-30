@@ -3,10 +3,18 @@
   margin-top: 20px;
 }
 
-.product-summary .img-responsive {
+.product-summary .img-thumbnail {
   margin-bottom: 20px;
   margin-right: 20px;
   float: left;
+}
+
+.product-summary .carousel-indicators {
+  bottom: 0;
+}
+
+.product-summary .carousel-control {
+  display: none;
 }
 
 .product-listing .ratings {

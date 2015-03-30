@@ -279,7 +279,7 @@ mixin deviceSupportedOperatingSystems()
     .panel-body
       +switch('product.features', 'hasOperatingSystem')
 
-      .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='operatingSystems')
+      .panel.panel-default(ng-show='product.features.hasOperatingSystem', ng-init='product.features.hasOperatingSystem = product.features.hasOperatingSystem || false', destroy='operatingSystems')
         .panel-heading Operating system
         .panel-body
           ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
@@ -359,7 +359,7 @@ mixin productRevisions()
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
 
 mixin messageLevels()
-  .panel.panel-default(ng-model='product.features.messageLevels', ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
+  .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
     .panel-heading Message levels
     .panel-body
       input.form-control(type='number', ng-model='product.features.messageLevels')

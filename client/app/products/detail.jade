@@ -9,7 +9,12 @@ block content
   hr
 
   div.product-summary
-    img.img-responsive.img-thumbnail(src='http://placehold.it/200x200')
+    div.img-thumbnail(carousel, ng-if='product.images.length')
+      div(slide, ng-repeat='image in product.images' active='slide.active')
+        img(ng-src="{{ image.url }}", width='200', height='200')
+
+    img.img-thumbnail(ng-if='!product.images.length', src='/assets/images/products/default.png', width='200', height: 200)
+
     p {{ product.description }}
 
   .panel.panel-default(ng-if='product.suppliers.length')
