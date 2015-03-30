@@ -64,7 +64,6 @@ RatingSchema.post('save', function(next) {
       total: self.reviews.length
     }
   }, function(err, product) {
-    console.log(err, product);
   });
 });
 

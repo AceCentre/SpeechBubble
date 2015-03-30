@@ -2,8 +2,14 @@ extends ../../layout/2_column
 include ../mixins/results-helpers
 
 block append sidebar
-  h2 Compare Products
-  
+  div.product-comparing-list(ng-if='comparing.length')
+    h2 Comparing {{ comparing[0].type | type | lowercase }} products
+    div.list-group()
+      a(href="#", ng-repeat='product in comparing track by $index').list-group-item
+        h3.list-group-item-heading {{ product.name }}
+        p.list-group-item-text {{ product.description | more:30 }}
+
+    a.btn.btn-primary.pull-right(ng-click='goCompare()') View comparison
 
 block content
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product

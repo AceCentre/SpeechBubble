@@ -2,7 +2,7 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope, Auth, $modal, $rootScope) {
+.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl) {
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
@@ -20,8 +20,28 @@ angular.module('speechBubbleApp')
     });
   };
 
+  $scope.goCompare = function() {
+    var products = $scope.comparing.map(function(product) {
+      return product._id;
+    });
+    $location.url('/products/compare/?products=' + products.join());
+  };
+
   $scope.compare = function(product) {
-    $scope.comparing.push(product);
+    if($scope.isComparingProduct(product)) {
+      return growl.warning('This product has already been selected.');
+    } else if($scope.comparing.length >= 4) {
+      return growl.warning('You can only compare 4 items at a time.');
+    } else if( $scope.canCompareProduct(product) ) {
+      growl.success('Added product to comparison.');
+      $scope.comparing.push(product);
+    } else {
+      growl.warning('You can only compare products that are the same type.');
+    }
+  };
+
+  $scope.isComparingProduct = function(product) {
+    return $scope.comparing.indexOf(product) !== -1;
   };
 
   $scope.canCompareProduct = function(product) {

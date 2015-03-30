@@ -3,6 +3,7 @@
   padding-top: 20px;
   padding-bottom: 20px;
   border: 1px solid darken($backgroundColor, 5%);
+  position: static; // prevent affix sidebar from being positioned relative to this element
 
   @media (max-width: $screen-xs-max) {
       display: none;

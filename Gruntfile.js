@@ -573,7 +573,7 @@ module.exports = function (grunt) {
           ]
         }
       }
-    },
+    }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -666,10 +666,12 @@ module.exports = function (grunt) {
       ]);
     }
 
-    else grunt.task.run([
-      'test:server',
-      'test:client'
-    ]);
+    else {
+      grunt.task.run([
+        'test:server',
+        'test:client'
+      ]);
+    }
   });
 
   grunt.registerTask('build', [

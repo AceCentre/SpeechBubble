@@ -1,0 +1,16 @@
+.affix {
+  position: fixed;
+  top: 0;
+}
+
+.affix-top {
+  position: static;
+}
+
+.affix-bottom {
+  position: static;
+}
+
+[class*=affix] {
+  width: 220px;
+}
