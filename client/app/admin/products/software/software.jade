@@ -12,7 +12,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +productDetails()
 
     +productRevisions()
-    +productImages()
+    +productScreenshots()
     +productVideos()
     +imageRepresentationSupported()
     +speechTypeOptions()
@@ -50,8 +50,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           .panel-heading More information
           .panel-body
             textarea.form-control(ng-model='product.features.visualOptionsMoreInfo')
-
-    +dedicated()
 
     .panel.panel-default
       .panel-heading Supported devices

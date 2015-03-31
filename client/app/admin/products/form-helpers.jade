@@ -37,6 +37,29 @@ mixin productImages()
       div.text-center
         a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add images
 
+mixin productScreenshots()
+  .panel.panel-default
+    .panel-heading Product Screenshots
+    .panel-body
+      table.table.table-striped(ng-show='product.images.length')
+        thead
+          tr
+            th.preview Preview
+            th Summary
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.images')
+            td: img.img-responsive.img-thumbnail(ng-src='{{ item.url }}')
+            td: input.form-control(ng-model='item.summary')
+            td.actions
+              a(href='#', ng-click='images.remove(item)'): span.glyphicon.glyphicon-trash
+          tr(ng-repeat='file in imagesToUpload', ng-hide='file.complete')
+            td(colspan='3')
+              progressbar(ng-if='!file.complete', value='file.progress')
+
+      div.text-center
+        a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add screenshots
+
 mixin productVideos()
   .panel.panel-default
     .panel-heading Product Videos
@@ -125,7 +148,7 @@ mixin accessMethods()
         .panel-body
           +switch('product.features', 'accessMethodTouchRequireGestures')
 
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='touchFeatures')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='touchFeatures')
         .panel-heading What Touch features are available?
         .panel-body
           +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
@@ -161,6 +184,48 @@ mixin accessMethods()
           +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
           +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
           +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+
+<!-- Modified accessMethods for Hardware -->
+mixin accessMethodsHardware()
+  .panel.panel-default
+    .panel-heading Access methods supported
+    .panel-body
+      <!-- Touch -->
+      +checkbox('product.features.accessMethods', 'touch', 'Touch')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchType')
+        .panel-heading Screen type
+        .panel-body
+          +radio('product.features.accessMethodTouchType', 'resistive', 'resistive', 'Resisitive')
+          +radio('product.features.accessMethodTouchType', 'capacitive', 'capacitive', 'Capacitive')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchRequireGestures')
+        .panel-heading Are specialist gestures etc required to control the device?
+        .panel-body
+          +switch('product.features', 'accessMethodTouchRequireGestures')
+
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='touchFeatures')
+        .panel-heading What touch features are available on the hardware?
+        .panel-body
+          +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
+          +checkbox('product.features.touchFeatures', 'holdTime', 'Hold time')
+          +checkbox('product.features.touchFeatures', 'debounce', 'Debounce')
+          +checkbox('temp', 'touchFeaturesOther', 'Other')
+          textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
+
+      +accessMethodOptions('accessMethodTouch')
+
+      <!-- Mouse or alternative -->
+      +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
+      +accessMethodOptions('accessMethodMouseOrAlternative')
+      <!-- Eyegaze -->
+      +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
+
+      +accessMethodOptions('accessMethodEyegaze')
+      <!-- Switch -->
+      +checkbox('product.features.accessMethods', 'switch', 'Switch')
+      .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
+        .panel-heading Built-in
+        .panel-body
+          +switch('product.features', 'accessMethodsSwitchBuiltIn')
 
 <!-- Shared: Hardware -->
 mixin sharedHardware()
@@ -204,7 +269,7 @@ mixin sharedHardware()
           +switch('product.features.dimensions', 'sizeIncludingCase')
 
   +enviroControl()
-  +accessMethods()
+  +accessMethodsHardware()
 
 
 mixin addLinks(id, label)
@@ -301,10 +366,14 @@ mixin deviceSupportedOperatingSystems()
 
 
 mixin dedicated()
-  .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='dedicated')
+  .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='dedicated')
     .panel-heading Hardware can be locked to communication software
     .panel-body
       +switch('product.features', 'dedicated')
+      .panel.panel-default(ng-show='product.features.dedicated', destroy='dedicatedInfo')
+        .panel-heading More Info
+        .panel-body
+          textarea.form-control(ng-model='product.features.dedicatedInfo')
 
 mixin vocabularies()
   <!-- Premade vocabularies -->
