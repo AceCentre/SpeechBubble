@@ -52,10 +52,10 @@ mixin compareFormsOfRepresentation()
 
 mixin compareRating()
   tr
-    th Average rating
+    th Average rating (1 - 5)
     td.text-center(ng-repeat='product in products')
-      div.ratings(rating, ng-model="product.ratings.average", max="5", readonly="true", ng-if='product.ratings.total')
-      span(ng-if='!product.ratings.total'): em No ratings
+      span(ng-if='product.ratings.average'): em {{ product.ratings.average | number:2 }}
+      span(ng-if='!product.ratings.average'): em No ratings
 
 mixin compareAccessMethods()
   tr

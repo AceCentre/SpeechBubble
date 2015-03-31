@@ -64,7 +64,7 @@ User.find().remove(function() {
                   if(!err) {
                     Rating.find().remove(function () {
                       var reviews = [];
-                      _.times(chance.integer({min: 1, max: 20}), function () {
+                      _.times(chance.integer({min: 0, max: 20}), function () {
                         reviews.push({
                           author: user._id,
                           rating: chance.integer({min: 1, max: 5}),
