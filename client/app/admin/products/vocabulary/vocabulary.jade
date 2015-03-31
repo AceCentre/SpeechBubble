@@ -59,7 +59,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
               .panel-heading How are words organised across the rest of the device?
               .panel-body
-                +radio('product.features', 'wordsOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
+                +radio('product.features', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
                 +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
                 +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
@@ -81,9 +81,73 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
               .panel-heading How are phrases organised across the rest of the device?
               .panel-body
-                +radio('product.features', 'phrasesOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
+                +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+
+
+        <!-- textAndSymbolsOrPhotos only -->
+        .panel.panel-default(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='presentationText')         
+          +imageRepresentationSupported()
+
+          .panel-heading How is the language primarily organised?
+          .panel-body
+            +radio('product.features', 'presentationText', 'singleWords', 'Single words')
+            +radio('product.features', 'presentationText', 'phrases', 'Phrases')
+
+            <!-- Single words only -->
+            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='presentRelatedWords')
+              .panel-heading Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
+              .panel-body
+                +switch('product.features', 'presentRelatedWords')
+
+            <!-- Single words only -->
+            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedStart')
+              .panel-heading How are words on the start page largely organised?
+              .panel-body
+                +radio('product.features', 'wordsOrganisedStart', 'core', 'Core words')
+                +radio('product.features', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
+
+            <!-- Single words only -->
+            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
+              .panel-heading How are words organised across the rest of the device?
+              .panel-body
+                +radio('product.features', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
+                +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+                +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+
+            <!-- Phrases only -->
+            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
+              .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
+              .panel-body
+                +switch('product.features', 'presentRelatedPhrases')
+
+            <!-- Phrases only -->
+            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
+              .panel-heading How are phrases on the start page largely organised?
+              .panel-body
+                +radio('product.features', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
+                +radio('product.features', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
+                +radio('product.features', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
+
+            <!-- Phrases only -->
+            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
+              .panel-heading How are phrases organised across the rest of the device?
+              .panel-body
+                +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
+                +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+                +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+
+        <!-- symbolsOrPhotos only -->
+        .panel.panel-default(ng-show='product.features.presentation === "symbolsOrPhotos"', destroy='presentationText')
+          +imageRepresentationSupported()
+
+          .panel-heading How is the language primarily organised?
+          .panel-body
+           +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
+           +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+           +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+
 
 
     .panel.panel-default
@@ -111,6 +175,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
           .panel-heading What scanning options are available (without additional software)
           .panel-body
+            +checkbox('product.features', 'accessMethodSwitchOptions.linear', 'Linear')
             +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
             +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
             +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
