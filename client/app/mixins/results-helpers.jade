@@ -8,7 +8,7 @@ mixin media()
           h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
           p {{ item.description | more:420 }}
         div.col-md-3
-          div.ratings.fade(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ in: item.ratings.total }')
+          div.ratings(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
           dl
             dt Type
             dd {{ item.type | type }}
