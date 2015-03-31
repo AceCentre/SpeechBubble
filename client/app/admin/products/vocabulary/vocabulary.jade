@@ -111,6 +111,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
           .panel-heading What scanning options are available (without additional software)
           .panel-body
+            +checkbox('product.features', 'accessMethodSwitchOptions.linear', 'Linear')
             +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
             +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
             +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
