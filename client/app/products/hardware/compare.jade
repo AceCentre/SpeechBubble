@@ -1,30 +1,5 @@
 include ../../mixins/product-helpers
 
-mixin tickRow(label, model)
-  tr
-    th= label
-    td.text-center(ng-repeat='product in products')
-      +tick(model)
-
-mixin textRow(label, model)
-  tr
-    th= label
-    td.text-center(ng-repeat='product in products')
-      | {{ #{model} || '-' }}
-
-mixin textLineIf(label, model, placeholder)
-  div(ng-if='#{model}') #{label}
-  if placeholder
-    div(ng-if='!#{model}') -
-
-mixin textOrPlaceholder(label, model)
-  div(ng-if='#{model}') #{label}
-  div(ng-if='!#{model}') -
-
-mixin listLines(model)
-  div(ng-if='#{model}.length', ng-repeat='item in #{model}') {{ item }}
-  div(ng-if='!#{model}.length') -
-
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Comparing {{ products.length }} {{ products[0].type | type | lowercase }} products
@@ -36,10 +11,8 @@ mixin listLines(model)
         th
         th.text-center(ng-repeat='product in products') {{ product.name }}
     tbody
-      tr
-        th Average rating
-        th.text-center(ng-repeat='product in products')
-          div.ratings.fade(rating, ng-model="product.ratings.average", max="5", readonly="true", ng-class='{ in: product.ratings.total }')
+      +compareThumbnail()
+      +compareRating()
       +tickRow('Discontinued', 'product.discontinued')
       +tickRow('Ready-made vocabularies', 'product.features.premadeVocabularies')
       tr
@@ -55,13 +28,8 @@ mixin listLines(model)
           +textLineIf('In-built SIM', 'product.features.mobilePhone.mobilePhoneSIM')
           +textLineIf('Phone required', 'product.features.mobilePhone.mobilePhoneRequired')
           +textLineIf('-', '!product.features.mobilePhone.mobilePhoneSIM && !product.features.mobilePhone.mobilePhoneRequired')
-      tr
-        th Guide price
-        td.text-center(ng-repeat='product in products')
-          +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
-          +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
-          +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
-          +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
+
+      +comparePrice()
 
       +textRow('Battery life (hours)', 'product.features.battery.batteryLife')
       tr
@@ -86,21 +54,6 @@ mixin listLines(model)
         th Screen size (inches)
         td.text-center(ng-repeat='product in products') {{ product.features.dimensions.screenSize || '-' }}
 
-      tr
-        th Access methods supported
-        td.text-center(ng-repeat='product in products')
-          +textLineIf('Touch', 'product.features.accessMethods.touch')
-          +textLineIf('Mouse or alternative', 'product.features.accessMethods.mouseOrAlternative')
-          +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
-          +textLineIf('Switch', 'product.features.accessMethods.switch')
-          +textLineIf('-', '!product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
+      +compareAccessMethods()
 
-      tr
-        td
-        td.text-center(ng-repeat='product in products')
-          a.btn.btn-primary(ng-href='/products/{{ product._id }}', target='_blank') View
-
-      tr
-        td
-        td.text-center(colspan='{{ products.length }}')
-          em Link opens in a new window
+      +compareViewActions()

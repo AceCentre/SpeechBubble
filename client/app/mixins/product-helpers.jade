@@ -1,2 +1,79 @@
 mixin tick(model)
   span.glyphicon.glyphicon-remove-circle(ng-class='{ "glyphicon-ok-circle": #{model} }')
+
+mixin tickRow(label, model)
+  tr
+    th= label
+    td.text-center(ng-repeat='product in products')
+      +tick(model)
+mixin textRow(label, model)
+  tr
+    th= label
+    td.text-center(ng-repeat='product in products')
+      | {{ #{model} || '-' }}
+
+mixin textLineIf(label, model, placeholder)
+  div(ng-if='#{model}') #{label}
+  if placeholder
+    div(ng-if='!#{model}') -
+
+mixin textOrPlaceholder(label, model)
+  div(ng-if='#{model}') #{label}
+  div(ng-if='!#{model}') -
+
+mixin listLines(model)
+  div(ng-if='#{model}.length', ng-repeat='item in #{model}') {{ item }}
+  div(ng-if='!#{model}.length') -
+
+mixin compareThumbnail()
+  tr
+    th Thumbnail
+    td.text-center(ng-repeat='product in products')
+      a(ng-href='/products/{{ item._id }}', target='_blank')
+        img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
+
+mixin comparePrice()
+  tr
+    th Guide price
+    td.text-center(ng-repeat='product in products')
+      +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
+      +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
+      +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
+      +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
+
+mixin compareFormsOfRepresentation()
+  tr
+    th Form of representation
+    td.text-center(ng-repeat='product in products')
+      +textLineIf('Photos', 'product.features.imageRepresentation.photos')
+      +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
+      +textLineIf('Videos', 'product.features.imageRepresentation.videos')
+      +textLineIf('-', '!product.features.imageRepresentation.photos && !product.features.imageRepresentation.symbols && !product.features.imageRepresentation.videos')
+
+mixin compareRating()
+  tr
+    th Average rating
+    td.text-center(ng-repeat='product in products')
+      div.ratings(rating, ng-model="product.ratings.average", max="5", readonly="true", ng-if='product.ratings.total')
+      span(ng-if='!product.ratings.total'): em No ratings
+
+mixin compareAccessMethods()
+  tr
+    th Access methods supported
+    td.text-center(ng-repeat='product in products')
+      +textLineIf('Touch', 'product.features.accessMethods.touch')
+      +textLineIf('Mouse or alternative', 'product.features.accessMethods.mouseOrAlternative')
+      +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
+      +textLineIf('Switch', 'product.features.accessMethods.switch')
+      +textLineIf('-', '!product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
+
+mixin compareViewActions()
+  tr
+    td
+    td.text-center(ng-repeat='product in products')
+      a.btn.btn-primary(ng-href='/products/{{ product._id }}', target='_blank') View
+
+  tr
+    td
+    td.text-center(colspan='{{ products.length }}')
+      em Link opens in a new window
