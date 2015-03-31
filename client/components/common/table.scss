@@ -23,6 +23,11 @@ table {
     color: #419641;
   }
 
+  th[colspan] {
+    background: $secondaryColor;
+    color: #fff;
+  }
+
 }
 
 .table-wrapper {

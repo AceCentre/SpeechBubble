@@ -10,18 +10,26 @@ mixin textRow(label, model)
   tr
     th= label
     td.text-center(ng-repeat='product in products')
-      | {{ #{model} || 'N/A' }}
+      | {{ #{model} || '-' }}
 
-mixin textLineIf(label, model)
+mixin textLineIf(label, model, placeholder)
   div(ng-if='#{model}') #{label}
+  if placeholder
+    div(ng-if='!#{model}') -
+
+mixin textOrPlaceholder(label, model)
+  div(ng-if='#{model}') #{label}
+  div(ng-if='!#{model}') -
+
+mixin listLines(model)
+  div(ng-if='#{model}.length', ng-repeat='item in #{model}') {{ item }}
+  div(ng-if='!#{model}.length') -
 
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Comparing {{ products.length }} {{ products[0].type | type | lowercase }} products
 
 .modal-body
-  h1
-
   table.table.table-striped
     thead
       tr
@@ -34,7 +42,11 @@ mixin textLineIf(label, model)
           div.ratings.fade(rating, ng-model="product.ratings.average", max="5", readonly="true", ng-class='{ in: product.ratings.total }')
       +tickRow('Discontinued', 'product.discontinued')
       +tickRow('Ready-made vocabularies', 'product.features.premadeVocabularies')
-      +tickRow('Operating systems', 'product.features.operatingSystems')
+      tr
+        th Operating systems
+        td.text-center(ng-repeat='product in products')
+          +listLines('product.operatingSystems')
+
       +textRow('Message levels', 'product.features.messageLevels')
       +tickRow('Can be locked to communication software', 'product.features.dedicated')
       tr
@@ -42,7 +54,7 @@ mixin textLineIf(label, model)
         td.text-center(ng-repeat='product in products')
           +textLineIf('In-built SIM', 'product.features.mobilePhone.mobilePhoneSIM')
           +textLineIf('Phone required', 'product.features.mobilePhone.mobilePhoneRequired')
-          +textLineIf('N/A', '!product.features.mobilePhone.mobilePhoneSIM && !product.features.mobilePhone.mobilePhoneRequired')
+          +textLineIf('-', '!product.features.mobilePhone.mobilePhoneSIM && !product.features.mobilePhone.mobilePhoneRequired')
       tr
         th Guide price
         td.text-center(ng-repeat='product in products')
@@ -59,4 +71,30 @@ mixin textLineIf(label, model)
           +textLineIf('Rehadapt', 'product.features.mountingOptions.rehadapt')
           +textLineIf('Table stand available', 'product.features.mountingOptions.tableStand')
           +textLineIf('Carrying strap available', 'product.features.mountingOptions.carryingStrap')
-          +textLineIf('N/A', '!product.features.mountingOptions.daessy && !product.features.mountingOptions.rehadapt && !product.features.mountingOptions.tableStand && !product.features.mountingOptions.carryingStrap')
+          +textLineIf('-', '!product.features.mountingOptions.daessy && !product.features.mountingOptions.rehadapt && !product.features.mountingOptions.tableStand && !product.features.mountingOptions.carryingStrap')
+      tr
+        th Size (mm)
+        td.text-center(ng-repeat='product in products')
+          div(ng-if='product.features.dimensions.height && product.features.dimensions.width && product.features.dimensions.depth')
+            {{ product.features.dimensions.height }} x {{ product.features.dimensions.width }} x {{ product.features.dimensions.depth }}
+          div(ng-if='!product.features.dimensions.height || !product.features.dimensions.width || !product.features.dimensions.depth') -
+
+      tr
+        th Weight (kg)
+        td.text-center(ng-repeat='product in products')
+          {{ product.features.dimensions.weight || '-' }}
+
+      tr
+        th Screen size (inches)
+        td.text-center(ng-repeat='product in products')
+          {{ product.features.dimensions.screenSize || '-' }}
+
+      tr
+        th Access methods supported
+        td.text-center(ng-repeat='product in products')
+          +textLineIf('Touch', 'product.features.accessMethods.touch')
+          +textLineIf('Mouse or alternative', 'product.features.accessMethods.mouseOrAlternative')
+          +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
+          +textLineIf('Switch', 'product.features.accessMethods.switch')
+          +textLineIf('-', '!product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
+
