@@ -75,19 +75,16 @@ mixin listLines(model)
       tr
         th Size (mm)
         td.text-center(ng-repeat='product in products')
-          div(ng-if='product.features.dimensions.height && product.features.dimensions.width && product.features.dimensions.depth')
-            {{ product.features.dimensions.height }} x {{ product.features.dimensions.width }} x {{ product.features.dimensions.depth }}
+          div(ng-if='product.features.dimensions.height && product.features.dimensions.width && product.features.dimensions.depth') {{ product.features.dimensions.height }} x {{ product.features.dimensions.width }} x {{ product.features.dimensions.depth }}
           div(ng-if='!product.features.dimensions.height || !product.features.dimensions.width || !product.features.dimensions.depth') -
 
       tr
         th Weight (kg)
-        td.text-center(ng-repeat='product in products')
-          {{ product.features.dimensions.weight || '-' }}
+        td.text-center(ng-repeat='product in products') {{ product.features.dimensions.weight || '-' }}
 
       tr
         th Screen size (inches)
-        td.text-center(ng-repeat='product in products')
-          {{ product.features.dimensions.screenSize || '-' }}
+        td.text-center(ng-repeat='product in products') {{ product.features.dimensions.screenSize || '-' }}
 
       tr
         th Access methods supported
