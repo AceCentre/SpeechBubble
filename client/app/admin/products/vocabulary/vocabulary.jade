@@ -59,7 +59,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
               .panel-heading How are words organised across the rest of the device?
               .panel-body
-                +radio('product.features', 'wordsOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
+                +radio('product.features', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
                 +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
                 +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
@@ -81,7 +81,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
               .panel-heading How are phrases organised across the rest of the device?
               .panel-body
-                +radio('product.features', 'phrasesOrganisedDevice', 'schematically', 'Schematically (e.g. around activities)')
+                +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
                 +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
