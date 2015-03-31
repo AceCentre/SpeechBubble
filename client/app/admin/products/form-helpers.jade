@@ -148,7 +148,7 @@ mixin accessMethods()
         .panel-body
           +switch('product.features', 'accessMethodTouchRequireGestures')
 
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='touchFeatures')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='touchFeatures')
         .panel-heading What Touch features are available?
         .panel-body
           +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
@@ -193,7 +193,7 @@ mixin accessMethodsHardware()
       <!-- Touch -->
       +checkbox('product.features.accessMethods', 'touch', 'Touch')
       .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchType')
-        .panel-heading Touch screen
+        .panel-heading Screen type
         .panel-body
           +radio('product.features.accessMethodTouchType', 'resistive', 'resistive', 'Resisitive')
           +radio('product.features.accessMethodTouchType', 'capacitive', 'capacitive', 'Capacitive')
@@ -202,14 +202,12 @@ mixin accessMethodsHardware()
         .panel-body
           +switch('product.features', 'accessMethodTouchRequireGestures')
 
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='touchFeatures')
-        .panel-heading What Touch features are available?
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='touchFeatures')
+        .panel-heading What touch features are available on the hardware?
         .panel-body
           +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
-          +checkbox('product.features.touchFeatures', 'acceptOnExit', 'Accept on Exit')
           +checkbox('product.features.touchFeatures', 'holdTime', 'Hold time')
           +checkbox('product.features.touchFeatures', 'debounce', 'Debounce')
-          +checkbox('product.features.touchFeatures', 'auditoryFishing', 'Auditory fishing')
           +checkbox('temp', 'touchFeaturesOther', 'Other')
           textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
 
@@ -225,14 +223,9 @@ mixin accessMethodsHardware()
       <!-- Switch -->
       +checkbox('product.features.accessMethods', 'switch', 'Switch')
       .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
-        .panel-heading Scanning options available
+        .panel-heading Built-in
         .panel-body
-          +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
-          +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
-          +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
-          +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
-          +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
-          +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+          +switch('product.features', 'accessMethodsSwitchBuiltIn')
 
 <!-- Shared: Hardware -->
 mixin sharedHardware()
