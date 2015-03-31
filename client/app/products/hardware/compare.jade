@@ -95,3 +95,12 @@ mixin listLines(model)
           +textLineIf('Switch', 'product.features.accessMethods.switch')
           +textLineIf('-', '!product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
 
+      tr
+        td
+        td.text-center(ng-repeat='product in products')
+          a.btn.btn-primary(ng-href='/products/{{ product._id }}', target='_blank') View
+
+      tr
+        td
+        td.text-center(colspan='{{ products.length }}')
+          em Link git opens in a new window
