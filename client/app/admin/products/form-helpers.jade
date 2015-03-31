@@ -37,6 +37,29 @@ mixin productImages()
       div.text-center
         a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add images
 
+mixin productScreenshots()
+  .panel.panel-default
+    .panel-heading Product Screenshots
+    .panel-body
+      table.table.table-striped(ng-show='product.images.length')
+        thead
+          tr
+            th.preview Preview
+            th Summary
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.images')
+            td: img.img-responsive.img-thumbnail(ng-src='{{ item.url }}')
+            td: input.form-control(ng-model='item.summary')
+            td.actions
+              a(href='#', ng-click='images.remove(item)'): span.glyphicon.glyphicon-trash
+          tr(ng-repeat='file in imagesToUpload', ng-hide='file.complete')
+            td(colspan='3')
+              progressbar(ng-if='!file.complete', value='file.progress')
+
+      div.text-center
+        a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add screenshots
+
 mixin productVideos()
   .panel.panel-default
     .panel-heading Product Videos
@@ -305,6 +328,10 @@ mixin dedicated()
     .panel-heading Hardware can be locked to communication software
     .panel-body
       +switch('product.features', 'dedicated')
+      .panel.panel-default(ng-show='product.features.dedicated', destroy='dedicatedInfo')
+        .panel-heading More Info
+        .panel-body
+          textarea.form-control(ng-model='product.features.dedicatedInfo')
 
 mixin vocabularies()
   <!-- Premade vocabularies -->
