@@ -109,6 +109,8 @@ exports.update = function(req, res) {
         return handleError(res, err);
       }
       page.note = page.note || 'Published page';
+      page.slug = page.slug || 'slug'; // temporary fix for production migration
+      
       page._revisions.push(revision._id);
       page.save(function(err, product) {
         if (err) {
