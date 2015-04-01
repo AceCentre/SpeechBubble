@@ -58,6 +58,7 @@ exports.publish = function(req, res) {
 
           revision._revisions = page._revisions;
           revision.currentRevision = revisionId;
+          revision.visible = true;
 
           Page.update({ _id: pageId }, revision, { overwrite: true, multi: false }, function(err, numberAffected, raw) {
             if (err) {
@@ -90,7 +91,7 @@ exports.publish = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  Page.create({ slug: req.body.slug }, function(err, page) {
+  Page.create({ slug: req.body.slug, note: req.body.note }, function(err, page) {
     if(err) { return handleError(res, err); }
     return res.send(200, page);
   });
@@ -110,7 +111,7 @@ exports.update = function(req, res) {
       }
       page.note = page.note || 'Published page';
       page.slug = page.slug || 'slug'; // temporary fix for production migration
-      
+
       page._revisions.push(revision._id);
       page.save(function(err, product) {
         if (err) {
