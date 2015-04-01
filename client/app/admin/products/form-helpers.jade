@@ -1,7 +1,6 @@
 mixin productDetails()
   +input('product', 'text', 'name', 'Name', 'form')
   +textarea('product', 'description', 'Description', 'form')
-  +input('product', 'text', 'note', 'Draft summary', 'form')
   .form-group
     label.col-sm-2.control-label(for='discontinued') Discontinued
     .col-sm-10
@@ -386,8 +385,13 @@ mixin vocabularies()
               div {{item.name}}
 
 mixin revisions()
+  .panel.panel-default
+    .panel-heading Draft summary
+    .panel-body
+      +input('product', 'text', 'note', 'Comment', 'form')
+
   .panel.panel-default(ng-if='revisions.length')
-    .panel-heading History
+    .panel-heading Drafts
     .panel-body
       table.table.table-striped
         thead
@@ -410,8 +414,13 @@ mixin revisions()
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
 
 mixin productRevisions()
+  .panel.panel-default
+    .panel-heading Draft summary
+    .panel-body
+      +input('product', 'text', 'note', 'Comment', 'form')
+
   .panel.panel-default(ng-if='revisions.length')
-    .panel-heading History
+    .panel-heading Drafts
     .panel-body
       table.table.table-striped
         thead
@@ -429,7 +438,7 @@ mixin productRevisions()
             td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
             td.actions
               a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
-              a(href='#', ng-click='publish(rev._id, rev)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
+              a(href='#', ng-click='publish(rev._id, rev._id)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
 
       .text-center
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
@@ -443,3 +452,9 @@ mixin messageLevels()
         .panel-heading Message number per level
         .panel-body
           input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
+
+mixin productActions()
+  .modal-footer
+    button.btn.btn-secondary() Save Draft
+    button.btn.btn-primary(ng-click='shouldPublish = true') Save &amp; Publish
+    a.btn.btn-tertiary(ng-click='cancel()') Cancel

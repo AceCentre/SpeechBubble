@@ -11,7 +11,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         input(type='hidden', ng-init='product.type = "ProductLowTech"')
         +productDetails()
 
-    +productRevisions()
     +productImages()
     +imageRepresentationSupported()
     +price()
@@ -25,7 +24,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')
         +checkbox('product.features.accessMethods', 'eyePointing', 'Eye pointing')
         +checkbox('product.features.accessMethods', 'scanning', 'Partner assisten scan')
+    +productRevisions()
 
-  .modal-footer
-    button.btn.btn-primary() Save
-    a.btn.btn-tertiary(ng-click='cancel()') Cancel
+  +productActions()

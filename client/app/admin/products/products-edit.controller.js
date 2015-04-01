@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductEditCtrl', function(Auth, $timeout, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
+  .controller('AdminProductEditCtrl', function(Auth, $timeout, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
 
     $scope.isAdmin = Auth.isAdmin;
 
@@ -37,10 +37,11 @@ angular.module('speechBubbleApp')
     }
 
     function publishRevision(revision) {
-      $http.post('/api/product/publish/' + current._id + '/' + revision._id)
+      $http.post('/api/product/publish/' + current._id + '/' + revision)
         .success(function(res) {
-          $scope.revert(res);
-          growl.success('Revision ' + revision._id + ' published.');
+          growl.success('Revision ' + revision + ' published.');
+          $modalInstance.close();
+          $rootScope.$broadcast('resultsUpdated');
         })
         .error(function(res) {
           growl.error('Could not publish revision.');
@@ -68,6 +69,7 @@ angular.module('speechBubbleApp')
       return hasChanges;
     };
 
+    // Set product back to original product passed into controller
     $scope.reset = function() {
       $scope.product = current;
     };
@@ -84,9 +86,15 @@ angular.module('speechBubbleApp')
         }
         Product.update($scope.product,
           function(res) {
-            current = res;
-            $modalInstance.close();
-            growl.success('Product updated.');
+            if($scope.shouldPublish) {
+              $scope.publish('the current draft', res._revisions[res._revisions.length - 1]);
+              $scope.shouldPublish = false;
+            } else {
+              current = res;
+              $modalInstance.close();
+              growl.success('Product updated.');
+            }
+
           },
           function(res) {
             growl.error('Product could not be saved.');

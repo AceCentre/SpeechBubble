@@ -13,7 +13,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         input(type='hidden', ng-init='product.type = "ProductVocabulary"')
         +productDetails()
 
-    +productRevisions()
     .panel.panel-default
       .panel-heading How is the vocabulary primarily represented?
       .panel-body
@@ -87,7 +86,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
 
 
         <!-- textAndSymbolsOrPhotos only -->
-        .panel.panel-default(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='presentationText')         
+        .panel.panel-default(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='presentationText')
           +imageRepresentationSupported()
 
           .panel-heading How is the language primarily organised?
@@ -182,8 +181,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
             +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
             +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+    +productRevisions()
 
-
-  .modal-footer
-    button.btn.btn-primary() Save
-    a.btn.btn-tertiary(ng-click='cancel()') Cancel
+  +productActions()
