@@ -59,3 +59,8 @@ mixin switch(model, id)
   div.btn-group.btn-group-switch
     label.btn.btn-primary(ng-model='#{model}.#{id}', btn-checkbox btn-checkbox-true="false") No
     label.btn.btn-primary(ng-model='#{model}.#{id}', btn-checkbox btn-checkbox-true="true") Yes
+
+mixin defaultedSwitch(model, id)
+  div.btn-group.btn-group-switch
+    label.btn.btn-primary(ng-model='#{model}.#{id}', ng-init='#{model}.#{id} = #{model}.#{id} || false', btn-checkbox btn-checkbox-true="false") No
+    label.btn.btn-primary(ng-model='#{model}.#{id}', btn-checkbox btn-checkbox-true="true") Yes

@@ -1,3 +1,5 @@
+include ../../mixins/form-helpers
+
 mixin productDetails()
   +input('product', 'text', 'name', 'Name', 'form')
   +textarea('product', 'description', 'Description', 'form')
@@ -336,9 +338,9 @@ mixin deviceSupportedOperatingSystems()
   .panel.panel-default()
     .panel-heading Does the device have an operating system?
     .panel-body
-      +switch('product.features', 'hasOperatingSystem')
+      +defaultedSwitch('product.features', 'hasOperatingSystem')
 
-      .panel.panel-default(ng-show='product.features.hasOperatingSystem', ng-init='product.features.hasOperatingSystem = product.features.hasOperatingSystem || false', destroy='operatingSystems')
+      .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='operatingSystems')
         .panel-heading Operating system
         .panel-body
           ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
@@ -355,8 +357,6 @@ mixin deviceSupportedOperatingSystems()
             .panel-heading Message number per level
             .panel-body
               input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
-
-
 
 
 mixin dedicated()
@@ -384,11 +384,11 @@ mixin vocabularies()
             ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
               div {{item.name}}
 
-mixin revisions()
+mixin pageRevisions(model)
   .panel.panel-default
     .panel-heading Draft summary
     .panel-body
-      +input('product', 'text', 'note', 'Comment', 'form')
+      +input(model, 'text', 'note', 'Comment', 'form')
 
   .panel.panel-default(ng-if='revisions.length')
     .panel-heading Drafts
@@ -402,22 +402,23 @@ mixin revisions()
             th Date
             th.actions Actions
         tbody
-          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage', ng-class='{ "edit-mode": (product._id === rev._id) }')
-            td {{ rev._id }}
-            td {{ rev.note || "Draft" }}
+          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage')
+            td {{ rev._id }} #[span(ng-if='currentRevision === rev._id') (current)]
+            td {{ rev.note }}
             td {{ rev.author.firstName }} {{ rev.author.lastName }}
             td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
             td.actions
               a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
+              a(href='#', ng-click='publish(rev._id, rev._id)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
 
       .text-center
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
 
-mixin productRevisions()
+mixin productRevisions(model)
   .panel.panel-default
     .panel-heading Draft summary
     .panel-body
-      +input('product', 'text', 'note', 'Comment', 'form')
+      +input(model, 'text', 'note', 'Comment', 'form')
 
   .panel.panel-default(ng-if='revisions.length')
     .panel-heading Drafts
@@ -453,7 +454,7 @@ mixin messageLevels()
         .panel-body
           input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
 
-mixin productActions()
+mixin draftActions()
   .modal-footer
     button.btn.btn-secondary() Save Draft
     button.btn.btn-primary(ng-click='shouldPublish = true') Save &amp; Publish

@@ -1,26 +1,18 @@
-'use strict';
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ENUM = require('../../enum');
+var PageBaseSchema = require('./page-base.schema');
+var extend = require('mongoose-schema-extend');
 
-var PageSchema = Schema({
-  slug: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  visible: {
-    type: Boolean,
-    default: false
-  },
-  comments: {
-    type: Boolean,
-    default: false
+var PageSchema = PageBaseSchema.extend({
+  currentRevision: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PageRevision'
   },
   _revisions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PageRevision'
   }]
-});
+}, { collection: 'pages' });
 
 module.exports = mongoose.model('Page', PageSchema);

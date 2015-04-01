@@ -181,6 +181,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
             +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
             +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
-    +productRevisions()
+    +productRevisions('product')
 
-  +productActions()
+  +draftActions()

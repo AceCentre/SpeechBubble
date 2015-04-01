@@ -24,6 +24,6 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')
         +checkbox('product.features.accessMethods', 'eyePointing', 'Eye pointing')
         +checkbox('product.features.accessMethods', 'scanning', 'Partner assisten scan')
-    +productRevisions()
+    +productRevisions('product')
 
-  +productActions()
+  +draftActions()
