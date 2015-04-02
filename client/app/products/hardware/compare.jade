@@ -14,7 +14,12 @@ include ../../mixins/product-helpers
       +compareThumbnail()
       +compareRating()
       +tickRow('Discontinued', 'product.discontinued')
-      +tickRow('Ready-made vocabularies', 'product.features.premadeVocabularies')
+      tr
+        th Ready-made vocabularies
+        td.text-center(ng-repeat='product in products')
+          div(ng-if='product.features.premadeVocabulariesAvailable.length', ng-repeat='vocab in product.features.premadeVocabulariesAvailable')
+            a(ng-href='/products/{{ vocab._id }}', target='_blank') {{ vocab.name }}
+          div(ng-if='!product.features.premadeVocabulariesAvailable.length') -
       tr
         th Operating systems
         td.text-center(ng-repeat='product in products')
