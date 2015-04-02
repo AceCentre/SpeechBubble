@@ -4,6 +4,7 @@ angular.module('speechBubbleApp')
   .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
 
     $scope.isAdmin = Auth.isAdmin;
+    $scope.isSaving = false;
 
     // Current working product
     $scope.product = angular.copy(current);
@@ -37,13 +38,16 @@ angular.module('speechBubbleApp')
     }
 
     function publishRevision(revision) {
+      $scope.isSaving = true;
       $http.post('/api/product/publish/' + current._id + '/' + revision)
         .success(function(res) {
+          $scope.isSaving = false;
           growl.success('Revision published.');
           $modalInstance.close();
           $rootScope.$broadcast('resultsUpdated');
         })
         .error(function(res) {
+          $scope.isSaving = false;
           growl.error('Could not publish revision.');
         });
     }
@@ -88,8 +92,10 @@ angular.module('speechBubbleApp')
         if(!form.$valid) {
           return growl.error('Form validation failure, please check your information.');
         }
+        $scope.isSaving = true;
         Product.update($scope.product,
           function(res) {
+            $scope.isSaving = false;
             if($scope.shouldPublish) {
               $scope.publish('the current draft', res._revisions[res._revisions.length - 1]);
               $scope.shouldPublish = false;
@@ -98,9 +104,9 @@ angular.module('speechBubbleApp')
               $modalInstance.close();
               growl.success('Product updated.');
             }
-
           },
           function(res) {
+            $scope.isSaving = false;
             growl.error('Product could not be saved.');
           });
       } else {

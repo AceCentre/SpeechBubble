@@ -6,40 +6,41 @@ include ../form-helpers
   h3.modal-title Hardware product
 
 form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
-  .modal-body
-    .panel.panel-default
-      .panel-heading Product Details
-      .panel-body
-        input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
-        +productDetails()
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .panel.panel-default
+        .panel-heading Product Details
+        .panel-body
+          input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
+          +productDetails()
 
-    +productImages()
-    +productVideos()
-    +vocabularies()
-    +deviceSupportedOperatingSystems()
-    +dedicated()
+      +productImages()
+      +productVideos()
+      +vocabularies()
+      +deviceSupportedOperatingSystems()
+      +dedicated()
 
-    .panel.panel-default
-      .panel-heading Mobile phone capabilities
-      .panel-body
-        +checkbox('product.features.mobilePhone', 'mobilePhoneSIM', 'In-built SIM')
-        .panel.panel-default(ng-show='product.features.mobilePhone.mobilePhoneSIM', destroy='mobilePhoneSIMType')
-          .panel-heading In-built SIM features
-          .panel-body
-            +radio('product.features.mobilePhoneSIMType', 'simType', 'smsOnly', 'SMS Only')
-            +radio('product.features.mobilePhoneSIMType', 'simType', 'phoneOnly', 'Phone Only')
-            +radio('product.features.mobilePhoneSIMType', 'simType', 'smsAndPhone', 'SMS and Phone')
-        +checkbox('product.features.mobilePhone', 'mobilePhoneRequired', 'Phone required')
-        .panel.panel-default(ng-show='product.features.mobilePhone.mobilePhoneRequired', destroy='mobilePhoneRequiredType')
-          .panel-heading Phone required features
-          .panel-body
-            +radio('product.features.mobilePhoneRequiredType', 'phoneRequiredType', 'smsOnly', 'SMS Only')
-            +radio('product.features.mobilePhoneRequiredType', 'phoneRequiredType', 'smsAndPhone', 'SMS and Phone')
-        +checkbox('temp', 'mobilePhoneOther', 'Other')
-        textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhone.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
+      .panel.panel-default
+        .panel-heading Mobile phone capabilities
+        .panel-body
+          +checkbox('product.features.mobilePhone', 'mobilePhoneSIM', 'In-built SIM')
+          .panel.panel-default(ng-show='product.features.mobilePhone.mobilePhoneSIM', destroy='mobilePhoneSIMType')
+            .panel-heading In-built SIM features
+            .panel-body
+              +radio('product.features.mobilePhoneSIMType', 'simType', 'smsOnly', 'SMS Only')
+              +radio('product.features.mobilePhoneSIMType', 'simType', 'phoneOnly', 'Phone Only')
+              +radio('product.features.mobilePhoneSIMType', 'simType', 'smsAndPhone', 'SMS and Phone')
+          +checkbox('product.features.mobilePhone', 'mobilePhoneRequired', 'Phone required')
+          .panel.panel-default(ng-show='product.features.mobilePhone.mobilePhoneRequired', destroy='mobilePhoneRequiredType')
+            .panel-heading Phone required features
+            .panel-body
+              +radio('product.features.mobilePhoneRequiredType', 'phoneRequiredType', 'smsOnly', 'SMS Only')
+              +radio('product.features.mobilePhoneRequiredType', 'phoneRequiredType', 'smsAndPhone', 'SMS and Phone')
+          +checkbox('temp', 'mobilePhoneOther', 'Other')
+          textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhone.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
 
-    +sharedHardware()
-    +addLinks('moreInformationLinks', 'More information URLs')
-    +productRevisions('product')
+      +sharedHardware()
+      +addLinks('moreInformationLinks', 'More information URLs')
+      +productRevisions('product')
 
-  +draftActions()
+    +draftActions()

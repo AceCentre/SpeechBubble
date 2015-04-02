@@ -2,14 +2,20 @@
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Create page
 
-form.form-horizontal(ng-submit='create()', novalidate)
-  .modal-body
-    .form-group
-      label.control-label.col-sm-2(for="slug") URL
-      .col-sm-10
-        input.form-control(id='slug', type='text', ng-model='slug', ng-required)
+form.form-horizontal(ng-submit='create(form)', novalidate, name='form')
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .form-group(ng-class='{ "has-success": form.slug.$valid && form.$submitted,\
+      "has-error": form.slug.$invalid && form.$submitted }')
+        label.control-label.col-sm-2(for="slug") URL
+        .col-sm-10
+          input.form-control(id='slug', name='slug', type='text', ng-model='slug', required)
+          p.help-block {{ url }}
+          p.help-block(ng-show='form.slug.$error.required && form.$submitted')
+            | URL is required
 
 
-  .modal-footer
-    button.btn.btn-primary() Create
-    a.btn.btn-tertiary(ng-click='cancel()') Cancel
+    .modal-footer
+      img.loading(ng-if='isSaving', src='/assets/images/loading.gif', width='39', height='39')
+      button.btn.btn-primary() Create
+      a.btn.btn-tertiary(ng-click='cancel()') Cancel

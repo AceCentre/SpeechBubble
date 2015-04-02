@@ -6,181 +6,182 @@ include ../form-helpers
   h3.modal-title Vocabulary product
 
 form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
-  .modal-body
-    .panel.panel-default
-      .panel-heading Product Details
-      .panel-body
-        input(type='hidden', ng-init='product.type = "ProductVocabulary"')
-        +productDetails()
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .panel.panel-default
+        .panel-heading Product Details
+        .panel-body
+          input(type='hidden', ng-init='product.type = "ProductVocabulary"')
+          +productDetails()
 
-    .panel.panel-default
-      .panel-heading How is the vocabulary primarily represented?
-      .panel-body
-        +radio('product.features', 'presentation', 'textOnly', 'Text only')
-        +radio('product.features', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
-        +radio('product.features', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
-        +radio('product.features', 'presentation', 'visualScenes', 'Visual Scenes')
+      .panel.panel-default
+        .panel-heading How is the vocabulary primarily represented?
+        .panel-body
+          +radio('product.features', 'presentation', 'textOnly', 'Text only')
+          +radio('product.features', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
+          +radio('product.features', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
+          +radio('product.features', 'presentation', 'visualScenes', 'Visual Scenes')
 
-        <!-- Text only -->
-        .panel.panel-default(ng-show='product.features.presentation === "textOnly"', destroy='presentationText')
-          .panel-heading How is the text primarily organised?
-          .panel-body
-            +radio('product.features', 'presentationText', 'keyboard', 'Keyboard')
-            +radio('product.features', 'presentationText', 'singleWords', 'Single words')
-            +radio('product.features', 'presentationText', 'phrases', 'Phrases')
+          <!-- Text only -->
+          .panel.panel-default(ng-show='product.features.presentation === "textOnly"', destroy='presentationText')
+            .panel-heading How is the text primarily organised?
+            .panel-body
+              +radio('product.features', 'presentationText', 'keyboard', 'Keyboard')
+              +radio('product.features', 'presentationText', 'singleWords', 'Single words')
+              +radio('product.features', 'presentationText', 'phrases', 'Phrases')
 
-            <!-- Keyboard only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "keyboard"', destroy='abbrExpansion')
-              .panel-heading Does the vocabulary system allow for abbreviation expansion (e.g. omy expands to "On my way!")
-              .panel-body
-                +switch('product.features', 'abbrExpansion')
+              <!-- Keyboard only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "keyboard"', destroy='abbrExpansion')
+                .panel-heading Does the vocabulary system allow for abbreviation expansion (e.g. omy expands to "On my way!")
+                .panel-body
+                  +switch('product.features', 'abbrExpansion')
 
-            <!-- Keyboard only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "keyboard"', destroy='wordPrediction')
-              .panel-heading Does the vocabulary system allow for word prediction?
-              .panel-body
-                +switch('product.features', 'wordPrediction')
+              <!-- Keyboard only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "keyboard"', destroy='wordPrediction')
+                .panel-heading Does the vocabulary system allow for word prediction?
+                .panel-body
+                  +switch('product.features', 'wordPrediction')
 
-            <!-- Single words only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='presentRelatedWords')
-              .panel-heading Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
-              .panel-body
-                +switch('product.features', 'presentRelatedWords')
+              <!-- Single words only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='presentRelatedWords')
+                .panel-heading Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
+                .panel-body
+                  +switch('product.features', 'presentRelatedWords')
 
-            <!-- Single words only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedStart')
-              .panel-heading How are words on the start page largely organised?
-              .panel-body
-                +radio('product.features', 'wordsOrganisedStart', 'core', 'Core words')
-                +radio('product.features', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
+              <!-- Single words only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedStart')
+                .panel-heading How are words on the start page largely organised?
+                .panel-body
+                  +radio('product.features', 'wordsOrganisedStart', 'core', 'Core words')
+                  +radio('product.features', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
 
-            <!-- Single words only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
-              .panel-heading How are words organised across the rest of the device?
-              .panel-body
-                +radio('product.features', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
-                +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-                +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+              <!-- Single words only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
+                .panel-heading How are words organised across the rest of the device?
+                .panel-body
+                  +radio('product.features', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
+                  +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+                  +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
-            <!-- Phrases only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
-              .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
-              .panel-body
-                +switch('product.features', 'presentRelatedPhrases')
+              <!-- Phrases only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
+                .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
+                .panel-body
+                  +switch('product.features', 'presentRelatedPhrases')
 
-            <!-- Phrases only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
-              .panel-heading How are phrases on the start page largely organised?
-              .panel-body
-                +radio('product.features', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
-                +radio('product.features', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
-                +radio('product.features', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
+              <!-- Phrases only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
+                .panel-heading How are phrases on the start page largely organised?
+                .panel-body
+                  +radio('product.features', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
+                  +radio('product.features', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
+                  +radio('product.features', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
 
-            <!-- Phrases only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
-              .panel-heading How are phrases organised across the rest of the device?
-              .panel-body
-                +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
-                +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-                +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
-
-
-        <!-- textAndSymbolsOrPhotos only -->
-        .panel.panel-default(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='presentationText')
-          +imageRepresentationSupported()
-
-          .panel-heading How is the language primarily organised?
-          .panel-body
-            +radio('product.features', 'presentationText', 'singleWords', 'Single words')
-            +radio('product.features', 'presentationText', 'phrases', 'Phrases')
-
-            <!-- Single words only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='presentRelatedWords')
-              .panel-heading Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
-              .panel-body
-                +switch('product.features', 'presentRelatedWords')
-
-            <!-- Single words only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedStart')
-              .panel-heading How are words on the start page largely organised?
-              .panel-body
-                +radio('product.features', 'wordsOrganisedStart', 'core', 'Core words')
-                +radio('product.features', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
-
-            <!-- Single words only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
-              .panel-heading How are words organised across the rest of the device?
-              .panel-body
-                +radio('product.features', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
-                +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-                +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
-
-            <!-- Phrases only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
-              .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
-              .panel-body
-                +switch('product.features', 'presentRelatedPhrases')
-
-            <!-- Phrases only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
-              .panel-heading How are phrases on the start page largely organised?
-              .panel-body
-                +radio('product.features', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
-                +radio('product.features', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
-                +radio('product.features', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
-
-            <!-- Phrases only -->
-            .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
-              .panel-heading How are phrases organised across the rest of the device?
-              .panel-body
-                +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
-                +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-                +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
-
-        <!-- symbolsOrPhotos only -->
-        .panel.panel-default(ng-show='product.features.presentation === "symbolsOrPhotos"', destroy='presentationText')
-          +imageRepresentationSupported()
-
-          .panel-heading How is the language primarily organised?
-          .panel-body
-           +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
-           +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-           +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+              <!-- Phrases only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
+                .panel-heading How are phrases organised across the rest of the device?
+                .panel-body
+                  +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
+                  +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+                  +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
 
+          <!-- textAndSymbolsOrPhotos only -->
+          .panel.panel-default(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='presentationText')
+            +imageRepresentationSupported()
 
-    .panel.panel-default
-      .panel-heading What access method is this designed for? (multiple allowed)
-      .panel-body
-        <!-- Touch -->
-        +checkbox('product.features', 'accessMethodTouch', 'Touch')
-        .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchKeyguardsAvailable')
-          .panel-heading Are specially designed keyguards available?
-          .panel-body
-            +switch('product.features', 'accessMethodTouchKeyguardsAvailable')
+            .panel-heading How is the language primarily organised?
+            .panel-body
+              +radio('product.features', 'presentationText', 'singleWords', 'Single words')
+              +radio('product.features', 'presentationText', 'phrases', 'Phrases')
 
-        +accessMethodOptions('accessMethodTouch')
+              <!-- Single words only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='presentRelatedWords')
+                .panel-heading Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
+                .panel-body
+                  +switch('product.features', 'presentRelatedWords')
 
-        <!-- Mouse or alternative -->
-        +checkbox('product.features', 'accessMethodMouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
-        +accessMethodOptions('accessMethodMouseOrAlternative')
+              <!-- Single words only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedStart')
+                .panel-heading How are words on the start page largely organised?
+                .panel-body
+                  +radio('product.features', 'wordsOrganisedStart', 'core', 'Core words')
+                  +radio('product.features', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
 
-        <!-- Eyegaze -->
-        +checkbox('product.features', 'accessMethodEyegaze', 'Eyegaze')
-        +accessMethodOptions('accessMethodEyegaze')
+              <!-- Single words only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "singleWords"', destroy='wordsOrganisedDevice')
+                .panel-heading How are words organised across the rest of the device?
+                .panel-body
+                  +radio('product.features', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
+                  +radio('product.features', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+                  +radio('product.features', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
-        <!-- Switch -->
-        +checkbox('product.features', 'accessMethodSwitch', 'Switch')
-        .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
-          .panel-heading What scanning options are available (without additional software)
-          .panel-body
-            +checkbox('product.features', 'accessMethodSwitchOptions.linear', 'Linear')
-            +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
-            +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
-            +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
-            +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
-            +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
-            +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
-    +productRevisions('product')
+              <!-- Phrases only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='presentRelatedPhrases')
+                .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
+                .panel-body
+                  +switch('product.features', 'presentRelatedPhrases')
 
-  +draftActions()
+              <!-- Phrases only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedStart')
+                .panel-heading How are phrases on the start page largely organised?
+                .panel-body
+                  +radio('product.features', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
+                  +radio('product.features', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
+                  +radio('product.features', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
+
+              <!-- Phrases only -->
+              .panel.panel-default(ng-show='product.features.presentationText === "phrases"', destroy='phrasesOrganisedDevice')
+                .panel-heading How are phrases organised across the rest of the device?
+                .panel-body
+                  +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
+                  +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+                  +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+
+          <!-- symbolsOrPhotos only -->
+          .panel.panel-default(ng-show='product.features.presentation === "symbolsOrPhotos"', destroy='presentationText')
+            +imageRepresentationSupported()
+
+            .panel-heading How is the language primarily organised?
+            .panel-body
+             +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
+             +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+             +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+
+
+
+      .panel.panel-default
+        .panel-heading What access method is this designed for? (multiple allowed)
+        .panel-body
+          <!-- Touch -->
+          +checkbox('product.features', 'accessMethodTouch', 'Touch')
+          .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchKeyguardsAvailable')
+            .panel-heading Are specially designed keyguards available?
+            .panel-body
+              +switch('product.features', 'accessMethodTouchKeyguardsAvailable')
+
+          +accessMethodOptions('accessMethodTouch')
+
+          <!-- Mouse or alternative -->
+          +checkbox('product.features', 'accessMethodMouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
+          +accessMethodOptions('accessMethodMouseOrAlternative')
+
+          <!-- Eyegaze -->
+          +checkbox('product.features', 'accessMethodEyegaze', 'Eyegaze')
+          +accessMethodOptions('accessMethodEyegaze')
+
+          <!-- Switch -->
+          +checkbox('product.features', 'accessMethodSwitch', 'Switch')
+          .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
+            .panel-heading What scanning options are available (without additional software)
+            .panel-body
+              +checkbox('product.features', 'accessMethodSwitchOptions.linear', 'Linear')
+              +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
+              +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
+              +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
+              +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
+              +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
+              +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+      +productRevisions('product')
+
+    +draftActions()

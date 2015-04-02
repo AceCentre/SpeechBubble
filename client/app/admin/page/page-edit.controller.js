@@ -7,16 +7,20 @@ angular.module('speechBubbleApp')
     $scope.page = page;
     $scope.revisionsPerPage = 5;
     $scope.currentPage = 1;
+    $scope.isSaving = false;
 
     function publishRevision(revision) {
+      $scope.isSaving = true;
       $http.post('/api/page/publish/' + page._id + '/' + revision)
         .success(function(res) {
+          $scope.isSaving = false;
           growl.success('Revision published.');
           $modalInstance.close();
           $rootScope.$broadcast('resultsUpdated');
         })
         .error(function(res) {
           growl.error('Could not publish revision.');
+          $scope.isSaving = false;
         });
     }
 
@@ -65,6 +69,7 @@ angular.module('speechBubbleApp')
 
     $scope.update = function(form, message) {
       $scope.submitted = true;
+      $scope.isSaving = true;
       if(form.$valid) {
         Page.update($scope.page, function(res, close) {
           if($scope.shouldPublish) {
@@ -74,7 +79,9 @@ angular.module('speechBubbleApp')
             growl.success('Page updated.');
             $modalInstance.close();
           }
+          $scope.isSaving = false;
         }, function() {
+          $scope.isSaving = false;
           growl.error('Page could not be saved.');
         });
       }

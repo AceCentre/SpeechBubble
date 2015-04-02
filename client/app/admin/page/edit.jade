@@ -5,47 +5,48 @@ include ../products/form-helpers
   h3.modal-title Page Edit
 
 form.form-horizontal(name='form', ng-submit='update(form)', novalidate='')
-  .modal-body
+  fieldset(ng-disabled='isSaving')
+    .modal-body
 
-    .panel.panel-default
-      .panel-heading Publish
-      .panel-body
-        .form-group
-          label.control-label.col-sm-2(for="Slug") Slug
-          .col-sm-10
-            input.form-control(id='Slug', type='text', ng-model='page.slug', ng-required)
-            p.help-block {{ url }}
+      .panel.panel-default
+        .panel-heading Publish
+        .panel-body
+          .form-group
+            label.control-label.col-sm-2(for="Slug") URL
+            .col-sm-10
+              input.form-control(id='Slug', type='text', ng-model='page.slug', ng-required)
+              p.help-block {{ url }}
 
-        .form-group
-          label.control-label.col-sm-2(for="Visible") Visible
-          .col-sm-10
-            +defaultedSwitch('page', 'visible')
-        .form-group
-          label.control-label.col-sm-2(for="Comments") Comments
-          .col-sm-10
-            +defaultedSwitch('page', 'comments')
+          .form-group
+            label.control-label.col-sm-2(for="Visible") Visible
+            .col-sm-10
+              +defaultedSwitch('page', 'visible')
+          .form-group
+            label.control-label.col-sm-2(for="Comments") Comments
+            .col-sm-10
+              +defaultedSwitch('page', 'comments')
 
-    .panel.panel-default
-      .panel-heading Content
-      .panel-body
+      .panel.panel-default
+        .panel-heading Content
+        .panel-body
 
-        .form-group(ng-class='{ "has-success": form.Title.$valid && submitted,\
-        "has-error": form.Title.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Title") Title
-          .col-sm-10
-            input.form-control(id='Title', name='Title', type='text', ng-model='page.title', required='')
-            p.help-block(ng-show='form.Title.$error.required && submitted')
-              | Page title is required
+          .form-group(ng-class='{ "has-success": form.Title.$valid && submitted,\
+          "has-error": form.Title.$invalid && submitted }')
+            label.control-label.col-sm-2(for="Title") Title
+            .col-sm-10
+              input.form-control(id='Title', name='Title', type='text', ng-model='page.title', required='')
+              p.help-block(ng-show='form.Title.$error.required && submitted')
+                | Page title is required
 
-        .form-group(ng-class='{ "has-success": form.Content.$valid && submitted,\
-        "has-error": form.Content.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Content") Content
-          .col-sm-10
-            textarea(id='Content', name='Content', ckeditor='editorOptions', ng-model='page.content', required='')
-            p.help-block(ng-show='form.Content.$error.required && submitted')
-              | Page content is required
+          .form-group(ng-class='{ "has-success": form.Content.$valid && submitted,\
+          "has-error": form.Content.$invalid && submitted }')
+            label.control-label.col-sm-2(for="Content") Content
+            .col-sm-10
+              textarea(id='Content', name='Content', ckeditor='editorOptions', ng-model='page.content', required='')
+              p.help-block(ng-show='form.Content.$error.required && submitted')
+                | Page content is required
 
-    +pageRevisions('page')
+      +pageRevisions('page')
 
 
-  +draftActions()
+    +draftActions()

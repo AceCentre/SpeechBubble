@@ -4,26 +4,27 @@ include ../form-helpers
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Low-tech product
 form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
-  .modal-body
-    .panel.panel-default
-      .panel-heading Product Details
-      .panel-body
-        input(type='hidden', ng-init='product.type = "ProductLowTech"')
-        +productDetails()
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .panel.panel-default
+        .panel-heading Product Details
+        .panel-body
+          input(type='hidden', ng-init='product.type = "ProductLowTech"')
+          +productDetails()
 
-    +productImages()
-    +imageRepresentationSupported()
-    +price()
-    +addLinks('supportLinks', 'Support URLs')
-    +addLinks('purchaseLinks', 'Purchase URLs')
-    +addLinks('moreInformationLinks', 'More information URLs')
-    .panel.panel-default
-      .panel-heading What access method is this designed for? (multiple allowed)
-      .panel-body
-        +checkbox('product.features.accessMethods', 'finger', 'Finger pointing')
-        +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')
-        +checkbox('product.features.accessMethods', 'eyePointing', 'Eye pointing')
-        +checkbox('product.features.accessMethods', 'scanning', 'Partner assisten scan')
-    +productRevisions('product')
+      +productImages()
+      +imageRepresentationSupported()
+      +price()
+      +addLinks('supportLinks', 'Support URLs')
+      +addLinks('purchaseLinks', 'Purchase URLs')
+      +addLinks('moreInformationLinks', 'More information URLs')
+      .panel.panel-default
+        .panel-heading What access method is this designed for? (multiple allowed)
+        .panel-body
+          +checkbox('product.features.accessMethods', 'finger', 'Finger pointing')
+          +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')
+          +checkbox('product.features.accessMethods', 'eyePointing', 'Eye pointing')
+          +checkbox('product.features.accessMethods', 'scanning', 'Partner assisten scan')
+      +productRevisions('product')
 
-  +draftActions()
+    +draftActions()
