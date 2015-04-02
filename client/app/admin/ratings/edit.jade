@@ -1,0 +1,15 @@
+include ../../mixins/form-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Rating
+
+.modal-body
+  .panel.panel-default
+    .panel-heading
+    .panel-body
+
+
+.modal-footer
+  button.btn.btn-primary(ng-click='save(form)') Save
+  a.btn.btn-tertiary(ng-click='cancel()') Cancel

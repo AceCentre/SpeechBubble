@@ -5,6 +5,28 @@ var Rating = require('./rating.model').Rating;
 var RatingReview = require('./rating.model').RatingReview;
 var Product = require('../product/product.model');
 
+exports.list = function(req, res) {
+  var skip = req.query.skip || 0;
+  var limit = req.query.limit || 10;
+  var query = { 'reviews.visible': false };
+
+  Rating.find(query).count(function(err, total) {
+    Rating
+    .find(query)
+    .sort({ updatedAt: 'desc' })
+    .skip(skip)
+    .limit(limit)
+    .populate('product').exec(function(err, ratings) {
+      if(err) { return handleError(res, err); }
+      if(!ratings) { return res.send(404); }
+      res.send(200, {
+        total: total,
+        items: ratings
+      });
+    });
+  });
+};
+
 // Get a single rating
 exports.show = function(req, res) {
   var productId = req.params.id;

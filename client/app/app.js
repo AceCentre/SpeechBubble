@@ -142,6 +142,11 @@ angular.module('speechBubbleApp', [
       templateUrl: 'app/admin/products/products.html',
       controller: 'AdminProductsCtrl'
     })
+      .state('admin-ratings', {
+        url: '/admin/ratings',
+        templateUrl: 'app/admin/ratings/ratings.html',
+        controller: 'AdminRatingsCtrl'
+      })
     .state('upload', {
       url: '/admin/upload',
       templateUrl: 'app/admin/upload/upload.html',
