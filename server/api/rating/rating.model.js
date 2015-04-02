@@ -33,7 +33,7 @@ var RatingSchema = new Schema({
     ref: 'Product',
     required: true
   },
-  averageRating: {
+  average: {
     type: Number,
     default: 0
   },
@@ -52,7 +52,7 @@ RatingSchema.pre('save', function(next) {
     sum += review.rating;
   });
 
-  this.averageRating = totalReviews && (sum / totalReviews);
+  this.average = totalReviews && (sum / totalReviews);
   next();
 });
 
@@ -60,7 +60,7 @@ RatingSchema.post('save', function(next) {
   var self = this;
   Product.findByIdAndUpdate(self.product, {
     ratings: {
-      average: self.averageRating,
+      average: self.average,
       total: self.reviews.length
     }
   }, function(err, product) {

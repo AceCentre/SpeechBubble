@@ -30,7 +30,7 @@ mixin pageListingNotice(type)
 
   p(ng-hide='!total', page-count='', page-type='#{type}')
 
-mixin ratings()
-  div.ratings(rating, ng-model="ratings.averageRating", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
-  span.label.label-default(ng-if='ratings.averageRating') {{ ratings.averageRating | number: 2 }}
-  p: a(ng-pluralize, count="ratings.reviews.length", ng-href='/products/{{ product._id }}/ratings', when="{'0': 'write a review', 'one': '1 review', 'other': '{} reviews'}")
+mixin ratings(average, id)
+  div.ratings(rating, ng-model="#{average}", max="5", readonly="true", ng-class='{ "no-ratings": !#{average} }')
+  span.label.label-default(ng-if='#{average}') {{ #{average} | number: 2 }}
+  p: a(ng-pluralize, count="ratings.reviews.length", ng-href='/products/{{ #{id} }}/ratings', when="{'0': 'write a review', 'one': '1 review', 'other': '{} reviews'}")

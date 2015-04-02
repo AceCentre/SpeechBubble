@@ -3,7 +3,7 @@ include ../mixins/results-helpers
 block content
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Review
   h1 {{ ratings.product.name }}
-  +ratings()
+  +ratings('ratings.average', 'ratings.product._id')
 
   hr
 
