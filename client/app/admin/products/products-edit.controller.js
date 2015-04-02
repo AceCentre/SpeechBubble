@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductEditCtrl', function(Auth, $timeout, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
+  .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
 
     $scope.isAdmin = Auth.isAdmin;
 
@@ -39,7 +39,7 @@ angular.module('speechBubbleApp')
     function publishRevision(revision) {
       $http.post('/api/product/publish/' + current._id + '/' + revision)
         .success(function(res) {
-          growl.success('Revision ' + revision + ' published.');
+          growl.success('Revision published.');
           $modalInstance.close();
           $rootScope.$broadcast('resultsUpdated');
         })
@@ -67,6 +67,10 @@ angular.module('speechBubbleApp')
         hasChanges = !angular.equals(currentRevision, currentProduct);
       }
       return hasChanges;
+    };
+
+    $scope.getPublishMessage = function(rev) {
+      return 'this draft (' + $filter('date')(rev.updatedAt, 'dd/MM/yyyy HH:mm:ss') + ')';
     };
 
     // Set product back to original product passed into controller

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminPageEditCtrl', function($scope, $http, $rootScope, Auth, $modalInstance, Modal, Page, pages, page, growl) {
+  .controller('AdminPageEditCtrl', function($scope, $http, $rootScope, $filter, Auth, $modalInstance, Modal, Page, pages, page, growl) {
 
     $scope.isAdmin = Auth.isAdmin;
     $scope.page = page;
@@ -11,7 +11,7 @@ angular.module('speechBubbleApp')
     function publishRevision(revision) {
       $http.post('/api/page/publish/' + page._id + '/' + revision)
         .success(function(res) {
-          growl.success('Revision ' + revision + ' published.');
+          growl.success('Revision published.');
           $modalInstance.close();
           $rootScope.$broadcast('resultsUpdated');
         })
@@ -31,6 +31,10 @@ angular.module('speechBubbleApp')
     }
 
     updateRevisions();
+
+    $scope.getPublishMessage = function(rev) {
+      return 'this draft (' + $filter('date')(rev.updatedAt, 'dd/MM/yyyy HH:mm:ss') + ')';
+    };
 
     $scope.publish = Modal.confirm.submit(function(revision) { // callback when modal is confirmed
       publishRevision(revision);

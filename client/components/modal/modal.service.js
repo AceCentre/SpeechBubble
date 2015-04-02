@@ -49,7 +49,7 @@ angular.module('speechBubbleApp')
               modal: {
                 dismissable: true,
                 title: 'Confirm Publish',
-                html: '<p>Are you sure you want to publish <strong>' + revision + '</strong> ?</p>',
+                html: '<p>Are you sure you want to publish <strong>' + revision + '</strong>?</p>',
                 buttons: [{
                   classes: 'btn-primary',
                   text: 'Publish',
