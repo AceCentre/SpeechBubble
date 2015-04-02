@@ -1,0 +1,29 @@
+@media print {
+  // remove urls from print
+  a[href]:after {
+    content: none !important;
+  }
+
+  header, footer, .sidebar {
+    display: none;
+  }
+  .modal-open .page-content {
+    display: none;
+  }
+  .modal-open .modal {
+    position: static;
+
+    .modal-body {
+      padding: 0;
+    }
+
+    button, .btn {
+      display: none;
+    }
+
+    .modal-header,
+    .modal-content {
+      border: 0;
+    }
+  }
+}
