@@ -20,6 +20,17 @@ angular.module('speechBubbleApp')
     });
   };
 
+  $scope.clearCompare = function(item) {
+    if(item) {
+      var index = $scope.comparing.indexOf(item);
+      if(index > -1) {
+        $scope.comparing.splice(index, 1);
+      }
+    } else {
+      $scope.comparing = [];
+    }
+  };
+
   $scope.goCompare = function() {
     var modal = ProductCompareTemplate($scope.comparing[0]);
 
@@ -33,7 +44,6 @@ angular.module('speechBubbleApp')
         }
       }
     });
-
   };
 
   $scope.compare = function(product) {

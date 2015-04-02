@@ -5,11 +5,13 @@ block append sidebar
   div.product-comparing-list(ng-if='comparing.length')
     h2 Comparing {{ comparing[0].type | type | lowercase }} products
     div.list-group()
-      a(href="#", ng-repeat='product in comparing track by $index').list-group-item
+      a(href="#", ng-click='clearCompare(product)', ng-repeat='product in comparing track by $index').list-group-item
+        span.glyphicon.glyphicon-remove
         h3.list-group-item-heading {{ product.name }}
         p.list-group-item-text {{ product.description | more:30 }}
 
-    a.btn.btn-primary.pull-right(ng-if='comparing.length > 1', ng-click='goCompare()') View comparison
+    a.btn.btn-primary(ng-if='comparing.length > 1', ng-click='goCompare()') View comparison
+    a.btn.btn-tertiary(ng-if='comparing.length > 1', ng-click='clearCompare()') Remove all
 
 block content
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product

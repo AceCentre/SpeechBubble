@@ -5,10 +5,6 @@
   border: 1px solid darken($backgroundColor, 5%);
   position: static; // prevent affix sidebar from being positioned relative to this element
 
-  @media (max-width: $screen-xs-max) {
-      display: none;
-  }
-
   .donate {
     display: block;
     text-align: center;
@@ -16,9 +12,19 @@
 
   h2 {
     color: $primaryColor;
+    font-size: 1.4em;
   }
 
-  h2:first-child {
-    margin-top: 0;
+  h3 {
+    font-size: 1.2em;
   }
+
+  .btn {
+    display: block;
+
+    & + .btn {
+      margin-top: 10px;
+    }
+  }
+
 }
