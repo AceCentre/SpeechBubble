@@ -6,8 +6,10 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
+router.get('/', auth.hasRole('admin'), controller.list);
 router.get('/:id', controller.show);
-router.put('/:id', auth.isAuthenticated(), controller.update);
-router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+router.post('/:id', controller.create);
+router.put('/:id', auth.hasRole('admin'), controller.update);
+router.delete('/:id/:ratingId', auth.hasRole('admin'), controller.remove);
 
 module.exports = router;

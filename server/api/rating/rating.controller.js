@@ -5,6 +5,32 @@ var Rating = require('./rating.model').Rating;
 var RatingReview = require('./rating.model').RatingReview;
 var Product = require('../product/product.model');
 
+exports.list = function(req, res) {
+  var skip = req.query.skip || 0;
+  var limit = req.query.limit || 10;
+  var query = { 'reviews.visible': false };
+
+  Rating.find(query).count(function(err, total) {
+    Rating
+    .find(query)
+    .sort({ updatedAt: 'desc' })
+    .skip(skip)
+    .limit(limit)
+    .populate('product')
+    .exec(function(err, ratings) {
+      Rating
+      .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
+        if(err) { return handleError(res, err); }
+        if(!ratings) { return res.send(404); }
+        res.send(200, {
+          total: total,
+          items: ratings
+        });
+      });
+    });
+  });
+};
+
 // Get a single rating
 exports.show = function(req, res) {
   var productId = req.params.id;
@@ -49,7 +75,7 @@ exports.show = function(req, res) {
 };
 
 // Updates an existing rating in the DB.
-exports.update = function(req, res) {
+exports.create = function(req, res) {
   Rating.findOne({ product: req.params.id }, function (err, rating) {
     if (err) { return handleError(res, err); }
     if(!rating) { return res.send(404); }
@@ -65,14 +91,29 @@ exports.update = function(req, res) {
   });
 };
 
+// Updates a rating.
+exports.update = function(req, res) {
+  req.body.product = req.body.product._id;
+  req.body.reviews = req.body.reviews.map(function(review) {
+    review.author = review.author._id;
+    return review;
+  });
+  Rating.findOneAndUpdate({ _id: req.params.id }, req.body, function(err, rating) {
+    if (err) { return handleError(res, err); }
+    if(!rating) { return res.send(404); }
+    res.send(200, rating);
+  });
+};
+
 // Deletes a rating from the DB.
-exports.destroy = function(req, res) {
+exports.remove = function(req, res) {
   Rating.findById(req.params.id, function (err, rating) {
     if(err) { return handleError(res, err); }
     if(!rating) { return res.send(404); }
-    rating.remove(function(err) {
+    rating.reviews.pull({ _id: req.params.ratingId });
+    rating.save(function(err, rating) {
       if(err) { return handleError(res, err); }
-      return res.send(204);
+      res.send(200, rating);
     });
   });
 };

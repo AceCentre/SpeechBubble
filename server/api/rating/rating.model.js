@@ -37,7 +37,9 @@ var RatingSchema = new Schema({
     type: Number,
     default: 0
   },
-  reviews: [RatingReviewSchema]
+  reviews: [RatingReviewSchema],
+  createdAt: Date,
+  updatedAt: Date
 });
 
 RatingSchema.pre('save', function(next) {
@@ -53,6 +55,15 @@ RatingSchema.pre('save', function(next) {
   });
 
   this.average = totalReviews && (sum / totalReviews);
+  next();
+});
+
+RatingSchema.pre('save', function(next) {
+  var now = new Date();
+  if(!this.createdAt) {
+    this.createdAt = now;
+  }
+  this.updatedAt = now;
   next();
 });
 

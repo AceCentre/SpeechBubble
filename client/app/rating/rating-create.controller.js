@@ -13,16 +13,18 @@ angular.module('speechBubbleApp')
       $scope.submitted = true;
 
       if(form.$valid) {
-        Rating.update($scope.review,
-          function() {
+        $http.post('/api/rating/' + $scope.review._id, {
+          rating: $scope.review.rating,
+          comment: $scope.review.comment
+        })
+        .success(function() {
             $modalInstance.close();
             $rootScope.$broadcast('resultsUpdated');
             growl.success('Review submitted for moderation.');
-          },
-          function() {
+        })
+        .error(function() {
             growl.error('Could not create review.');
-          }
-        );
+        });
       }
 
     };
