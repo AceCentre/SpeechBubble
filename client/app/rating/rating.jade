@@ -7,7 +7,7 @@ block content
 
   hr
 
-  div.panel.panel-default(ng-repeat='review in ratings.reviews')
+  div.panel.panel-default(ng-repeat='review in ratings.reviews | reverse')
     div.panel-heading
       | {{ review.author.firstName }}
       div.pull-right(rating, ng-model="review.rating", max="5", readonly="true")
