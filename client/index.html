@@ -44,11 +44,11 @@
     <![endif]-->
   </head>
   <body ng-cloak>
-    <noscript>
-      <div class="alert alert-danger" role="alert">
-        This site requires a JavaScript enabled web browser. Please enable JavaScript or <a href="http://browsehappy.com/">upgrade your browser</a>.
-      </div>
+    <!-- remove directive in place for mean SEO and no-js static serving -->
+    <noscript class="alert alert-danger" role="alert" remove>
+      For a greater experience please enable JavaScript. Alternatively <a href="?_escaped_fragment_">click here</a> to be provided with a static version of this website.
     </noscript>
+
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -137,6 +137,7 @@
       <script src="components/auth/auth.service.js"></script>
       <script src="components/auth/user.service.js"></script>
       <script src="components/comments/comments.directive.js"></script>
+      <script src="components/directives/remove.directive.js"></script>
       <script src="components/filters/from.js"></script>
       <script src="components/footer/footer.controller.js"></script>
       <script src="components/forms/httpPrefix.directive.js"></script>
