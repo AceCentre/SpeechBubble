@@ -14,13 +14,13 @@ block content
           tr
             th Product
             th Average Rating
-            th Total Reviews
+            th Awaiting Moderation
             th.actions Actions
         tbody
           tr(ng-repeat='item in items')
             td: a(ng-href='/products/{{ item.product._id }}', target='_blank') {{ item.product.name }}
             td {{ item.average | number: 2 }}
-            td {{ item.reviews.length }}
+            td {{ awaitingModeration(item.reviews) }}
             td.actions
               a(href='#', ng-click='edit(item)'): span.glyphicon.glyphicon-edit
       +pagination()

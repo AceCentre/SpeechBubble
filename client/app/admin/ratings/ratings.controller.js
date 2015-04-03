@@ -24,4 +24,11 @@ angular.module('speechBubbleApp')
       });
     };
 
+    $scope.awaitingModeration = function(reviews) {
+      var awaiting = reviews.filter(function(review) {
+        return !review.visible;
+      });
+      return awaiting.length;
+    };
+
   });
