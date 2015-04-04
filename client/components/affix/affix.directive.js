@@ -5,8 +5,9 @@ angular.module('speechBubbleApp')
   return {
     link: function(scope, element, attrs) {
       element.affix({
-        top: attrs['data-offset-top'],
-        bottom: attrs['data-offset-bottom']
+        offset: {
+          top: attrs.offsetTop || 0
+        }
       });
     }
   };

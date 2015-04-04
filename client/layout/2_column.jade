@@ -1,9 +1,11 @@
 .container
   .row
-    .col-sm-3.sidebar
-      block sidebar
-        a.donate(href="http://www.justgiving.com/acecentre/donate/?utm_source=website_cid139889&utm_medium=buttons&utm_content=acecentre&utm_campaign=donate_white")
-          img(src="https://www.justgiving.com/charities/content/images/logo-buttons/white/donate_white.gif", alt="Donate with JustGiving")
+    .col-sm-3
+      div(affix, data-offset-top='155')
+        div.sidebar.col-sm-12
+          block sidebar
+            a.donate(href="http://www.justgiving.com/acecentre/donate/?utm_source=website_cid139889&utm_medium=buttons&utm_content=acecentre&utm_campaign=donate_white")
+              img(src="https://www.justgiving.com/charities/content/images/logo-buttons/white/donate_white.gif", alt="Donate with JustGiving")
     .col-sm-9
       .main-content
         block content
