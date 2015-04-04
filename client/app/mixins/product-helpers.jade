@@ -29,7 +29,7 @@ mixin compareThumbnail()
   tr
     th Thumbnail
     td.text-center(ng-repeat='product in products')
-      a(ng-href='/products/{{ item._id }}', target='_blank')
+      a(ng-href='/products/{{ product._id }}', target='_blank')
         img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
 
 mixin comparePrice()
