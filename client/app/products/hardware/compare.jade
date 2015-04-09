@@ -23,7 +23,7 @@ include ../../mixins/product-helpers
       tr
         th Operating systems
         td.text-center(ng-repeat='product in products')
-          +listLines('product.operatingSystems')
+          +listLines('product.features.operatingSystems')
 
       +textRow('Message levels', 'product.features.messageLevels')
       +tickRow('Can be locked to communication software', 'product.features.dedicated')

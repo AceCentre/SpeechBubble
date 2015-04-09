@@ -1,5 +1,4 @@
 include ../../mixins/product-helpers
-
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Comparing {{ products.length }} {{ products[0].type | type | lowercase }} products
@@ -13,17 +12,13 @@ include ../../mixins/product-helpers
       +compareThumbnail()
       +compareRating()
       +tickRow('Discontinued', 'product.discontinued')
-      +compareFormsOfRepresentation()
       tr
-        th Speech type options
+        th How is the vocabulary primarily represented?
         td.text-center(ng-repeat='product in products')
-          +textLineIf('Synthesised', 'product.features.speechTypeSynthesised')
-          +textLineIf('Recorded', 'product.features.speechTypeRecorded')
-          +textLineIf('-', '!product.features.speechTypeSynthesised && !product.features.speechTypeRecorded')
-
-      +compareEnviroControl()
-      +compareVisualOptions()
-      +compareSupportedDevices()
-      +comparePrice()
+          +textLineIf('Text only', 'product.features.presentation === "textOnly"')
+          +textLineIf('Text & Symbols or Photos', 'product.features.presentation === "textAndSymbolsOrPhotos"')
+          +textLineIf('Symbols or Photos Only', 'product.features.presentation === "symbolsOrPhotos"')
+          +textLineIf('Visual Scenes', 'product.features.presentation === "visualScenes"')
+          +textLineIf('-', '!product.features.presentation')
       +compareAccessMethods()
       +compareViewActions()

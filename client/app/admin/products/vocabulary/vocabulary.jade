@@ -87,9 +87,10 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
 
 
           <!-- textAndSymbolsOrPhotos only -->
-          .panel.panel-default(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='presentationText')
+          div(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='imageRepresentation')
             +imageRepresentationSupported()
 
+          .panel.panel-default(ng-show='product.features.presentation === "textAndSymbolsOrPhotos"', destroy='presentationText')
             .panel-heading How is the language primarily organised?
             .panel-body
               +radio('product.features', 'presentationText', 'singleWords', 'Single words')
@@ -139,9 +140,10 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
                   +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
 
           <!-- symbolsOrPhotos only -->
-          .panel.panel-default(ng-show='product.features.presentation === "symbolsOrPhotos"', destroy='presentationText')
+          div(ng-show='product.features.presentation === "symbolsOrPhotos"', destroy='imageRepresentation')
             +imageRepresentationSupported()
 
+          .panel.panel-default(ng-show='product.features.presentation === "symbolsOrPhotos"', destroy='presentationText')
             .panel-heading How is the language primarily organised?
             .panel-body
              +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')

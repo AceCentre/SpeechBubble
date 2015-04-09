@@ -22,7 +22,11 @@ mixin textOrPlaceholder(label, model)
   div(ng-if='!#{model}') -
 
 mixin listLines(model)
-  div(ng-if='#{model}.length', ng-repeat='item in #{model}') {{ item }}
+  div(ng-if='#{model}.length', ng-repeat='item in #{model}') {{ item.name || item }}
+  div(ng-if='!#{model}.length') -
+
+mixin listLinkLines(model)
+  div(ng-if='#{model}.length', ng-repeat='item in #{model}'): a(ng-href='/products/{{ item._id }}', target='_blank') {{ item.name || item }}
   div(ng-if='!#{model}.length') -
 
 mixin compareThumbnail()
@@ -65,7 +69,13 @@ mixin compareAccessMethods()
       +textLineIf('Mouse or alternative', 'product.features.accessMethods.mouseOrAlternative')
       +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
       +textLineIf('Switch', 'product.features.accessMethods.switch')
-      +textLineIf('-', '!product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
+      // Low Tech
+      +textLineIf('Finger pointing', 'product.features.accessMethods.finger')
+      +textLineIf('Fist pointing', 'product.features.accessMethods.grossPointing')
+      +textLineIf('Eye pointing', 'product.features.accessMethods.eyePointing')
+      +textLineIf('Partner assisted scan', 'product.features.accessMethods.scanning')
+
+      +textLineIf('-', '!product.features.accessMethods.finger && !product.features.accessMethods.grossPointing && !product.features.accessMethods.eyePointing && !product.features.accessMethods.scanning && !product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
 
 mixin compareViewActions()
   tr
@@ -77,3 +87,27 @@ mixin compareViewActions()
     td
     td.text-center(colspan='{{ products.length }}')
       em Link opens in a new window
+
+mixin compareEnviroControl
+  tr
+    th Environmental control capabilities
+    td.text-center(ng-repeat='product in products')
+      +textLineIf('Built-in', 'product.features.enviroControl === "built-in"')
+      +textLineIf('Additional', 'product.features.enviroControl === "additional"')
+      +textLineIf('None', 'product.features.enviroControl !== "built-in" && product.features.enviroControl !== "additional"')
+
+mixin compareVisualOptions()
+  tr
+    th Visual options
+    td.text-center(ng-repeat='product in products')
+      +textLineIf('Zoom', 'product.features.visualOptions.zoom')
+      +textLineIf('Cell Highlight', 'product.features.visualOptions.cellHighlight')
+      +textLineIf('Changeable Cell Highlight', 'product.features.visualOptions.changeableCellHighlight')
+      +textLineIf('Editable font styles', 'product.features.visualOptions.editableFontStyles')
+      +textLineIf('-', '!product.features.visualOptions.zoom && !product.features.visualOptions.cellHighlight && !product.features.visualOptions.changeableCellHighlight && !product.features.visualOptions.editableFontStyles')
+
+mixin compareSupportedDevices()
+  tr
+    th Supported devices
+    td.text-center(ng-repeat='product in products')
+      +listLinkLines('product.features.supportedDevices')

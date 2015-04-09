@@ -16,6 +16,7 @@ angular.module('speechBubbleApp')
     $scope.productLinks = ProductLinks($scope);
     $scope.supplierOptions = [];
     $scope.vocabularyOptions = [];
+    $scope.deviceOptions = [];
     $scope.symbols = ProductOptions.symbols;
 
     // Add/remove media
@@ -141,7 +142,7 @@ angular.module('speechBubbleApp')
     };
 
     $scope.refreshDevices = function(term) {
-      Product.query({ type: 'ProductHardwareAdvanced', term: term, limit: 0, skip: 0 }, function(res) {
+      Product.query({ type: 'ProductHardware', term: term, limit: 0, skip: 0 }, function(res) {
         $scope.deviceOptions = res.items;
       });
     };
