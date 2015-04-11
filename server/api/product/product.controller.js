@@ -88,7 +88,8 @@ exports.create = function(req, res) {
   Product.create({
     name: req.body.name,
     description: req.body.description,
-    type: req.body.type
+    type: req.body.type,
+    author: req.user._id
   }, function(err, product) {
     if(err) { return handleError(res, err); }
     return res.json(201, product);

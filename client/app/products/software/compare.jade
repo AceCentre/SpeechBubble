@@ -17,9 +17,9 @@ include ../../mixins/product-helpers
       tr
         th Speech type options
         td.text-center(ng-repeat='product in products')
-          +textLineIf('Synthesised', 'product.features.speechTypeSynthesised')
-          +textLineIf('Recorded', 'product.features.speechTypeRecorded')
-          +textLineIf('-', '!product.features.speechTypeSynthesised && !product.features.speechTypeRecorded')
+          +textLineIf('Synthesised', 'product.features.speechTypeOptions.synthesised')
+          +textLineIf('Recorded', 'product.features.speechTypeOptions.recorded')
+          +textLineIf('-', '!product.features.speechTypeOptions.synthesised && !product.features.speechTypeOptions.recorded')
 
       +compareEnviroControl()
       +compareVisualOptions()

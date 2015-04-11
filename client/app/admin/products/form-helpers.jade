@@ -295,8 +295,8 @@ mixin speechTypeOptions()
   .panel.panel-default
     .panel-heading Speech type options
     .panel-body
-      +checkbox('product.features', 'speechTypeSynthesised', 'Synthesised')
-      .panel.panel-default(ng-show='product.features.speechTypeSynthesised', destroy='speechTypeSynthesisedTypes')
+      +checkbox('product.features.speechTypeOptions', 'synthesised', 'Synthesised')
+      .panel.panel-default(ng-show='product.features.speechTypeOptions.synthesised', destroy='speechTypeSynthesisedTypes')
         .panel-heading Speech type
         .panel-body
           ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.speechTypeSynthesisedTypes")
@@ -307,7 +307,7 @@ mixin speechTypeOptions()
             .panel-heading Total voices
             .panel-body
               input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
-      +checkbox('product.features', 'speechTypeRecorded', 'Recorded')
+      +checkbox('product.features.speechTypeOptions', 'recorded', 'Recorded')
 
 mixin imageRepresentationSupported()
   <!-- Image Representation Supported -->

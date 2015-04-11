@@ -9,7 +9,8 @@ var extend = require('mongoose-schema-extend');
 var ProductSchema = ProductBaseSchema.extend({
   type: {
     type: String,
-    enum: ENUM.PRODUCT_TYPES
+    enum: ENUM.PRODUCT_TYPES,
+    required: true
   },
   currentRevision: {
     type: mongoose.Schema.Types.ObjectId,

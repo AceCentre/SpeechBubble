@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($rootScope, $scope, $modal, ProductTemplate) {
+  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, ProductTemplate) {
     $scope.endpoint = '/api/product/:id';
 
     $scope.create = function() {
@@ -15,6 +15,10 @@ angular.module('speechBubbleApp')
       }, function() {
         $rootScope.$broadcast('resultsUpdated');
       });
+    };
+
+    $scope.importAppsForAAC = function() {
+      $http.get('/api/imports/appsforaac');
     };
 
     $scope.edit = function(product) {

@@ -223,7 +223,10 @@ angular.module('speechBubbleApp')
         'Apple iOS 5',
         'Apple iOS 6',
         'Apple iOS 7',
-        'Apple iOS 8'
+        'Apple iOS 8',
+        'Apple iPad',
+        'Apple iPod',
+        'Apple iPhone'
       ],
       symbols: [
         'PCS - Thinline',

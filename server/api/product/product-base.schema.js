@@ -9,11 +9,6 @@ var ProductBaseSchema = new Schema({
     type: String,
     required: true
   },
-  status: {
-    type: String,
-    enum: ENUM.REVISION_STATUS
-  },
-  summary: String,
   description: {
     type: String,
     required: true
@@ -50,7 +45,8 @@ var ProductBaseSchema = new Schema({
   note: String,
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   createdAt: Date,
   updatedAt: Date

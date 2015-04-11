@@ -45,7 +45,8 @@ User.find().remove(function() {
                 description: chance.paragraph(),
                 discontinued: chance.bool() || '',
                 suppliers: [supplier._id],
-                note: 'Test commit note'
+                note: 'Test commit note',
+                author: user._id
               }, function(err, revision) {
                 Product.create({
                   name: chance.word(),
@@ -59,6 +60,7 @@ User.find().remove(function() {
                       gbp: chance.integer({ min: 0, max: 2000 })
                     }
                   },
+                  author: user._id,
                   _revisions: [revision._id]
                 }, function(err, product) {
                   if(!err) {
