@@ -17,7 +17,8 @@ exports.importAppsForAAC = function(req, res) {
     $('td.views-field-title > a').each(function() {
       productURLs.push( $(this).attr('href') );
     });
-    productURLs.forEach(function(productPageURL) {
+
+    function importProduct(productPageURL) {
       request('http://www.appsforaac.net' + productPageURL, function(err, response, body) {
         if(err) { handleError(res, err); }
         var $ = cheerio.load(body);
@@ -123,13 +124,13 @@ exports.importAppsForAAC = function(req, res) {
 
         var features = {
           price: price,
-            supportLinks: supportLinks,
-            purchaseLinks: purchaseLinks,
-            symbols: symbols,
-            imageRepresentation: imageRepresentation,
-            speechTypeOptions: speechTypeOptions,
-            speechTypeSynthesisedTypes: speechTypeSynthesisedTypes,
-            accessMethods: accessMethods
+          supportLinks: supportLinks,
+          purchaseLinks: purchaseLinks,
+          symbols: symbols,
+          imageRepresentation: imageRepresentation,
+          speechTypeOptions: speechTypeOptions,
+          speechTypeSynthesisedTypes: speechTypeSynthesisedTypes,
+          accessMethods: accessMethods
         };
 
         Product.findOne({
@@ -192,8 +193,8 @@ exports.importAppsForAAC = function(req, res) {
                     });
 
                     request
-                    .get(src)
-                    .pipe(imageStream);
+                      .get(src)
+                      .pipe(imageStream);
                   });
                 });
                 product.save(function(err) {
@@ -204,7 +205,14 @@ exports.importAppsForAAC = function(req, res) {
           });
         });
       });
-    });
+    }
+
+    var interval = setInterval(function() {
+      if(!productURLs.length) {
+        return clearInterval(interval);
+      }
+      importProduct(productURLs.pop());
+    }, 5000);
   });
 };
 
