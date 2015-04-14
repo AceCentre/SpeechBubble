@@ -1,17 +1,3 @@
-mixin tick(model)
-  span.glyphicon.glyphicon-remove-circle(ng-class='{ "glyphicon-ok-circle": #{model} }')
-
-mixin tickRow(label, model)
-  tr
-    th= label
-    td.text-center(ng-repeat='product in products')
-      +tick(model)
-mixin textRow(label, model)
-  tr
-    th= label
-    td.text-center(ng-repeat='product in products')
-      | {{ #{model} || '-' }}
-
 mixin textLineIf(label, model, placeholder)
   div(ng-if='#{model}') #{label}
   if placeholder
@@ -29,6 +15,33 @@ mixin listLinkLines(model)
   div(ng-if='#{model}.length', ng-repeat='item in #{model}'): a(ng-href='/products/{{ item._id }}', target='_blank') {{ item.name || item }}
   div(ng-if='!#{model}.length') -
 
+mixin tick(model)
+  span.glyphicon.glyphicon-remove-circle(ng-class='{ "glyphicon-ok-circle": #{model} }')
+
+mixin tickRow(label, model)
+  tr
+    th= label
+    td.text-center
+      +tick(model)
+
+mixin compareTickRow(label, model)
+  tr
+    th= label
+    td.text-center(ng-repeat='product in products')
+      +tick(model)
+
+mixin textRow(label, model)
+  tr
+    th= label
+    td.text-center
+      | {{ #{model} || '-' }}
+
+mixin compareTextRow(label, model)
+  tr
+    th= label
+    td.text-center(ng-repeat='product in products')
+      | {{ #{model} || '-' }}
+
 mixin compareThumbnail()
   tr
     th Thumbnail
@@ -45,14 +58,17 @@ mixin comparePrice()
       +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
       +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
 
-mixin compareFormsOfRepresentation()
+mixin showFormsOfRepresentation()
+  +textLineIf('Photos', 'product.features.imageRepresentation.photos')
+  +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
+  +textLineIf('Videos', 'product.features.imageRepresentation.videos')
+  +textLineIf('-', '!product.features.imageRepresentation.photos && !product.features.imageRepresentation.symbols && !product.features.imageRepresentation.videos')
+
+mixin compareFormsOfRepresentation
   tr
     th Form of representation
     td.text-center(ng-repeat='product in products')
-      +textLineIf('Photos', 'product.features.imageRepresentation.photos')
-      +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
-      +textLineIf('Videos', 'product.features.imageRepresentation.videos')
-      +textLineIf('-', '!product.features.imageRepresentation.photos && !product.features.imageRepresentation.symbols && !product.features.imageRepresentation.videos')
+     +showFormsOfRepresentation()
 
 mixin compareRating()
   tr
@@ -61,21 +77,25 @@ mixin compareRating()
       span(ng-if='product.ratings.average'): em {{ product.ratings.average | number:2 }}
       span(ng-if='!product.ratings.average'): em No ratings
 
+mixin showAccessMethods()
+  +textLineIf('Touch', 'product.features.accessMethods.touch')
+  +textLineIf('Mouse or alternative', 'product.features.accessMethods.mouseOrAlternative')
+  +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
+  +textLineIf('Switch', 'product.features.accessMethods.switch')
+  // Low Tech
+  +textLineIf('Finger pointing', 'product.features.accessMethods.finger')
+  +textLineIf('Fist pointing', 'product.features.accessMethods.grossPointing')
+  +textLineIf('Eye pointing', 'product.features.accessMethods.eyePointing')
+  +textLineIf('Partner assisted scan', 'product.features.accessMethods.scanning')
+
+  +textLineIf('-', '!product.features.accessMethods.finger && !product.features.accessMethods.grossPointing && !product.features.accessMethods.eyePointing && !product.features.accessMethods.scanning && !product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
+
+
 mixin compareAccessMethods()
   tr
     th Access methods supported
     td.text-center(ng-repeat='product in products')
-      +textLineIf('Touch', 'product.features.accessMethods.touch')
-      +textLineIf('Mouse or alternative', 'product.features.accessMethods.mouseOrAlternative')
-      +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
-      +textLineIf('Switch', 'product.features.accessMethods.switch')
-      // Low Tech
-      +textLineIf('Finger pointing', 'product.features.accessMethods.finger')
-      +textLineIf('Fist pointing', 'product.features.accessMethods.grossPointing')
-      +textLineIf('Eye pointing', 'product.features.accessMethods.eyePointing')
-      +textLineIf('Partner assisted scan', 'product.features.accessMethods.scanning')
-
-      +textLineIf('-', '!product.features.accessMethods.finger && !product.features.accessMethods.grossPointing && !product.features.accessMethods.eyePointing && !product.features.accessMethods.scanning && !product.features.accessMethods.touch && !product.features.accessMethods.mouseOrAlternative && !product.features.accessMethods.eyegaze && !product.features.accessMethods.switch')
+      +showAccessMethods()
 
 mixin compareViewActions()
   tr
@@ -88,26 +108,39 @@ mixin compareViewActions()
     td.text-center(colspan='{{ products.length }}')
       em Link opens in a new window
 
+mixin showEnviroControl()
+  +textLineIf('Built-in', 'product.features.enviroControl === "built-in"')
+  +textLineIf('Additional', 'product.features.enviroControl === "additional"')
+  +textLineIf('None', 'product.features.enviroControl !== "built-in" && product.features.enviroControl !== "additional"')
+
+
 mixin compareEnviroControl
   tr
     th Environmental control capabilities
     td.text-center(ng-repeat='product in products')
-      +textLineIf('Built-in', 'product.features.enviroControl === "built-in"')
-      +textLineIf('Additional', 'product.features.enviroControl === "additional"')
-      +textLineIf('None', 'product.features.enviroControl !== "built-in" && product.features.enviroControl !== "additional"')
+      +showEnviroControl()
+
+mixin showVisualOptions()
+  +textLineIf('Zoom', 'product.features.visualOptions.zoom')
+  +textLineIf('Cell Highlight', 'product.features.visualOptions.cellHighlight')
+  +textLineIf('Changeable Cell Highlight', 'product.features.visualOptions.changeableCellHighlight')
+  +textLineIf('Editable font styles', 'product.features.visualOptions.editableFontStyles')
+  +textLineIf('-', '!product.features.visualOptions.zoom && !product.features.visualOptions.cellHighlight && !product.features.visualOptions.changeableCellHighlight && !product.features.visualOptions.editableFontStyles')
+
 
 mixin compareVisualOptions()
   tr
     th Visual options
     td.text-center(ng-repeat='product in products')
-      +textLineIf('Zoom', 'product.features.visualOptions.zoom')
-      +textLineIf('Cell Highlight', 'product.features.visualOptions.cellHighlight')
-      +textLineIf('Changeable Cell Highlight', 'product.features.visualOptions.changeableCellHighlight')
-      +textLineIf('Editable font styles', 'product.features.visualOptions.editableFontStyles')
-      +textLineIf('-', '!product.features.visualOptions.zoom && !product.features.visualOptions.cellHighlight && !product.features.visualOptions.changeableCellHighlight && !product.features.visualOptions.editableFontStyles')
+      +showVisualOptions()
 
 mixin compareSupportedDevices()
   tr
     th Supported devices
     td.text-center(ng-repeat='product in products')
       +listLinkLines('product.features.supportedDevices')
+
+mixin displayVocabularies()
+  div(ng-if='product.features.premadeVocabulariesAvailable.length', ng-repeat='vocab in product.features.premadeVocabulariesAvailable')
+    a(ng-href='/products/{{ vocab._id }}', target='_blank') {{ vocab.name }}
+  div(ng-if='!product.features.premadeVocabulariesAvailable.length') -

@@ -13,20 +13,18 @@ include ../../mixins/product-helpers
     tbody
       +compareThumbnail()
       +compareRating()
-      +tickRow('Discontinued', 'product.discontinued')
+      +compareTickRow('Discontinued', 'product.discontinued')
       tr
         th Ready-made vocabularies
         td.text-center(ng-repeat='product in products')
-          div(ng-if='product.features.premadeVocabulariesAvailable.length', ng-repeat='vocab in product.features.premadeVocabulariesAvailable')
-            a(ng-href='/products/{{ vocab._id }}', target='_blank') {{ vocab.name }}
-          div(ng-if='!product.features.premadeVocabulariesAvailable.length') -
+          +displayVocabularies()
       tr
         th Operating systems
         td.text-center(ng-repeat='product in products')
           +listLines('product.features.operatingSystems')
 
-      +textRow('Message levels', 'product.features.messageLevels')
-      +tickRow('Can be locked to communication software', 'product.features.dedicated')
+      +compareTextRow('Message levels', 'product.features.messageLevels')
+      +compareTickRow('Can be locked to communication software', 'product.features.dedicated')
       tr
         th Mobile phone capabilities
         td.text-center(ng-repeat='product in products')
@@ -36,7 +34,7 @@ include ../../mixins/product-helpers
 
       +comparePrice()
 
-      +textRow('Battery life (hours)', 'product.features.battery.batteryLife')
+      +compareTextRow('Battery life (hours)', 'product.features.battery.batteryLife')
       tr
         th Mounting
         td.text-center(ng-repeat='product in products')

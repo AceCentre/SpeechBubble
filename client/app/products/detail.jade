@@ -1,4 +1,5 @@
 extends ../../layout/2_column
+include ../mixins/product-helpers
 include ../mixins/results-helpers
 
 block content
@@ -13,9 +14,22 @@ block content
       div(slide, ng-repeat='image in product.images' active='slide.active')
         img(ng-src="{{ image.url }}", width='200', height='200')
 
-    img.img-thumbnail(ng-if='!product.images.length', src='/assets/images/products/default.png', width='200', height: 200)
+    img.img-thumbnail(ng-if='!product.images.length', src='/assets/images/products/default.png', width='200', height='200')
+
+    dl.dl-inline
+      dt Price
+      dd
+        +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
+        +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
+        +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
+        +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
 
     p {{ product.description }}
+
+  article(ng-if='product.type === "ProductHardware"', ng-include='"app/products/hardware/detail.html"')
+  article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/software/detail.html"')
+  article(ng-if='product.type === "ProductLowTech"', ng-include='"app/products/low-tech/detail.html"')
+  article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/vocabulary/detail.html"')
 
   .panel.panel-default(ng-if='product.suppliers.length')
     .panel-heading Suppliers

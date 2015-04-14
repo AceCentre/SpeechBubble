@@ -1,0 +1,20 @@
+include ../../mixins/product-helpers
+
+.panel.panel-default(ng-if='product.features.operatingSystems.length')
+  .panel-heading Product Information
+  .panel-body
+    dl
+      dt Discontinued?
+      dd {{ product.discontinued ? 'Yes': 'No' }}
+      dt Can be locked to communication software?
+      dd {{ product.features.dedicated ? 'Yes': 'No' }} {{ product.features.dedicatedInfo ? '- ' + product.features.dedicatedInfo : '' }}
+
+.panel.panel-default(ng-if='product.features.operatingSystems.length')
+  .panel-heading Vocabularies
+  .panel-body
+    +displayVocabularies()
+
+.panel.panel-default(ng-if='product.features.operatingSystems.length')
+  .panel-heading Operating systems
+  .panel-body
+    +listLines('product.features.operatingSystems')

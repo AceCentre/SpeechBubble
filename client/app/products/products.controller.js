@@ -68,7 +68,7 @@ angular.module('speechBubbleApp')
   };
 })
 
-.controller('ProductDetailCtrl', function($scope, $location, product, Rating, ProductTemplate, $modal, Auth) {
+.controller('ProductDetailCtrl', function($state, $scope, $location, product, Rating, ProductTemplate, $modal, Auth) {
   $scope.isLoggedIn = Auth.isLoggedIn;
 
   $scope.product = product.data;
