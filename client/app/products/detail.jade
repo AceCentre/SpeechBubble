@@ -6,17 +6,17 @@ block append sidebar
   aside(ng-if='product.features.supportLinks.length')
     h2 Support
     ul
-      li(ng-repeat='link in product.features.supportLinks'): a(ng-href='{{ link.url }}') {{ link.label }}
+      li(ng-repeat='link in product.features.supportLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
 
   aside(ng-if='product.features.purchaseLinks.length')
     h2 Purchase
     ul
-      li(ng-repeat='link in product.features.purchaseLinks'): a(ng-href='{{ link.url }}') {{ link.label }}
+      li(ng-repeat='link in product.features.purchaseLinks'): a.trunate(ng-href='{{ link.url }}') {{ link.label }}
 
   aside(ng-if='product.features.moreInformationLinks.length')
     h2 More information
     ul
-      li(ng-repeat='link in product.features.moreInformationLinks'): a(ng-href='{{ link.url }}') {{ link.label }}
+      li(ng-repeat='link in product.features.moreInformationLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
 
 block content
   button.btn.btn-primary.pull-right(ng-click='edit(product)', ng-if='isLoggedIn()') Edit
