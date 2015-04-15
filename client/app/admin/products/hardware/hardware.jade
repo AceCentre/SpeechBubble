@@ -27,15 +27,15 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           .panel.panel-default(ng-show='product.features.mobilePhone.mobilePhoneSIM', destroy='mobilePhoneSIMType')
             .panel-heading In-built SIM features
             .panel-body
-              +radio('product.features.mobilePhoneSIMType', 'simType', 'smsOnly', 'SMS Only')
-              +radio('product.features.mobilePhoneSIMType', 'simType', 'phoneOnly', 'Phone Only')
-              +radio('product.features.mobilePhoneSIMType', 'simType', 'smsAndPhone', 'SMS and Phone')
+              +radio('product.features', 'mobilePhoneSIMType', 'smsOnly', 'SMS Only')
+              +radio('product.features', 'mobilePhoneSIMType', 'phoneOnly', 'Phone Only')
+              +radio('product.features', 'mobilePhoneSIMType', 'smsAndPhone', 'SMS and Phone')
           +checkbox('product.features.mobilePhone', 'mobilePhoneRequired', 'Phone required')
           .panel.panel-default(ng-show='product.features.mobilePhone.mobilePhoneRequired', destroy='mobilePhoneRequiredType')
             .panel-heading Phone required features
             .panel-body
-              +radio('product.features.mobilePhoneRequiredType', 'phoneRequiredType', 'smsOnly', 'SMS Only')
-              +radio('product.features.mobilePhoneRequiredType', 'phoneRequiredType', 'smsAndPhone', 'SMS and Phone')
+              +radio('product.features', 'mobilePhoneRequiredType', 'smsOnly', 'SMS Only')
+              +radio('product.features', 'mobilePhoneRequiredType', 'smsAndPhone', 'SMS and Phone')
           +checkbox('temp', 'mobilePhoneOther', 'Other')
           textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhone.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
 

@@ -1,20 +1,40 @@
 include ../../mixins/product-helpers
+h3 Product information
+table.table.table-striped
+  tbody
+    tr
+      th Discontinued
+      td {{ product.discontinued ? 'Yes': 'No' }}
+    tr
+      th Can be locked to communication software?
+      td {{ product.features.dedicated ? 'Yes': 'No' }} {{ product.features.dedicatedInfo ? '- ' + product.features.dedicatedInfo : '' }}
 
-.panel.panel-default
-  .panel-heading Product Information
-  .panel-body
-    dl
-      dt Discontinued?
-      dd {{ product.discontinued ? 'Yes': 'No' }}
-      dt Can be locked to communication software?
-      dd {{ product.features.dedicated ? 'Yes': 'No' }} {{ product.features.dedicatedInfo ? '- ' + product.features.dedicatedInfo : '' }}
+    tr(ng-if='product.features.mobilePhone.mobilePhoneSIM')
+      th In-built SIM features
+      td
+        span(ng-if='product.features.mobilePhoneSIMType === "smsOnly"') SMS Only
+        span(ng-if='product.features.mobilePhoneSIMType === "phoneOnly"') Phone Only
+        span(ng-if='product.features.mobilePhoneSIMType === "smsAndPhone"') SMS and Phone
 
-.panel.panel-default(ng-if='product.features.operatingSystems.length')
-  .panel-heading Vocabularies
-  .panel-body
-    +displayVocabularies()
+    tr(ng-if='product.features.mobilePhone.mobilePhoneRequired')
+      th Phone required features
+      td
+        +textLineIf('SMS Only', 'product.features.mobilePhoneRequiredType === "smsOnly"')
+        +textLineIf('SMS and Phone', 'product.features.mobilePhoneRequiredType === "smsAndPhone"')
 
-.panel.panel-default(ng-if='product.features.operatingSystems.length')
-  .panel-heading Operating systems
-  .panel-body
-    +listLines('product.features.operatingSystems')
+    tr(ng-if='product.features.mobilePhone.mobilePhoneViaOther')
+      th Other phone features
+      td {{ product.features.mobilePhone.mobilePhoneViaOther }}
+
+
+    tr(ng-if='product.features.premadeVocabulariesAvailable.length')
+      th Vocabularies
+      td
+        +displayVocabularies()
+
+    tr(ng-if='product.features.operatingSystems.length')
+      th Operating systems
+      td
+        +listLines('product.features.operatingSystems')
+
+
