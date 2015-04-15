@@ -4,9 +4,10 @@ mixin media()
       a(ng-href='/products/{{ item._id }}')
         img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
     .media-body
+      div.row
         div.col-md-9.item-listing-description
           h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
-          p {{ item.description | more:420 }}
+          p {{ item.description | more:250 }}
         div.col-md-3
           div.ratings(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
           dl
@@ -14,7 +15,14 @@ mixin media()
             dd {{ item.type | type }}
             dt(ng-if='item.features.price.gbp') Guide Price
             dd(ng-if='item.features.price.gbp') &pound;{{ item.features.price.gbp | number: 2 }}
-          a.btn.btn-primary(ng-click='compare(item)', ng-hide='!canCompareProduct(item)' ng-class='{ "btn-disabled": isComparingProduct(item) }') compare
+      div.row
+        div.col-md-9
+          .checkbox
+            label(ng-hide='!canCompareProduct(item)')
+              input(type='checkbox', ng-click='compare(item)', ng-checked='isComparingProduct(item)')
+              | Add to comparison
+        div.col-md-3
+          a.btn.btn-primary.btn-block(ng-href='/products/{{ item._id }}') View
     hr(ng-if='!$last')
 
 

@@ -48,7 +48,9 @@ angular.module('speechBubbleApp')
 
   $scope.compare = function(product) {
     if($scope.isComparingProduct(product)) {
-      return growl.warning('This product has already been selected.');
+      var i = $scope.comparing.indexOf(product);
+      $scope.comparing.splice(i, 1);
+      return growl.warning('Removed product to comparison.');
     } else if($scope.comparing.length >= 4) {
       return growl.warning('You can only compare 4 items at a time.');
     } else if( $scope.canCompareProduct(product) ) {
@@ -60,7 +62,14 @@ angular.module('speechBubbleApp')
   };
 
   $scope.isComparingProduct = function(product) {
-    return $scope.comparing.indexOf(product) !== -1;
+    // less effient than indexOf but required to workaround page change
+    var isEqual = false;
+    $scope.comparing.forEach(function(item) {
+      if( angular.equals(product, item) ) {
+        isEqual = true;
+      }
+    });
+    return isEqual;
   };
 
   $scope.canCompareProduct = function(product) {
