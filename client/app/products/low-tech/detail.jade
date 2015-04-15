@@ -1,0 +1,24 @@
+include ../../mixins/product-helpers
+h3 Product information
+table.table.table-striped
+  tbody
+    tr
+      th Discontinued
+      td {{ product.discontinued ? 'Yes': 'No' }}
+
+    tr(ng-if='product.features.imageRepresentation.photos || product.features.imageRepresentation.symbols || product.features.imageRepresentation.videos')
+      th Form of representation
+      td
+        +textLineIf('Photos', 'product.features.imageRepresentation.photos')
+        +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
+        ul(ng-if='product.features.symbols.length')
+          li(ng-repeat='item in product.features.symbols') {{ item }}
+        +textLineIf('Videos', 'product.features.imageRepresentation.videos')
+
+    tr(ng-if='product.features.accessMethods.finger || product.features.accessMethods.grossPointing || product.features.accessMethods.eyePointing || product.features.accessMethods.scanning')
+      th Access methods
+      td
+        +textLineIf('Finger pointing', 'product.features.accessMethods.finger')
+        +textLineIf('Fist pointing', 'product.features.accessMethods.grossPointing')
+        +textLineIf('Eye pointing', 'product.features.accessMethods.eyePointing')
+        +textLineIf('Partner assisted scan', 'product.features.accessMethods.scanning')
