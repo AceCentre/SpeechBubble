@@ -7,7 +7,7 @@ mixin media()
       div.row
         div.col-md-9.item-listing-description
           h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
-          p {{ item.description | more:250 }}
+          p {{ item.description | more:240 }}
         div.col-md-3
           div.ratings(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
           dl

@@ -37,4 +37,93 @@ table.table.table-striped
       td
         +listLines('product.features.operatingSystems')
 
+    tr(ng-if='product.features.supportOptions')
+      th Support options
+      td {{ product.features.supportOptions }}
 
+    tr(ng-if='product.features.warrantyOptions')
+      th Warranty options
+      td {{ product.features.warrantyOptions }}
+
+    tr(ng-if='product.features.battery.batteryLife')
+      th Battery life (hours)
+      td {{ product.features.battery.batteryLife }}
+
+    tr(ng-if='product.features.battery.spareBatteryOptions')
+      th Spare battery options
+      td {{ product.features.battery.spareBatteryOptions }}
+
+    tr(ng-if='product.features.mountingOptions.daessy')
+      th Mounting
+      td
+        +textLineIf('Daessy', 'product.features.mountingOptions.daessy')
+        +textLineIf('Rehadapt', 'product.features.mountingOptions.rehadapt')
+        +textLineIf('Table stand available', 'product.features.mountingOptions.tableStand')
+        +textLineIf('Carrying strap available', 'product.features.mountingOptions.carryingStrap')
+        em(ng-if='product.features.mountingOtherDetails') {{ product.features.mountingOtherDetails }}
+
+    tr(ng-if='product.features.dimensions')
+      th Dimensions (case {{ product.features.dimensions.sizeIncludingCase ? 'included': 'not included' }})
+      td
+        dl
+          dt Weight (kg)
+          dd {{ product.features.dimensions.weight || '-' }}
+          dt Depth (mm)
+          dd {{ product.features.dimensions.depth || '-' }}
+          dt Height (mm)
+          dd {{ product.features.dimensions.height || '-' }}
+          dt Width (mm)
+          dd {{ product.features.dimensions.width || '-' }}
+          dt Screen size (in)
+          dd {{ product.features.dimensions.screenSize || '-' }}
+
+    tr
+      th Environmental control capabilities
+      td
+        span(ng-if='product.features.enviroControl === "built-in"') Built-in
+        span(ng-if='product.features.enviroControl === "additional"') Additional hardware available
+        span(ng-if='!product.features.enviroControl') None
+        span(ng-if='product.features.enviroControlDetails') &nbsp;- {{ product.features.enviroControlDetails }}
+
+    tr
+      th Access methods supported
+      td
+        +textLineIf('Touch', 'product.features.accessMethods.touch')
+        ul(ng-if='product.features.accessMethods.touch')
+          li(ng-if='product.features.accessMethodTouchRequireGestures') Specialist gestures required
+          li(ng-if='product.features.touchFeatures.acceptOnEnter') Accept on Enter
+          li(ng-if='product.features.touchFeatures.holdTime') Hold time
+          li(ng-if='product.features.touchFeatures.debounce') Debounce
+          li(ng-if='product.features.touchFeaturesOtherDetails') {{ product.features.touchFeaturesOtherDetails }}
+        +textLineIf('Mouse or Mouse alternative', 'product.features.accessMethods.mouseOrAlternative')
+        +textLineIf('Eyegaze', 'product.features.accessMethods.eyegaze')
+        div(ng-if='product.features.accessMethods.switch') Switch
+          ul(ng-if='product.features.accessMethodsSwitchBuiltIn')
+            li Built-in switch
+
+
+
+          li(ng-if='product.features.touchMinimumTarget')
+
+
+            .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
+    .panel-heading Is there a minimum target size?
+    .panel-body
+      +switch('product.features', dependsOn + 'MinimumTarget')
+
+      .panel.panel-default(ng-show='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
+        .panel-heading What is this size? (mm)
+        .panel-body
+          div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
+          "has-error": form.#{dependsOn}MinimumTargetSize.$invalid && form.$submitted }')
+            input.form-control(id='#{dependsOn}MinimumTargetSize', name='#{dependsOn}MinimumTargetSize', type='number', ng-model='product.features.#{dependsOn}MinimumTargetSize', ng-required='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', min='5')
+            p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.required && form.$submitted')
+              | Minimum target size is required
+            p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
+              | Minimum target size should be greater than 5
+
+
+  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
+    .panel-heading What is the maximum number of locations per page?
+    .panel-body
+      input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')

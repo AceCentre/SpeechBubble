@@ -13,7 +13,7 @@ var Rating = require('../api/rating/rating.model').Rating;
 var chance = require('chance').Chance();
 var _ = require('lodash');
 var ENUM = require('../enum');
-
+return;
 User.find().remove(function() {
   User.create({
     provider: 'local',

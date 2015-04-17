@@ -207,15 +207,15 @@ mixin accessMethodsHardware()
           +checkbox('temp', 'touchFeaturesOther', 'Other')
           textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
 
-      +accessMethodOptions('accessMethodTouch')
+      +accessMethodOptions('accessMethods.touch')
 
       <!-- Mouse or alternative -->
       +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
-      +accessMethodOptions('accessMethodMouseOrAlternative')
+      +accessMethodOptions('accessMethods.mouseOrAlternative')
       <!-- Eyegaze -->
       +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
 
-      +accessMethodOptions('accessMethodEyegaze')
+      +accessMethodOptions('accessMethods.eyegaze')
       <!-- Switch -->
       +checkbox('product.features.accessMethods', 'switch', 'Switch')
       .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
