@@ -191,8 +191,8 @@ mixin accessMethodsHardware()
       .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchType')
         .panel-heading Touch type
         .panel-body
-          +radio('product.features.accessMethodTouchType', 'resistive', 'resistive', 'Resistive/Physical pressure')
-          +radio('product.features.accessMethodTouchType', 'capacitive', 'capacitive', 'Capacitive/Conductive')
+          +radio('product.features', 'accessMethodTouchType', 'resistive', 'Resistive/Physical pressure')
+          +radio('product.features', 'accessMethodTouchType', 'capacitive', 'Capacitive/Conductive')
       .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchRequireGestures')
         .panel-heading Are specialist gestures etc required to control the device?
         .panel-body
