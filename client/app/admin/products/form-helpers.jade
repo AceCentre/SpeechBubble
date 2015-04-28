@@ -87,12 +87,12 @@ mixin productVideos()
 <!-- Shared: Access method questions -->
 mixin accessMethodOptions(dependsOn)
 
-  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
+  .panel.panel-default(ng-show='product.features.accessMethods.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
     .panel-heading Is there a minimum target size?
     .panel-body
       +switch('product.features', dependsOn + 'MinimumTarget')
 
-      .panel.panel-default(ng-show='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
+      .panel.panel-default(ng-show='product.features.accessMethods.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
         .panel-heading What is this size? (mm)
         .panel-body
           div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
@@ -104,7 +104,7 @@ mixin accessMethodOptions(dependsOn)
                 | Minimum target size should be greater than 5
 
 
-  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
+  .panel.panel-default(ng-show='product.features.accessMethods.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
     .panel-body
       input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')

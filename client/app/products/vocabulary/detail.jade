@@ -1,0 +1,156 @@
+include ../../mixins/product-helpers
+include ../../mixins/form-helpers
+
+h3 Product information
+table.table.table-striped
+  tbody
+    tr
+      th Discontinued
+      td {{ product.discontinued ? 'Yes': 'No' }}
+
+    tr
+      th Vocabulary Primary Presentation
+      td
+        +textLineIf('Text only', 'product.features.presentation === "textOnly"')
+        +textLineIf('Text & Symbols or Photos', 'product.features.presentation === "textAndSymbolsOrPhotos"')
+        +textLineIf('Symbols or Photos Only', 'product.features.presentation === "symbolsOrPhotos"')
+        +textLineIf('Visual Scenes', 'product.features.presentation === "visualScenes"')
+
+    <!-- Text only -->
+    tr(ng-if='product.features.presentation === "textOnly"')
+      th Presentation features
+      td
+        +textLineIf('Keyboard', 'product.features.presentationText == "keyboard"')
+        +textLineIf('Single words', 'product.features.presentationText == "singleWords"')
+        +textLineIf('Phrases', 'product.features.presentationText == "phrases"')
+
+        <!-- Keyboard only -->
+        ul
+          li(ng-if='product.features.abbrExpansion') Abbreviation expansion
+          li(ng-if='product.features.wordPrediction') Word prediction
+
+        <!-- Single words only -->
+        ul
+          li(ng-if='product.features.presentRelatedWords')
+            | Presents related words
+          li(ng-if='product.features.wordsOrganisedStart === "core"')
+            | Start page organised by core words
+          li(ng-if='product.features.wordsOrganisedStart === "categoryLinks"')
+            | Start page organised by category links
+          li(ng-if='product.features.wordsOrganisedDevice === "contextually"')
+            | Words organised contextually
+          li(ng-if='product.features.wordsOrganisedDevice === "taxonomically"')
+            | Words organised taxonomically
+          li(ng-if='product.features.wordsOrganisedDevice === "similarMeaningLocations"')
+            | Words organised by meaning
+
+        <!-- Phrases only -->
+        ul
+          li(ng-if='product.features.presentRelatedPhrases')
+            | Phrases that are linked to other related phrases are presented on selecting
+          li(ng-if='product.features.phrasesOrganisedStart === "starterPhrases"')
+            | Start page organised by starter phrases
+          li(ng-if='product.features.phrasesOrganisedStart === "pragmaticStarters"')
+            | Start page organised by pragmatic sentence starters
+          li(ng-if='product.features.phrasesOrganisedStart === "categoryLinks"')
+            | Start page organised by category links
+          li(ng-if='product.features.phrasesOrganisedDevice === "contextually"')
+            | Phrases organised contextually
+          li(ng-if='product.features.phrasesOrganisedDevice === "taxonomically"')
+            | Phrases organised taxonomically
+          li(ng-if='product.features.phrasesOrganisedDevice === "similarMeaningLocations"')
+            | Phrases organised by meaning
+
+    <!-- textAndSymbolsOrPhotos only -->
+    tr(ng-if='product.features.presentation === "textAndSymbolsOrPhotos"')
+      th Presentation features
+      td
+        +textLineIf('Single words', 'product.features.presentationText == "singleWords"')
+        +textLineIf('Phrases', 'product.features.presentationText == "phrases"')
+
+        <!-- Single words only -->
+        ul
+          li(ng-if='product.features.presentRelatedWords')
+            | Presents related words
+          li(ng-if='product.features.wordsOrganisedStart === "core"')
+            | Start page organised by core words
+          li(ng-if='product.features.wordsOrganisedStart === "categoryLinks"')
+            | Start page organised by category links
+          li(ng-if='product.features.wordsOrganisedDevice === "contextually"')
+            | Words organised contextually
+          li(ng-if='product.features.wordsOrganisedDevice === "taxonomically"')
+            | Words organised taxonomically
+          li(ng-if='product.features.wordsOrganisedDevice === "similarMeaningLocations"')
+            | Words organised by meaning
+
+        <!-- Phrases only -->
+        ul
+          li(ng-if='product.features.presentRelatedPhrases')
+            | Phrases that are linked to other related phrases are presented on selecting
+          li(ng-if='product.features.phrasesOrganisedStart === "starterPhrases"')
+            | Start page organised by starter phrases
+          li(ng-if='product.features.phrasesOrganisedStart === "pragmaticStarters"')
+            | Start page organised by pragmatic sentence starters
+          li(ng-if='product.features.phrasesOrganisedStart === "categoryLinks"')
+            | Start page organised by category links
+          li(ng-if='product.features.phrasesOrganisedDevice === "contextually"')
+            | Phrases organised contextually
+          li(ng-if='product.features.phrasesOrganisedDevice === "taxonomically"')
+            | Phrases organised taxonomically
+          li(ng-if='product.features.phrasesOrganisedDevice === "similarMeaningLocations"')
+            | Phrases organised by meaning
+
+    <!-- symbolsOrPhotos only -->
+    tr(ng-if='product.features.wordsOrganisedDevice')
+      th Presentation features
+      td
+        ul
+          li(ng-if='product.features.wordsOrganisedDevice === "contextually"')
+            | Language organised contextually
+          li(ng-if='product.features.wordsOrganisedDevice === "taxonomically"')
+            | Language organised taxonomically
+          li(ng-if='product.features.wordsOrganisedDevice === "similarMeaningLocations"')
+            | Language organised by meaning
+
+
+    tr(ng-if='product.features.imageRepresentation')
+      th Form of representation
+      td
+        +textLineIf('Photos', 'product.features.imageRepresentation.photos')
+        +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
+        +textLineIf('Videos', 'product.features.imageRepresentation.videos')
+
+        ul(ng-if='product.features.imageRepresentation.symbols')
+          li(ng-repeat='symbol in product.features.symbols') {{ symbol }}
+
+    tr
+      th Access methods supported
+      td
+        +textLineIf('Touch', 'product.features.accessMethods.touch')
+        ul(ng-if='product.features.accessMethods.touch')
+          li(ng-if='product.features.accessMethodTouchKeyguardsAvailable')
+            | Specially designed keyguards
+
+        +textLineIf('Mouse or Mouse alternative', 'product.features.accessMethods.mouseOrAlternative')
+        ul(ng-if='product.features.accessMethods.mouseOrAlternative')
+          li(ng-if='product.features.mouseOrAlternativeMinimumTarget && product.features.mouseOrAlternativeMinimumTargetSize')
+            | Minimum target size: {{ product.features.mouseOrAlternativeMinimumTargetSize }}mm
+          li(ng-if='product.features.mouseOrAlternativeMaximumLocations')
+            | Maximum locations: {{ product.features.mouseOrAlternativeMaximumLocations }}
+
+        +textLineIf('Eyegaze', 'product.features.accessMethods.eyegaze')
+        ul(ng-if='product.features.accessMethods.eyegaze')
+          li(ng-if='product.features.eyegazeMinimumTarget && product.features.eyegazeMinimumTargetSize')
+            | Minimum target size: {{ product.features.eyegazeMinimumTargetSize }}mm
+          li(ng-if='product.features.eyegazeMaximumLocations')
+            | Maximum locations: {{ product.features.eyegazeMaximumLocations }}
+
+        div(ng-if='product.features.accessMethods.switch') Switch
+          ul()
+            li(ng-if='product.features.accessMethodSwitchOptions.linear') Linear
+            li(ng-if='product.features.accessMethodSwitchOptions.crosshair') Crosshair
+            li(ng-if='product.features.accessMethodSwitchOptions.columnRow') Column Row
+            li(ng-if='product.features.accessMethodSwitchOptions.rowColumn') Row Column
+            li(ng-if='product.features.accessMethodSwitchOptions.block') Block
+            li(ng-if='product.features.accessMethodSwitchOptions.quartered') Quartered
+            li(ng-if='product.features.accessMethodSwitchOptions.morse') Morse

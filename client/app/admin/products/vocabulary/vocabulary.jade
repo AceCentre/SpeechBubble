@@ -156,8 +156,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         .panel-heading What access method is this designed for? (multiple allowed)
         .panel-body
           <!-- Touch -->
-          +checkbox('product.features', 'accessMethodTouch', 'Touch')
-          .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchKeyguardsAvailable')
+          +checkbox('product.features.accessMethods', 'touch', 'Touch')
+          .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchKeyguardsAvailable')
             .panel-heading Are specially designed keyguards available?
             .panel-body
               +switch('product.features', 'accessMethodTouchKeyguardsAvailable')
@@ -165,16 +165,16 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           +accessMethodOptions('accessMethodTouch')
 
           <!-- Mouse or alternative -->
-          +checkbox('product.features', 'accessMethodMouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
-          +accessMethodOptions('accessMethodMouseOrAlternative')
+          +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
+          +accessMethodOptions('mouseOrAlternative')
 
           <!-- Eyegaze -->
-          +checkbox('product.features', 'accessMethodEyegaze', 'Eyegaze')
-          +accessMethodOptions('accessMethodEyegaze')
+          +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
+          +accessMethodOptions('eyegaze')
 
           <!-- Switch -->
-          +checkbox('product.features', 'accessMethodSwitch', 'Switch')
-          .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
+          +checkbox('product.features.accessMethods', 'switch', 'Switch')
+          .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
             .panel-heading What scanning options are available (without additional software)
             .panel-body
               +checkbox('product.features', 'accessMethodSwitchOptions.linear', 'Linear')

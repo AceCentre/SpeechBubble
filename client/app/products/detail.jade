@@ -45,7 +45,7 @@ block content
   article(ng-if='product.type === "ProductHardware"', ng-include='"app/products/hardware/detail.html"')
   article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/software/detail.html"')
   article(ng-if='product.type === "ProductLowTech"', ng-include='"app/products/low-tech/detail.html"')
-  article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/vocabulary/detail.html"')
+  article(ng-if='product.type === "ProductVocabulary"', ng-include='"app/products/vocabulary/detail.html"')
 
   .panel.panel-default(ng-if='product.suppliers.length')
     .panel-heading Suppliers

@@ -1,4 +1,6 @@
 include ../../mixins/product-helpers
+include ../../mixins/form-helpers
+
 h3 Product information
 table.table.table-striped
   tbody
@@ -66,16 +68,16 @@ table.table.table-striped
       th Dimensions (case {{ product.features.dimensions.sizeIncludingCase ? 'included': 'not included' }})
       td
         dl
-          dt Weight (kg)
-          dd {{ product.features.dimensions.weight || '-' }}
-          dt Depth (mm)
-          dd {{ product.features.dimensions.depth || '-' }}
-          dt Height (mm)
-          dd {{ product.features.dimensions.height || '-' }}
-          dt Width (mm)
-          dd {{ product.features.dimensions.width || '-' }}
-          dt Screen size (in)
-          dd {{ product.features.dimensions.screenSize || '-' }}
+          dt Weight
+          dd {{ product.features.dimensions.weight || '-' }}kg
+          dt Depth
+          dd {{ product.features.dimensions.depth || '-' }}mm
+          dt Height
+          dd {{ product.features.dimensions.height || '-' }}mm
+          dt Width
+          dd {{ product.features.dimensions.width || '-' }}mm
+          dt Screen size
+          dd {{ product.features.dimensions.screenSize || '-' }}"
 
     tr
       th Environmental control capabilities
@@ -90,38 +92,35 @@ table.table.table-striped
       td
         +textLineIf('Touch', 'product.features.accessMethods.touch')
         ul(ng-if='product.features.accessMethods.touch')
+          li(ng-if='product.features.accessMethodTouchType') Touch type: {{ product.features.accessMethodTouchType }}
           li(ng-if='product.features.accessMethodTouchRequireGestures') Specialist gestures required
           li(ng-if='product.features.touchFeatures.acceptOnEnter') Accept on Enter
           li(ng-if='product.features.touchFeatures.holdTime') Hold time
           li(ng-if='product.features.touchFeatures.debounce') Debounce
           li(ng-if='product.features.touchFeaturesOtherDetails') {{ product.features.touchFeaturesOtherDetails }}
+          li(ng-if='product.features.accessMethods.touchMinimumTarget && product.features.accessMethods.touchMinimumTargetSize')
+            | Minimum target size: {{ product.features.accessMethods.touchMinimumTargetSize }}mm
+          li(ng-if='product.features.accessMethods.touchMaximumLocations')
+            | Maximum locations: {{ product.features.accessMethods.touchMaximumLocations }}
+
         +textLineIf('Mouse or Mouse alternative', 'product.features.accessMethods.mouseOrAlternative')
+        ul(ng-if='product.features.accessMethods.mouseOrAlternative')
+          li(ng-if='product.features.accessMethods.mouseOrAlternativeMinimumTarget && product.features.accessMethods.mouseOrAlternativeMinimumTargetSize')
+            | Minimum target size: {{ product.features.accessMethods.mouseOrAlternativeMinimumTargetSize }}mm
+          li(ng-if='product.features.accessMethods.mouseOrAlternativeMaximumLocations')
+            | Maximum locations: {{ product.features.accessMethods.mouseOrAlternativeMaximumLocations }}
+
         +textLineIf('Eyegaze', 'product.features.accessMethods.eyegaze')
+        ul(ng-if='product.features.accessMethods.eyegaze')
+          li(ng-if='product.features.accessMethods.eyegazeMinimumTarget && product.features.accessMethods.eyegazeMinimumTargetSize')
+            | Minimum target size: {{ product.features.accessMethods.eyegazeMinimumTargetSize }}mm
+          li(ng-if='product.features.accessMethods.eyegazeMaximumLocations')
+            | Maximum locations: {{ product.features.accessMethods.eyegazeMaximumLocations }}
+
         div(ng-if='product.features.accessMethods.switch') Switch
-          ul(ng-if='product.features.accessMethodsSwitchBuiltIn')
-            li Built-in switch
-
-
-
-          li(ng-if='product.features.touchMinimumTarget')
-
-
-            .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
-    .panel-heading Is there a minimum target size?
-    .panel-body
-      +switch('product.features', dependsOn + 'MinimumTarget')
-
-      .panel.panel-default(ng-show='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
-        .panel-heading What is this size? (mm)
-        .panel-body
-          div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
-          "has-error": form.#{dependsOn}MinimumTargetSize.$invalid && form.$submitted }')
-            input.form-control(id='#{dependsOn}MinimumTargetSize', name='#{dependsOn}MinimumTargetSize', type='number', ng-model='product.features.#{dependsOn}MinimumTargetSize', ng-required='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', min='5')
-            p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.required && form.$submitted')
-              | Minimum target size is required
-            p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
-              | Minimum target size should be greater than 5
-
+          ul()
+            li(ng-if='product.features.accessMethodsSwitchBuiltIn') Built-in switch
+            li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available
 
   .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
