@@ -15,8 +15,8 @@ NGINX_CONFIG = """
      proxy_pass                  http://$server_addr/assets/images/uploads/products/$3/$4;
      proxy_store on;
      proxy_store_access group:r all:r;
-     proxy_store /mnt/speechbubble-assets/proxy/store/$request_uri;
-     proxy_temp_path /mnt/speechbubble-assets/proxy/tmp/;
+     proxy_store /sbuploads/proxy/store/$request_uri;
+     proxy_temp_path /sbuploads/proxy/tmp/;
      add_header X-Nginx-Image Resized;
      image_filter                resize $1 $2;
      image_filter_jpeg_quality   80;
