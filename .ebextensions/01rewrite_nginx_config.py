@@ -13,7 +13,6 @@ NGINX_CONF_FILE = '/etc/nginx/conf.d/00_elastic_beanstalk_proxy.conf'
 NGINX_CONFIG = """
   location ~ /resize/([\d-]+)x([\d-]+)/(.*)/(.*) {
      proxy_pass                  http://$server_addr/assets/images/uploads/products/$3/$4;
-     proxy_store on;
      proxy_store_access group:r all:r;
      proxy_store /mnt/speechbubble-assets/proxy/store/$request_uri;
      proxy_temp_path /mnt/speechbubble-assets/proxy/tmp/;
