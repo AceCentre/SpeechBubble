@@ -26,12 +26,18 @@ exports.compare = function(req, res) {
   });
 };
 
+function addToQuery(query, name, value, shouldAdd) {
+  if(shouldAdd) {
+    query[name] = value;
+  }
+}
+
 // Get list of products
 exports.index = function(req, res) {
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;
-  var type = req.query.type;
   var term = req.query.term;
+  var devices = req.query.devices;
 
   var orQuery;
   var query = {};
@@ -44,9 +50,15 @@ exports.index = function(req, res) {
     ];
   }
 
-  if(type) {
-    query.type = type;
-  }
+  addToQuery(query, 'type', req.query.type, req.query.type);
+
+  addToQuery(query, 'features.operatingSystems', {
+    $in: _.isArray(devices) ? devices: [devices]
+  }, devices);
+
+  addToQuery(query, 'features.battery.batteryLife', {
+    $gte: parseInt(req.query.batteryLife, 10)
+  }, req.query.batteryLife);
 
   Product
   .find(query)

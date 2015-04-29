@@ -2,10 +2,19 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate) {
+.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions) {
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
+  $scope.devices = ProductOptions.devices;
+
+  $scope.performSearch = function() {
+    $rootScope.$broadcast('resultsUpdated');
+  };
+
+  $scope.clearSearchFilters = function() {
+    $scope.search = {};
+  };
 
   $scope.create = function() {
     var modalInstance = $modal.open({
