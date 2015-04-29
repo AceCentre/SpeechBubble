@@ -9,7 +9,7 @@ __version__ = "0.0.2"
 import os
 
 
-NGINX_CONF_FILE = '/etc/nginx/sites-enabled/00_elastic_beanstalk_proxy.conf'
+NGINX_CONF_FILE = '/etc/nginx/conf.d/00_elastic_beanstalk_proxy.conf'
 NGINX_CONFIG = """
   location ~ /resize/([\d-]+)x([\d-]+)/(.*)/(.*) {
      proxy_pass                  http://$server_addr/assets/images/uploads/products/$3/$4;
