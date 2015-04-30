@@ -5,6 +5,10 @@
   border: 1px solid darken($backgroundColor, 5%);
   position: static; // prevent affix sidebar from being positioned relative to this element
 
+  & + .sidebar {
+    margin-top: 20px;
+  }
+
   .donate {
     display: block;
     text-align: center;

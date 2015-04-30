@@ -1,12 +1,23 @@
 @import "compass/css3/user-interface";
 @import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
 
+.beta {
+  display: inline-block;
+  font-size: .8em;
+  color: #fff;
+  background: $primaryColor;
+  position: absolute;
+  padding: 3px 5px;
+  text-transform: uppercase;
+}
+
 .header {
   padding-top: 20px;
   padding-bottom: 13px;
   margin-bottom: 20px;
   background: #fff;
   border-top: 4px solid $backgroundColor;
+  position: relative;
 
   form {
     a {

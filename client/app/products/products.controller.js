@@ -8,18 +8,35 @@ angular.module('speechBubbleApp')
   $scope.comparing = [];
   $scope.devices = ProductOptions.devices;
 
+  angular.extend($scope.search, $location.search());
+
   $scope.performSearch = function() {
     $rootScope.$broadcast('resultsUpdated');
   };
 
   $scope.clearSearchFilters = function() {
-    $scope.search = {};
+    angular.forEach($scope.search, function(value, key) {
+      if(key !== 'term') {
+        delete $scope.search[key];
+      }
+    });
+    $scope.performSearch();
   };
+
+  // Clear search filters when type is changed
+  $scope.$watch('search.type', function() {
+    angular.forEach($scope.search, function(value, key) {
+      if(key !== 'term' && key !== 'type') {
+        delete $scope.search[key];
+      }
+    });
+  });
 
   $scope.create = function() {
     var modalInstance = $modal.open({
       templateUrl: 'app/admin/products/create.html',
-      controller: 'AdminProductCreateCtrl'
+      controller: 'AdminProductCreateCtrl',
+      backdrop: 'static'
     });
 
     modalInstance.result.then(function() {

@@ -4,39 +4,10 @@ include ../mixins/form-helpers
 include ../admin/products/form-helpers
 
 block append sidebar
-  div.product-filters
-    h2 Narrow results
-    form(ng-submit='performSearch()')
-      .form-group
-        label.control-label(for="type") Product type
-          +radio('search', 'type', 'ProductLowTech', 'Low-tech')
-          +radio('search', 'type', 'ProductHardware', 'Hardware ')
-          +radio('search', 'type', 'ProductSoftware', 'Software / Application')
-          +radio('search', 'type', 'ProductVocabulary', 'Vocabulary')
+  div(ng-include='"components/forms/product-filters.html"')
 
-      .form-group(ng-if='search.type && search.type !== "ProductLowTech"')
-        label.control-label(for="type") Operating systems
-        ui-select(multiple, search-enabled, reset-search-input='true', ng-model="search.devices")
-          ui-select-match(placeholder="Select operating systems") {{$item}}
-          ui-select-choices(repeat="item in devices | filter: $select.search")
-            div {{ item }}
-
-      <!-- Hardware Only -->
-      .form-group(ng-if='search.type && search.type === "ProductHardware"')
-        label.control-label(for="type") Minimum Battery Life
-        input.form-control(type='number', ng-model='search.batteryLife')
-
-      <!-- Vocabulary Only -->
-
-      <!-- Low Tech Only -->
-
-      <!-- Software Only -->
-
-
-      button.btn.btn-primary(type='submit') Search
-      a.btn.btn-tertiary(ng-click='clearSearchFilters()') Clear
-
-  div.product-comparing-list(ng-if='comparing.length')
+block append left-pane
+  div.product-comparing-list.sidebar.col-sm-12(ng-if='comparing.length')
     h2 Comparing {{ comparing[0].type | type | lowercase }} products
     div.list-group()
       a(href="#", ng-click='clearCompare(product)', ng-repeat='product in comparing track by $index').list-group-item

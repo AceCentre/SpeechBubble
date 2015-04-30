@@ -12,7 +12,8 @@ angular.module('speechBubbleApp')
           pages: function() {
             return $scope.pages;
           }
-        }
+        },
+        backdrop: 'static'
       });
     };
 
@@ -28,7 +29,8 @@ angular.module('speechBubbleApp')
           page: function() {
             return page;
           }
-        }
+        },
+        backdrop: 'static'
       });
 
       modalInstance.result.then(function() {

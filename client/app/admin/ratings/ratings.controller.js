@@ -14,7 +14,8 @@ angular.module('speechBubbleApp')
           current: function() {
             return rating;
           }
-        }
+        },
+        backdrop: 'static'
       });
 
       modalInstance.result.then(function() {
