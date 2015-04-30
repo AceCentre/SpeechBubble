@@ -13,11 +13,12 @@ angular.module('speechBubbleApp')
 
     function updateResults() {
       $scope.skip = ($scope.page - 1) * $scope.limit;
-      api.query({
+      var query = angular.extend({
         skip: $scope.skip,
-        limit: $scope.limit,
-        term: $scope.search.term
-      }, function(res) {
+        limit: $scope.limit
+      }, $scope.search);
+
+      api.query(query, function(res) {
         $scope.initial = false;
         $scope.items = res.items;
         $scope.total = res.total;

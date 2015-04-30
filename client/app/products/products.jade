@@ -1,8 +1,13 @@
 extends ../../layout/2_column
 include ../mixins/results-helpers
+include ../mixins/form-helpers
+include ../admin/products/form-helpers
 
 block append sidebar
-  div.product-comparing-list(ng-if='comparing.length')
+  div(ng-include='"components/forms/product-filters.html"')
+
+block append left-pane
+  div.product-comparing-list.sidebar.col-sm-12(ng-if='comparing.length')
     h2 Comparing {{ comparing[0].type | type | lowercase }} products
     div.list-group()
       a(href="#", ng-click='clearCompare(product)', ng-repeat='product in comparing track by $index').list-group-item

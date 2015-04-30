@@ -18,7 +18,8 @@ angular.module('speechBubbleApp')
           users: function() {
             return $scope.items;
           }
-        }
+        },
+        backdrop: 'static'
       });
     };
 

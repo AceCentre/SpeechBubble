@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, ProductTemplate) {
+  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, ProductTemplate, ProductOptions) {
     $scope.endpoint = '/api/product/:id';
+    $scope.devices = ProductOptions.devices;
 
     $scope.create = function() {
       var modalInstance = $modal.open({
         templateUrl: 'app/admin/products/create.html',
-        controller: 'AdminProductCreateCtrl'
+        controller: 'AdminProductCreateCtrl',
+        backdrop: 'static'
       });
 
       modalInstance.result.then(function() {
@@ -21,6 +23,28 @@ angular.module('speechBubbleApp')
       $http.get('/api/imports/appsforaac');
     };
 
+    $scope.performSearch = function() {
+      $rootScope.$broadcast('resultsUpdated');
+    };
+
+    $scope.clearSearchFilters = function() {
+      angular.forEach($scope.search, function(value, key) {
+        if(key !== 'term') {
+          delete $scope.search[key];
+        }
+      });
+      $scope.performSearch();
+    };
+
+    // Clear search filters when type is changed
+    $scope.$watch('search.type', function() {
+      angular.forEach($scope.search, function(value, key) {
+        if(key !== 'term' && key !== 'type') {
+          delete $scope.search[key];
+        }
+      });
+    });
+
     $scope.edit = function(product) {
 
       var modal = ProductTemplate(product);
@@ -33,7 +57,8 @@ angular.module('speechBubbleApp')
           current: function() {
             return product;
           }
-        }
+        },
+        backdrop: 'static'
       });
 
       modalInstance.result.then(function() {

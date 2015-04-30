@@ -26,27 +26,107 @@ exports.compare = function(req, res) {
   });
 };
 
+function addToQuery(query, name, value, shouldAdd) {
+  if(shouldAdd) {
+    query[name] = value;
+  }
+}
+
 // Get list of products
 exports.index = function(req, res) {
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;
-  var type = req.query.type;
   var term = req.query.term;
 
-  var orQuery;
+  var orQuery = [];
   var query = {};
 
   if(term) {
     var re = new RegExp(term, 'i');
-    orQuery = [
-      { name: re },
-      { description: re }
-    ];
+    orQuery.push({ name: re }, { description: re });
   }
 
-  if(type) {
-    query.type = type;
+  addToQuery(query, 'type', req.query.type, req.query.type);
+
+  // HARDWARE FILTERS
+
+  if(req.query.type === 'ProductHardware') {
+    var mobilePhone = req.query.mobilePhone && JSON.parse(req.query.mobilePhone);
+    var batteryLife = req.query.batteryLife;
+    var screenSize = req.query.screenSize;
+
+    addToQuery(query, 'features.battery.batteryLife', {
+      $gte: parseInt(batteryLife, 10)
+    }, batteryLife);
+
+    addToQuery(query, 'features.dimensions.screenSize', {
+      $gte: parseInt(screenSize, 10)
+    }, screenSize);
+
+    _.each(mobilePhone, function(value, key) {
+      if(value) {
+        var temp = {};
+        temp['features.mobilePhone.' + key] = value;
+        orQuery.push(temp);
+      }
+    });
   }
+
+  // SOFTWARE FILTERS
+  if(req.query.type === 'ProductSoftware') {
+    var imageRepresentation = req.query.imageRepresentation && JSON.parse(req.query.imageRepresentation);
+    var speechTypeOptions = req.query.speechTypeOptions && JSON.parse(req.query.speechTypeOptions);
+
+    _.each(speechTypeOptions, function(value, key) {
+      if(value) {
+        var temp = {};
+        temp['features.speechTypeOptions.' + key] = value;
+        orQuery.push(temp);
+      }
+    });
+
+    _.each(imageRepresentation, function(value, key) {
+      if(value) {
+        var temp = {};
+        temp['features.imageRepresentation.' + key] = value;
+        orQuery.push(temp);
+      }
+    });
+  }
+
+  // VOCABULARY FILTERS
+  if(req.query.type === 'ProductVocabulary') {
+    var presentation = req.query.presentation && JSON.parse(req.query.presentation);
+
+    _.each(presentation, function(value, key) {
+      if(value) {
+        console.log(key);
+        var temp = {};
+        temp['features.presentation'] = key;
+        orQuery.push(temp);
+      }
+    });
+  }
+
+  // NOT LOW TECH FILTERS
+  if(req.query.type !== 'ProductLowTech') {
+    var devices = req.query.devices;
+    var accessMethods = req.query.accessMethods && JSON.parse(req.query.accessMethods);
+
+    addToQuery(query, 'features.operatingSystems', {
+      $in: _.isArray(devices) ? devices: [devices]
+    }, devices);
+
+    _.each(accessMethods, function(value, key) {
+      if(value) {
+        var temp = {};
+        temp['features.accessMethods.' + key] = value;
+        orQuery.push(temp);
+      }
+    });
+  }
+
+  orQuery = orQuery.length ? orQuery: null;
 
   Product
   .find(query)

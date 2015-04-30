@@ -72,3 +72,12 @@ form .alert {
 .loading {
   margin-right: 10px;
 }
+
+.ui-select-match-item {
+  overflow: hidden;
+
+  &:hover, &:focus {
+    background: $backgroundColor;
+    color: #000;
+  }
+}

@@ -14,7 +14,8 @@ var SupplierSchema = new Schema({
     city: String,
     county: String,
     country: String,
-    postCode: String
+    postcode: String,
+    telephone: String
   }],
   url: String,
   supportDetails: String
