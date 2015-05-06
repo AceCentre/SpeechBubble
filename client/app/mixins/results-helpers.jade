@@ -37,8 +37,6 @@ mixin mediaSimple()
           h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
           p(ng-if='item.features.price.gbp') &pound;{{ item.features.price.gbp }}
 
-    hr(ng-if='!$last')
-
 
 mixin pagination()
   hr
