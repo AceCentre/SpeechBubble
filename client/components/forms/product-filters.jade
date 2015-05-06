@@ -7,10 +7,10 @@ div.product-filters
   form(ng-submit='performSearch()')
     .form-group
       label.control-label(for="type") Product type
-      +radio('search', 'type', 'ProductLowTech', 'Low-tech')
-      +radio('search', 'type', 'ProductHardware', 'Hardware ')
-      +radio('search', 'type', 'ProductSoftware', 'Software / Application')
-      +radio('search', 'type', 'ProductVocabulary', 'Vocabulary')
+      +radioChange('search', 'type', 'ProductLowTech', 'Low-tech', 'clearSearchRetainType()')
+      +radioChange('search', 'type', 'ProductHardware', 'Hardware', 'clearSearchRetainType()')
+      +radioChange('search', 'type', 'ProductSoftware', 'Software / Application', 'clearSearchRetainType()')
+      +radioChange('search', 'type', 'ProductVocabulary', 'Vocabulary', 'clearSearchRetainType()')
 
     .form-group(ng-if='search.type && search.type !== "ProductLowTech"')
       label.control-label(for="type") Operating systems

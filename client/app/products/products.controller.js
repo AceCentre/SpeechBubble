@@ -2,11 +2,12 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions) {
+.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch) {
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
   $scope.devices = ProductOptions.devices;
+  $scope.search = ProductSearch;
 
   angular.extend($scope.search, $location.search());
 
@@ -23,14 +24,15 @@ angular.module('speechBubbleApp')
     $scope.performSearch();
   };
 
+
   // Clear search filters when type is changed
-  $scope.$watch('search.type', function() {
+  $scope.clearSearchRetainType = function() {
     angular.forEach($scope.search, function(value, key) {
       if(key !== 'term' && key !== 'type') {
         delete $scope.search[key];
       }
     });
-  });
+  };
 
   $scope.create = function() {
     var modalInstance = $modal.open({

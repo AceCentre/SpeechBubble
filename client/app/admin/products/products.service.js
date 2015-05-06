@@ -15,6 +15,13 @@ angular.module('speechBubbleApp')
       'update': { method: 'PUT' }
     });
   })
+  .factory('ProductSearch', function() {
+    var search = {};
+
+    return function() {
+      return search;
+    };
+  })
   .factory('ProductVideos', function($sce) {
     return function(scope) {
       return {

@@ -49,6 +49,12 @@ mixin radio(model, id, value, label, required)
       input(type='radio', ng-model='#{model}.#{id}', name='#{id}', value='#{value}', ng-required='#{required}')
       | #{label}
 
+mixin radioChange(model, id, value, label, change)
+  div.radio
+    label
+      input(type='radio', ng-model='#{model}.#{id}', name='#{id}', value='#{value}', ng-change='#{change}')
+      | #{label}
+
 mixin checkbox(model, id, label)
   div.checkbox
     label

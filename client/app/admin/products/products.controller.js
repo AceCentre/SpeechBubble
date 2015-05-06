@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, ProductTemplate, ProductOptions) {
+  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, ProductTemplate, ProductOptions, ProductSearch) {
     $scope.endpoint = '/api/product/:id';
     $scope.devices = ProductOptions.devices;
+    $scope.search = ProductSearch;
 
     $scope.create = function() {
       var modalInstance = $modal.open({
