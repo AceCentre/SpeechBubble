@@ -26,7 +26,7 @@ mixin media()
     hr(ng-if='!$last')
 
 mixin mediaSimple()
-  .media.product-listing.product-listing-simple(ng-repeat='item in items')
+  .media.product-listing.product-listing-simple(ng-repeat='item in items | limitTo: 5')
     .media-left
       a(ng-href='/products/{{ item._id }}')
         img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
