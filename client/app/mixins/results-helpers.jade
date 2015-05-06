@@ -25,6 +25,20 @@ mixin media()
           a.btn.btn-primary.btn-block(ng-href='/products/{{ item._id }}') View
     hr(ng-if='!$last')
 
+mixin mediaSimple()
+  .media.product-listing.product-listing-simple(ng-repeat='item in items')
+    .media-left
+      a(ng-href='/products/{{ item._id }}')
+        img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
+    .media-body
+      div.row
+        div.col-md-12
+          div.ratings.pull-right(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
+          h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
+          p(ng-if='item.features.price.gbp') &pound;{{ item.features.price.gbp }}
+
+    hr(ng-if='!$last')
+
 
 mixin pagination()
   hr

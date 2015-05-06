@@ -1,5 +1,18 @@
 extends ../../layout/1_column
+include ../../app/mixins/results-helpers
+include ../../app/mixins/form-helpers
+include ../../app/admin/products/form-helpers
 
 block content
   div(ng-bind-html='content')
-  div(ng-include='"components/forms/product-filters.html"')
+  div.row
+    div.col-sm-8
+      div(ng-include='"components/forms/product-filters.html"')
+    div.col-sm-4
+      div(ng-controller='ResultsCtrl')
+        div(ng-hide='!total')
+          +mediaSimple()
+
+        hr
+        div.text-center
+          button(class='btn btn-secondary', ng-click='viewAll()') View more...

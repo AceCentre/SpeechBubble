@@ -23,6 +23,22 @@
   margin-bottom: 3px;
 }
 
+.product-listing-simple .media-heading {
+  font-size: 1em;
+}
+
+.product-listing-simple .media-body {
+  font-size: 1em;
+
+  .ratings {
+    margin-top: 0;
+  }
+}
+
+.product-listing-simple hr {
+  margin: 0;
+}
+
 .product-comparing-list .list-group .glyphicon-remove {
   position: absolute;
   top: 10px;
