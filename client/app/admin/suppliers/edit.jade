@@ -61,10 +61,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
             .col-sm-10
               select.form-control(id='country', name='country', ng-model='location.country')
                 option(value='', disabled, selected) Please select
-                option(value='UK') UK
-                option(value='Europe') Europe
-                option(value='USA') USA
-                option(value='other') Other
+                option(value='{{ region }}', ng-repeat='region in regions') {{ region }}
 
           a.btn.btn-secondary.pull-right(ng-click='addLocation(lForm)') Add location
 

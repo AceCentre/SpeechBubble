@@ -164,6 +164,18 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
 
           +accessMethodOptions('accessMethodTouch')
 
+          .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='touchFeatures')
+            .panel-heading What Touch features are available?
+            .panel-body
+              +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
+              +checkbox('product.features.touchFeatures', 'acceptOnExit', 'Accept on Exit')
+              +checkbox('product.features.touchFeatures', 'holdTime', 'Hold time')
+              +checkbox('product.features.touchFeatures', 'debounce', 'Debounce')
+              +checkbox('product.features.touchFeatures', 'auditoryFishing', 'Auditory fishing')
+              +checkbox('temp', 'touchFeaturesOther', 'Other')
+              textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
+
+
           <!-- Mouse or alternative -->
           +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
           +accessMethodOptions('mouseOrAlternative')
@@ -171,6 +183,12 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           <!-- Eyegaze -->
           +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
           +accessMethodOptions('eyegaze')
+
+          .panel.panel-default(ng-show='product.features.accessMethods.eyegaze', destroy='accessMethodEyeGazePause')
+            .panel-heading Pause on-screen or off-screen?
+            .panel-body
+              +radio('product.features', 'accessMethodEyeGazePause', 'on-screen', 'On-screen')
+              +radio('product.features', 'accessMethodEyeGazePause', 'off-screen', 'Off-screen')
 
           <!-- Switch -->
           +checkbox('product.features.accessMethods', 'switch', 'Switch')

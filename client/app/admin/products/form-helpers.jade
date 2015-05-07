@@ -454,5 +454,5 @@ mixin draftActions()
   .modal-footer
     img.loading(ng-if='isSaving', src='/assets/images/loading.gif', width='39', height='39')
     button.btn.btn-secondary() Save Draft
-    button.btn.btn-primary(ng-click='shouldPublish = true') Save &amp; Publish
+    button.btn.btn-primary(ng-click='shouldPublish = true', ng-if='isAdmin()') Save &amp; Publish
     a.btn.btn-tertiary(ng-click='cancel()') Cancel
