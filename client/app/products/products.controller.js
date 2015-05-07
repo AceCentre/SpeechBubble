@@ -21,6 +21,7 @@ angular.module('speechBubbleApp')
         delete $scope.search[key];
       }
     });
+    $scope.search.type = '';
     $scope.performSearch();
   };
 

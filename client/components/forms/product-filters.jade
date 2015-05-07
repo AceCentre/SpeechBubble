@@ -7,6 +7,7 @@ div.product-filters
     div.product-advanced-type
       .form-group
         label.control-label(for="type") Product type
+        +radioChange('search', 'type', '', 'All', 'clearSearchRetainType()')
         +radioChange('search', 'type', 'ProductLowTech', 'Low-tech', 'clearSearchRetainType()')
         +radioChange('search', 'type', 'ProductHardware', 'Hardware', 'clearSearchRetainType()')
         +radioChange('search', 'type', 'ProductSoftware', 'Software / Application', 'clearSearchRetainType()')

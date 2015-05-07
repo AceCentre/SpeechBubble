@@ -16,7 +16,9 @@ angular.module('speechBubbleApp')
     });
   })
   .factory('ProductSearch', function() {
-    var search = {};
+    var search = {
+      type: ''
+    };
     return search;
   })
   .factory('ProductVideos', function($sce) {

@@ -1,4 +1,4 @@
-extends ../../layout/1_column
+extends ../../layout/2_column
 include ../../app/mixins/results-helpers
 include ../../app/mixins/form-helpers
 include ../../app/admin/products/form-helpers
@@ -7,12 +7,15 @@ block content
   div(ng-bind-html='content')
 
   h2 Product Search
-  hr
 
   div.row.page-main
-    div.col-sm-8
+    div.col-sm-7
+      h3 Select your options
+      hr
       div(ng-include='"components/forms/product-filters.html"')
-    div.col-sm-4
+    div.col-sm-5
+      h3 Results
+      hr
       div(ng-controller='ResultsCtrl')
         div(ng-hide='!total')
           +mediaSimple()

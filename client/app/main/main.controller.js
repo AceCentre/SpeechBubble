@@ -12,6 +12,7 @@ angular.module('speechBubbleApp')
         delete $scope.search[key];
       }
     });
+    $scope.search.type = '';
   };
 
   // Clear search filters when type is changed
