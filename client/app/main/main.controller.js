@@ -23,10 +23,6 @@ angular.module('speechBubbleApp')
     });
   };
 
-  $scope.performSearch = function() {
-    $rootScope.$broadcast('resultsUpdated');
-  };
-
   $scope.viewAll = function() {
     $state.go('products');
   };

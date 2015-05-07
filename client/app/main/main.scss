@@ -1,0 +1,24 @@
+.main-content .page-main {
+
+  form {
+    margin-top: 0;
+  }
+
+  .product-advanced-type {
+    width: 35%;
+    float: left;
+  }
+
+  .product-advanced-filters {
+    width: 65%;
+    float: left;
+  }
+
+  .btn + .btn {
+    margin-left: 10px;
+  }
+
+  .product-advanced-actions {
+    display: none;
+  }
+}

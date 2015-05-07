@@ -22,7 +22,6 @@ angular.module('speechBubbleApp')
         $scope.initial = false;
         $scope.items = res.items;
         $scope.total = res.total;
-        $('html, body').stop().animate({ scrollTop: 0 }, 400);
       }, function(err) {
         growl.error(err);
       });
@@ -41,7 +40,11 @@ angular.module('speechBubbleApp')
       });
     });
 
-    $scope.$watch('page', updateResults);
+    $scope.$watch('page', function() {
+      updateResults();
+      $('html, body').stop().animate({ scrollTop: 0 }, 400);
+    });
     $scope.$on('resultsUpdated', updateResults);
+    $scope.$watch('search', updateResults, true);
 
   });

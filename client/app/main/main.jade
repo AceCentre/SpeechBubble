@@ -5,7 +5,11 @@ include ../../app/admin/products/form-helpers
 
 block content
   div(ng-bind-html='content')
-  div.row
+
+  h2 Product Search
+  hr
+
+  div.row.page-main
     div.col-sm-8
       div(ng-include='"components/forms/product-filters.html"')
     div.col-sm-4
@@ -13,6 +17,9 @@ block content
         div(ng-hide='!total')
           +mediaSimple()
 
-        hr
-        div.text-center
-          button(class='btn btn-secondary', ng-click='viewAll()') View all
+  div.row.page-main
+    div.col-sm-12
+      hr
+      div.text-center
+        a.btn.btn-secondary(ng-click='viewAll()') View all
+        a.btn.btn-tertiary(ng-click='clearSearchFilters()') Clear

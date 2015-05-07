@@ -17,10 +17,7 @@ angular.module('speechBubbleApp')
   })
   .factory('ProductSearch', function() {
     var search = {};
-
-    return function() {
-      return search;
-    };
+    return search;
   })
   .factory('ProductVideos', function($sce) {
     return function(scope) {
