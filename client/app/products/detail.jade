@@ -26,11 +26,13 @@ block content
   hr
 
   div.product-summary
-    div.img-thumbnail(carousel, ng-if='product.images.length')
+    div.img-thumbnail(carousel, ng-if='product.images.length || product.videos.length')
       div(slide, ng-repeat='image in product.images' active='slide.active')
         img(ng-src="{{ image.url }}", width='200', height='200')
+      div(slide, ng-repeat='video in product.videos' active='slide.active')
+        iframe(id='ytplayer', type='text/html', width='320', height='195', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
 
-    img.img-thumbnail(ng-if='!product.images.length', src='/assets/images/products/default.png', width='200', height='200')
+    img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
 
     dl.dl-inline
       dt Price

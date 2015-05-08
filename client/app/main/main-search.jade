@@ -1,0 +1,25 @@
+extends ../../layout/2_column
+include ../../app/mixins/results-helpers
+include ../../app/mixins/form-helpers
+include ../../app/admin/products/form-helpers
+
+block content
+  div(ng-bind-html='content')
+  h2 Product Search
+  div.row.page-main
+    div.col-sm-7
+      h3 Select your options
+      hr
+      div(ng-include='"components/forms/product-filters.html"')
+    div.col-sm-5
+      h3 Results
+      hr
+      div(ng-controller='ResultsCtrl')
+        div(ng-hide='!total')
+          +mediaSimple()
+  div.row.page-main
+    div.col-sm-12
+      hr
+      div.text-center
+        a.btn.btn-secondary(ng-click='viewAll()') View all
+        a.btn.btn-tertiary(ng-click='clearSearchFilters()') Clear

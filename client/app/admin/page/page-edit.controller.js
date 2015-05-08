@@ -57,14 +57,15 @@ angular.module('speechBubbleApp')
     $scope.editorOptions = {
       toolbar: [
         ['Format', 'Bold', 'Italic'],
-        ['Link', 'Unlink'],
+        ['Link', 'Unlink', 'Anchor'],
         ['NumberedList', 'BulletedList'],
         ['Indent', 'Outdent', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         ['Table', 'Image', 'HorizontalRule'],
         ['Source']
       ],
       extraPlugins: "imagebrowser",
-      imageBrowser_listUrl: "/api/upload/"
+      imageBrowser_listUrl: "/api/upload/",
+      extraAllowedContent: '*[id](*)'
     };
 
     $scope.update = function(form, message) {
