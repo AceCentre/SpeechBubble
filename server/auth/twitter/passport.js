@@ -36,7 +36,7 @@ exports.setup = function (User, config) {
         });
 
         user
-        .save()
+        .saveAsync()
         .then(function(user) {
           return done(null, user);
         })
