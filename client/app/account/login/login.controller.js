@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
+  .controller('LoginCtrl', function ($scope, Auth, PageTitle, $location, $window) {
+    PageTitle('Account login');
+
     $scope.user = {};
     $scope.errors = {};
 

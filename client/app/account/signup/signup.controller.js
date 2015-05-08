@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location, $window, $timeout, growl) {
+  .controller('SignupCtrl', function ($scope, Auth, PageTitle, $location, $window, $timeout, growl) {
+    PageTitle('Registration');
+
     $scope.requirePassword = true;
     $scope.user = {};
     $scope.errors = {};

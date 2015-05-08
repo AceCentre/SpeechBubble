@@ -2,7 +2,10 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch) {
+.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch, PageTitle) {
+
+  PageTitle('Product Search');
+
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
@@ -106,11 +109,13 @@ angular.module('speechBubbleApp')
   };
 })
 
-.controller('ProductDetailCtrl', function($state, $scope, $location, product, Rating, ProductTemplate, ProductVideos, $modal, Auth) {
+.controller('ProductDetailCtrl', function($state, $scope, $location, product, Rating, ProductTemplate, ProductVideos, PageTitle, $modal, Auth) {
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.videos = ProductVideos($scope);
   $scope.product = product.data;
   $scope.comments = true;
+
+  PageTitle($scope.product.name);
 
   Rating.get({ id: $scope.product._id }, function(res) {
     $scope.ratings = res;

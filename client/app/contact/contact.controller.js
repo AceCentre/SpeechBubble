@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ContactCtrl', function ($scope, Auth, User, $location, $http) {
+  .controller('ContactCtrl', function ($scope, Auth, User, PageTitle, $location, $http) {
+
+    PageTitle('Contact us');
+
     $scope.message = {};
 
     if( Auth.isLoggedIn() ) {

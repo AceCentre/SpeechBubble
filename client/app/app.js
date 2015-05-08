@@ -196,6 +196,12 @@ angular.module('speechBubbleApp', [
     };
   })
 
+  .factory('PageTitle', function($rootScope) {
+    return function (title) {
+      $rootScope.title = 'Speech Bubble - ' + title;
+    };
+  })
+
   .run(function ($rootScope, $location, Auth) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {

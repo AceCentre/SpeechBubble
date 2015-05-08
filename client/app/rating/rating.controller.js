@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('ProductRatingCtrl', function ($scope, Rating, Auth, $modal, $stateParams) {
+.controller('ProductRatingCtrl', function ($scope, Rating, PageTitle, Auth, $modal, $stateParams) {
+  PageTitle('Rating');
+
   var productId = $stateParams.id;
   $scope.isLoggedIn = Auth.isLoggedIn;
 
