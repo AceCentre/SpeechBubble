@@ -4,10 +4,10 @@ angular.module('speechBubbleApp')
   .controller('PageCtrl', function (PageTitle, $scope, Page, $stateParams, $location, $sce) {
 
     var slug;
-    if ($stateParams.path) {
-      slug = $stateParams.path.replace(/^\/|\/$/g, '').replace(/\s/g, '-');
-    } else {
+    if(!$stateParams.path || $stateParams.path === '_=_') {
       slug = 'home';
+    } else {
+      slug = $stateParams.path.replace(/^\/|\/$/g, '').replace(/\s/g, '-');
     }
 
     Page.get({ id: slug }, function(res) {
