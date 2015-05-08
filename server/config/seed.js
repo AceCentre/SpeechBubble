@@ -13,7 +13,12 @@ var Rating = require('../api/rating/rating.model').Rating;
 var chance = require('chance').Chance();
 var _ = require('lodash');
 var ENUM = require('../enum');
-return;
+
+/**
+ *
+ * WARNING DO NOT USE IN PRODUCTION ONLY FOR LOCAL SEEDING OF DATABASE
+ * FOR TESTING PURPOSES
+ *
 User.find().remove(function() {
   User.create({
     provider: 'local',
@@ -102,4 +107,4 @@ User.find().remove(function() {
   });
 });
 
-
+**/
