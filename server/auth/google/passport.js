@@ -20,12 +20,17 @@ exports.setup = function (User, config) {
             provider: 'google',
             google: profile._json
           });
-          user.save(function(err) {
-            if (err) done(err);
-            return done(err, user);
+
+          user
+          .save()
+          .then(function(user) {
+            return done(null, user);
+          })
+          .catch(function(err) {
+            return done(err);
           });
         } else {
-          return done(err, user);
+          return done(null, user);
         }
       });
     }
