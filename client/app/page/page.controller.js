@@ -1,13 +1,18 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('PageCtrl', function (PageTitle, $scope, Page, $stateParams, $location, $sce) {
-
+  .controller('PageCtrl', function (PageTitle, $scope, Page, $state, $stateParams, $location, $sce) {
     var slug;
-    if(!$stateParams.path || $stateParams.path === '_=_') {
+
+    if(!$stateParams.path) {
       slug = 'home';
     } else {
-      slug = $stateParams.path.replace(/^\/|\/$/g, '').replace(/\s/g, '-');
+      // workaround for facebook apending _=_ to url
+      if( $stateParams.path.indexOf('_=_') > -1 ) {
+        return $state.go('main');
+      } else {
+        slug = $stateParams.path.replace(/^\/|\/$/g, '').replace(/\s/g, '-');
+      }
     }
 
     Page.get({ id: slug }, function(res) {
