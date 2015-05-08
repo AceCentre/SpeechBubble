@@ -21,14 +21,13 @@ exports.setup = function (User, config) {
             google: profile._json
           });
 
-          user
-          .saveAsync()
-          .then(function(user) {
-            return done(null, user);
-          })
-          .catch(function(err) {
+          user.save(function(err, user) {
+            if(!err) {
+              return done(null, user);
+            }
             return done(err);
           });
+
         } else {
           return done(null, user);
         }
