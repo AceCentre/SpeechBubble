@@ -198,7 +198,7 @@ angular.module('speechBubbleApp', [
 
   .factory('PageTitle', function($rootScope) {
     return function (title) {
-      $rootScope.title = 'Speech Bubble - ' + title;
+      $rootScope.title = 'SpeechBubble - ' + title;
     };
   })
 

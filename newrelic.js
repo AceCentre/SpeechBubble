@@ -8,7 +8,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name : ['Speech Bubble'],
+  app_name : ['SpeechBubble'],
   /**
    * Your New Relic license key.
    */

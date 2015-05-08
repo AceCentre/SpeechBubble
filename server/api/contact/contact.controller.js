@@ -26,12 +26,12 @@ exports.send = function(req, res) {
             email: email,
             message: message
           }),
-          subject: 'Speech Bubble Contact Form',
+          subject: 'SpeechBubble Contact Form',
           from_email: email,
           from_name: firstName + ' ' + lastName,
           to: [{
             email: process.env.SUPPORT_EMAIL,
-            name: 'Speech Bubble Admin',
+            name: 'SpeechBubble Admin',
             type: 'to'
           }],
           auto_text: true
