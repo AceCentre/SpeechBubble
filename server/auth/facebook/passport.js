@@ -1,3 +1,5 @@
+'use strict';
+
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -26,13 +28,13 @@ exports.setup = function (User, config) {
             facebook: profile._json
           });
           user.save(function(err) {
-            if (err) done(err);
+            if (err) { done(err); }
             return done(err, user);
           });
         } else {
           return done(err, user);
         }
-      })
+      });
     }
   ));
 };
