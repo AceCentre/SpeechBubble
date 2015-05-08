@@ -5,6 +5,7 @@ angular.module('speechBubbleApp')
 
     var api = $resource($scope.endpoint, { id: '@_id' }, { query: { method: 'GET' } });
 
+    $scope.isLoading = false;
     $scope.initial = true; // used to determine if we are yet to fetch results
     $scope.limit = Number($location.search().limit) || 10;
     $scope.skip = Number($location.search().skip) || 0;
@@ -12,6 +13,7 @@ angular.module('speechBubbleApp')
     $scope.total = 0;
 
     function updateResults() {
+      $scope.isLoading = true;
       $scope.skip = ($scope.page - 1) * $scope.limit;
       var query = angular.extend({
         skip: $scope.skip,
@@ -19,10 +21,12 @@ angular.module('speechBubbleApp')
       }, $scope.search);
 
       api.query(query, function(res) {
+        $scope.isLoading = false;
         $scope.initial = false;
         $scope.items = res.items;
         $scope.total = res.total;
       }, function(err) {
+        $scope.isLoading = false;
         growl.error(err);
       });
     }

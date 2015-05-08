@@ -34,6 +34,20 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
    }
  }
 
+.ng-hide-animate {
+  -webkit-transition:all linear 0.75s;
+  transition:all linear 0.75s;
+
+  &.ng-hide {
+    opacity:0;
+  }
+}
+
+img.loading.ng-hide-animate {
+  display: block;
+  margin: 10px auto;
+}
+
  a {
    color: $primaryColor;
  }
