@@ -67,7 +67,7 @@ angular.module('speechBubbleApp')
           var scope = $rootScope.$new();
           scope.product = {
             type: 'ProductVocabulary'
-          }
+          };
           return scope;
         })()
       });
