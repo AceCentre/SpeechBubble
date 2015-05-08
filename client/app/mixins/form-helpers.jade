@@ -10,10 +10,14 @@ mixin input(model, type, id, label, requiredForm)
         p.help-block(ng-show='#{requiredForm}.#{id}.$error.number && #{requiredForm}.$submitted')
           | #{label} should be a number
   else
-    .form-group
+    .form-group(ng-class='{ "has-success": form.#{id}.$valid && form.$submitted,\
+    "has-error": form.#{id}.$invalid && form.$submitted }')
       label.control-label.col-sm-2(for="#{id}") #{label}
       .col-sm-10
         input.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}')
+
+        p.help-block(ng-show='form.#{id}.$error.number && form.$submitted')
+          | #{label} should be a number
 
 mixin url(model, type, id, label, requiredForm)
   if requiredForm

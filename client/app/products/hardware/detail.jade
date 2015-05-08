@@ -121,8 +121,3 @@ table.table.table-striped
           ul()
             li(ng-if='product.features.accessMethodsSwitchBuiltIn') Built-in switch
             li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available
-
-  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
-    .panel-heading What is the maximum number of locations per page?
-    .panel-body
-      input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')

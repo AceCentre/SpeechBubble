@@ -312,7 +312,12 @@ mixin speechTypeOptions()
           .panel.panel-default(ng-show='product.features.speechTypeSynthesisedTypes', destroy='numberOfVoices')
             .panel-heading Total voices
             .panel-body
-              input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
+              div(ng-class='{ "has-success": form.numberOfVoices.$valid && form.$submitted, "has-error": form.numberOfVoices.$invalid && form.$submitted }')
+                input.form-control(id='numberOfVoices', name='numberOfVoices', type='number', ng-model='product.features.numberOfVoices', min='0')
+
+                p.help-block(ng-show='form.numberOfVoices.$error.number && form.$submitted')
+                  | #{label} Total voices should be a number
+
       +checkbox('product.features.speechTypeOptions', 'recorded', 'Recorded')
 
 mixin imageRepresentationSupported()
@@ -358,11 +363,22 @@ mixin deviceSupportedOperatingSystems()
       .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
         .panel-heading Message levels
         .panel-body
-          input.form-control(type='number', ng-model='product.features.messageLevels')
+          div(ng-class='{ "has-success": form.messageLevels.$valid && form.$submitted, "has-error": form.messageLevels.$invalid && form.$submitted }')
+            input.form-control(id='messageLevels', name='messageLevels', type='number', ng-model='product.features.messageLevels')
+
+            p.help-block(ng-show='form.messageLevels.$error.number && form.$submitted')
+              | #{label} Message levels should be a number
+
           .panel.panel-default(ng-show='product.features.messageLevels', destroy='messageLevelsPerLevel')
             .panel-heading Message number per level
             .panel-body
-              input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
+              div(ng-class='{ "has-success": form.messageLevelsPerLevel.$valid && form.$submitted, "has-error": form.messageLevelsPerLevel.$invalid && form.$submitted }')
+                input.form-control(id='messageLevelsPerLevel', name='messageLevelsPerLevel', type='number', ng-model='product.features.messageLevelsPerLevel')
+
+                p.help-block(ng-show='form.messageLevelsPerLevel.$error.number && form.$submitted')
+                  | #{label} Message number per level should be a number
+
+
 
 
 mixin dedicated()
@@ -453,11 +469,20 @@ mixin messageLevels()
   .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
     .panel-heading Message levels
     .panel-body
-      input.form-control(type='number', ng-model='product.features.messageLevels')
+      div(ng-class='{ "has-success": form.messageLevels.$valid && form.$submitted, "has-error": form.messageLevels.$invalid && form.$submitted }')
+        input.form-control(id='messageLevels', name='messageLevels', type='number', ng-model='product.features.messageLevels')
+
+        p.help-block(ng-show='form.messageLevels.$error.number && form.$submitted')
+          | #{label} Message levels should be a number
+
       .panel.panel-default(ng-show='product.features.messageLevels', destroy='messageLevelsPerLevel')
         .panel-heading Message number per level
         .panel-body
-          input.form-control(type='number', ng-model='product.features.messageLevelsPerLevel')
+          div(ng-class='{ "has-success": form.messageLevelsPerLevel.$valid && form.$submitted, "has-error": form.messageLevelsPerLevel.$invalid && form.$submitted }')
+            input.form-control(id='messageLevelsPerLevel', name='messageLevelsPerLevel', type='number', ng-model='product.features.messageLevelsPerLevel')
+
+            p.help-block(ng-show='form.messageLevelsPerLevel.$error.number && form.$submitted')
+              | #{label} Message number per level should be a number
 
 mixin draftActions()
   .modal-footer

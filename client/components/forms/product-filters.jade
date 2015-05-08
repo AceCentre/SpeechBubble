@@ -3,7 +3,7 @@ include ../../app/mixins/form-helpers
 include ../../app/admin/products/form-helpers
 
 div.product-filters
-  form(ng-submit='performSearch()')
+  form(ng-submit='performSearch()', name='searchForm')
     div.product-advanced-type
       .form-group
         label.control-label(for="type") Product type
@@ -24,12 +24,20 @@ div.product-filters
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
         label.control-label(for="type") Minimum Battery Life
-        input.form-control(type='number', ng-model='search.batteryLife')
+          div(ng-class='{ "has-error": searchForm.searchBatteryLife.$invalid }')
+            input.form-control(id='searchBatteryLife', name='searchBatteryLife', type='number', ng-model='search.batteryLife')
+
+            p.help-block(ng-show='searchForm.searchBatteryLife.$error.number')
+              | #{label} Please enter a number
 
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
         label.control-label(for="screenSize") Minimum Screen Size
-        input.form-control(type='number', ng-model='search.screenSize', name='screenSize')
+          div(ng-class='{ "has-error": searchForm.searchScreenSize.$invalid }')
+            input.form-control(id='searchScreenSize', name='searchScreenSize', type='number', ng-model='search.screenSize')
+
+            p.help-block(ng-show='searchForm.searchScreenSize.$error.number')
+              | #{label} Please enter a number
 
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
