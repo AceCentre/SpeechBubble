@@ -1,5 +1,5 @@
 .container
-  .col-sm-9.col-sm-offset-3
+  .col-sm-12
     div.social-share
       span.st_facebook_hcount(displayText='Facebook')
       span.st_twitter_hcount(displayText='Tweet')
@@ -9,23 +9,23 @@ footer.footer
 
   .container(ng-controller='FooterCtrl')
     a(href='http://www.acecentre.org.uk', target='_blank'): .footer-brand-ace-centre Ace Centre
-    
+
     ul.footer-list-links
       li(ng-repeat='item in menu')
         a(ng-href='{{item.link}}') {{item.title}}
-      
-    ul.footer-list-social 
+
+    ul.footer-list-social
       li: a(href='http://www.facebook.com/ACECentre.uk', target='_blank')
         span.icon-social-facebook-circled
       li: a(href='http://twitter.com/ACEcentre', target='_blank')
         span.icon-social-twitter-circled
-        
+
     p.footer-copyright
       | Copyright &copy; 2015
-      | ACE Centre is a registered charity no. 1089313. 
+      | ACE Centre is a registered charity no. 1089313.
       br
-      | Registered as a company limited by guarantee no. 04268143 (England &amp; Wales). 
+      | Registered as a company limited by guarantee no. 04268143 (England &amp; Wales).
       br
-      | Registered office: SpeechBubble, Hollinwood Business Centre, Albert Street, Oldham, OL8 3QL. 
+      | Registered office: SpeechBubble, Hollinwood Business Centre, Albert Street, Oldham, OL8 3QL.
       | VAT registration number 785728278
-      
+
