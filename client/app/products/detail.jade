@@ -34,7 +34,7 @@ block content
 
     img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
 
-    dl.dl-inline
+    dl.dl-inline(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
       dt Price
       dd
         +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
