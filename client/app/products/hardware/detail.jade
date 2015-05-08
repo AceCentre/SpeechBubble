@@ -64,20 +64,20 @@ table.table.table-striped
         +textLineIf('Carrying strap available', 'product.features.mountingOptions.carryingStrap')
         em(ng-if='product.features.mountingOtherDetails') {{ product.features.mountingOtherDetails }}
 
-    tr(ng-if='product.features.dimensions')
+    tr(ng-if='product.features.dimensions.weight || product.features.dimensions.depth || product.features.dimensions.height || product.features.dimensions.width || product.features.dimensions.screenSize')
       th Dimensions (case {{ product.features.dimensions.sizeIncludingCase ? 'included': 'not included' }})
       td
         dl
-          dt Weight
-          dd {{ product.features.dimensions.weight || '-' }}kg
-          dt Depth
-          dd {{ product.features.dimensions.depth || '-' }}mm
-          dt Height
-          dd {{ product.features.dimensions.height || '-' }}mm
-          dt Width
-          dd {{ product.features.dimensions.width || '-' }}mm
-          dt Screen size
-          dd {{ product.features.dimensions.screenSize || '-' }}"
+          dt(ng-if='product.features.dimensions.weight') Weight
+          dd(ng-if='product.features.dimensions.weight') {{ product.features.dimensions.weight }}kg
+          dt(ng-if='product.features.dimensions.depth') Depth
+          dd(ng-if='product.features.dimensions.depth') {{ product.features.dimensions.depth }}mm
+          dt(ng-if='product.features.dimensions.height') Height
+          dd(ng-if='product.features.dimensions.height') {{ product.features.dimensions.height }}mm
+          dt(ng-if='product.features.dimensions.width') Width
+          dd(ng-if='product.features.dimensions.width') {{ product.features.dimensions.width }}mm
+          dt(ng-if='product.features.dimensions.screenSize') Screen size
+          dd(ng-if='product.features.dimensions.screenSize') {{ product.features.dimensions.screenSize }}"
 
     tr
       th Environmental control capabilities
