@@ -14,6 +14,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
           input(type='hidden', ng-init='product.type = "ProductVocabulary"')
           +productDetails()
 
+      +price()
+
       .panel.panel-default
         .panel-heading How is the vocabulary primarily represented?
         .panel-body
@@ -202,6 +204,8 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
               +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
               +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
               +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+
+      +addLinks('moreInformationLinks', 'More information URLs')
       +productRevisions('product')
 
     +draftActions()

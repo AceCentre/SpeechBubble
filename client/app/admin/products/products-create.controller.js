@@ -2,9 +2,8 @@
 
 angular.module('speechBubbleApp')
   .controller('AdminProductCreateCtrl', function($scope, $modalInstance, $modal, ProductTemplate, Product, growl) {
-
     $scope.isSaving = false;
-    $scope.product = {};
+    $scope.product = $scope.product || {};
 
     $scope.create = function(form) {
       $scope.submitted = true;

@@ -58,6 +58,21 @@ angular.module('speechBubbleApp')
 
     $scope.$watch('imagesToUpload', $scope.images.add);
 
+    $scope.create = function() {
+      var modalInstance = $modal.open({
+        templateUrl: 'app/admin/products/create.html',
+        controller: 'AdminProductCreateCtrl',
+        backdrop: 'static',
+        scope: (function() {
+          var scope = $rootScope.$new();
+          scope.product = {
+            type: 'ProductVocabulary'
+          }
+          return scope;
+        })()
+      });
+    };
+
     $scope.hasChanges = function() {
       var hasChanges = !angular.equals($scope.product, current);
       if($scope.currentRevision) {
