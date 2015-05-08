@@ -102,12 +102,18 @@ mixin accessMethodOptions(dependsOn)
                 | Minimum target size is required
             p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
                 | Minimum target size should be greater than 5
+            p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.number && form.$submitted')
+                | Minimum target size should be a number
 
 
   .panel.panel-default(ng-show='product.features.accessMethods.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
     .panel-body
-      input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
+      div(ng-class='{ "has-success": form.#{dependsOn}MaximumLocations.$valid && form.$submitted,\
+          "has-error": form.#{dependsOn}MaximumLocations.$invalid && form.$submitted }')
+        input.form-control(type='number', id='#{dependsOn}MaximumLocations', name='#{dependsOn}MaximumLocations', ng-model='product.features.#{dependsOn}MaximumLocations')
+        p.help-block(ng-show='form.#{dependsOn}MaximumLocations.$error.number && form.$submitted')
+          | #{label} Maximum number of locations should be a number
 
 mixin price()
   .panel.panel-default
@@ -235,7 +241,7 @@ mixin sharedHardware()
       +textarea('product.features', 'warrantyOptions', 'Warranty options')
 
   .panel.panel-default
-    .panel-heading Battery
+    .panel-heading Battery #[a.glyphicon.glyphicon-question-sign(target='_blank', href='/glossary#battery-life')]
     .panel-body
       +input('product.features.battery', 'number', 'batteryLife', 'Battery life (hours)')
       +textarea('product.features.battery', 'spareBatteryOptions', 'Spare battery options')

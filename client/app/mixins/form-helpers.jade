@@ -7,6 +7,8 @@ mixin input(model, type, id, label, requiredForm)
         input.form-control(id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
         p.help-block(ng-show='#{requiredForm}.#{id}.$error.required && #{requiredForm}.$submitted')
           | #{label} is required
+        p.help-block(ng-show='#{requiredForm}.#{id}.$error.number && #{requiredForm}.$submitted')
+          | #{label} should be a number
   else
     .form-group
       label.control-label.col-sm-2(for="#{id}") #{label}
