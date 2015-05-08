@@ -9,6 +9,7 @@ angular.module('speechBubbleApp')
     }, {
       'title': 'Products',
       'children': [
+        { 'title': 'Search', 'link': '/search' },
         { 'title': 'Browse', 'link': '/products' },
         { 'title': 'Suppliers', 'link': '/suppliers' }
       ]
