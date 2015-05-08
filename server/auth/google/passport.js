@@ -25,7 +25,12 @@ exports.setup = function (User, config) {
             if(!err) {
               return done(null, user);
             }
-            return done(err);
+            User.findOne({
+              email: profile.emails[0].value
+            }, function(err, user) {
+              if(err) { return done(err); }
+              return done(null, user);
+            });
           });
 
         } else {
