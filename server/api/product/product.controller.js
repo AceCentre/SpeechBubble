@@ -48,6 +48,9 @@ exports.index = function(req, res) {
 
   addToQuery(query, 'type', req.query.type, req.query.type);
 
+  // ADMIN FILTERS
+  addToQuery(query, 'awaitingModeration', true, req.query.awaitingModeration === 'true');
+
   // HARDWARE FILTERS
 
   if(req.query.type === 'ProductHardware') {
@@ -212,6 +215,11 @@ exports.publish = function(req, res) {
       revision.type = product.type;
       revision.currentRevision = revisionId;
 
+      // If we are publishing the latest revision remove moderation flag
+      if(_.last(revision._revisions) === revisionId) {
+        revision.awaitingModeration = false;
+      }
+
       Product.update({ _id: productId }, revision, { overwrite: true, multi: false }, function(err, numberAffected, raw) {
         if (err) {
           return handleError(res, err);
@@ -264,6 +272,7 @@ exports.update = function(req, res) {
       if (err) {
         return handleError(res, err);
       }
+      product.awaitingModeration = true;
       product._revisions.push(revision._id);
       product.save(function(err, product) {
         if (err) {

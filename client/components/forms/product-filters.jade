@@ -75,5 +75,10 @@ div.product-filters
           +checkbox('search.accessMethods', 'eyegaze', 'Eyegaze')
           +checkbox('search.accessMethods', 'switch', 'Switch')
 
+      <!-- Admin -->
+      .form-group(ng-if='isAdmin()')
+        label.control-label Admin
+          +checkbox('search', 'awaitingModeration', 'Awaiting Moderation')
+
     div.product-advanced-actions
       a.btn.btn-tertiary(ng-click='clearSearchFilters()') Clear

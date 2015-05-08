@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, ProductTemplate, ProductOptions, ProductSearch, PageTitle) {
+  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, Auth, ProductTemplate, ProductOptions, ProductSearch, PageTitle) {
 
     PageTitle('Product Search Admin');
-
+    $scope.isAdmin = Auth.isAdmin;
     $scope.endpoint = '/api/product/:id';
     $scope.devices = ProductOptions.devices;
     $scope.search = ProductSearch;
