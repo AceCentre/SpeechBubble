@@ -22,7 +22,7 @@ var UserSchema = new Schema({
   email: {
     type: String,
     lowercase: true,
-    index: { unique: true }
+    index: { unique: true, sparse: true }
   },
   subscribe: {
     type: Boolean,
