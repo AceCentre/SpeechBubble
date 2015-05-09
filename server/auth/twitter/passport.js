@@ -1,3 +1,5 @@
+'use strict';
+
 exports.setup = function (User, config) {
   var passport = require('passport');
   var TwitterStrategy = require('passport-twitter').Strategy;
@@ -8,44 +10,44 @@ exports.setup = function (User, config) {
     callbackURL: config.twitter.callbackURL
   },
   function(token, tokenSecret, profile, done) {
-    User.findOne({
-      'twitter.id_str': profile.id
-    }, function(err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (!user) {
-
-        var displayName = profile.displayName.split(' ');
-        var firstName, lastName;
-
-        if( displayName.length > 1 ) {
-          firstName = displayName[0];
-          lastName = displayName[1];
-        } else {
-          firstName = profile.displayName;
-          lastName = '';
-        }
-
-        user = new User({
-          firstName: firstName,
-          lastName: lastName,
-          role: 'user',
-          provider: 'twitter',
-          twitter: profile._json
-        });
-
-        user.save(function(err, user) {
-          if(!err) {
-            return done(null, user);
-          }
+    User.findOne(
+      { 'twitter.id_str': profile.id },
+      function(err, user) {
+        if (err) {
           return done(err);
-        });
+        }
+        if (!user) {
 
-      } else {
-        return done(null, user);
+          var displayName = profile.displayName.split(' ');
+          var firstName, lastName;
+
+          if( displayName.length > 1 ) {
+            firstName = displayName[0];
+            lastName = displayName[1];
+          } else {
+            firstName = profile.displayName;
+            lastName = '';
+          }
+
+          user = new User({
+            firstName: firstName,
+            lastName: lastName,
+            role: 'user',
+            provider: 'twitter',
+            twitter: profile._json
+          });
+
+          user.save(function(err, user) {
+            if(!err) {
+              return done(null, user);
+            }
+            return done(err);
+          });
+
+        } else {
+          return done(null, user);
+        }
       }
-    });
-    }
-  ));
+    );
+  }));
 };
