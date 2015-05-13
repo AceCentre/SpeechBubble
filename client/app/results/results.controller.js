@@ -35,7 +35,7 @@ angular.module('speechBubbleApp')
 
     function updateResults(newValue, oldValue) {
       // fetch results after user stops typing for 300ms
-      if(newValue && newValue.term && (newValue.term !== oldValue.term)) {
+      if(newValue && oldValue && (newValue.term !== oldValue.term)) {
         debounceFetch();
       } else {
         fetch();
