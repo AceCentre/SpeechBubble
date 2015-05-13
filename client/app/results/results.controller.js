@@ -12,7 +12,7 @@ angular.module('speechBubbleApp')
     $scope.page = ($scope.skip / $scope.limit) + 1;
     $scope.total = 0;
 
-    function updateResults() {
+    function fetch() {
       $scope.isLoading = true;
       $scope.skip = ($scope.page - 1) * $scope.limit;
       var query = angular.extend({
@@ -29,6 +29,17 @@ angular.module('speechBubbleApp')
         $scope.isLoading = false;
         growl.error(err);
       });
+    }
+
+    var debounceFetch = _.debounce(fetch, 300);
+
+    function updateResults(newValue, oldValue) {
+      // fetch results after user stops typing for 300ms
+      if(newValue && newValue.term && (newValue.term !== oldValue.term)) {
+        debounceFetch();
+      } else {
+        fetch();
+      }
     }
 
     $scope.getThumbnail = function(item) {
