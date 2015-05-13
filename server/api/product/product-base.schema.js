@@ -7,11 +7,13 @@ var ENUM = require('../../enum');
 var ProductBaseSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   discontinued: {
     type: Boolean,
@@ -41,7 +43,10 @@ var ProductBaseSchema = new Schema({
       required: true
     }
   }],
-  features: Schema.Types.Mixed,
+  features: {
+    type: Schema.Types.Mixed,
+    index: true
+  },
   note: String,
   author: {
     type: Schema.Types.ObjectId,

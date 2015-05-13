@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 var SupplierSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   locations: [{
     address1: String,
