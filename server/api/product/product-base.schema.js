@@ -8,12 +8,12 @@ var ProductBaseSchema = new Schema({
   name: {
     type: String,
     required: true,
-    index: true
+    index: 'text'
   },
   description: {
     type: String,
     required: true,
-    index: true
+    index: 'text'
   },
   discontinued: {
     type: Boolean,

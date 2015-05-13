@@ -43,8 +43,7 @@ exports.index = function(req, res) {
 
 
   if(term) {
-    var words = term.split(' ');
-    orQuery.push({ name: { $in: words } }, { description: { $in: words } });
+    orQuery.push({ $text: { $search: term } });
   }
 
   addToQuery(query, 'type', req.query.type, req.query.type);
