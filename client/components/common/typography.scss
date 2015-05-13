@@ -13,3 +13,16 @@ h1 {
   text-align: center;
   margin-bottom: 0;
 }
+
+.label.label-danger {
+  &:focus, &:hover, &:active {
+    outline: none;
+  }
+
+  &.form-label {
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    top: -10px;
+  }
+}

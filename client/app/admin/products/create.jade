@@ -11,6 +11,20 @@ form.form-horizontal(name='form', ng-submit='create(form)', novalidate)
         .panel-heading Product Details
         .panel-body
           +input('product', 'text', 'name', 'Name', 'form')
+
+          .row(ng-if='similarProducts.length')
+            .col-sm-2
+            .col-sm-10
+              a.label.label-danger.form-label(href='#', ng-click='hideSimilarProducts = !hideSimilarProducts') similar products exist
+
+              div(collapse='hideSimilarProducts')
+                table.table.table-striped
+                  tbody
+                    tr(ng-repeat='product in $parent.similarProducts')
+                      td
+                        a(ng-href='/products/{{ product._id }}', target='_blank') {{ product.name }}
+
+
           +textarea('product', 'description', 'Description', 'form')
 
           .form-group(ng-class='{ "has-success": form.type.$valid && form.$submitted,\
