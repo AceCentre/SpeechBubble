@@ -41,6 +41,7 @@ exports.index = function(req, res) {
   var orQuery = [];
   var query = {};
 
+
   if(term) {
     var words = term.split(' ');
     orQuery.push({ name: { $in: words } }, { description: { $in: words } });
