@@ -1,19 +1,45 @@
 include ../mixins/form-helpers
 
+mixin productRating(name, label, type)
+  .form-group(ng-if='product.type === "#{type}"', ng-class='{ "has-success": form.#{name}.$valid && form.$submitted,\
+    "has-error": form.#{name}.$invalid && form.$submitted }')
+    label.control-label.col-sm-2(for="#{name}") #{label}
+    .col-sm-10
+      span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
+      input(type='hidden', name='#{name}', id='#{name}', ng-model='review.#{name}', required='')
+      p.help-block(ng-show='form.#{name}.$error.required && form.$submitted')
+        | Please select a rating between 1 and 5
+
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Review
 
 form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
   .modal-body
-    .form-group(ng-class='{ "has-success": form.rating.$valid && form.$submitted,\
-    "has-error": form.rating.$invalid && form.$submitted }')
-      label.control-label.col-sm-2(for="rating") Rating
-      .col-sm-10
-        span.form-rating(rating, ng-model="review.rating", min="1", max="5")
-        input(type='hidden', name='rating', id='rating', ng-model='review.rating', required='')
-        p.help-block(ng-show='form.rating.$error.required && form.$submitted')
-          | Please select a rating between 1 and 5
+
+    // HARDWARE
+    +productRating('rating', 'Overall Rating', 'ProductHardware')
+    +productRating('reliability', 'Reliability', 'ProductHardware')
+    +productRating('appearance', 'Appearance', 'ProductHardware')
+    +productRating('easeOfUse', 'Ease of use', 'ProductHardware')
+
+    // Vocabulary
+    +productRating('rating', 'Overall Rating', 'ProductVocabulary')
+    +productRating('reliability', 'Reliability', 'ProductVocabulary')
+    +productRating('appearance', 'Appearance', 'ProductVocabulary')
+    +productRating('easeOfUse', 'Ease of use', 'ProductVocabulary')
+
+    // LOW TECH
+    +productRating('rating', 'Overall Rating', 'ProductLowTech')
+    +productRating('reliability', 'Reliability', 'ProductLowTech')
+    +productRating('appearance', 'Appearance', 'ProductLowTech')
+    +productRating('easeOfUse', 'Ease of use', 'ProductLowTech')
+
+    // SOFTWARE
+    +productRating('rating', 'Overall Rating', 'ProductSoftware')
+    +productRating('reliability', 'Reliability', 'ProductSoftware')
+    +productRating('easeOfUse', 'Ease of use', 'ProductSoftware')
+    +productRating('easeOfEditing', 'Ease of editing', 'ProductSoftware')
 
     +textarea('review', 'comment', 'Comments', 'form')
 

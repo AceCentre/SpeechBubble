@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ProductRatingCreateCtrl', function($scope, $rootScope, $http, $modalInstance, growl, Rating, $stateParams) {
+  .controller('ProductRatingCreateCtrl', function($scope, $rootScope, $http, $modalInstance, growl, Rating, $stateParams, product) {
 
     var productId = $stateParams.id;
+
+    $scope.product = product;
 
     $scope.review = {
       '_id': productId
