@@ -8,12 +8,18 @@ mixin productRatingDisplay(name, label)
       span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
 
 block content
-  button.btn.btn-primary.pull-right(ng-click='create()', ng-enable='isLoggedIn()') Create review
+  button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Create review
   h1 {{ ratings.product.name }}
   div.ratings(rating, ng-model="ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !ratings.average }')
   span.label.label-default(ng-if='ratings.average') {{ ratings.average | number: 2 }}
 
   hr
+
+  p.text-center(ng-if='!isLoggedIn()')
+    | Please #[a(href='/login') login] to create a review.
+
+  p.text-center(ng-if='!ratings.reviews.length')
+    | There are currently no reviews available for this product.
 
   div.panel.panel-default.panel-rating(ng-repeat='review in ratings.reviews | reverse')
     div.panel-heading

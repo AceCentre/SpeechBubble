@@ -26,16 +26,18 @@ angular.module('speechBubbleApp')
   updateResults();
 
   $scope.create = function() {
-    $modal.open({
-      templateUrl: 'app/rating/create.html',
-      controller: 'ProductRatingCreateCtrl',
-      size: 'lg',
-      resolve: {
-        product: function() {
-          return $scope.ratings.product;
+    if($scope.isLoggedIn()) {
+      $modal.open({
+        templateUrl: 'app/rating/create.html',
+        controller: 'ProductRatingCreateCtrl',
+        size: 'lg',
+        resolve: {
+          product: function() {
+            return $scope.ratings.product;
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   $scope.$on('resultsUpdated', updateResults);
