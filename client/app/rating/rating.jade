@@ -1,0 +1,56 @@
+extends ../../layout/2_column
+include ../mixins/results-helpers
+
+mixin productRatingDisplay(name, label)
+  dl
+    dt #{label}
+    dd
+      span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
+
+block content
+  button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Create review
+  h1 {{ ratings.product.name }}
+  div.ratings(rating, ng-model="ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !ratings.average }')
+  span.label.label-default(ng-if='ratings.average') {{ ratings.average | number: 2 }}
+
+  hr
+
+  p.text-center(ng-if='!isLoggedIn()')
+    | Please #[a(href='/login') login] to create a review.
+
+  p.text-center(ng-if='!ratings.reviews.length')
+    | There are currently no reviews available for this product.
+
+  div.panel.panel-default.panel-rating(ng-repeat='review in ratings.reviews | reverse')
+    div.panel-heading
+      | {{ review.author.firstName }}
+      span.pull-right {{ }}
+    div.panel-body
+      | {{ review.comment }}
+
+      hr
+
+      // HARDWARE
+      div(ng-if='ratings.product.type === "ProductHardware"')
+        +productRatingDisplay('ratings.reliability', 'Reliability')
+        +productRatingDisplay('ratings.appearance', 'Appearance')
+        +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
+
+      // Vocabulary
+      div(ng-if='ratings.product.type === "ProductVocabulary"')
+        +productRatingDisplay('ratings.efficiencyOfMessageCreation', 'Efficiency of message creation')
+        +productRatingDisplay('ratings.consistencyOfButtonPlacement', 'Consistency of button placement')
+        +productRatingDisplay('ratings.userInterface', 'User interface')
+        +productRatingDisplay('ratings.depthOfPrestoredLanguage', 'Depth of prestored language')
+
+      // LOW TECH
+      div(ng-if='ratings.product.type === "ProductLowTech"')
+        +productRatingDisplay('ratings.reliability', 'Reliability')
+        +productRatingDisplay('ratings.appearance', 'Appearance')
+        +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
+
+      // SOFTWARE
+      div(ng-if='ratings.product.type === "ProductSoftware"')
+        +productRatingDisplay('ratings.reliability', 'Reliability')
+        +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
+        +productRatingDisplay('ratings.easeOfEditing', 'Ease of editing')

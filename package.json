@@ -5,9 +5,10 @@
   "dependencies": {
     "body-parser": "~1.5.0",
     "chance": "^0.7.3",
+    "cheerio": "^0.19.0",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
-    "connect-mongo": "^0.4.1",
+    "connect-mongo": "^0.8.1",
     "cookie-parser": "~1.0.1",
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
@@ -19,6 +20,7 @@
     "lodash": "^2.4.1",
     "mailchimp": "^1.1.0",
     "mandrill-api": "^1.0.41",
+    "mean-seo": "0.0.8",
     "method-override": "~1.0.0",
     "mongoose": "~3.8.8",
     "mongoose-schema-extend": "^0.1.7",
@@ -30,7 +32,7 @@
     "passport-google-oauth": "latest",
     "passport-local": "~0.1.6",
     "passport-twitter": "latest",
-    "request": "^2.53.0",
+    "request": "^2.55.0",
     "serve-favicon": "~2.0.1"
   },
   "devDependencies": {

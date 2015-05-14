@@ -34,6 +34,20 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
    }
  }
 
+.ng-hide-animate {
+  -webkit-transition:all linear 0.75s;
+  transition:all linear 0.75s;
+
+  &.ng-hide {
+    opacity:0;
+  }
+}
+
+img.loading.ng-hide-animate {
+  display: block;
+  margin: 10px auto;
+}
+
  a {
    color: $primaryColor;
  }
@@ -67,11 +81,14 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'main/main.scss';
 @import 'page/page.scss';
 @import 'products/products.scss';
+@import 'rating/rating.scss';
+@import 'results/results.scss';
 @import 'supplier/supplier.scss';
 @import 'common/buttons.scss';
 @import 'common/form.scss';
 @import 'common/layout.scss';
 @import 'common/pagination.scss';
+@import 'common/print.scss';
 @import 'common/sidebar.scss';
 @import 'common/social.scss';
 @import 'common/table.scss';

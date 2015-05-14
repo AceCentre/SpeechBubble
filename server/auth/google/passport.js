@@ -20,12 +20,21 @@ exports.setup = function (User, config) {
             provider: 'google',
             google: profile._json
           });
-          user.save(function(err) {
-            if (err) done(err);
-            return done(err, user);
+
+          user.save(function(err, user) {
+            if(!err) {
+              return done(null, user);
+            }
+            User.findOne({
+              email: profile.emails[0].value
+            }, function(err, user) {
+              if(err) { return done(err); }
+              return done(null, user);
+            });
           });
+
         } else {
-          return done(err, user);
+          return done(null, user);
         }
       });
     }

@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('EditCtrl', function ($scope, User, $location, growl) {
+  .controller('EditCtrl', function ($scope, User, PageTitle, $location, growl) {
+
+    PageTitle('Account edit');
     $scope.requirePassword = false;
     $scope.user = {};
 

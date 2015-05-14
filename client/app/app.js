@@ -18,6 +18,14 @@ angular.module('speechBubbleApp', [
     $httpProvider.interceptors.push('authInterceptor');
     growlProvider.globalTimeToLive({success: 2000, error: 5000, warning: 2000, info: 2000});
 
+    // Prevent caching
+    if (!$httpProvider.defaults.headers.get) {
+      $httpProvider.defaults.headers.get = {};
+    }
+    $httpProvider.defaults.headers.get['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
+    $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
+    $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+
     /**
      * Routes
      */
@@ -27,7 +35,13 @@ angular.module('speechBubbleApp', [
     .state('main', {
       url: '/',
       templateUrl: 'app/main/main.html',
-      controller: 'MainCtrl'
+      controller: 'PageCtrl'
+    })
+
+    .state('main_search', {
+      url: '/search',
+      templateUrl: 'app/main/main-search.html',
+      controller: 'PageCtrl'
     })
 
     // Contact
@@ -51,12 +65,42 @@ angular.module('speechBubbleApp', [
       templateUrl: 'app/supplier/supplier.html',
       controller: 'SupplierCtrl'
     })
+    .state('supplierDetail', {
+      url: '/suppliers/:id',
+      templateUrl: 'app/supplier/detail.html',
+      controller: 'SupplierDetailCtrl',
+      resolve: {
+        supplier: function($stateParams, $http) {
+          return $http.get('/api/supplier/' + $stateParams.id);
+        }
+      }
+    })
 
     // products
     .state('products', {
       url: '/products',
       templateUrl: 'app/products/products.html',
       controller: 'ProductsCtrl'
+    })
+    .state('productsCompare', {
+      url: '/products/compare/?',
+      templateUrl: 'app/products/compare.html',
+      controller: 'ProductsCompareCtrl'
+    })
+    .state('productRating', {
+      url: '/products/:id/ratings',
+      templateUrl: 'app/rating/rating.html',
+      controller: 'ProductRatingCtrl'
+    })
+    .state('productDetail', {
+      url: '/products/:id',
+      templateUrl: 'app/products/detail.html',
+      controller: 'ProductDetailCtrl',
+      resolve: {
+        product: function($stateParams, $http) {
+          return $http.get('/api/product/' + $stateParams.id);
+        }
+      }
     })
 
     // Account
@@ -110,8 +154,15 @@ angular.module('speechBubbleApp', [
     .state('admin-products', {
       url: '/admin/products',
       templateUrl: 'app/admin/products/products.html',
-      controller: 'AdminProductsCtrl'
+      controller: 'AdminProductsCtrl',
+        authenticate: true
     })
+      .state('admin-ratings', {
+        url: '/admin/ratings',
+        templateUrl: 'app/admin/ratings/ratings.html',
+        controller: 'AdminRatingsCtrl',
+        authenticate: true
+      })
     .state('upload', {
       url: '/admin/upload',
       templateUrl: 'app/admin/upload/upload.html',
@@ -150,6 +201,12 @@ angular.module('speechBubbleApp', [
           return $q.reject(response);
         }
       }
+    };
+  })
+
+  .factory('PageTitle', function($rootScope) {
+    return function (title) {
+      $rootScope.title = 'SpeechBubble - ' + title;
     };
   })
 

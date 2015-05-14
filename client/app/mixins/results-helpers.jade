@@ -1,13 +1,58 @@
 mixin media()
-  .media(ng-repeat='item in items')
+  .media.product-listing(ng-repeat='item in items')
     .media-left
-      img.media-object(src='http://placehold.it/64x64')
+      a(ng-href='/products/{{ item._id }}')
+        img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
     .media-body
-      h4.media-heading {{ item.name }}
-      {{ item.description }}
+      div.row
+        div.col-md-9.item-listing-description
+          h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
+          p {{ item.description | more:240 }}
+        div.col-md-3
+          div.ratings(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
+          dl
+            dt Type
+            dd {{ item.type | type }}
+            dt(ng-if='item.features.price.gbp') Guide Price
+            dd(ng-if='item.features.price.gbp') &pound;{{ item.features.price.gbp | number: 2 }}
+      div.row
+        div.col-md-9
+          .checkbox
+            label(ng-hide='!canCompareProduct(item)')
+              input(type='checkbox', ng-click='compare(item)', ng-checked='isComparingProduct(item)')
+              | Add to comparison
+        div.col-md-3
+          a.btn.btn-primary.btn-block(ng-href='/products/{{ item._id }}') View
+    hr(ng-if='!$last')
+
+mixin mediaSimple()
+  .media.product-listing.product-listing-simple(ng-repeat='item in items | limitTo: 5')
+    .media-left
+      a(ng-href='/products/{{ item._id }}')
+        img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
+    .media-body
+      div.row
+        div.col-md-12
+          div.ratings.pull-right(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
+          h4.media-heading: a(ng-href='/products/{{ item._id }}') {{ item.name }}
+          p(ng-if='item.features.price.gbp') &pound;{{ item.features.price.gbp }}
+
 
 mixin pagination()
   hr
   .text-center
     pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='page', boundary-links='true')
   hr
+
+mixin pageListingNotice(type)
+  div(ng-hide='total || initial')
+    p No #{type} found.
+
+  p(ng-hide='!total', page-count='', page-type='#{type}')
+
+mixin ratings(average, id)
+  div.ratings(rating, ng-model="#{average}", max="5", readonly="true", ng-class='{ "no-ratings": !#{average} }')
+  span.label.label-default(ng-if='#{average}') {{ #{average} | number: 2 }}
+  p
+    a(ng-if='ratings.reviews.length', ng-pluralize, count="ratings.reviews.length", ng-href='/products/{{ #{id} }}/ratings', when="{ 'one': '1 review', 'other': '{} reviews'}")
+    a(ng-if='!ratings.reviews.length', ng-href='/products/{{ #{id} }}/ratings?create=true') create review

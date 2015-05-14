@@ -1,69 +1,89 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminPageEditCtrl', function($scope, $modalInstance, Page, pages, page, growl) {
+  .controller('AdminPageEditCtrl', function($scope, $http, $rootScope, $filter, Auth, $modalInstance, Modal, Page, pages, page, growl) {
 
+    $scope.isAdmin = Auth.isAdmin;
     $scope.page = page;
-    $scope.revisions = page._revisions;
     $scope.revisionsPerPage = 5;
     $scope.currentPage = 1;
+    $scope.isSaving = false;
 
-    var previous = page._revisions.slice()[page._revisions.length -1];
-
-    if(previous) {
-      $scope.current = {
-        revision: {
-          title: previous.title || '',
-          published: previous.published || false,
-          content: previous.content || ''
-        }
-      };
+    function publishRevision(revision) {
+      $scope.isSaving = true;
+      $http.post('/api/page/publish/' + page._id + '/' + revision)
+        .success(function(res) {
+          $scope.isSaving = false;
+          growl.success('Revision published.');
+          $modalInstance.close();
+          $rootScope.$broadcast('resultsUpdated');
+        })
+        .error(function(res) {
+          growl.error('Could not publish revision.');
+          $scope.isSaving = false;
+        });
     }
 
-    $scope.revert = function(revision) {
-      $scope.current.revision.title = revision.title;
-      $scope.current.revision.content = revision.content;
-      $scope.current.revision.published = false;
-      growl.warning('Set as working draft.');
+    function updateRevisions() {
+      $http.get('/api/page/' + page._id + '/revisions')
+        .success(function(res) {
+          $scope.revisions = res;
+        })
+        .error(function(res) {
+          growl.error('Could not fetch revisions.');
+        });
+    }
+
+    updateRevisions();
+
+    $scope.getPublishMessage = function(rev) {
+      return 'this draft (' + $filter('date')(rev.updatedAt, 'dd/MM/yyyy HH:mm:ss') + ')';
     };
 
-    $scope.revisionLabel = function(revision) {
-      var id = revision._id;
-      var status = revision.published ? 'published' : 'draft';
-      return id + ' (' + status + ')';
+    $scope.publish = Modal.confirm.submit(function(revision) { // callback when modal is confirmed
+      publishRevision(revision);
+    });
+
+    // Set current working draft to a revision
+    $scope.revert = function(revision) {
+      $scope.page = angular.copy(revision);
+      $scope.page._id = page._id;
+      $scope.currentRevision = revision._id;
+      $scope.page.visible = $scope.page.visible || false;
+      $scope.page.comments = $scope.page.comments || false;
+      growl.warning('Set as working draft.');
     };
 
     $scope.editorOptions = {
       toolbar: [
         ['Format', 'Bold', 'Italic'],
-        ['Link', 'Unlink'],
+        ['Link', 'Unlink', 'Anchor'],
         ['NumberedList', 'BulletedList'],
         ['Indent', 'Outdent', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         ['Table', 'Image', 'HorizontalRule'],
         ['Source']
       ],
       extraPlugins: "imagebrowser",
-      imageBrowser_listUrl: "/api/upload/"
+      imageBrowser_listUrl: "/api/upload/",
+      extraAllowedContent: '*[id](*)'
     };
 
     $scope.update = function(form, message) {
-      var note = $scope.current.revision.published ? $scope.current.revision.note: 'Draft';
       $scope.submitted = true;
+      $scope.isSaving = true;
       if(form.$valid) {
-        Page.update({
-          _id: $scope.page._id,
-          slug: $scope.page.slug,
-          visible: $scope.page.visible,
-          comments: $scope.page.comments,
-          title: $scope.current.revision.title,
-          content: $scope.current.revision.content,
-          published: $scope.current.revision.published,
-          note: note
-        }, function(res, close) {
-          if(message) {
-            growl.success(message);
+        Page.update($scope.page, function(res, close) {
+          if($scope.shouldPublish) {
+            $scope.publish('the current draft', res._revisions[res._revisions.length - 1]);
+            $scope.shouldPublish = false;
+          } else {
+            growl.success('Page updated.');
+            $modalInstance.close();
           }
-          $modalInstance.close();
+          $scope.isSaving = false;
+        }, function() {
+          $scope.isSaving = false;
+          growl.error('Page could not be saved.');
         });
       }
     };

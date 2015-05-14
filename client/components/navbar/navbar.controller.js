@@ -9,6 +9,7 @@ angular.module('speechBubbleApp')
     }, {
       'title': 'Products',
       'children': [
+        { 'title': 'Search', 'link': '/search' },
         { 'title': 'Browse', 'link': '/products' },
         { 'title': 'Suppliers', 'link': '/suppliers' }
       ]
@@ -17,7 +18,8 @@ angular.module('speechBubbleApp')
       'children': [
         { 'title': 'About', 'link': '/about' },
         { 'title': 'Contribute', 'link': '/contribute' },
-        { 'title': 'FAQ', 'link': '/help' },
+        { 'title': 'Glossary', 'link': '/glossary' },
+        { 'title': 'Feedback', 'link': '/feedback' },
         { 'title': 'Contact', 'link': '/contact' }
       ]
     }];
@@ -31,6 +33,7 @@ angular.module('speechBubbleApp')
       { 'title': 'User moderation', 'link': '/admin/users' },
       { 'title': 'Product moderation', 'link': '/admin/products' },
       { 'title': 'Supplier moderation', 'link': '/admin/suppliers' },
+      { 'title': 'Rating moderation', link: '/admin/ratings' },
       { 'title': 'Page moderation', 'link': '/admin/pages' },
       { 'title': 'File administration', 'link': '/admin/upload' }
     ];

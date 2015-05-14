@@ -1,12 +1,13 @@
-div.header
+header.header
   div.container
     div.row
       div.col-sm-3
+        div.beta beta
         a.header-logo(href='/')
           img(src='/assets/images/brand/logo.png')
       div.col-sm-9
         div(ng-include='"components/navbar/navbar.html"')
-          
+
         form.header-form-search(action='/products', method='GET')
           input.header-search-input(id='term', name='term', ng-model='search.term', type='text', placeholder='Search for products...')
           span.glyphicon.glyphicon-search

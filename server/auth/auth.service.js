@@ -93,11 +93,7 @@ function setTokenCookie(req, res, next) {
  * Redirects the user for oAuth to allow for password creation
  */
 function redirectForPasswordCreation(req, res, next) {
-  if(req.user.hashedPassword) {
-    res.redirect('/account/details');
-  } else {
-    res.redirect('/account/set_password');
-  }
+  res.redirect('/');
 }
 
 exports.isAuthenticated = isAuthenticated;

@@ -18,6 +18,23 @@
   }
 }
 
+fieldset[disabled] .btn {
+  &, &:hover, &:focus, &:active {
+    background: $backgroundColor;
+    color: darken($backgroundColor, 10%);
+    cursor: not-allowed;
+  }
+}
+
+.btn.btn-disabled {
+  &, &:hover, &:focus, &:active {
+    background: $backgroundColor;
+    color: darken($backgroundColor, 10%);
+    cursor: not-allowed;
+  }
+}
+
+
 .btn-link {
   color: $secondaryColor;
 

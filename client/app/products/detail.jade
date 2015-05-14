@@ -1,0 +1,56 @@
+extends ../../layout/2_column
+include ../mixins/product-helpers
+include ../mixins/results-helpers
+
+block append sidebar
+  aside(ng-if='product.features.supportLinks.length')
+    h2 Support
+    ul
+      li(ng-repeat='link in product.features.supportLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
+
+  aside(ng-if='product.features.purchaseLinks.length')
+    h2 Purchase
+    ul
+      li(ng-repeat='link in product.features.purchaseLinks'): a.trunate(ng-href='{{ link.url }}') {{ link.label }}
+
+  aside(ng-if='product.features.moreInformationLinks.length')
+    h2 More information
+    ul
+      li(ng-repeat='link in product.features.moreInformationLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
+
+block content
+  button.btn.btn-primary.pull-right(ng-click='edit(product)', ng-if='isLoggedIn()') Edit
+  h1 {{ product.name }}
+  +ratings('product.ratings.average', 'product._id')
+
+  hr
+
+  div.product-summary
+    div.img-thumbnail(carousel, ng-if='product.images.length || product.videos.length')
+      div(slide, ng-repeat='image in product.images' active='slide.active')
+        img(ng-src="{{ image.url }}", width='200', height='200')
+      div(slide, ng-repeat='video in product.videos' active='slide.active')
+        iframe(id='ytplayer', type='text/html', width='320', height='195', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
+
+    img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
+
+    dl.dl-inline(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
+      dt Price
+      dd
+        +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
+        +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
+        +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
+        +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
+
+    p {{ product.description }}
+
+  article(ng-if='product.type === "ProductHardware"', ng-include='"app/products/hardware/detail.html"')
+  article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/software/detail.html"')
+  article(ng-if='product.type === "ProductLowTech"', ng-include='"app/products/low-tech/detail.html"')
+  article(ng-if='product.type === "ProductVocabulary"', ng-include='"app/products/vocabulary/detail.html"')
+
+  .panel.panel-default(ng-if='product.suppliers.length')
+    .panel-heading Suppliers
+    .panel-body
+      ul.list-unstyled(ng-repeat='item in product.suppliers')
+        li: a(ng-href='/suppliers/{{ item._id }}') {{ item.name }}

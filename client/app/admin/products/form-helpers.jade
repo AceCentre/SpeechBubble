@@ -1,3 +1,5 @@
+include ../../mixins/form-helpers
+
 mixin productDetails()
   +input('product', 'text', 'name', 'Name', 'form')
   +textarea('product', 'description', 'Description', 'form')
@@ -13,15 +15,84 @@ mixin productDetails()
         ui-select-choices(repeat="item in supplierOptions | filter: $select.search", refresh='refreshSuppliers($select.search)', refresh-delay='500')
           div {{item.name}}
 
+mixin productImages()
+  .panel.panel-default
+    .panel-heading Product Images
+    .panel-body
+      table.table.table-striped(ng-show='product.images.length')
+        thead
+          tr
+            th.preview Preview
+            th Summary
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.images')
+            td: img.img-responsive.img-thumbnail(ng-src='{{ item.url }}')
+            td: input.form-control(ng-model='item.summary')
+            td.actions
+              a(href='#', ng-click='images.remove(item)'): span.glyphicon.glyphicon-trash
+          tr(ng-repeat='file in imagesToUpload', ng-hide='file.complete')
+            td(colspan='3')
+              progressbar(ng-if='!file.complete', value='file.progress')
+
+      div.text-center
+        a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add images
+
+mixin productScreenshots()
+  .panel.panel-default
+    .panel-heading Product Screenshots
+    .panel-body
+      table.table.table-striped(ng-show='product.images.length')
+        thead
+          tr
+            th.preview Preview
+            th Summary
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.images')
+            td: img.img-responsive.img-thumbnail(ng-src='{{ item.url }}')
+            td: input.form-control(ng-model='item.summary')
+            td.actions
+              a(href='#', ng-click='images.remove(item)'): span.glyphicon.glyphicon-trash
+          tr(ng-repeat='file in imagesToUpload', ng-hide='file.complete')
+            td(colspan='3')
+              progressbar(ng-if='!file.complete', value='file.progress')
+
+      div.text-center
+        a.btn.btn-primary(ng-file-select, ng-model='imagesToUpload', ng-multiple='true') Add screenshots
+
+mixin productVideos()
+  .panel.panel-default
+    .panel-heading Product Videos
+    .panel-body
+      table.table.table-striped(ng-show='product.videos.length')
+        thead
+          tr
+            th.preview Preview
+            th Summary
+            th.actions Actions
+        tbody
+          tr(ng-repeat='item in product.videos track by $index')
+            td
+              iframe(id='ytplayer', type='text/html', width='320', height='195', src='{{ videos.getYoutubeUrl(item.url) }}', frameborder='0')
+            td: input.form-control(ng-model='item.summary')
+            td.actions
+              a(href='#', ng-click='videos.remove($index)'): span.glyphicon.glyphicon-trash
+
+      div(ng-form, name='productVideoForm')
+        +url('temp', 'url', 'productVideoUrl', 'URL')
+        +input('temp', 'text', 'productVideoSummary', 'Summary')
+        a.btn.btn-secondary.pull-right(ng-click='videos.add()') Add video
+
 <!-- Shared: Access method questions -->
 mixin accessMethodOptions(dependsOn)
 
-  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
+  .panel.panel-default(ng-show='product.features.accessMethods.#{dependsOn}', destroy='#{dependsOn}MinimumTarget')
     .panel-heading Is there a minimum target size?
     .panel-body
       +switch('product.features', dependsOn + 'MinimumTarget')
 
-      .panel.panel-default(ng-show='product.features.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
+      .panel.panel-default(ng-show='product.features.accessMethods.#{dependsOn} && product.features.#{dependsOn}MinimumTarget', destroy='#{dependsOn}MinimumTargetSize')
         .panel-heading What is this size? (mm)
         .panel-body
           div(ng-class='{ "has-success": form.#{dependsOn}MinimumTargetSize.$valid && form.$submitted,\
@@ -31,21 +102,132 @@ mixin accessMethodOptions(dependsOn)
                 | Minimum target size is required
             p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.min && form.$submitted')
                 | Minimum target size should be greater than 5
+            p.help-block(ng-show='form.#{dependsOn}MinimumTargetSize.$error.number && form.$submitted')
+                | Minimum target size should be a number
 
 
-  .panel.panel-default(ng-show='product.features.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
+  .panel.panel-default(ng-show='product.features.accessMethods.#{dependsOn}', destroy='#{dependsOn}MaximumLocations')
     .panel-heading What is the maximum number of locations per page?
     .panel-body
-      input.form-control(type='number', ng-model='product.features.#{dependsOn}MaximumLocations')
+      div(ng-class='{ "has-success": form.#{dependsOn}MaximumLocations.$valid && form.$submitted,\
+          "has-error": form.#{dependsOn}MaximumLocations.$invalid && form.$submitted }')
+        input.form-control(type='number', id='#{dependsOn}MaximumLocations', name='#{dependsOn}MaximumLocations', ng-model='product.features.#{dependsOn}MaximumLocations')
+        p.help-block(ng-show='form.#{dependsOn}MaximumLocations.$error.number && form.$submitted')
+          | #{label} Maximum number of locations should be a number
 
 mixin price()
   .panel.panel-default
     .panel-heading Guide price
     .panel-body
-      +input('product.features.price', 'text', 'gbp', 'GBP (£)')
-      +input('product.features.price', 'text', 'aud', 'AUD ($)')
-      +input('product.features.price', 'text', 'usd', 'USD ($)')
-      +input('product.features.price', 'text', 'euro', 'Euro (€)')
+      +input('product.features.price', 'number', 'gbp', 'GBP (£)')
+      +input('product.features.price', 'number', 'aud', 'AUD ($)')
+      +input('product.features.price', 'number', 'usd', 'USD ($)')
+      +input('product.features.price', 'number', 'euro', 'Euro (€)')
+
+  .panel.panel-default
+    .panel-heading Associated Costs
+    .panel-body
+      textarea.form-control(ng-model='product.features.associatedCosts')
+
+mixin enviroControl()
+  .panel.panel-default
+    .panel-heading Environmental control capabilities
+    .panel-body
+      +radio('product.features', 'enviroControl', 'built-in', 'Built-in')
+      textarea.form-control(ng-show='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
+      +radio('product.features', 'enviroControl', 'additional', 'Additional hardware available')
+      textarea.form-control(ng-show='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
+      +radio('product.features', 'enviroControl', '', 'None')
+
+mixin accessMethods()
+  .panel.panel-default
+    .panel-heading Access methods supported
+    .panel-body
+      <!-- Touch -->
+      +checkbox('product.features.accessMethods', 'touch', 'Touch')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchRequireGestures')
+        .panel-heading Are specialist gestures etc required to control the software?
+        .panel-body
+          +switch('product.features', 'accessMethodTouchRequireGestures')
+
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='touchFeatures')
+        .panel-heading What Touch features are available?
+        .panel-body
+          +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
+          +checkbox('product.features.touchFeatures', 'acceptOnExit', 'Accept on Exit')
+          +checkbox('product.features.touchFeatures', 'holdTime', 'Hold time')
+          +checkbox('product.features.touchFeatures', 'debounce', 'Debounce')
+          +checkbox('product.features.touchFeatures', 'auditoryFishing', 'Auditory fishing')
+          +checkbox('temp', 'touchFeaturesOther', 'Other')
+          textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
+
+      +accessMethodOptions('accessMethodTouch')
+
+      <!-- Mouse or alternative -->
+      +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
+      +accessMethodOptions('accessMethodMouseOrAlternative')
+      <!-- Eyegaze -->
+      +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
+      .panel.panel-default(ng-show='product.features.accessMethods.eyegaze', destroy='accessMethodEyeGazePause')
+        .panel-heading Pause on-screen or off-screen?
+        .panel-body
+          +radio('product.features', 'accessMethodEyeGazePause', 'on-screen', 'On-screen')
+          +radio('product.features', 'accessMethodEyeGazePause', 'off-screen', 'Off-screen')
+
+      +accessMethodOptions('accessMethodEyegaze')
+      <!-- Switch -->
+      +checkbox('product.features.accessMethods', 'switch', 'Switch')
+      .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
+        .panel-heading Scanning options available (without additional software)
+        .panel-body
+          +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
+          +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
+          +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
+          +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
+          +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
+          +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+
+<!-- Modified accessMethods for Hardware -->
+mixin accessMethodsHardware()
+  .panel.panel-default
+    .panel-heading Access methods supported
+    .panel-body
+      <!-- Touch -->
+      +checkbox('product.features.accessMethods', 'touch', 'Touch')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchType')
+        .panel-heading Touch type
+        .panel-body
+          +radio('product.features', 'accessMethodTouchType', 'resistive', 'Resistive/Physical pressure')
+          +radio('product.features', 'accessMethodTouchType', 'capacitive', 'Capacitive/Conductive')
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='accessMethodTouchRequireGestures')
+        .panel-heading Are specialist gestures etc required to control the device?
+        .panel-body
+          +switch('product.features', 'accessMethodTouchRequireGestures')
+
+      .panel.panel-default(ng-show='product.features.accessMethods.touch', destroy='touchFeatures')
+        .panel-heading What touch features are available on the hardware?
+        .panel-body
+          +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
+          +checkbox('product.features.touchFeatures', 'holdTime', 'Hold time')
+          +checkbox('product.features.touchFeatures', 'debounce', 'Debounce')
+          +checkbox('temp', 'touchFeaturesOther', 'Other')
+          textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
+
+      +accessMethodOptions('accessMethods.touch')
+
+      <!-- Mouse or alternative -->
+      +checkbox('product.features.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
+      +accessMethodOptions('accessMethods.mouseOrAlternative')
+      <!-- Eyegaze -->
+      +checkbox('product.features.accessMethods', 'eyegaze', 'Eyegaze')
+
+      +accessMethodOptions('accessMethods.eyegaze')
+      <!-- Switch -->
+      +checkbox('product.features.accessMethods', 'switch', 'Switch')
+      .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
+        .panel-heading Built-in
+        .panel-body
+          +switch('product.features', 'accessMethodsSwitchBuiltIn')
 
 <!-- Shared: Hardware -->
 mixin sharedHardware()
@@ -53,19 +235,19 @@ mixin sharedHardware()
   +price()
 
   .panel.panel-default
-    .panel-heading Support &amp; Warranty
+    .panel-heading Support and warranty
     .panel-body
       +textarea('product.features', 'supportOptions', 'Support options')
       +textarea('product.features', 'warrantyOptions', 'Warranty options')
 
   .panel.panel-default
-    .panel-heading Battery
+    .panel-heading Battery #[a.glyphicon.glyphicon-question-sign(target='_blank', href='/glossary#battery-life')]
     .panel-body
       +input('product.features.battery', 'number', 'batteryLife', 'Battery life (hours)')
       +textarea('product.features.battery', 'spareBatteryOptions', 'Spare battery options')
 
   .panel.panel-default
-    .panel-heading Mounting options
+    .panel-heading Mounting
     .panel-body
       +checkbox('product.features.mountingOptions', 'daessy', 'Daessy')
       +checkbox('product.features.mountingOptions', 'rehadapt', 'Rehadapt')
@@ -82,103 +264,46 @@ mixin sharedHardware()
       +input('product.features.dimensions', 'number', 'depth', 'Depth (mm)')
       +input('product.features.dimensions', 'number', 'height', 'Height (mm)')
       +input('product.features.dimensions', 'number', 'width', 'Width (mm)')
-      +input('product.features.dimensions', 'number', 'screenSize', 'Screen size (inches)')
+      +input('product.features.dimensions', 'number', 'screenSize', 'Screen size (in)')
       .panel.panel-default
         .panel-heading Are these dimensions with a case?
         .panel-body
           +switch('product.features.dimensions', 'sizeIncludingCase')
 
+  +enviroControl()
+  +accessMethodsHardware()
+
+
+mixin addLinks(id, label)
   .panel.panel-default
-    .panel-heading Enviro Control capabilities
+    .panel-heading #{label}
     .panel-body
-      +radio('product.features', 'enviroControl', 'built-in', 'Built-in')
-      textarea.form-control(ng-show='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
-      +radio('product.features', 'enviroControl', 'additional', 'Additional hardware available')
-      textarea.form-control(ng-show='product.features.enviroControl === "additional"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
-      +radio('product.features', 'enviroControl', '', 'None')
-
-  .panel.panel-default
-    .panel-heading What access method is this designed for? (multiple allowed)
-    .panel-body
-      <!-- Touch -->
-      +checkbox('product.features', 'accessMethodTouch', 'Touch')
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchType')
-        .panel-heading Touch screen
-        .panel-body
-          +radio('product.features', 'accessMethodTouchType', 'resistive', 'Resisitive')
-          +radio('product.features', 'accessMethodTouchType', 'capacitive', 'Capacitive')
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='accessMethodTouchRequireGestures')
-        .panel-heading Are specialist gestures etc required to control the device?
-        .panel-body
-          +switch('product.features', 'accessMethodTouchRequireGestures')
-
-      .panel.panel-default(ng-show='product.features.accessMethodTouch', destroy='touchFeatures')
-        .panel-heading What Touch features are available?
-        .panel-body
-          +checkbox('product.features.touchFeatures', 'acceptOnEnter', 'Accept on Enter')
-          +checkbox('product.features.touchFeatures', 'acceptOnExit', 'Accept on Exit')
-          +checkbox('product.features.touchFeatures', 'holdTime', 'Hold time')
-          +checkbox('product.features.touchFeatures', 'debounce', 'Debounce')
-          +checkbox('product.features.touchFeatures', 'auditoryFishing', 'Auditory fishing')
-          +checkbox('temp', 'touchFeaturesOther', 'Other')
-          textarea.form-control(ng-show='temp.touchFeaturesOther', destroy='touchFeaturesOtherDetails', ng-model='product.features.touchFeaturesOtherDetails')
-
-      +accessMethodOptions('accessMethodTouch')
-
-      <!-- Mouse or alternative -->
-      +checkbox('product.features', 'accessMethodMouseOrAlternative', 'Mouse or Mouse alternative e.g. Joystick')
-      +accessMethodOptions('accessMethodMouseOrAlternative')
-      <!-- Eyegaze -->
-      +checkbox('product.features', 'accessMethodEyegaze', 'Eyegaze')
-      .panel.panel-default(ng-show='product.features.accessMethodEyegaze', destroy='accessMethodEyeGazePause')
-        .panel-heading Pause on-screen or off-screen?
-        .panel-body
-          +radio('product.features', 'accessMethodEyeGazePause', 'on-screen', 'On-screen')
-          +radio('product.features', 'accessMethodEyeGazePause', 'off-screen', 'Off-screen')
-
-      +accessMethodOptions('accessMethodEyegaze')
-      <!-- Switch -->
-      +checkbox('product.features', 'accessMethodSwitch', 'Switch')
-      .panel.panel-default(ng-show='product.features.accessMethodSwitch', destroy='accessMethodSwitchOptions')
-        .panel-heading What scanning options are available (without additional software)
-        .panel-body
-          +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
-          +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
-          +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
-          +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
-          +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
-          +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
-
-mixin addMoreInformation()
-  .panel.panel-default
-    .panel-heading More information
-    .panel-body
-      table.table.table-striped(ng-show='product.features.moreInformationLinks.length')
+      table.table.table-striped(ng-show='product.features.#{id}.length')
         thead
           tr
             th Label
             th URL
             th.actions Actions
         tbody
-          tr(ng-repeat='item in product.features.moreInformationLinks track by $index')
+          tr(ng-repeat='item in product.features.#{id} track by $index')
             td {{ item.label }}
             td {{ item.url }}
             td.actions
-              a(href='#', ng-click='deleteInformationLink(item)'): span.glyphicon.glyphicon-trash
+              a(href='#', ng-click='productLinks.delete("#{id}", $index)'): span.glyphicon.glyphicon-trash
 
-      div(ng-form, name='moreInformationLinksForm')
-        +input('temp', 'text', 'moreInformationLabel', 'Label')
-        +input('temp', 'text', 'moreInformationUrl', 'URL')
-        a.btn.btn-secondary.pull-right(ng-click='addMoreInformation(moreInformationLinksForm)') Add
+      div(ng-form, name='#{id}Form')
+        +input('temp', 'text', id + 'Label', 'Label')
+        +url('temp', 'url', id + 'Url', 'URL')
+        a.btn.btn-secondary.pull-right(ng-click='productLinks.add("#{id}", #{id}Form)') Add
 
 mixin speechTypeOptions()
   <!-- Speech Type -->
   .panel.panel-default
     .panel-heading Speech type options
     .panel-body
-      +checkbox('product.features', 'speechTypeSynthesised', 'Synthesised')
-      .panel.panel-default(ng-show='product.features.speechTypeSynthesised', destroy='speechTypeSynthesisedTypes')
-        .panel-heading Synthesized speech type options
+      +checkbox('product.features.speechTypeOptions', 'synthesised', 'Synthesised')
+      .panel.panel-default(ng-show='product.features.speechTypeOptions.synthesised', destroy='speechTypeSynthesisedTypes')
+        .panel-heading Speech type
         .panel-body
           ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.speechTypeSynthesisedTypes")
             ui-select-match(placeholder="Select types") {{$item}}
@@ -187,13 +312,18 @@ mixin speechTypeOptions()
           .panel.panel-default(ng-show='product.features.speechTypeSynthesisedTypes', destroy='numberOfVoices')
             .panel-heading Total voices
             .panel-body
-              input.form-control(type='number', ng-model='product.features.numberOfVoices', min='0')
-      +checkbox('product.features', 'speechTypeRecorded', 'Recorded')
+              div(ng-class='{ "has-success": form.numberOfVoices.$valid && form.$submitted, "has-error": form.numberOfVoices.$invalid && form.$submitted }')
+                input.form-control(id='numberOfVoices', name='numberOfVoices', type='number', ng-model='product.features.numberOfVoices', min='0')
+
+                p.help-block(ng-show='form.numberOfVoices.$error.number && form.$submitted')
+                  | #{label} Total voices should be a number
+
+      +checkbox('product.features.speechTypeOptions', 'recorded', 'Recorded')
 
 mixin imageRepresentationSupported()
   <!-- Image Representation Supported -->
   .panel.panel-default
-    .panel-heading Image representation supported
+    .panel-heading Form of representation
     .panel-body
       +checkbox('product.features.imageRepresentation', 'photos', 'Photos')
       +checkbox('product.features.imageRepresentation', 'symbols', 'Symbols')
@@ -208,12 +338,155 @@ mixin imageRepresentationSupported()
 
 mixin supportedOperatingSystems()
   .panel.panel-default
-    .panel-heading Supported operating systems
+    .panel-heading Operating systems
     .panel-body
-      ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.devices")
+      ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
         ui-select-match(placeholder="Select operating systems") {{$item}}
         ui-select-choices(repeat="item in devices | filter: $select.search")
           div {{ item }}
 
+mixin deviceSupportedOperatingSystems()
+  .panel.panel-default()
+    .panel-heading Does the device have an operating system?
+    .panel-body
+      +defaultedSwitch('product.features', 'hasOperatingSystem')
+
+      .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='operatingSystems')
+        .panel-heading Operating system
+        .panel-body
+          ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
+            ui-select-match(placeholder="Select operating systems") {{$item}}
+            ui-select-choices(repeat="item in devices | filter: $select.search")
+              div {{ item }}
+
+      <!-- from the messageLevels mixin -->
+      .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
+        .panel-heading Message levels
+        .panel-body
+          div(ng-class='{ "has-success": form.messageLevels.$valid && form.$submitted, "has-error": form.messageLevels.$invalid && form.$submitted }')
+            input.form-control(id='messageLevels', name='messageLevels', type='number', ng-model='product.features.messageLevels')
+
+            p.help-block(ng-show='form.messageLevels.$error.number && form.$submitted')
+              | #{label} Message levels should be a number
+
+          .panel.panel-default(ng-show='product.features.messageLevels', destroy='messageLevelsPerLevel')
+            .panel-heading Message number per level
+            .panel-body
+              div(ng-class='{ "has-success": form.messageLevelsPerLevel.$valid && form.$submitted, "has-error": form.messageLevelsPerLevel.$invalid && form.$submitted }')
+                input.form-control(id='messageLevelsPerLevel', name='messageLevelsPerLevel', type='number', ng-model='product.features.messageLevelsPerLevel')
+
+                p.help-block(ng-show='form.messageLevelsPerLevel.$error.number && form.$submitted')
+                  | #{label} Message number per level should be a number
 
 
+
+
+mixin dedicated()
+  .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='dedicated')
+    .panel-heading Hardware can be locked to communication software
+    .panel-body
+      +switch('product.features', 'dedicated')
+      .panel.panel-default(ng-show='product.features.dedicated', destroy='dedicatedInfo')
+        .panel-heading More Info
+        .panel-body
+          textarea.form-control(ng-model='product.features.dedicatedInfo')
+
+mixin vocabularies()
+  <!-- Premade vocabularies -->
+  .panel.panel-default
+    .panel-heading Ready-made vocabularies
+    .panel-body
+      +switch('product.features', 'premadeVocabularies')
+
+      .panel.panel-default(ng-show='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
+        .panel-heading Available vocabularies
+        .panel-body
+
+          ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.premadeVocabulariesAvailable")
+            ui-select-match(placeholder="Select a vocabulary") {{$item.name}}
+            ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
+              div {{item.name}}
+
+          p Create a #[a(ng-click='create()', href='#') new vocabulary]
+
+mixin pageRevisions(model)
+  .panel.panel-default
+    .panel-heading Draft summary
+    .panel-body
+      +input(model, 'text', 'note', 'Comment', 'form')
+
+  .panel.panel-default(ng-if='revisions.length')
+    .panel-heading Drafts
+    .panel-body
+      table.table.table-striped
+        thead
+          tr
+            th Note
+            th Author
+            th Date
+            th.actions Actions
+        tbody
+          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage', ng-class='{ "edit-mode": currentRevision === rev._id }')
+            td {{ rev.note }}
+            td {{ rev.author.firstName }} {{ rev.author.lastName }}
+            td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }} #[span(ng-if='currentRevision === rev._id') (current)]
+            td.actions
+              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
+              a(href='#', ng-click='publish(getPublishMessage(rev), rev._id)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
+
+      .text-center
+        pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
+
+mixin productRevisions(model)
+  .panel.panel-default
+    .panel-heading Draft summary
+    .panel-body
+      +input(model, 'text', 'note', 'Comment', 'form')
+
+  .panel.panel-default(ng-if='revisions.length')
+    .panel-heading Drafts
+    .panel-body
+      table.table.table-striped
+        thead
+          tr
+            th Note
+            th Author
+            th Date
+            th.actions Actions
+        tbody
+          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage', ng-class='{ "edit-mode": (product.currentRevision === rev._id) }')
+            td {{ rev.note || "Draft" }}
+            td {{ rev.author.firstName }} {{ rev.author.lastName }}
+            td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }} #[span(ng-if='product.currentRevision === rev._id') (current)]
+            td.actions
+              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
+              a(href='#', ng-click='publish(getPublishMessage(rev), rev._id)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
+
+      .text-center
+        pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
+
+mixin messageLevels()
+  .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
+    .panel-heading Message levels
+    .panel-body
+      div(ng-class='{ "has-success": form.messageLevels.$valid && form.$submitted, "has-error": form.messageLevels.$invalid && form.$submitted }')
+        input.form-control(id='messageLevels', name='messageLevels', type='number', ng-model='product.features.messageLevels')
+
+        p.help-block(ng-show='form.messageLevels.$error.number && form.$submitted')
+          | #{label} Message levels should be a number
+
+      .panel.panel-default(ng-show='product.features.messageLevels', destroy='messageLevelsPerLevel')
+        .panel-heading Message number per level
+        .panel-body
+          div(ng-class='{ "has-success": form.messageLevelsPerLevel.$valid && form.$submitted, "has-error": form.messageLevelsPerLevel.$invalid && form.$submitted }')
+            input.form-control(id='messageLevelsPerLevel', name='messageLevelsPerLevel', type='number', ng-model='product.features.messageLevelsPerLevel')
+
+            p.help-block(ng-show='form.messageLevelsPerLevel.$error.number && form.$submitted')
+              | #{label} Message number per level should be a number
+
+mixin draftActions()
+  .modal-footer
+    img.loading(ng-if='isSaving', src='/assets/images/loading.gif', width='39', height='39')
+    button.btn.btn-secondary() Save Draft
+    button.btn.btn-primary(ng-click="$parent.shouldPublish=true;", ng-if='isAdmin()') Save &amp; Publish
+    a.btn.btn-tertiary(ng-click='cancel()') Cancel

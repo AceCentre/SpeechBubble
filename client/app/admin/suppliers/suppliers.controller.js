@@ -25,7 +25,8 @@ angular.module('speechBubbleApp')
           supplier: function() {
             return supplier;
           }
-        }
+        },
+        backdrop: 'static'
       });
     };
 

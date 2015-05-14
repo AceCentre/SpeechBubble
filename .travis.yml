@@ -1,9 +1,25 @@
 language: node_js
 node_js:
-  - '0.10'
-  - '0.11'
-before_script:
-  - npm install -g bower grunt-cli
-  - gem install sass
-  - bower install
+- '0.10'
+before_install: 
+- gem install sass compass
+- npm install -g bower grunt-cli
+install: 
+- npm install
+- bower install
+before_script: grunt build
 services: mongodb
+deploy:
+  provider: elasticbeanstalk
+  access_key_id:
+    secure: UdwJbHeDcGlrJh8VQ4YADyVZpgqES7aQIvyqvSC820tdVOtyPxgqTLWmq0KQXkCsewZUbPAZS0AKvxkKMyT+QS8nt3oSVrefLiaEBZNSdSQrRyTMdHR8p1Wz424lG4bf7YLpKGs/N+Kn2fvyfYPvcpdC7M9eEBts3+FHdYU+r/0=
+  secret_access_key:
+    secure: Ska7GO84vpuSKwmqQISgCUZrISyLUJGKCyJhSJE1Z0chxIXdltEGZn43IIuUBDV08vICVKqwlEWgRMtAi6LbyqWq77wO08MF+RZzRVivCOgFCP1nqLaY/8VndxNNcEJ6Msgce4/0DxmEYdJyNUiTc+AbpYrmUjib5Tm25AyyS2g=
+  region: eu-west1
+  local_dir: dist
+  app: speechbubble
+  env: speechbubble
+  bucket_name: elasticbeanstalk-eu-west-1-856743649702
+  on:
+    repo: speechbubble
+    branch: master

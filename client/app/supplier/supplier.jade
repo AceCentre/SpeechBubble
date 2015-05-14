@@ -6,9 +6,7 @@ block content
 
   div(ng-controller='ResultsCtrl')
 
-    div(ng-hide='total')
-      p No suppliers found.
-
+    +pageListingNotice('suppliers')
     div(ng-hide='!total')
       +pagination()
 
@@ -19,7 +17,8 @@ block content
             th Website
         tbody
           tr(ng-repeat='item in items')
-            td {{ item.name }}
+            td
+              a(ng-href='/suppliers/{{ item._id }}') {{ item.name }}
             td {{ item.url }}
 
       +pagination()

@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('SettingsCtrl', function ($scope, User, Auth) {
+  .controller('SettingsCtrl', function ($scope, PageTitle, User, Auth) {
+    PageTitle('Account settings');
     $scope.errors = {};
 
     $scope.changePassword = function(form) {

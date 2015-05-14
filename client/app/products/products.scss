@@ -1,0 +1,46 @@
+.product-summary {
+  @include clearfix();
+  margin-top: 20px;
+}
+
+.product-summary .img-thumbnail {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  float: left;
+}
+
+.product-summary .carousel-indicators {
+  bottom: 0;
+}
+
+.product-summary .carousel-control {
+  display: none;
+}
+
+.product-listing .ratings {
+  display: block;
+  margin-top: 2px;
+  margin-bottom: 3px;
+}
+
+.product-listing-simple .media-heading {
+  font-size: 1em;
+}
+
+.product-listing-simple .media-body {
+  font-size: 1em;
+
+  .ratings {
+    margin-top: 0;
+  }
+}
+
+.product-listing-simple hr {
+  margin: 0;
+}
+
+.product-comparing-list .list-group .glyphicon-remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

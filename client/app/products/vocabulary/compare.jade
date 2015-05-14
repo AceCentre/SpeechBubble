@@ -1,0 +1,24 @@
+include ../../mixins/product-helpers
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Comparing {{ products.length }} {{ products[0].type | type | lowercase }} products
+.modal-body
+  table.table.table-striped
+    thead
+      tr
+        th
+        th.text-center(ng-repeat='product in products') {{ product.name }}
+    tbody
+      +compareThumbnail()
+      +compareRating()
+      +tickRow('Discontinued', 'product.discontinued')
+      tr
+        th How is the vocabulary primarily represented?
+        td.text-center(ng-repeat='product in products')
+          +textLineIf('Text only', 'product.features.presentation === "textOnly"')
+          +textLineIf('Text & Symbols or Photos', 'product.features.presentation === "textAndSymbolsOrPhotos"')
+          +textLineIf('Symbols or Photos Only', 'product.features.presentation === "symbolsOrPhotos"')
+          +textLineIf('Visual Scenes', 'product.features.presentation === "visualScenes"')
+          +textLineIf('-', '!product.features.presentation')
+      +compareAccessMethods()
+      +compareViewActions()

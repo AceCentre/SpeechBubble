@@ -15,12 +15,17 @@ table {
     }
   }
 
+  .glyphicon-remove-circle {
+    color: #d9534f;
+  }
+
   .glyphicon-ok-circle {
     color: #419641;
   }
 
-  .glyphicon-remove-circle {
-    color: #d9534f;
+  th[colspan] {
+    background: $secondaryColor;
+    color: #fff;
   }
 
 }
@@ -46,6 +51,10 @@ td.icon {
 /**
  * Table cell containing action icons
  */
+th.preview {
+  width: 200px;
+}
+
 th.actions,
 td.actions {
   text-align: center;
@@ -61,5 +70,18 @@ td.actions {
 
   a + a {
     margin-left: 5px;
+  }
+}
+
+tr.edit-mode {
+  background: $primaryColor !important;
+  color: #fff;
+
+  a {
+    color: #fff;
+  }
+
+  a:hover, a:focus, a:active {
+    color: $backgroundColor;
   }
 }

@@ -1,0 +1,62 @@
+include ../../mixins/product-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Comparing {{ products.length }} {{ products[0].type | type | lowercase }} products
+
+.modal-body
+  table.table.table-striped
+    thead
+      tr
+        th
+        th.text-center(ng-repeat='product in products') {{ product.name }}
+    tbody
+      +compareThumbnail()
+      +compareRating()
+      +compareTickRow('Discontinued', 'product.discontinued')
+      tr
+        th Ready-made vocabularies
+        td.text-center(ng-repeat='product in products')
+          +displayVocabularies()
+      tr
+        th Operating systems
+        td.text-center(ng-repeat='product in products')
+          +listLines('product.features.operatingSystems')
+
+      +compareTextRow('Message levels', 'product.features.messageLevels')
+      +compareTickRow('Can be locked to communication software', 'product.features.dedicated')
+      tr
+        th Mobile phone capabilities
+        td.text-center(ng-repeat='product in products')
+          +textLineIf('In-built SIM', 'product.features.mobilePhone.mobilePhoneSIM')
+          +textLineIf('Phone required', 'product.features.mobilePhone.mobilePhoneRequired')
+          +textLineIf('-', '!product.features.mobilePhone.mobilePhoneSIM && !product.features.mobilePhone.mobilePhoneRequired')
+
+      +comparePrice()
+
+      +compareTextRow('Battery life (hours)', 'product.features.battery.batteryLife')
+      tr
+        th Mounting
+        td.text-center(ng-repeat='product in products')
+          +textLineIf('Daessy', 'product.features.mountingOptions.daessy')
+          +textLineIf('Rehadapt', 'product.features.mountingOptions.rehadapt')
+          +textLineIf('Table stand available', 'product.features.mountingOptions.tableStand')
+          +textLineIf('Carrying strap available', 'product.features.mountingOptions.carryingStrap')
+          +textLineIf('-', '!product.features.mountingOptions.daessy && !product.features.mountingOptions.rehadapt && !product.features.mountingOptions.tableStand && !product.features.mountingOptions.carryingStrap')
+      tr
+        th Size (mm)
+        td.text-center(ng-repeat='product in products')
+          div(ng-if='product.features.dimensions.height && product.features.dimensions.width && product.features.dimensions.depth') {{ product.features.dimensions.height }} x {{ product.features.dimensions.width }} x {{ product.features.dimensions.depth }}
+          div(ng-if='!product.features.dimensions.height || !product.features.dimensions.width || !product.features.dimensions.depth') -
+
+      tr
+        th Weight (kg)
+        td.text-center(ng-repeat='product in products') {{ product.features.dimensions.weight || '-' }}
+
+      tr
+        th Screen size (inches)
+        td.text-center(ng-repeat='product in products') {{ product.features.dimensions.screenSize || '-' }}
+
+      +compareAccessMethods()
+
+      +compareViewActions()

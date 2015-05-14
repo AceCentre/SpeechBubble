@@ -2,19 +2,9 @@ extends ../../../layout/2_column
 
 block content
   h1 Login
-  p
-    | Accounts are reset on server restart from
-    code server/config/seed.js
-    | . Default account is
-    code user@acecentre.org.uk
-    | /
-    code letmein
-  p
-    | Admin account is
-    code admin@acecentre.org.uk
-    | /
-    code letmein
-      
+
+  p Connect with your social media account
+
   .social-connect.row
     .col-sm-4
       a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
@@ -30,9 +20,9 @@ block content
       a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
         i.fa.fa-twitter
         |  Twitter
-          
-  hr   
-  
+
+  hr
+
   p Alternatively Enter your details below to login.
 
   form.form-horizontal(name='form', ng-submit='login(form)', novalidate='')
@@ -43,7 +33,7 @@ block content
         input.form-control(type='text', id='email', name='email', ng-model='user.email', required='')
         p.help-block(ng-show='form.email.$error.required && submitted')
           | Please enter your email.
-          
+
     .form-group(ng-class='{ "has-success": form.password.$valid && submitted,\
     "has-error": form.password.$invalid && submitted }')
       label.control-label.col-sm-3(for='password') Password *

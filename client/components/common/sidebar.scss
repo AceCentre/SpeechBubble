@@ -3,9 +3,10 @@
   padding-top: 20px;
   padding-bottom: 20px;
   border: 1px solid darken($backgroundColor, 5%);
+  position: static; // prevent affix sidebar from being positioned relative to this element
 
-  @media (max-width: $screen-xs-max) {
-      display: none;
+  & + .sidebar {
+    margin-top: 20px;
   }
 
   .donate {
@@ -15,9 +16,40 @@
 
   h2 {
     color: $primaryColor;
+    font-size: 1.4em;
   }
 
-  h2:first-child {
-    margin-top: 0;
+  h3 {
+    font-size: 1.2em;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+
+    & + .btn {
+      margin-top: 10px;
+    }
+  }
+
+  .list-group-item-heading {
+    margin-bottom: 0;
+    font-size: 1em;
+  }
+
+  .img-responsive {
+    display: inline-block;
+  }
+
+}
+
+aside ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin: 0;
+    padding: 0;
   }
 }

@@ -1,0 +1,32 @@
+extends ../../layout/2_column
+include ../mixins/results-helpers
+
+block content
+  h1 {{ supplier.name }}
+  hr
+  .panel.panel-default
+    .panel-heading Details
+    .panel-body
+      dl.dl-horizontal
+        dt Website
+        dd {{ supplier.url }}
+        dt(ng-if='supplier.supportDetails') Support Information
+        dd(ng-if='supplier.supportDetails') {{ supplier.supportDetails }}
+
+  .panel.panel-default(ng-if='supplier.locations.length')
+    .panel-heading Locations
+    .panel-body
+      address(ng-repeat='l in supplier.locations')
+        div: strong {{ supplier.name }}
+        div(ng-if='l.address1') {{ l.address1 }}
+        div(ng-if='l.address2') {{ l.address2 }}
+        div(ng-if='l.city') {{ l.city }}
+        div(ng-if='l.county') {{ l.county }}
+        div(ng-if='l.country') {{ l.country }}
+        div(ng-if='l.postcode') {{ l.postcode }}
+        div(ng-if='l.telephone')
+          strong Telephone:&nbsp;
+          | {{ l.telephone }}
+        hr(ng-if='!$last')
+
+

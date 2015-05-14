@@ -15,33 +15,158 @@ angular.module('speechBubbleApp')
       'update': { method: 'PUT' }
     });
   })
-  .factory('ProductTemplate', function() {
+  .factory('ProductSearch', function() {
+    var search = {
+      type: ''
+    };
+    return search;
+  })
+  .factory('ProductVideos', function($sce) {
+    return function(scope) {
+      return {
+        add: function(url) {
+          scope.product.videos.push({
+            url: scope.temp.productVideoUrl,
+            summary: scope.temp.productVideoSummary
+          });
+          scope.temp.productVideoUrl = scope.temp.productVideoSummary = '';
+        },
+        remove: function(index) {
+          scope.product.videos.splice(index, 1);
+        },
+        getYoutubeUrl: function(url) {
+          var urlArray = url.split('/');
+          var embedId = urlArray[urlArray.length - 1];
+          return $sce.trustAsResourceUrl('//youtube.com/embed/' + embedId);
+        }
+      };
+    };
+  })
+  .factory('ProductImages', function($upload, $http, growl) {
+    return function(scope) {
+      return {
+        add: function (files) {
+          if (files && files.length) {
+            files.forEach(function(file, i) {
+              $upload.upload({
+                url: '/api/product/upload/' + scope.product._id,
+                file: file
+              })
+              .progress(function (evt) {
+                file.progress = parseInt(100.0 * evt.loaded / evt.total);
+                file.name = evt.config.file.name;
+              })
+              .success(function (data, status, headers, config) {
+                scope.product.images.push(data[data.length - 1]);
+                file.complete = true;
+              })
+              .error(function(data, status, headers, config) {
+                  growl.error('Image could not be uploaded.');
+              });
+
+            });
+          }
+        },
+        remove: function(img) {
+          var index = scope.product.images.indexOf(img);
+          scope.product.images.splice(index, 1);
+
+          $http['delete']('/api/product/upload/' + scope.product._id + '/' +  img._id)
+          .success(function(data, status, headers, config) {
+            // image already remove from array
+          })
+          .error(function(data, status, headers, config) {
+            scope.product.images.push(img);
+            growl.error('Image could not be deleted.');
+          });
+        }
+      };
+    };
+  })
+  .factory('ProductCompareTemplate', function() {
     return function(product) {
       var template;
       var controller;
 
       switch(product.type) {
-        case 'ProductHardwareSimple':
-          controller = 'AdminProductHardwareEditCtrl';
-          template = 'app/admin/products/hardware/hardware-simple.html';
-          break;
-        case 'ProductHardwareAdvanced':
-          controller = 'AdminProductHardwareEditCtrl';
-          template = 'app/admin/products/hardware/hardware-advanced.html';
+        case 'ProductHardware':
+          controller = 'ProductsCompareCtrl';
+          template = 'app/products/hardware/compare.html';
           break;
         case 'ProductSoftware':
-          controller = 'AdminProductSoftwareEditCtrl';
-          template = 'app/admin/products/software/software.html';
+          controller = 'ProductsCompareCtrl';
+          template = 'app/products/software/compare.html';
           break;
         case 'ProductVocabulary':
-          controller = 'AdminProductEditCtrl';
-          template = 'app/admin/products/vocabulary/vocabulary.html';
+          controller = 'ProductsCompareCtrl';
+          template = 'app/products/vocabulary/compare.html';
+          break;
+        case 'ProductLowTech':
+          controller = 'ProductsCompareCtrl';
+          template = 'app/products/low-tech/compare.html';
           break;
       }
 
       return {
         template: template,
         controller: controller
+      };
+    };
+  })
+  .factory('ProductTemplate', function() {
+    return function(product) {
+      var template;
+      var controller;
+
+      switch(product.type) {
+        case 'ProductHardware':
+          controller = 'AdminProductEditCtrl';
+          template = 'app/admin/products/hardware/hardware.html';
+          break;
+        case 'ProductSoftware':
+          controller = 'AdminProductEditCtrl';
+          template = 'app/admin/products/software/software.html';
+          break;
+        case 'ProductVocabulary':
+          controller = 'AdminProductEditCtrl';
+          template = 'app/admin/products/vocabulary/vocabulary.html';
+          break;
+        case 'ProductLowTech':
+          controller = 'AdminProductEditCtrl';
+          template = 'app/admin/products/low-tech/low-tech.html';
+          break;
+      }
+
+      return {
+        template: template,
+        controller: controller
+      };
+    };
+  })
+  // Provides generic add links functionality
+  // must be provided a scope
+  .factory('ProductLinks', function() {
+    return function(scope) {
+      return {
+        add: function (id, form) {
+          if (form.$valid) {
+            scope.product.features = scope.product.features || {};
+            scope.product.features[id] = scope.product.features[id] || [];
+
+            var label = scope.temp[id + 'Label'];
+            var url = scope.temp[id + 'Url'];
+
+            scope.product.features[id].push({
+              label: label,
+              url: url
+            });
+
+            scope.temp[id + 'Label'] =  scope.temp[id + 'Url'] = '';
+          }
+        },
+        delete: function (id, index) {
+          scope.product.features[id].splice(index, 1);
+        }
       };
     };
   })
@@ -104,7 +229,10 @@ angular.module('speechBubbleApp')
         'Apple iOS 5',
         'Apple iOS 6',
         'Apple iOS 7',
-        'Apple iOS 8'
+        'Apple iOS 8',
+        'Apple iPad',
+        'Apple iPod',
+        'Apple iPhone'
       ],
       symbols: [
         'PCS - Thinline',

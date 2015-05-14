@@ -1,87 +1,52 @@
+include ../products/form-helpers
+
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Page Edit
 
-form.form-horizontal(name='form', ng-submit='update(form, "Page saved")', novalidate='')
-  .modal-body
+form.form-horizontal(name='form', ng-submit='update(form)', novalidate='')
+  fieldset(ng-disabled='isSaving')
+    .modal-body
 
-    .panel.panel-default
-      .panel-heading Publish
-      .panel-body
-        .form-group
-          label.control-label.col-sm-2(for="Slug") Slug
-          .col-sm-10
-            input.form-control(id='Slug', type='text', ng-model='page.slug', ng-required)
-            p.help-block {{ url }}
+      .panel.panel-default
+        .panel-heading Publish
+        .panel-body
+          .form-group
+            label.control-label.col-sm-2(for="Slug") URL
+            .col-sm-10
+              input.form-control(id='Slug', type='text', ng-model='page.slug', ng-required)
+              p.help-block {{ url }}
 
-        .form-group
-          label.control-label.col-sm-2(for="Visible") Visible
-          .col-sm-10
-            input(type='checkbox', id='Visible', ng-model='page.visible', bs-switch='', switch-off-text='No', switch-on-text='Yes')
+          .form-group
+            label.control-label.col-sm-2(for="Visible") Visible
+            .col-sm-10
+              +defaultedSwitch('page', 'visible')
+          .form-group
+            label.control-label.col-sm-2(for="Comments") Comments
+            .col-sm-10
+              +defaultedSwitch('page', 'comments')
 
-        .form-group
-          label.control-label.col-sm-2(for="Comments") Comments
-          .col-sm-10
-            input(type='checkbox', id='Comments', ng-model='page.comments', bs-switch='', switch-off-text='No', switch-on-text='Yes')
+      .panel.panel-default
+        .panel-heading Content
+        .panel-body
 
-    .panel.panel-default(ng-if='revisions.length')
-      .panel-heading History
-      .panel-body
-        table.table.table-striped
-          thead
-            tr
-              th Revision
-              th Note
-              th Author
-              th Date
-              th.actions Actions
-          tbody
-            tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage')
-              td {{ rev._id }}
-              td {{ rev.note || "Draft" }}
-              td {{ rev.author.firstName }} {{ rev.author.lastName }}
-              td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
-              td.actions
-                a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-open
+          .form-group(ng-class='{ "has-success": form.Title.$valid && submitted,\
+          "has-error": form.Title.$invalid && submitted }')
+            label.control-label.col-sm-2(for="Title") Title
+            .col-sm-10
+              input.form-control(id='Title', name='Title', type='text', ng-model='page.title', required='')
+              p.help-block(ng-show='form.Title.$error.required && submitted')
+                | Page title is required
 
-        .text-center
-          pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
+          .form-group(ng-class='{ "has-success": form.Content.$valid && submitted,\
+          "has-error": form.Content.$invalid && submitted }')
+            label.control-label.col-sm-2(for="Content") Content
+            .col-sm-10
+              textarea(id='Content', name='Content', ckeditor='editorOptions', ng-model='page.content', required='')
+              p.help-block(ng-show='form.Content.$error.required && submitted')
+                | Page content is required
 
-
-    .panel.panel-default
-      .panel-heading Content
-      .panel-body
-
-        .form-group(ng-class='{ "has-success": form.Title.$valid && submitted,\
-        "has-error": form.Title.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Title") Title
-          .col-sm-10
-            input.form-control(id='Title', name='Title', type='text', ng-model='current.revision.title', required='')
-            p.help-block(ng-show='form.Title.$error.required && submitted')
-              | Page title is required
-
-        .form-group
-          label.control-label.col-sm-2(for="Published") Published
-          .col-sm-10
-            input(type='checkbox', id='Published', ng-model='current.revision.published', bs-switch='', switch-off-text='No', switch-on-text='Yes')
-
-        .form-group(ng-if='current.revision.published', ng-class='{ "has-success": form.Note.$valid && submitted,\
-        "has-error": form.Note.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Note") Commit note
-          .col-sm-10
-            input.form-control(id='Note', name='Note', type='text', ng-model='current.revision.note', ng-required='current.revision.published')
-            p.help-block(ng-show='form.Note.$error.required && submitted')
-              | Please provide a commit note
-
-        .form-group(ng-class='{ "has-success": form.Content.$valid && submitted,\
-        "has-error": form.Content.$invalid && submitted }')
-          label.control-label.col-sm-2(for="Content") Content
-          .col-sm-10
-            textarea(id='Content', name='Content', ckeditor='editorOptions', ng-model='current.revision.content', required='')
-            p.help-block(ng-show='form.Content.$error.required && submitted')
-              | Page content is required
+      +pageRevisions('page')
 
 
-  .modal-footer
-    button.btn.btn-primary() Save
-    a.btn.btn-tertiary(ng-click='cancel()') Cancel
+    +draftActions()

@@ -1,0 +1,7 @@
+.affix {
+  top: 0;
+}
+
+[class*=affix] {
+  width: 220px;
+}

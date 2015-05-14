@@ -4,16 +4,41 @@ include ../../mixins/form-helpers
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Create product
 
-form.form-horizontal(ng-submit='create()', novalidate)
-  .modal-body
-    .form-group
-      label.control-label.col-sm-2(for="type") Type
-      .col-sm-10
-        +radio('product', 'type', 'ProductHardwareSimple', 'Hardware Simple')
-        +radio('product', 'type', 'ProductHardwareAdvanced', 'Hardware Advanced')
-        +radio('product', 'type', 'ProductSoftware', 'Software / Application')
-        +radio('product', 'type', 'ProductVocabulary', 'Vocabulary')
+form.form-horizontal(name='form', ng-submit='create(form)', novalidate)
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .panel.panel-default
+        .panel-heading Product Details
+        .panel-body
+          +input('product', 'text', 'name', 'Name', 'form')
 
-  .modal-footer
-    button.btn.btn-primary() Create
-    a.btn.btn-tertiary(ng-click='cancel()') Cancel
+          .row(ng-if='similarProducts.length')
+            .col-sm-2
+            .col-sm-10
+              a.label.label-danger.form-label(href='#', ng-click='hideSimilarProducts = !hideSimilarProducts') similar products exist
+
+              div(collapse='hideSimilarProducts')
+                table.table.table-striped
+                  tbody
+                    tr(ng-repeat='product in $parent.similarProducts')
+                      td
+                        a(ng-href='/products/{{ product._id }}', target='_blank') {{ product.name }}
+
+
+          +textarea('product', 'description', 'Description', 'form')
+
+          .form-group(ng-class='{ "has-success": form.type.$valid && form.$submitted,\
+      "has-error": form.type.$invalid && form.$submitted }')
+            label.control-label.col-sm-2(for="type") Type
+            .col-sm-10
+              +radio('product', 'type', 'ProductLowTech', 'Low-tech', true)
+              +radio('product', 'type', 'ProductHardware', 'Hardware ', true)
+              +radio('product', 'type', 'ProductSoftware', 'Software / Application', true)
+              +radio('product', 'type', 'ProductVocabulary', 'Vocabulary', true)
+              p.help-block(ng-show='form.type.$error.required && form.$submitted')
+                | Product type is required
+
+    .modal-footer
+      img.loading(ng-if='isSaving', src='/assets/images/loading.gif', width='39', height='39')
+      button.btn.btn-primary() Create
+      a.btn.btn-tertiary(ng-click='cancel()') Cancel

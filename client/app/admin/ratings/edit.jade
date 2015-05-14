@@ -1,0 +1,29 @@
+include ../../mixins/form-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Rating
+
+.modal-body
+  .panel.panel-default
+    .panel-heading Reviews
+    .panel-body
+      table.table.table-striped
+        thead
+          tr
+            th  Author
+            th  Comments
+            th.actions  Visible
+            th.actions  Actions
+        tbody
+          tr(ng-repeat='review in current.reviews')
+            td {{ review.author.firstName }} {{ review.author.lastName }}
+            td {{ review.comment }}
+            td.actions: input(type='checkbox', ng-model='review.visible')
+            td.actions: a(href='#', ng-click='delete(review)'): span.glyphicon.glyphicon-trash
+
+
+
+.modal-footer
+  button.btn.btn-primary(ng-click='save(form)') Save
+  a.btn.btn-tertiary(ng-click='cancel()') Cancel

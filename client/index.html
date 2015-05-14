@@ -7,9 +7,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
-    <title></title>
+    <title ng-bind="title">SpeechBubble</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <meta name=”fragment” content=”!”>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
@@ -21,6 +22,7 @@
     <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
+      <link rel="stylesheet" href="components/affix/affix.scss.css">
       <!-- endinjector -->
     <!-- endbuild -->
 
@@ -42,11 +44,11 @@
     <![endif]-->
   </head>
   <body ng-cloak>
-    <noscript>
-      <div class="alert alert-danger" role="alert">
-        This site requires a JavaScript enabled web browser. Please enable JavaScript or <a href="http://browsehappy.com/">upgrade your browser</a>.
-      </div>
+    <!-- remove directive in place for mean SEO and no-js static serving -->
+    <noscript class="alert alert-danger" role="alert" remove>
+      For a greater experience please enable JavaScript. Alternatively <a href="?_escaped_fragment_">click here</a> to be provided with a static version of this website.
     </noscript>
+
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -85,8 +87,10 @@
       <script src="bower_components/angular-growl-v2/build/angular-growl.js"></script>
       <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
       <script src="bower_components/angular-ui-select/dist/select.js"></script>
+      <script src="bower_components/underscore/underscore.js"></script>
       <!-- endbower -->
-      <script src="assets/javascript/angular-bootstrap-switch/angular-bootstrap-switch.js"></script>
+      <script src="/assets/javascript/angular-bootstrap-switch/angular-bootstrap-switch.js"></script>
+      <script src="/bower_components/bootstrap/js/affix.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,client}) app/app.js -->
@@ -102,16 +106,15 @@
       <script src="app/admin/page/page-edit.controller.js"></script>
       <script src="app/admin/page/page.controller.js"></script>
       <script src="app/admin/page/page.service.js"></script>
-      <script src="app/admin/products/accessory/accessory.controller.js"></script>
-      <script src="app/admin/products/hardware/hardware.controller.js"></script>
       <script src="app/admin/products/product-type.filter.js"></script>
       <script src="app/admin/products/products-create.controller.js"></script>
       <script src="app/admin/products/products-destroy.directive.js"></script>
       <script src="app/admin/products/products-edit.controller.js"></script>
       <script src="app/admin/products/products.controller.js"></script>
       <script src="app/admin/products/products.service.js"></script>
-      <script src="app/admin/products/software/software.controller.js"></script>
-      <script src="app/admin/products/vocabulary/vocabulary.controller.js"></script>
+      <script src="app/admin/ratings/ratings-edit.controller.js"></script>
+      <script src="app/admin/ratings/ratings.controller.js"></script>
+      <script src="app/admin/ratings/ratings.service.js"></script>
       <script src="app/admin/suppliers/supplier-edit.controller.js"></script>
       <script src="app/admin/suppliers/suppliers.controller.js"></script>
       <script src="app/admin/suppliers/suppliers.service.js"></script>
@@ -120,15 +123,26 @@
       <script src="app/contact/contact.controller.js"></script>
       <script src="app/main/main.controller.js"></script>
       <script src="app/page/page.controller.js"></script>
+      <script src="app/products/product-compare.controller.js"></script>
       <script src="app/products/products.controller.js"></script>
+      <script src="app/rating/rating-create.controller.js"></script>
+      <script src="app/rating/rating.controller.js"></script>
+      <script src="app/rating/rating.js"></script>
+      <script src="app/rating/rating.service.js"></script>
+      <script src="app/results/results-more.directive.js"></script>
+      <script src="app/results/results-page-count.directive.js"></script>
       <script src="app/results/results.controller.js"></script>
       <script src="app/supplier/supplier.controller.js"></script>
       <script src="app/supplier/supplier.service.js"></script>
+      <script src="components/affix/affix.directive.js"></script>
       <script src="components/auth/auth.service.js"></script>
       <script src="components/auth/user.service.js"></script>
       <script src="components/comments/comments.directive.js"></script>
+      <script src="components/directives/remove.directive.js"></script>
       <script src="components/filters/from.js"></script>
+      <script src="components/filters/reverse.js"></script>
       <script src="components/footer/footer.controller.js"></script>
+      <script src="components/forms/httpPrefix.directive.js"></script>
       <script src="components/modal/modal.service.js"></script>
       <script src="components/mongoose-error/mongoose-error.directive.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>

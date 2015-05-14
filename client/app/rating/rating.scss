@@ -1,0 +1,13 @@
+.no-ratings {
+  opacity: 0.2;
+}
+
+.panel-rating dl {
+  float: left;
+  margin-bottom: 0;
+  margin-right: 15px;
+
+  & + dl {
+    margin-left: 0;
+  }
+}

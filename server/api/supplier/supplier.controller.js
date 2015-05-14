@@ -51,12 +51,13 @@ exports.create = function(req, res) {
 
 // Updates an existing supplier in the DB.
 exports.update = function(req, res) {
+  console.log(req.body);
   if(req.body._id) { delete req.body._id; }
   Supplier.findByIdAndUpdate(req.params.id, {
     $set: {
       name: req.body.name,
       url: req.body.url,
-      supportDetails: req.body.supportDetails,
+      supportDetails: req.body.supportDetails || '',
       locations: req.body.locations
     }
   }, function (err, supplier) {

@@ -40,3 +40,9 @@
 .modal-danger .modal-header {
   background: $primaryColor;
 }
+
+@media (max-width: $screen-xs-max) {
+  .modal-body {
+    overflow-x: auto;
+  }
+}

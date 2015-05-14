@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ActivateCtrl', function ($scope, User, $stateParams) {
+  .controller('ActivateCtrl', function ($scope, PageTitle, User, $stateParams) {
+
+    PageTitle('Account verification');
+
     $scope.message = '';
     User.activate({
       controller: $stateParams.id

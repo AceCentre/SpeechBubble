@@ -1,0 +1,78 @@
+include ../../mixins/product-helpers
+
+h3 Product information
+
+table.table.table-striped
+  tbody
+    tr
+      th Discontinued
+      td {{ product.discontinued ? 'Yes': 'No' }}
+
+    tr(ng-if='product.features.imageRepresentation.photos || product.features.imageRepresentation.symbols || product.features.imageRepresentation.videos')
+      th Form of representation
+      td
+        +textLineIf('Photos', 'product.features.imageRepresentation.photos')
+        +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
+        ul(ng-if='product.features.symbols.length')
+          li(ng-repeat='item in product.features.symbols') {{ item }}
+        +textLineIf('Videos', 'product.features.imageRepresentation.videos')
+
+    tr(ng-if='product.features.speechTypeOptions.synthesised || product.features.speechTypeOptions.recorded')
+      th Speech type options
+      td
+        +textLineIf('Synthesised', 'product.features.speechTypeOptions.synthesised')
+        ul(ng-if='product.features.speechTypeSynthesisedTypes.length')
+          li(ng-repeat='item in product.features.speechTypeSynthesisedTypes') {{ item }}
+        +textLineIf('Recorded', 'product.features.speechTypeOptions.recorded')
+
+    tr
+      th Environment control
+      td
+        +textLineIf('Built-in', 'product.features.enviroControl === "built-in"')
+        +textLineIf('Additional', 'product.features.enviroControl === "additional"')
+        +textLineIf('None', 'product.features.enviroControl !== "built-in" && product.features.enviroControl !== "additional"')
+
+    tr
+      th Software can control control a separate computer/device
+      td {{ product.features.controlAnotherDeviceFromSoftware ? 'Yes': 'No' }}
+
+    tr
+      th Software can control operating system
+      td {{ product.features.controlOperatingSystemFromSoftware ? 'Yes': 'No' }}
+
+    tr(ng-if='product.features.editingOptions')
+      th Editing options
+      td {{ product.features.editingOptions }}
+
+    tr(ng-if='product.features.visualOptions.zoom || product.features.visualOptions.cellHighlight || product.features.visualOptions.changeableCellHighlight || product.features.visualOptions.editableFontStyles || product.features.visualOptionsMoreInfo')
+      th Visual options
+      td
+        +textLineIf('Zoom', 'product.features.visualOptions.zoom')
+        +textLineIf('Cell Highlight', 'product.features.visualOptions.cellHighlight')
+        +textLineIf('Changeable Cell Highlight', 'product.features.visualOptions.changeableCellHighlight')
+        +textLineIf('Editable font styles', 'product.features.visualOptions.editableFontStyles')
+        p(ng-if='product.features.visualOptionsMoreInfo')
+          em {{ product.features.visualOptionsMoreInfo }}
+
+    tr(ng-if='product.features.accessMethods.finger || product.features.accessMethods.grossPointing || product.features.accessMethods.eyePointing || product.features.accessMethods.scanning || product.features.accessMethods.touch || product.features.accessMethods.mouseOrAlternative || product.features.accessMethods.eyegaze || product.features.accessMethods.switch')
+      th Access methods
+      td
+        +textLineIf('Touch', 'product.features.accessMethods.touch')
+        +textLineIf('Mouse or alternative', 'product.features.accessMethods.mouseOrAlternative')
+        +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
+        +textLineIf('Switch', 'product.features.accessMethods.switch')
+
+    tr(ng-if='product.features.premadeVocabulariesAvailable.length')
+      th Vocabularies
+      td
+        +displayVocabularies()
+
+    tr(ng-if='product.features.operatingSystems.length')
+      th Operating systems
+      td
+        +listLines('product.features.operatingSystems')
+
+    tr(ng-if='product.features.associatedCosts')
+      th Associated costs
+      td
+        p {{ product.features.associatedCosts }}
