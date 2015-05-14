@@ -2,7 +2,7 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch, PageTitle) {
+.controller('ProductsCtrl', function ($scope, $http, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch, PageTitle) {
 
   PageTitle('Product Search');
 
@@ -109,7 +109,7 @@ angular.module('speechBubbleApp')
   };
 })
 
-.controller('ProductDetailCtrl', function($state, $scope, $location, product, Rating, ProductTemplate, ProductVideos, PageTitle, $modal, Auth) {
+.controller('ProductDetailCtrl', function($state, $http, $scope, $location, product, Rating, ProductTemplate, ProductVideos, PageTitle, $modal, Auth) {
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.videos = ProductVideos($scope);
   $scope.product = product.data;
@@ -134,6 +134,19 @@ angular.module('speechBubbleApp')
       }
     });
   };
+
+  // Related Software for Vocabulary
+  if($scope.product.type === 'ProductVocabulary') {
+    $scope.relatedSoftwareForVocabulary = [];
+    $http({
+      method: 'GET',
+      url: '/api/product/softwareForVocabulary/',
+      params: { vocabulary: $scope.product._id }
+    })
+    .success(function(res) {
+      $scope.relatedSoftwareForVocabulary = res;
+    });
+  }
 
   if($location.search().edit) {
     $scope.edit($scope.product);

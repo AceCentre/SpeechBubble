@@ -16,6 +16,7 @@ table.table.table-striped
         +textLineIf('Symbols or Photos Only', 'product.features.presentation === "symbolsOrPhotos"')
         +textLineIf('Visual Scenes', 'product.features.presentation === "visualScenes"')
 
+
     <!-- Text only -->
     tr(ng-if='product.features.presentation === "textOnly"')
       th Presentation features
@@ -154,3 +155,9 @@ table.table.table-striped
             li(ng-if='product.features.accessMethodSwitchOptions.block') Block
             li(ng-if='product.features.accessMethodSwitchOptions.quartered') Quartered
             li(ng-if='product.features.accessMethodSwitchOptions.morse') Morse
+
+.panel.panel-default(ng-if='relatedSoftwareForVocabulary.length')
+  .panel-heading Supporting Software
+  .panel-body
+    ul.list-unstyled(ng-repeat='item in relatedSoftwareForVocabulary')
+      li: a(ng-href='/products/{{ item._id }}') {{ item.name }}

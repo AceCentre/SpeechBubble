@@ -103,7 +103,6 @@ exports.index = function(req, res) {
 
     _.each(presentation, function(value, key) {
       if(value) {
-        console.log(key);
         var temp = {};
         temp['features.presentation'] = key;
         orQuery.push(temp);
@@ -440,6 +439,14 @@ exports.addImages = function(req, res) {
 
   });
 
+};
+
+exports.getSoftwareForVocabulary = function(req, res) {
+  console.log(typeof req.query.vocabulary);
+  Product.find({ 'features.premadeVocabulariesAvailable._id': req.query.vocabulary }, function(err, products) {
+    if(err) { return handleError(res, err); }
+    return res.send(200, products);
+  });
 };
 
 function handleError(res, err) {

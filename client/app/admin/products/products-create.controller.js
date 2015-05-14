@@ -27,6 +27,25 @@ angular.module('speechBubbleApp')
       })
       .success(function(res) {
         $scope.similarProducts = res.items;
+        res.items.forEach(function(item) {
+          if(item.type === 'ProductVocabulary') {
+            $http({
+              method: 'GET',
+              url: '/api/product/softwareForVocabulary/',
+              params: { vocabulary: item._id }
+            })
+            .success(function(res) {
+              var software = res.map(function(item) {
+                return item.name;
+              }).join(', ');
+
+              if(software) {
+                item.name += ' (' + software + ')';
+              }
+            });
+          }
+        });
+
       });
     }, 300);
 

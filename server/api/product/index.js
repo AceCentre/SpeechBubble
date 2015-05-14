@@ -15,6 +15,7 @@ router.put('/:id', auth.isAuthenticated(), controller.update); // Create a new p
 router.get('/', controller.index);
 router.get('/compare', controller.compare);
 router.get('/:id/revisions', auth.isAuthenticated(), controller.revisions);
+router.get('/softwareForVocabulary/', controller.getSoftwareForVocabulary);
 router.get('/:id', controller.show);
 
 // Product Admin
