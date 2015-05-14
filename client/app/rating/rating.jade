@@ -8,9 +8,10 @@ mixin productRatingDisplay(name, label)
       span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
 
 block content
-  button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Review
+  button.btn.btn-primary.pull-right(ng-click='create()', ng-enable='isLoggedIn()') Create review
   h1 {{ ratings.product.name }}
-  +ratings('ratings.average', 'ratings.product._id')
+  div.ratings(rating, ng-model="ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !ratings.average }')
+  span.label.label-default(ng-if='ratings.average') {{ ratings.average | number: 2 }}
 
   hr
 

@@ -5,8 +5,8 @@ mixin productRating(name, label, type)
     "has-error": form.#{name}.$invalid && form.$submitted }')
     label.control-label.col-sm-3(for="#{name}") #{label}
     .col-sm-9
-      span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
-      input(type='hidden', name='#{name}', id='#{name}', ng-model='review.#{name}', required='')
+      span.form-rating(rating, ng-model="review.ratings.#{name}", min="1", max="5")
+      input(type='hidden', name='#{name}', id='#{name}', ng-model='review.ratings.#{name}', required='')
       p.help-block(ng-show='form.#{name}.$error.required && form.$submitted')
         | Please select a rating between 1 and 5
 
@@ -18,25 +18,25 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
   .modal-body
 
     // HARDWARE
-    +productRating('ratings.reliability', 'Reliability', 'ProductHardware')
-    +productRating('ratings.appearance', 'Appearance', 'ProductHardware')
-    +productRating('ratings.easeOfUse', 'Ease of use', 'ProductHardware')
+    +productRating('reliability', 'Reliability', 'ProductHardware')
+    +productRating('appearance', 'Appearance', 'ProductHardware')
+    +productRating('easeOfUse', 'Ease of use', 'ProductHardware')
 
     // Vocabulary
-    +productRating('ratings.efficiencyOfMessageCreation', 'Efficiency of message creation', 'ProductVocabulary')
-    +productRating('ratings.consistencyOfButtonPlacement', 'Consistency of button placement', 'ProductVocabulary')
-    +productRating('ratings.userInterface', 'User interface', 'ProductVocabulary')
-    +productRating('ratings.depthOfPrestoredLanguage', 'Depth of prestored language', 'ProductVocabulary')
+    +productRating('efficiencyOfMessageCreation', 'Efficiency of message creation', 'ProductVocabulary')
+    +productRating('consistencyOfButtonPlacement', 'Consistency of button placement', 'ProductVocabulary')
+    +productRating('userInterface', 'User interface', 'ProductVocabulary')
+    +productRating('depthOfPrestoredLanguage', 'Depth of prestored language', 'ProductVocabulary')
 
     // LOW TECH
-    +productRating('ratings.reliability', 'Reliability', 'ProductLowTech')
-    +productRating('ratings.appearance', 'Appearance', 'ProductLowTech')
-    +productRating('ratings.easeOfUse', 'Ease of use', 'ProductLowTech')
+    +productRating('reliability', 'Reliability', 'ProductLowTech')
+    +productRating('appearance', 'Appearance', 'ProductLowTech')
+    +productRating('easeOfUse', 'Ease of use', 'ProductLowTech')
 
     // SOFTWARE
-    +productRating('ratings.reliability', 'Reliability', 'ProductSoftware')
-    +productRating('ratings.easeOfUse', 'Ease of use', 'ProductSoftware')
-    +productRating('ratings.easeOfEditing', 'Ease of editing', 'ProductSoftware')
+    +productRating('reliability', 'Reliability', 'ProductSoftware')
+    +productRating('easeOfUse', 'Ease of use', 'ProductSoftware')
+    +productRating('easeOfEditing', 'Ease of editing', 'ProductSoftware')
 
 
     .form-group(ng-class='{ "has-success": form.comment.$valid && form.$submitted,\
