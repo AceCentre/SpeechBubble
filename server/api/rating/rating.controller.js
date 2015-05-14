@@ -19,7 +19,7 @@ exports.list = function(req, res) {
     .populate('product')
     .exec(function(err, ratings) {
       Rating
-      .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
+      .populate(ratings, { path: 'reviews.author', model: 'User', select: 'firstName' }, function(err, ratings) {
         if(err) { return handleError(res, err); }
         if(!ratings) { return res.send(404); }
         res.send(200, {
@@ -50,7 +50,7 @@ exports.show = function(req, res) {
           Rating
           .populate(ratings, { path: 'product', model: 'Product' }, function(err, ratings) {
             RatingReview
-            .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
+            .populate(ratings, { path: 'reviews.author', model: 'User', select: 'firstName' }, function(err, ratings) {
               if(err) { return handleError(res, err); }
               ratings.reviews = _.filter(ratings.reviews, function(review) {
                 return review.visible;
@@ -62,7 +62,7 @@ exports.show = function(req, res) {
       });
     } else {
       RatingReview
-      .populate(ratings, { path: 'reviews.author', model: 'User' }, function(err, ratings) {
+      .populate(ratings, { path: 'reviews.author', model: 'User', select: 'firstName' }, function(err, ratings) {
         if(err) { return handleError(res, err); }
         ratings.reviews = _.filter(ratings.reviews, function(review) {
           return review.visible;
@@ -81,7 +81,7 @@ exports.create = function(req, res) {
     if(!rating) { return res.send(404); }
     rating.reviews.push({
       author: req.user._id,
-      rating: req.body.rating,
+      ratings: req.body.ratings,
       comment: req.body.comment
     });
     rating.save(function(err, rating) {
@@ -98,10 +98,14 @@ exports.update = function(req, res) {
     review.author = review.author._id;
     return review;
   });
-  Rating.findOneAndUpdate({ _id: req.params.id }, req.body, function(err, rating) {
+  Rating.findById(req.params.id, function(err, rating) {
     if (err) { return handleError(res, err); }
     if(!rating) { return res.send(404); }
-    res.send(200, rating);
+    _.extend(rating, req.body);
+    rating.save(function(err, rating) {
+      if (err) { return handleError(res, err); }
+      res.send(200, rating);
+    });
   });
 };
 

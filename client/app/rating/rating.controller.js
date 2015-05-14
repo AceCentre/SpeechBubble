@@ -6,6 +6,9 @@ angular.module('speechBubbleApp')
 
   var productId = $stateParams.id;
   $scope.isLoggedIn = Auth.isLoggedIn;
+  $scope.ratings = {
+    reviews: []
+  };
 
   function updateResults() {
     Rating.get({ id: productId }, function(res) {

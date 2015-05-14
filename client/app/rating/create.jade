@@ -3,8 +3,8 @@ include ../mixins/form-helpers
 mixin productRating(name, label, type)
   .form-group(ng-if='product.type === "#{type}"', ng-class='{ "has-success": form.#{name}.$valid && form.$submitted,\
     "has-error": form.#{name}.$invalid && form.$submitted }')
-    label.control-label.col-sm-2(for="#{name}") #{label}
-    .col-sm-10
+    label.control-label.col-sm-3(for="#{name}") #{label}
+    .col-sm-9
       span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
       input(type='hidden', name='#{name}', id='#{name}', ng-model='review.#{name}', required='')
       p.help-block(ng-show='form.#{name}.$error.required && form.$submitted')
@@ -18,30 +18,35 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
   .modal-body
 
     // HARDWARE
-    +productRating('rating', 'Overall Rating', 'ProductHardware')
-    +productRating('reliability', 'Reliability', 'ProductHardware')
-    +productRating('appearance', 'Appearance', 'ProductHardware')
-    +productRating('easeOfUse', 'Ease of use', 'ProductHardware')
+    +productRating('ratings.reliability', 'Reliability', 'ProductHardware')
+    +productRating('ratings.appearance', 'Appearance', 'ProductHardware')
+    +productRating('ratings.easeOfUse', 'Ease of use', 'ProductHardware')
 
     // Vocabulary
-    +productRating('rating', 'Overall Rating', 'ProductVocabulary')
-    +productRating('reliability', 'Reliability', 'ProductVocabulary')
-    +productRating('appearance', 'Appearance', 'ProductVocabulary')
-    +productRating('easeOfUse', 'Ease of use', 'ProductVocabulary')
+    +productRating('ratings.efficiencyOfMessageCreation', 'Efficiency of message creation', 'ProductVocabulary')
+    +productRating('ratings.consistencyOfButtonPlacement', 'Consistency of button placement', 'ProductVocabulary')
+    +productRating('ratings.userInterface', 'User interface', 'ProductVocabulary')
+    +productRating('ratings.depthOfPrestoredLanguage', 'Depth of prestored language', 'ProductVocabulary')
 
     // LOW TECH
-    +productRating('rating', 'Overall Rating', 'ProductLowTech')
-    +productRating('reliability', 'Reliability', 'ProductLowTech')
-    +productRating('appearance', 'Appearance', 'ProductLowTech')
-    +productRating('easeOfUse', 'Ease of use', 'ProductLowTech')
+    +productRating('ratings.reliability', 'Reliability', 'ProductLowTech')
+    +productRating('ratings.appearance', 'Appearance', 'ProductLowTech')
+    +productRating('ratings.easeOfUse', 'Ease of use', 'ProductLowTech')
 
     // SOFTWARE
-    +productRating('rating', 'Overall Rating', 'ProductSoftware')
-    +productRating('reliability', 'Reliability', 'ProductSoftware')
-    +productRating('easeOfUse', 'Ease of use', 'ProductSoftware')
-    +productRating('easeOfEditing', 'Ease of editing', 'ProductSoftware')
+    +productRating('ratings.reliability', 'Reliability', 'ProductSoftware')
+    +productRating('ratings.easeOfUse', 'Ease of use', 'ProductSoftware')
+    +productRating('ratings.easeOfEditing', 'Ease of editing', 'ProductSoftware')
 
-    +textarea('review', 'comment', 'Comments', 'form')
+
+    .form-group(ng-class='{ "has-success": form.comment.$valid && form.$submitted,\
+    "has-error": form.comment.$invalid && form.$submitted }')
+      label.control-label.col-sm-3(for="#{id}") Comments
+      .col-sm-9
+        textarea.form-control(rows='5', id='comment', name='comment', ng-model='review.comment', required)
+        p.help-block(ng-show='form.comment.$error.required && form.$submitted')
+          | Comment is required
+
 
   .modal-footer
     button.btn.btn-primary() Create

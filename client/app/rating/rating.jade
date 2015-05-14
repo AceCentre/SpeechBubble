@@ -1,5 +1,12 @@
 extends ../../layout/2_column
 include ../mixins/results-helpers
+
+mixin productRatingDisplay(name, label)
+  dl
+    dt #{label}
+    dd
+      span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
+
 block content
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Review
   h1 {{ ratings.product.name }}
@@ -7,9 +14,36 @@ block content
 
   hr
 
-  div.panel.panel-default(ng-repeat='review in ratings.reviews | reverse')
+  div.panel.panel-default.panel-rating(ng-repeat='review in ratings.reviews | reverse')
     div.panel-heading
       | {{ review.author.firstName }}
-      div.pull-right(rating, ng-model="review.rating", max="5", readonly="true")
+      span.pull-right {{ }}
     div.panel-body
       | {{ review.comment }}
+
+      hr
+
+      // HARDWARE
+      div(ng-if='ratings.product.type === "ProductHardware"')
+        +productRatingDisplay('ratings.reliability', 'Reliability')
+        +productRatingDisplay('ratings.appearance', 'Appearance')
+        +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
+
+      // Vocabulary
+      div(ng-if='ratings.product.type === "ProductVocabulary"')
+        +productRatingDisplay('ratings.efficiencyOfMessageCreation', 'Efficiency of message creation')
+        +productRatingDisplay('ratings.consistencyOfButtonPlacement', 'Consistency of button placement')
+        +productRatingDisplay('ratings.userInterface', 'User interface')
+        +productRatingDisplay('ratings.depthOfPrestoredLanguage', 'Depth of prestored language')
+
+      // LOW TECH
+      div(ng-if='ratings.product.type === "ProductLowTech"')
+        +productRatingDisplay('ratings.reliability', 'Reliability')
+        +productRatingDisplay('ratings.appearance', 'Appearance')
+        +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
+
+      // SOFTWARE
+      div(ng-if='ratings.product.type === "ProductSoftware"')
+        +productRatingDisplay('ratings.reliability', 'Reliability')
+        +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
+        +productRatingDisplay('ratings.easeOfEditing', 'Ease of editing')

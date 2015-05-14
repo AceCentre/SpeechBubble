@@ -12,14 +12,12 @@ include ../../mixins/form-helpers
         thead
           tr
             th  Author
-            th  Rating
             th  Comments
             th.actions  Visible
             th.actions  Actions
         tbody
           tr(ng-repeat='review in current.reviews')
             td {{ review.author.firstName }} {{ review.author.lastName }}
-            td {{ review.rating }}
             td {{ review.comment }}
             td.actions: input(type='checkbox', ng-model='review.visible')
             td.actions: a(href='#', ng-click='delete(review)'): span.glyphicon.glyphicon-trash

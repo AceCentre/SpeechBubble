@@ -16,7 +16,7 @@ angular.module('speechBubbleApp')
 
       if(form.$valid) {
         $http.post('/api/rating/' + $scope.review._id, {
-          rating: $scope.review.rating,
+          ratings: $scope.review.ratings,
           comment: $scope.review.comment
         })
         .success(function() {

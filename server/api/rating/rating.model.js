@@ -11,12 +11,7 @@ var RatingReviewSchema = new Schema({
     ref: 'User',
     required: true
   },
-  rating: {
-    type: Number,
-    min: 0,
-    max: 5,
-    required: true
-  },
+  ratings: Schema.Types.Mixed,
   comment: {
     type: String,
     required: true
@@ -48,15 +43,20 @@ RatingSchema.pre('save', function(next) {
   var reviews = _.filter(this.reviews, function(review) {
     return review.visible;
   });
-  var sum = 0;
-  var totalReviews = reviews.length;
 
-  reviews.forEach(function(review) {
-    sum += review.rating;
+var sum = 0;
+var totalReviews = 0;
+
+reviews.forEach(function(review) {
+  _.each(review.ratings, function(key, value) {
+    totalReviews += 1;
+    sum += key;
   });
+});
 
-  this.average = totalReviews && (sum / totalReviews);
-  next();
+this.average = totalReviews && (sum / totalReviews);
+console.log('ran at: ' + new Date());
+next();
 });
 
 RatingSchema.pre('save', function(next) {

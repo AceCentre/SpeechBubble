@@ -14,11 +14,6 @@ var chance = require('chance').Chance();
 var _ = require('lodash');
 var ENUM = require('../enum');
 
-/**
- - *
- - * WARNING DO NOT USE IN PRODUCTION ONLY FOR LOCAL SEEDING OF DATABASE
- - * FOR TESTING PURPOSES
- - *
 User.find().remove(function() {
   User.create({
     provider: 'local',
@@ -74,7 +69,10 @@ User.find().remove(function() {
                       _.times(chance.integer({min: 0, max: 20}), function () {
                         reviews.push({
                           author: user._id,
-                          rating: chance.integer({min: 1, max: 5}),
+                          ratings: {
+                            reliability: chance.integer({min: 1, max: 5}),
+                            easeOfUse: chance.integer({min: 1, max: 5})
+                          },
                           comment: chance.paragraph(),
                           visible: chance.bool()
                         });
@@ -106,6 +104,4 @@ User.find().remove(function() {
     });
   });
 });
-
-**/
 
