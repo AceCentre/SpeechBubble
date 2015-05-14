@@ -443,7 +443,7 @@ exports.addImages = function(req, res) {
 
 exports.getSoftwareForVocabulary = function(req, res) {
   console.log(typeof req.query.vocabulary);
-  Product.find({ 'features.premadeVocabulariesAvailable._id': req.query.vocabulary }, function(err, products) {
+  Product.find({ type: 'ProductSoftware', 'features.premadeVocabulariesAvailable._id': req.query.vocabulary }, function(err, products) {
     if(err) { return handleError(res, err); }
     return res.send(200, products);
   });
