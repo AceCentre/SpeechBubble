@@ -6,9 +6,6 @@ angular.module('speechBubbleApp')
       'title': 'Contact',
       'link': '/contact'
     }, {
-      'title': 'Site Map',
-      'link': '/site-map'
-    },{
       'title': 'Privacy Policy',
       'link': '/privacy'
     },{
