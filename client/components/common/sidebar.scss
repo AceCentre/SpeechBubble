@@ -9,6 +9,15 @@
     margin-top: 20px;
   }
 
+  .media-body {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+  }
+
   .donate {
     display: block;
     text-align: center;
@@ -17,6 +26,7 @@
   h2 {
     color: $primaryColor;
     font-size: 1.4em;
+    margin-top: 0;
   }
 
   h3 {

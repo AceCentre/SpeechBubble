@@ -80,7 +80,8 @@ angular.module('speechBubbleApp', [
     .state('products', {
       url: '/products',
       templateUrl: 'app/products/products.html',
-      controller: 'ProductsCtrl'
+      controller: 'ProductsCtrl',
+      reloadOnSearch: false
     })
     .state('productsCompare', {
       url: '/products/compare/?',
