@@ -2,18 +2,18 @@ extends ../../layout/2_column
 include ../mixins/product-helpers
 include ../mixins/results-helpers
 
-block append sidebar
-  aside(ng-if='product.features.supportLinks.length')
+block sidebar
+  aside.sidebar.col-sm-12(ng-if='product.features.supportLinks.length')
     h2 Support
     ul
       li(ng-repeat='link in product.features.supportLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
 
-  aside(ng-if='product.features.purchaseLinks.length')
+  aside.sidebar.col-sm-12(ng-if='product.features.purchaseLinks.length')
     h2 Purchase
     ul
       li(ng-repeat='link in product.features.purchaseLinks'): a.trunate(ng-href='{{ link.url }}') {{ link.label }}
 
-  aside(ng-if='product.features.moreInformationLinks.length')
+  aside.sidebar.col-sm-12(ng-if='product.features.moreInformationLinks.length')
     h2 More information
     ul
       li(ng-repeat='link in product.features.moreInformationLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
