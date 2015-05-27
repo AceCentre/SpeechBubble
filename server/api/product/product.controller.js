@@ -5,7 +5,6 @@ var path = require('path');
 var _ = require('lodash');
 var jade = require('jade');
 var Product = require('./product.model');
-var ProductRevision = require('./product-revision.model');
 var formidable = require('formidable');
 var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
@@ -157,7 +156,7 @@ exports.show = function(req, res) {
   Product
   .findOne({ slug: req.params.slug })
   .populate('suppliers')
-  .populate('_revisions')
+  .populate('revisions')
   .exec(function (err, product) {
     if(err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
@@ -185,7 +184,6 @@ exports.publish = function(req, res) {
 
   Product
   .findById(productId)
-  .lean()
   .exec(function(err, product) {
     if (err) {
       return handleError(res, err);
@@ -193,67 +191,49 @@ exports.publish = function(req, res) {
     if (!product) {
       return res.send(404);
     }
-    ProductRevision
-    .findById(revisionId)
-    .lean()
-    .exec(function(err, revision) {
+
+    var revision = product.revisions.id(revisionId)
+    var newProductData = _.omit(revision.toObject(), ['_id', 'createdAt', 'updatedAt']);
+
+    product = _.extend(product, newProductData, { currentRevision: revisionId });
+
+    // If we are publishing the latest revision remove moderation flag
+    if(_.last(revision.revisions) === revisionId) {
+      product.awaitingModeration = false;
+    }
+
+    product.save(function(err, product) {
       if (err) {
         return handleError(res, err);
       }
-      if (!revision) {
-        return res.send(404);
-      }
-
-      // delete revision document specific properties
-      delete revision._id;
-      delete revision.__t;
-      delete revision.createdAt;
-      delete revision.updatedAt;
-
-      revision._revisions = product._revisions;
-      revision.type = product.type;
-      revision.currentRevision = revisionId;
-
-      // If we are publishing the latest revision remove moderation flag
-      if(_.last(revision._revisions) === revisionId) {
-        revision.awaitingModeration = false;
-      }
-
-      Product.update({ _id: productId }, revision, { overwrite: true, multi: false }, function(err, numberAffected, raw) {
-        if (err) {
-          return handleError(res, err);
+      mandrill_client.messages.send({
+        message: {
+          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
+            url: process.env.DOMAIN + '/products/' + product.slug,
+            revision: revisionId
+          }),
+          subject: 'New Product Revision Published',
+          from_email: 'no-reply@speechbubble.org.uk',
+          from_name: 'SpeechBubble Admin',
+          to: [{
+            email: process.env.SUPPORT_EMAIL,
+            name: 'SpeechBubble Admin',
+            type: 'to'
+          }],
+          auto_text: true
         }
-        mandrill_client.messages.send({
-          message: {
-            html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
-              url: process.env.DOMAIN + '/products/' + product.slug,
-              revision: revisionId
-            }),
-            subject: 'New Product Revision Published',
-            from_email: 'no-reply@speechbubble.org.uk',
-            from_name: 'SpeechBubble Admin',
-            to: [{
-              email: process.env.SUPPORT_EMAIL,
-              name: 'SpeechBubble Admin',
-              type: 'to'
-            }],
-            auto_text: true
-          }
-        }, function(result) {
-          Product
-            .findById(productId)
-            .populate('suppliers')
-            .exec(function(err, product) {
-              if (err) {
-                return handleError(res, err);
-              }
-              return res.send(200, product);
-            });
-        });
-
+      }, function(result) {
+        Product
+          .findById(productId)
+          .populate('suppliers')
+          .exec(function(err, product) {
+            if (err) {
+              return handleError(res, err);
+            }
+            return res.send(200, product);
+          });
       });
     });
-
   });
 };
 
@@ -267,12 +247,14 @@ exports.update = function(req, res) {
   Product.findById(req.params.id, function(err, product) {
     if (err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
-    ProductRevision.create(req.body, function(err, revision) {
+
+    product.revisions.push(req.body);
+
+    product.save(function(err, product) {
       if (err) {
         return handleError(res, err);
       }
       product.awaitingModeration = true;
-      product._revisions.push(revision._id);
       product.save(function(err, product) {
         if (err) {
           return handleError(res, err);
@@ -281,7 +263,7 @@ exports.update = function(req, res) {
           message: {
             html: jade.renderFile(path.resolve(__dirname, 'emails/new-revision.jade'), {
               url: process.env.DOMAIN + '/products/' + product.slug + '?edit',
-              revision: revision._id
+              revision: product.revisions[0]._id
             }),
             subject: 'New Product Revision',
             from_email: 'no-reply@speechbubble.org.uk',
@@ -369,7 +351,7 @@ exports.revisions = function(req, res) {
   Product
     .findById(req.params.id)
     .populate({
-      path: '_revisions',
+      path: 'revisions',
       options: {
         sort: {createdAt: 'desc'}
       }
@@ -382,16 +364,16 @@ exports.revisions = function(req, res) {
       if (!product) {
         return res.send(404);
       }
-      Product.populate(product, { path: '_revisions.suppliers', model: 'Supplier' }, function(err, product) {
+      Product.populate(product, { path: 'revisions.suppliers', model: 'Supplier' }, function(err, product) {
         Product.populate(product, {
-          path: '_revisions.author',
+          path: 'revisions.author',
           select: 'firstName lastName',
           model: 'User'
         }, function(err, product) {
           if (err) {
             return handleError(res, err);
           }
-          return res.send(200, product._revisions);
+          return res.send(200, product.revisions);
         });
       });
     });
@@ -445,6 +427,17 @@ exports.getSoftwareForVocabulary = function(req, res) {
   Product.find({ type: 'ProductSoftware', 'features.premadeVocabulariesAvailable._id': req.query.vocabulary }, function(err, products) {
     if(err) { return handleError(res, err); }
     return res.send(200, products);
+  });
+};
+
+exports.slugify = function(req, res) {
+  console.log('rebuilding slugs');
+  Product.find({}, function(err, products) {
+    products.forEach(function(product) {
+      product.slug = product.name.split(' ').join('-').toLowerCase();
+      product.save();
+    });
+    res.send(200, 'Rebuilt slugs');
   });
 };
 

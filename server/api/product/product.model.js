@@ -13,10 +13,7 @@ var ProductSchema = ProductBaseSchema.extend({
     enum: ENUM.PRODUCT_TYPES,
     required: true
   },
-  currentRevision: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'ProductRevision'
-  },
+  currentRevision: Schema.Types.ObjectId,
   slug: {
     type: String,
     index: { unique: true, sparse: true }
@@ -32,13 +29,10 @@ var ProductSchema = ProductBaseSchema.extend({
     }
   },
   awaitingModeration: Boolean,
-  _revisions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'ProductRevision'
-  }]
+  revisions: [ProductBaseSchema]
 }, { collection: 'products' });
 
-ProductSchema.pre('validate', function(next) {
+ProductSchema.pre('save', function(next) {
   this.slug = this.name.split(' ').join('-').toLowerCase();
   next();
 });

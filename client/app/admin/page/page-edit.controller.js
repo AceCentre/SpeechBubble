@@ -74,7 +74,7 @@ angular.module('speechBubbleApp')
       if(form.$valid) {
         Page.update($scope.page, function(res, close) {
           if($scope.shouldPublish) {
-            $scope.publish('the current draft', res._revisions[res._revisions.length - 1]);
+            $scope.publish('the current draft', res.revisions[res.revisions.length - 1]);
             $scope.shouldPublish = false;
           } else {
             growl.success('Page updated.');

@@ -44,19 +44,19 @@ RatingSchema.pre('save', function(next) {
     return review.visible;
   });
 
-var sum = 0;
-var totalReviews = 0;
+  var sum = 0;
+  var totalReviews = 0;
 
-reviews.forEach(function(review) {
-  _.each(review.ratings, function(key, value) {
-    totalReviews += 1;
-    sum += key;
+  reviews.forEach(function(review) {
+    _.each(review.ratings, function(key, value) {
+      totalReviews += 1;
+      sum += key;
+    });
   });
-});
 
-this.average = totalReviews && (sum / totalReviews);
-console.log('ran at: ' + new Date());
-next();
+  this.average = totalReviews && (sum / totalReviews);
+
+  next();
 });
 
 RatingSchema.pre('save', function(next) {

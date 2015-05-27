@@ -27,6 +27,10 @@ angular.module('speechBubbleApp')
       $http.get('/api/imports/appsforaac');
     };
 
+    $scope.updateSlugs = function() {
+      $http.get('/api/product/slugify');
+    };
+
     $scope.performSearch = function() {
       $rootScope.$broadcast('resultsUpdated');
     };

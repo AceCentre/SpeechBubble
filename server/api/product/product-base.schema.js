@@ -3,7 +3,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ENUM = require('../../enum');
-
 var ProductBaseSchema = new Schema({
   name: {
     type: String,

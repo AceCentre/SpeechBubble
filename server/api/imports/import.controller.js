@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 var Product = require('../product/product.model');
-var ProductRevision = require('../product/product-revision.model');
 var request = require('request');
 var cheerio = require('cheerio');
 var fs = require('fs');
@@ -137,72 +136,68 @@ exports.importAppsForAAC = function(req, res) {
           name: name
         }, function(err, product) {
           if(err) { handleError(res, err); }
-          ProductRevision.create({
-            name: name,
-            description: description,
-            note: 'Apps for AAC Import',
-            features: features,
-            author: req.user._id
-          }, function(err, revision) {
-            if (err) { handleError(res, err); }
-            if(!revision) { return; }
 
-            if(!product) {
-              Product.create({
-                type: 'ProductSoftware',
-                name: name,
-                description: description,
-                features: features,
-                _revisions: [revision._id],
-                author: req.user._id
-              }, function(err, product) {
-                if (err) { handleError(res, err); }
+          if(!product) {
+            Product.create({
+              type: 'ProductSoftware',
+              name: name,
+              description: description,
+              features: features,
+              author: req.user._id
+            }, function(err, product) {
+              if (err) { handleError(res, err); }
 
-                var imagesToFetch = [];
-                var images = [];
+              var imagesToFetch = [];
+              var images = [];
 
-                $('.field-name-field-image img').each(function() {
-                  imagesToFetch.push( $(this).attr('src') );
-                });
+              $('.field-name-field-image img').each(function() {
+                imagesToFetch.push( $(this).attr('src') );
+              });
 
-                var imagesLeft = imagesToFetch.length;
-                var dir = process.env.UPLOAD_DIR + '/products/' + product._id;
+              var imagesLeft = imagesToFetch.length;
+              var dir = process.env.UPLOAD_DIR + '/products/' + product._id;
 
-                fs.mkdir(dir, function(err) {
-                  // Handle error unless directory exists
-                  if (err && err.code !== 'EEXIST') {
-                    return handleError(res, err);
-                  }
+              fs.mkdir(dir, function(err) {
+                // Handle error unless directory exists
+                if (err && err.code !== 'EEXIST') {
+                  return handleError(res, err);
+                }
 
-                  imagesToFetch.forEach(function(src) {
-                    var filename = src.split('/').pop().split('?')[0];
-                    var imageStream = fs.createWriteStream(dir + '/' + filename);
+                imagesToFetch.forEach(function(src) {
+                  var filename = src.split('/').pop().split('?')[0];
+                  var imageStream = fs.createWriteStream(dir + '/' + filename);
 
-                    imageStream.on('close', function() {
-                      images.push({
-                        url: '/assets/images/uploads/products/' + product._id + '/' + filename,
-                        summary: 'Software thumbnail'
-                      });
-                      --imagesLeft;
-                      if(!imagesLeft) {
-                        product.images = images;
-                        revision.images = images;
-                        revision.save();
-                        product.save();
-                      }
+                  imageStream.on('close', function() {
+                    images.push({
+                      url: '/assets/images/uploads/products/' + product._id + '/' + filename,
+                      summary: 'Software thumbnail'
                     });
-
-                    request
-                      .get(src)
-                      .pipe(imageStream);
+                    --imagesLeft;
+                    if(!imagesLeft) {
+                      product.images = images;
+                      product.save();
+                    }
                   });
-                });
-                product.save(function(err) {
-                  if (err) { handleError(res, err); }
+
+                  request
+                    .get(src)
+                    .pipe(imageStream);
                 });
               });
-            }
-          });
+              product.save(function(err) {
+                if (err) { handleError(res, err); }
+              });
+            });
+          } else {
+            product.push({
+              name: name,
+              description: description,
+              note: 'Apps for AAC Import',
+              features: features,
+              author: req.user._id
+            });
+            product.save();
+          }
         });
       });
     }

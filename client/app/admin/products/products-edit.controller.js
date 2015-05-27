@@ -40,7 +40,7 @@ angular.module('speechBubbleApp')
 
     function publishRevision(revision) {
       $scope.isSaving = true;
-      $http.post('/api/product/publish/' + current._id + '/' + revision)
+      $http.post('/api/product/publish/' + current._id + '/' + revision._id)
         .success(function(res) {
           $scope.isSaving = false;
           growl.success('Revision published.');
@@ -113,7 +113,7 @@ angular.module('speechBubbleApp')
           function(res) {
             $scope.isSaving = false;
             if($scope.shouldPublish) {
-              $scope.publish('the current draft', res._revisions[res._revisions.length - 1]);
+              $scope.publish('the current draft', res.revisions[res.revisions.length - 1]);
               $scope.shouldPublish = false;
             } else {
               current = res;

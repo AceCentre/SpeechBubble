@@ -9,7 +9,7 @@ var PageSchema = PageBaseSchema.extend({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PageRevision'
   },
-  _revisions: [{
+  revisions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PageRevision'
   }]

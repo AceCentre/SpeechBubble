@@ -56,7 +56,7 @@ exports.publish = function(req, res) {
           delete revision.createdAt;
           delete revision.updatedAt;
 
-          revision._revisions = page._revisions;
+          revision.revisions = page.revisions;
           revision.currentRevision = revisionId;
           revision.visible = true;
 
@@ -112,7 +112,7 @@ exports.update = function(req, res) {
       page.note = page.note || 'Published page';
       page.slug = page.slug || 'slug'; // temporary fix for production migration
 
-      page._revisions.push(revision._id);
+      page.revisions.push(revision._id);
       page.save(function(err, product) {
         if (err) {
           return handleError(res, err);
@@ -145,12 +145,12 @@ exports.list = function(req, res) {
   Page
   .find()
   .sort({ slug: 'asc' })
-  //.populate('_revisions')
+  //.populate('revisions')
   .exec(function(err, pages) {
     if(err) { return handleError(res, err); }
     res.send(200, pages);
     //PageRevision.populate(pages, {
-    //  path: '_revisions.author',
+    //  path: 'revisions.author',
     //  select: 'firstName lastName',
     //  model: User
     //}, function(err, result) {
@@ -163,7 +163,7 @@ exports.destroy = function(req, res) {
   Page.findById(req.params.id, function(err, page) {
     if(err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-    PageRevision.remove({ _id: { $in: page._revisions } }, function(err) {
+    PageRevision.remove({ _id: { $in: page.revisions } }, function(err) {
       if(err) { return handleError(res, err); }
       page.remove();
     });
@@ -176,7 +176,7 @@ exports.revisions = function(req, res) {
   Page
     .findById(req.params.id)
     .populate({
-      path: '_revisions',
+      path: 'revisions',
       options: {
         sort: { createdAt: 'desc' }
       }
@@ -190,14 +190,14 @@ exports.revisions = function(req, res) {
         return res.send(404);
       }
       Page.populate(page, {
-        path: '_revisions.author',
+        path: 'revisions.author',
         select: 'firstName lastName',
         model: 'User'
       }, function(err, page) {
         if (err) {
           return handleError(res, err);
         }
-        return res.send(200, page._revisions);
+        return res.send(200, page.revisions);
       });
     });
 };
