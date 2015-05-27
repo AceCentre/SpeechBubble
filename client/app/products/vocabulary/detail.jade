@@ -160,4 +160,4 @@ table.table.table-striped
   .panel-heading Supporting Software
   .panel-body
     ul.list-unstyled(ng-repeat='item in relatedSoftwareForVocabulary')
-      li: a(ng-href='/products/{{ item._id }}') {{ item.name }}
+      li: a(ng-href='/products/{{ item.slug }}') {{ item.name }}

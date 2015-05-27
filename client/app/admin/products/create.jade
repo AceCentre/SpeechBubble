@@ -22,7 +22,7 @@ form.form-horizontal(name='form', ng-submit='create(form)', novalidate)
                   tbody
                     tr(ng-repeat='product in $parent.similarProducts')
                       td
-                        a(ng-href='/products/{{ product._id }}', target='_blank') {{ product.name }}
+                        a(ng-href='/products/{{ product.slug }}', target='_blank') {{ product.name }}
 
 
           +textarea('product', 'description', 'Description', 'form')

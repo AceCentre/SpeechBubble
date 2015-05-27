@@ -12,7 +12,7 @@ mixin listLines(model)
   div(ng-if='!#{model}.length') -
 
 mixin listLinkLines(model)
-  div(ng-if='#{model}.length', ng-repeat='item in #{model}'): a(ng-href='/products/{{ item._id }}', target='_blank') {{ item.name || item }}
+  div(ng-if='#{model}.length', ng-repeat='item in #{model}'): a(ng-href='/products/{{ item.slug }}', target='_blank') {{ item.name || item }}
   div(ng-if='!#{model}.length') -
 
 mixin tick(model)
@@ -46,7 +46,7 @@ mixin compareThumbnail()
   tr
     th Thumbnail
     td.text-center(ng-repeat='product in products')
-      a(ng-href='/products/{{ product._id }}', target='_blank')
+      a(ng-href='/products/{{ product.slug }}', target='_blank')
         img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
 
 mixin comparePrice()
@@ -101,7 +101,7 @@ mixin compareViewActions()
   tr
     td
     td.text-center(ng-repeat='product in products')
-      a.btn.btn-primary(ng-href='/products/{{ product._id }}', target='_blank') View
+      a.btn.btn-primary(ng-href='/products/{{ product.slug }}', target='_blank') View
 
   tr
     td
@@ -142,5 +142,5 @@ mixin compareSupportedDevices()
 
 mixin displayVocabularies()
   div(ng-if='product.features.premadeVocabulariesAvailable.length', ng-repeat='vocab in product.features.premadeVocabulariesAvailable')
-    a(ng-href='/products/{{ vocab._id }}', target='_blank') {{ vocab.name }}
+    a(ng-href='/products/{{ vocab.slug }}', target='_blank') {{ vocab.name }}
   div(ng-if='!product.features.premadeVocabulariesAvailable.length') -

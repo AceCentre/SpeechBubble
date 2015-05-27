@@ -18,7 +18,7 @@ block content
             th.actions Actions
         tbody
           tr(ng-repeat='item in items')
-            td: a(ng-href='/products/{{ item.product._id }}', target='_blank') {{ item.product.name }}
+            td: a(ng-href='/products/{{ item.product.slug }}', target='_blank') {{ item.product.name }}
             td {{ item.average | number: 2 }}
             td {{ awaitingModeration(item.reviews) }}
             td.actions

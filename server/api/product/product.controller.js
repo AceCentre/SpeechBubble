@@ -155,7 +155,7 @@ exports.index = function(req, res) {
 // Get a single product
 exports.show = function(req, res) {
   Product
-  .findById(req.params.id)
+  .findOne({ slug: req.params.slug })
   .populate('suppliers')
   .populate('_revisions')
   .exec(function (err, product) {
@@ -226,7 +226,7 @@ exports.publish = function(req, res) {
         mandrill_client.messages.send({
           message: {
             html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
-              url: process.env.DOMAIN + '/products/' + req.params.id,
+              url: process.env.DOMAIN + '/products/' + product.slug,
               revision: revisionId
             }),
             subject: 'New Product Revision Published',
@@ -280,7 +280,7 @@ exports.update = function(req, res) {
         mandrill_client.messages.send({
           message: {
             html: jade.renderFile(path.resolve(__dirname, 'emails/new-revision.jade'), {
-              url: process.env.DOMAIN + '/products/' + req.params.id + '?edit',
+              url: process.env.DOMAIN + '/products/' + product.slug + '?edit',
               revision: revision._id
             }),
             subject: 'New Product Revision',

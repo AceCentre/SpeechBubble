@@ -17,6 +17,10 @@ var ProductSchema = ProductBaseSchema.extend({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductRevision'
   },
+  slug: {
+    type: String,
+    index: { unique: true, sparse: true }
+  },
   ratings: {
     average: {
       type: Number,
@@ -33,5 +37,10 @@ var ProductSchema = ProductBaseSchema.extend({
     ref: 'ProductRevision'
   }]
 }, { collection: 'products' });
+
+ProductSchema.pre('validate', function(next) {
+  this.slug = this.name.split(' ').join('-').toLowerCase();
+  next();
+});
 
 module.exports = mongoose.model('Product', ProductSchema);
