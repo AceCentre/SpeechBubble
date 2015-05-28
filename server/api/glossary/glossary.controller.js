@@ -5,15 +5,22 @@ var Glossary = require('./glossary.model');
 
 // Get list of glossarys
 exports.index = function(req, res) {
-  Glossary.find(function (err, glossarys) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, glossarys);
+  var limit = Number(req.query.limit) || 0;
+  var skip = Number(req.query.skip) || 0;
+  Glossary.find().count(function(err, total) {
+    Glossary.find().sort('title').limit(limit).skip(skip).exec(function (err, items) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, {
+        total: total,
+        items: items
+      });
+    });
   });
 };
 
 // Get a single glossary
 exports.show = function(req, res) {
-  Glossary.findById(req.params.id, function (err, glossary) {
+  Glossary.findOne({ 'title': req.params.title }, function (err, glossary) {
     if(err) { return handleError(res, err); }
     if(!glossary) { return res.send(404); }
     return res.json(glossary);

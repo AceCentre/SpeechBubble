@@ -40,7 +40,7 @@ mixin textarea(model, id, label, requiredForm)
     "has-error": #{requiredForm}.#{id}.$invalid && #{requiredForm}.$submitted }')
       label.control-label.col-sm-2(for="#{id}") #{label}
       .col-sm-10
-        textarea.form-control(rows='5', id='#{id}', name='#{id}', type='#{type}', ng-model='#{model}.#{id}', required)
+        textarea.form-control(rows='5', id='#{id}', name='#{id}', ng-model='#{model}.#{id}', required)
         p.help-block(ng-show='#{requiredForm}.#{id}.$error.required && #{requiredForm}.$submitted')
           | #{id} is required
   else

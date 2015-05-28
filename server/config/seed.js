@@ -8,6 +8,7 @@
 var User = require('../api/user/user.model');
 var Supplier = require('../api/supplier/supplier.model');
 var Product = require('../api/product/product.model');
+var Glossary = require('../api/glossary/glossary.model');
 var Rating = require('../api/rating/rating.model').Rating;
 var chance = require('chance').Chance();
 var _ = require('lodash');
@@ -93,5 +94,9 @@ User.find().remove(function() {
       active: chance.bool(),
       subscribe: chance.bool()
     });
+    Glossary.create({
+      'title': chance.sentence({ 'words': 5 }),
+      'description': chance.paragraph()
+    })
   });
 });

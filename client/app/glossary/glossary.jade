@@ -1,2 +1,26 @@
-.col-md-12
-    | This is the glossary view.
+extends ../../layout/2_column
+include ../mixins/results-helpers
+
+block append sidebar
+  div.sidebar.col-sm-12
+    h2 Glossary index
+    nav
+      ul.glossary-index
+        li(ng-repeat='(category, definitions) in items | groupBy: "category" | orderBy: "title" '): a(ng-href='#{{ category }}') {{ category }}
+
+block content
+  h1 Glossary of Terms
+
+  div(ng-hide='!total')
+    div(ng-if='isLoading')
+      img.loading.ng-hide-animate(ng-show='isLoading', src='/assets/images/loading.gif', width='39', height='39')
+
+    div.ng-hide-animate(ng-hide='isLoading')
+        
+      div(ng-repeat='(category, definitions) in items | groupBy: "category" | orderBy: "title" ')
+        hr
+        h2.text-upper(ng-attr-id="{{ category }}") {{ category }}
+        hr
+        dl
+          dt(ng-repeat-start='item in definitions') {{ item.title }}
+          dd(ng-repeat-end) {{ item.description }}

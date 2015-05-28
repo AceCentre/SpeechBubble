@@ -1,0 +1,25 @@
+dd {
+  margin-bottom: 20px;
+}
+
+.glossary-index {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    float: left;
+    display: block;
+    padding: 2px 4px 2px 0;
+
+    a {
+      width: 20px;
+      line-height: 20px;
+      text-align: center;
+      display: block;
+      background: $backgroundColor;
+      color: #000;
+      text-transform: uppercase;
+    }
+  }
+}
