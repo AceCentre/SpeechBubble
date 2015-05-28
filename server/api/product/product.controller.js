@@ -435,6 +435,7 @@ exports.slugify = function(req, res) {
   Product.find({}, function(err, products) {
     products.forEach(function(product) {
       product.slug = product.name.split(' ').join('-').toLowerCase();
+      product.author = req.user._id;
       product.save();
     });
     res.send(200, 'Rebuilt slugs');
