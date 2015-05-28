@@ -7,7 +7,7 @@ angular.module('speechBubbleApp')
 
     $scope.isLoading = false;
     $scope.initial = true; // used to determine if we are yet to fetch results
-    $scope.limit = Number($location.search().limit) || 10;
+    $scope.limit = $scope.limit || Number($location.search().limit) || 10;
     $scope.skip = Number($location.search().skip) || 0;
     $scope.page = ($scope.skip / $scope.limit) + 1;
     $scope.total = 0;

@@ -35,6 +35,7 @@ angular.module('speechBubbleApp')
       { 'title': 'Supplier moderation', 'link': '/admin/suppliers' },
       { 'title': 'Rating moderation', link: '/admin/ratings' },
       { 'title': 'Page moderation', 'link': '/admin/pages' },
+      { 'title': 'Glossary moderation', 'link': '/admin/glossary' },
       { 'title': 'File administration', 'link': '/admin/upload' }
     ];
 

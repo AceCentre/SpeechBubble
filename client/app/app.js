@@ -11,7 +11,8 @@ angular.module('speechBubbleApp', [
   'angularFileUpload',
   'angular-growl',
   'frapontillo.bootstrap-switch',
-  'ui.select'
+  'ui.select',
+  'angular.filter'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider) {
     $locationProvider.html5Mode(true);
@@ -158,17 +159,30 @@ angular.module('speechBubbleApp', [
       controller: 'AdminProductsCtrl',
         authenticate: true
     })
-      .state('admin-ratings', {
-        url: '/admin/ratings',
-        templateUrl: 'app/admin/ratings/ratings.html',
-        controller: 'AdminRatingsCtrl',
-        authenticate: true
-      })
+    .state('admin-ratings', {
+      url: '/admin/ratings',
+      templateUrl: 'app/admin/ratings/ratings.html',
+      controller: 'AdminRatingsCtrl',
+      authenticate: true
+    })
+    .state('admin-glossary', {
+      url: '/admin/glossary',
+      templateUrl: 'app/admin/glossary/glossary.html',
+      controller: 'AdminGlossaryCtrl',
+      authenticate: true
+    })
     .state('upload', {
       url: '/admin/upload',
       templateUrl: 'app/admin/upload/upload.html',
       controller: 'AdminUploadCtrl',
       authenticate: true
+    })
+
+    // Glossary
+    .state('glossary', {
+      url: '/glossary',
+      templateUrl: 'app/glossary/glossary.html',
+      controller: 'GlossaryCtrl'
     })
 
     // Pages

@@ -1,0 +1,19 @@
+include ../../mixins/form-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Create Glossary Item
+
+form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .panel.panel-default
+        .panel-heading Item details
+        .panel-body
+          +input('item', 'text', 'title', 'Title', 'form')
+          +textarea('item', 'description', 'Description', 'form')
+
+    .modal-footer
+      img.loading(ng-if='isSaving', src='/assets/images/loading.gif', width='39', height='39')
+      button.btn.btn-primary() Save
+      a.btn.btn-tertiary(ng-click='cancel()') Cancel
