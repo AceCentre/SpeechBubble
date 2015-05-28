@@ -19,7 +19,7 @@ block content
         tbody
           tr(ng-repeat='item in items')
             td {{ item.title }}
-            td {{ item.description }}
+            td(ng-bind-html='item.description')
             td.actions
               a(href='#', ng-click='edit(item)'): span.glyphicon.glyphicon-edit
               a(href='#', ng-click='delete(item.title, item)'): span.glyphicon.glyphicon-trash

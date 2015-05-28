@@ -23,4 +23,4 @@ block content
         hr
         dl
           dt(ng-repeat-start='item in definitions') {{ item.title }}
-          dd(ng-repeat-end) {{ item.description }}
+          dd(ng-repeat-end, ng-bind-html='item.description')

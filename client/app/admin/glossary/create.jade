@@ -11,7 +11,7 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
         .panel-heading Item details
         .panel-body
           +input('item', 'text', 'title', 'Title', 'form')
-          +textarea('item', 'description', 'Description', 'form')
+          textarea(id='Description', name='Description', ckeditor='editorOptions', ng-model='item.description', required)
 
     .modal-footer
       img.loading(ng-if='isSaving', src='/assets/images/loading.gif', width='39', height='39')
