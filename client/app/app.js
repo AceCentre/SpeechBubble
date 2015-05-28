@@ -192,6 +192,9 @@ angular.module('speechBubbleApp', [
 
       // Intercept 401s and redirect you to login
       responseError: function(response) {
+        if(response.config.url === '/api/users/me') {
+          return; // do not redirect to login for status check
+        }
         if(response.status === 401) {
           $location.path('/login');
           // remove any stale tokens

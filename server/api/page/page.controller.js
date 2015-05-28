@@ -92,8 +92,6 @@ exports.update = function(req, res) {
 
     page.revisions.push( _.omit(req.body, 'revisions') );
 
-    console.log(page);
-
     page.save(function(err, product) {
       if (err) {
         return handleError(res, err);
