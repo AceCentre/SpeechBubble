@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminGlossaryCreateCtrl', function($scope, $modalInstance,  Glossary, growl) {
+  .controller('AdminGlossaryCreateCtrl', function($scope, $modalInstance,  Glossary, growl, GlossaryEditorOptions) {
     $scope.isSaving = false;
     $scope.item = {};
+
+    $scope.editorOptions = GlossaryEditorOptions;
 
     $scope.save = function(form) {
       $scope.submitted = true;

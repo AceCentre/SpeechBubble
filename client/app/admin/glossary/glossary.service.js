@@ -14,4 +14,14 @@ angular.module('speechBubbleApp')
       'delete': { method:'DELETE' },
       'update': { method: 'PUT' }
     });
-  });
+  })
+  .factory('GlossaryEditorOptions', function() {
+    return {
+      toolbar: [
+        ['Bold', 'Italic'],
+        ['Link', 'Unlink', 'Anchor'],
+        ['Source']
+      ],
+      extraAllowedContent: '*[id](*)'
+    };
+  })
