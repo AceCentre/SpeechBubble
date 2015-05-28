@@ -8,8 +8,7 @@ var PageBaseSchema = Schema({
   content: String,
   slug: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   visible: {
     type: Boolean,
