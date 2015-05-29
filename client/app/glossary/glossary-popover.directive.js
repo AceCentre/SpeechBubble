@@ -5,6 +5,10 @@ angular.module('speechBubbleApp')
 .directive('glossary', function ($http, $compile) {
   return {
     'link': function(scope, element, attrs) {
+      element.removeAttr('glossary');
+      scope.description = 'loading...';
+      $compile(element)(scope);
+
       function getGlossaryItem() {
         $http({
           'method': 'GET',
@@ -12,8 +16,7 @@ angular.module('speechBubbleApp')
         })
         .success(function(res) {
           scope.description = res.description;
-          element.removeAttr('glossary');
-          $compile(element)(scope);
+          element.trigger('click');
         });
         element.unbind('mouseenter', getGlossaryItem);
       }
@@ -21,6 +24,6 @@ angular.module('speechBubbleApp')
     },
     'replace': true,
     'scope': {},
-    'template': '<span class="glyphicon glyphicon-question-sign" tooltip-trigger="click" tooltip-html-unsafe="{{ description }}" />'
+    'template': '<span class="glyphicon glyphicon-question-sign" tooltip-html-unsafe="{{ description }}" />'
   };
 });
