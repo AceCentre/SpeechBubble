@@ -19,7 +19,9 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       +addLinks('purchaseLinks', 'Purchase URLs')
       +addLinks('moreInformationLinks', 'More information URLs')
       .panel.panel-default
-        .panel-heading What access method is this designed for? (multiple allowed)
+        .panel-heading 
+          | What access method is this designed for? (multiple allowed)
+          span(glossary='556781785719a8bb50f5e542')
         .panel-body
           +checkbox('product.features.accessMethods', 'finger', 'Finger pointing')
           +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')

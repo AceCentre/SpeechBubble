@@ -131,7 +131,9 @@ mixin price()
 
 mixin enviroControl()
   .panel.panel-default
-    .panel-heading Environmental control capabilities
+    .panel-heading 
+      | Environmental control capabilities
+      span(glossary='556782dc5719a8bb50f5e54a')
     .panel-body
       +radio('product.features', 'enviroControl', 'built-in', 'Built-in')
       textarea.form-control(ng-show='product.features.enviroControl === "built-in"', destroy='enviroControlDetails', ng-model='product.features.enviroControlDetails')
@@ -141,7 +143,9 @@ mixin enviroControl()
 
 mixin accessMethods()
   .panel.panel-default
-    .panel-heading Access methods supported
+    .panel-heading 
+      | Access methods supported      
+      span(glossary='556781785719a8bb50f5e542')
     .panel-body
       <!-- Touch -->
       +checkbox('product.features.accessMethods', 'touch', 'Touch')
@@ -190,7 +194,9 @@ mixin accessMethods()
 <!-- Modified accessMethods for Hardware -->
 mixin accessMethodsHardware()
   .panel.panel-default
-    .panel-heading Access methods supported
+    .panel-heading
+      | Access methods supported      
+      span(glossary='556781785719a8bb50f5e542')
     .panel-body
       <!-- Touch -->
       +checkbox('product.features.accessMethods', 'touch', 'Touch')
@@ -241,13 +247,17 @@ mixin sharedHardware()
       +textarea('product.features', 'warrantyOptions', 'Warranty options')
 
   .panel.panel-default
-    .panel-heading Battery #[a.glyphicon.glyphicon-question-sign(target='_blank', href='/glossary#battery-life')]
+    .panel-heading 
+      | Battery 
+      span(glossary='556781f95719a8bb50f5e545')
     .panel-body
       +input('product.features.battery', 'number', 'batteryLife', 'Battery life (hours)')
       +textarea('product.features.battery', 'spareBatteryOptions', 'Spare battery options')
 
   .panel.panel-default
-    .panel-heading Mounting
+    .panel-heading 
+      | Mounting
+      span(glossary='556783cc5719a8bb50f5e553')
     .panel-body
       +checkbox('product.features.mountingOptions', 'daessy', 'Daessy')
       +checkbox('product.features.mountingOptions', 'rehadapt', 'Rehadapt')
@@ -347,7 +357,9 @@ mixin supportedOperatingSystems()
 
 mixin deviceSupportedOperatingSystems()
   .panel.panel-default()
-    .panel-heading Does the device have an operating system?
+    .panel-heading 
+      | Does the device have an operating system?
+      span(glossary='556783795719a8bb50f5e550')
     .panel-body
       +defaultedSwitch('product.features', 'hasOperatingSystem')
 
@@ -361,7 +373,9 @@ mixin deviceSupportedOperatingSystems()
 
       <!-- from the messageLevels mixin -->
       .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
-        .panel-heading Message levels
+        .panel-heading 
+          | Message levels
+          span(glossary='556783b65719a8bb50f5e552')
         .panel-body
           div(ng-class='{ "has-success": form.messageLevels.$valid && form.$submitted, "has-error": form.messageLevels.$invalid && form.$submitted }')
             input.form-control(id='messageLevels', name='messageLevels', type='number', ng-model='product.features.messageLevels')
@@ -467,7 +481,9 @@ mixin productRevisions(model)
 
 mixin messageLevels()
   .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
-    .panel-heading Message levels
+    .panel-heading 
+      | Message levels
+      span(glossary='556783b65719a8bb50f5e552')
     .panel-body
       div(ng-class='{ "has-success": form.messageLevels.$valid && form.$submitted, "has-error": form.messageLevels.$invalid && form.$submitted }')
         input.form-control(id='messageLevels', name='messageLevels', type='number', ng-model='product.features.messageLevels')

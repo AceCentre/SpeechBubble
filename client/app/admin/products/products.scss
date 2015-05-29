@@ -2,6 +2,10 @@
   margin-top: 20px;
 }
 
+.panel-heading .glyphicon {
+  margin-left: 5px;
+}
+
 .panel-heading a {
   color: $secondaryColor;
   &:hover, &:focus, &:active {

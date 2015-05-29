@@ -20,7 +20,7 @@ exports.index = function(req, res) {
 
 // Get a single glossary
 exports.show = function(req, res) {
-  Glossary.findOne({ 'title': req.params.title }, function (err, glossary) {
+  Glossary.findById(req.params.id, function (err, glossary) {
     if(err) { return handleError(res, err); }
     if(!glossary) { return res.send(404); }
     return res.json(glossary);

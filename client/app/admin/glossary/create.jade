@@ -10,6 +10,10 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
       .panel.panel-default
         .panel-heading Item details
         .panel-body
+          .form-group
+            label.control-label.col-sm-2 ID
+            .col-sm-10
+              input.form-control(type='text', disabled, ng-model='item._id')
           +input('item', 'text', 'title', 'Title', 'form')
           .form-group(ng-class='{ "has-success": form.Description.$valid && submitted,\
           "has-error": form.Description.$invalid && submitted }')
