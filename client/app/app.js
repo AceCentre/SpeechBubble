@@ -12,7 +12,8 @@ angular.module('speechBubbleApp', [
   'angular-growl',
   'frapontillo.bootstrap-switch',
   'ui.select',
-  'angular.filter'
+  'angular.filter',
+  'LocalStorageModule'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider) {
     $locationProvider.html5Mode(true);

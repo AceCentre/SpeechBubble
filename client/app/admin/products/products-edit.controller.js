@@ -1,14 +1,24 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl) {
-
-    $scope.isAdmin = Auth.isAdmin;
-    $scope.isSaving = false;
+  .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl, localStorageService) {
 
     // Current working product
     $scope.product = angular.copy(current);
     $scope.current = current;
+    $scope.autoSave = localStorageService.get(current._id);
+
+    if($scope.autoSave) {
+      growl.success('Restored product from auto-save.', { ttl: 5000 });
+      $scope.product = $scope.autoSave;
+    }
+
+    $scope.$watch('product', function() {
+      localStorageService.set(current._id, angular.copy($scope.product));
+    }, true);
+
+    $scope.isAdmin = Auth.isAdmin;
+    $scope.isSaving = false;
 
     // Product options
     $scope.devices = ProductOptions.devices;
@@ -112,6 +122,8 @@ angular.module('speechBubbleApp')
         Product.update($scope.product,
           function(res) {
             $scope.isSaving = false;
+            localStorageService.remove(current._id);
+
             if(publish) {
               $scope.publish('the current draft', res.revisions[res.revisions.length - 1]);
             } else {
@@ -131,6 +143,7 @@ angular.module('speechBubbleApp')
 
     // Set current working draft to a revision
     $scope.revert = function(revision) {
+      localStorageService.remove(current._id);
       $scope.currentRevision = angular.copy(revision);
       $scope.product = angular.copy(revision);
       $scope.product._id = current._id;
@@ -166,6 +179,7 @@ angular.module('speechBubbleApp')
     });
 
     $scope.cancel = function() {
+      localStorageService.remove(current._id);
       $modalInstance.dismiss();
     };
 
