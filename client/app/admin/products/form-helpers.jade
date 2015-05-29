@@ -350,7 +350,7 @@ mixin supportedOperatingSystems()
   .panel.panel-default
     .panel-heading 
       | Operating systems
-      span(glossary='556783795719a8bb50f5e550')
+      span(glossary='5567840f5719a8bb50f5e556')
     .panel-body
       ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
         ui-select-match(placeholder="Select operating systems") {{$item}}
@@ -361,7 +361,7 @@ mixin deviceSupportedOperatingSystems()
   .panel.panel-default()
     .panel-heading 
       | Does the device have an operating system?
-      span(glossary='556783795719a8bb50f5e550')
+      span(glossary='5567840f5719a8bb50f5e556')
     .panel-body
       +defaultedSwitch('product.features', 'hasOperatingSystem')
 
