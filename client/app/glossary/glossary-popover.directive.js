@@ -17,6 +17,9 @@ angular.module('speechBubbleApp')
         .success(function(res) {
           scope.description = res.description;
           element.trigger('click');
+        })
+        .error(function() {
+          scope.description = 'could not find help text';
         });
         element.unbind('mouseenter', getGlossaryItem);
       }
