@@ -193,7 +193,7 @@ angular.module('speechBubbleApp', [
     });
   })
 
-  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
+  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location, growl) {
     return {
       // Add authorization token to headers
       request: function (config) {
@@ -210,6 +210,7 @@ angular.module('speechBubbleApp', [
           return; // do not redirect to login for status check
         }
         if(response.status === 401) {
+          growl.error('You are currently logged out. Please <a href="/login" target="_self">login</a>.', {ttl: -1});
           $location.path('/login');
           // remove any stale tokens
           $cookieStore.remove('token');
