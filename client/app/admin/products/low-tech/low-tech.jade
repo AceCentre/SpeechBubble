@@ -3,7 +3,7 @@ include ../form-helpers
 .modal-header
   button.close(type='button', ng-click='cancel()') ×
   h3.modal-title Low-tech product
-form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
+form.form-horizontal(name='form', novalidate)
   fieldset(ng-disabled='isSaving')
     .modal-body
       .panel.panel-default

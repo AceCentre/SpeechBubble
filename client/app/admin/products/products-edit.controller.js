@@ -102,7 +102,7 @@ angular.module('speechBubbleApp')
       publishRevision(revision);
     });
 
-    $scope.save = function(form) {
+    $scope.save = function(form, publish) {
       $scope.submitted = true;
       if($scope.hasChanges()) {
         if(!form.$valid) {
@@ -112,9 +112,8 @@ angular.module('speechBubbleApp')
         Product.update($scope.product,
           function(res) {
             $scope.isSaving = false;
-            if($scope.shouldPublish) {
+            if(publish) {
               $scope.publish('the current draft', res.revisions[res.revisions.length - 1]);
-              $scope.shouldPublish = false;
             } else {
               current = res;
               $modalInstance.close();

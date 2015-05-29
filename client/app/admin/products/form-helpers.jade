@@ -505,6 +505,6 @@ mixin messageLevels()
 mixin draftActions()
   .modal-footer
     img.loading(ng-if='isSaving', src='/assets/images/loading.gif', width='39', height='39')
-    button.btn.btn-secondary() Save Draft
-    button.btn.btn-primary(ng-click="$parent.shouldPublish=true;", ng-if='isAdmin()') Save &amp; Publish
-    a.btn.btn-tertiary(ng-click='cancel()') Cancel
+    button.btn.btn-secondary(type='button', ng-click='save(form)') Save Draft
+    button.btn.btn-primary(type='button', ng-click='save(form, true)', ng-if='isAdmin()') Save &amp; Publish
+    button.btn.btn-tertiary(type='button', ng-click='cancel()') Cancel
