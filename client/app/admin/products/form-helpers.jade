@@ -348,7 +348,9 @@ mixin imageRepresentationSupported()
 
 mixin supportedOperatingSystems()
   .panel.panel-default
-    .panel-heading Operating systems
+    .panel-heading 
+      | Operating systems
+      span(glossary='556783795719a8bb50f5e550')
     .panel-body
       ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.operatingSystems")
         ui-select-match(placeholder="Select operating systems") {{$item}}
