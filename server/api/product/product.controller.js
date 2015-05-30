@@ -159,7 +159,12 @@ exports.show = function(req, res) {
   .exec(function (err, product) {
     if(err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
-    return res.json(product);
+    Product
+    .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
+      if(err) { return handleError(res, err); }
+      if(!product) { return res.send(404); }
+      return res.json(product);
+    });
   });
 };
 
@@ -171,12 +176,18 @@ exports.showRevision = function(req, res) {
   .exec(function (err, product) {
     if(err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
-    // merge revision with product to get things
-    // like revision history and ratings
-    var revision = product.revisions.id(req.params.revisionId);
-    var newProductData = _.omit(revision.toObject(), ['_id']);
-    product = _.extend(product, newProductData);
-    return res.json(product);
+    Product
+    .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
+      if(err) { return handleError(res, err); }
+      if(!product) { return res.send(404); }
+      // merge revision with product to get things
+      // like revision history and ratings
+      var revision = product.revisions.id(req.params.revisionId);
+      var newProductData = _.omit(revision.toObject(), ['_id']);
+      product = _.extend(product, newProductData);
+      return res.json(product);
+    });
+
   });
 };
 
