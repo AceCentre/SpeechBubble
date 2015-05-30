@@ -17,6 +17,13 @@ block sidebar
     h2 More information
     ul
       li(ng-repeat='link in product.features.moreInformationLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
+      
+  aside.sidebar.col-sm-12(ng-if='(product.revisions | published).length')
+    h2 Recent Publications
+    ul
+      li(ng-repeat='revision in product.revisions | published | reverse | limitTo: 4')
+        a(ng-if='!$first', ui-sref='productRevisionDetail({ id: product.slug, revisionId: revision._id })') {{ revision.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}
+        a(ng-if='$first', ui-sref='productDetail({ id: product.slug })') Latest
 
 block content
   button.btn.btn-primary.pull-right(ng-click='edit(product)', ng-if='isLoggedIn()') Edit

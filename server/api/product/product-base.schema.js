@@ -49,6 +49,10 @@ var ProductBaseSchema = new Schema({
     ref: 'User',
     required: true
   },
+  published: {
+    type: Boolean,
+    default: false
+  },
   createdAt: Date,
   updatedAt: Date
 });

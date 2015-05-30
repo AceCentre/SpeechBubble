@@ -156,10 +156,26 @@ exports.show = function(req, res) {
   Product
   .findOne({ slug: req.params.slug })
   .populate('suppliers')
-  .populate('revisions')
   .exec(function (err, product) {
     if(err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
+    return res.json(product);
+  });
+};
+
+// Get a single product revision
+exports.showRevision = function(req, res) {
+  Product
+  .findOne({ slug: req.params.slug })
+  .populate('suppliers')
+  .exec(function (err, product) {
+    if(err) { return handleError(res, err); }
+    if(!product) { return res.send(404); }
+    // merge revision with product to get things
+    // like revision history and ratings
+    var revision = product.revisions.id(req.params.revisionId);
+    var newProductData = _.omit(revision.toObject(), ['_id']);
+    product = _.extend(product, newProductData);
     return res.json(product);
   });
 };
@@ -193,6 +209,7 @@ exports.publish = function(req, res) {
     }
 
     var revision = product.revisions.id(revisionId)
+    revision.published = true;
     var newProductData = _.omit(revision.toObject(), ['_id', 'createdAt', 'updatedAt']);
 
     product = _.extend(product, newProductData, { currentRevision: revisionId });
@@ -248,7 +265,9 @@ exports.update = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
 
-    product.revisions.push(req.body);
+    var data = _.omit(req.body, ['createdAt', 'updatedAt', '_id'])
+
+    product.revisions.push(data);
 
     product.save(function(err, product) {
       if (err) {

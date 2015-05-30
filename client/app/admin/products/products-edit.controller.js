@@ -54,7 +54,7 @@ angular.module('speechBubbleApp')
         .success(function(res) {
           $scope.isSaving = false;
           growl.success('Revision published.');
-          $modalInstance.close();
+          $modalInstance.close(res);
           $rootScope.$broadcast('resultsUpdated');
         })
         .error(function(res) {

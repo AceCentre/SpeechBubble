@@ -105,6 +105,16 @@ angular.module('speechBubbleApp', [
         }
       }
     })
+    .state('productRevisionDetail', {
+      url: '/products/:id/:revisionId',
+      templateUrl: 'app/products/detail.html',
+      controller: 'ProductDetailCtrl',
+      resolve: {
+        product: function($stateParams, $http) {
+          return $http.get('/api/product/' + $stateParams.id + '/' + $stateParams.revisionId);
+        }
+      }
+    })
 
     // Account
     .state('login', {

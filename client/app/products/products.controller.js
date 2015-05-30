@@ -123,7 +123,7 @@ angular.module('speechBubbleApp')
 
   $scope.edit = function(product) {
     var modal = ProductTemplate(product);
-    $modal.open({
+    var modalInstance = $modal.open({
       templateUrl: modal.template,
       controller: modal.controller,
       size: 'lg',
@@ -132,6 +132,9 @@ angular.module('speechBubbleApp')
           return product;
         }
       }
+    });
+    modalInstance.result.then(function (product) {
+      $state.go('productDetail', { id: product.slug });
     });
   };
 
