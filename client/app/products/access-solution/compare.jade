@@ -1,0 +1,15 @@
+include ../../mixins/product-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Comparing {{ products.length }} {{ products[0].type | type | lowercase }} products
+.modal-body
+  table.table.table-striped
+    thead
+      tr
+        th
+        th.text-center(ng-repeat='product in products') {{ product.name }}
+    tbody
+      +compareThumbnail()
+      +compareRating()
+      +tickRow('Discontinued', 'product.discontinued')
