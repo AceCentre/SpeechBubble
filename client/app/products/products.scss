@@ -54,6 +54,11 @@ Split compare within iframe
   }
   .main-container {
     width: 100%;
+
+    .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
   .page-content {
     padding-bottom: 0;
