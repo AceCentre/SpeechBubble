@@ -54,3 +54,9 @@ block content
         +productRatingDisplay('ratings.reliability', 'Reliability')
         +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
         +productRatingDisplay('ratings.easeOfEditing', 'Ease of editing')
+
+      // ACCESS SOLUTION
+      div(ng-if='ratings.product.type === "ProductAccessSolution"')
+        +productRatingDisplay('ratings.reliability', 'Reliability')
+        +productRatingDisplay('ratings.easeOfUse', 'Ease of use')
+        +productRatingDisplay('ratings.support', 'Support')

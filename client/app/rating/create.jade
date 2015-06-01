@@ -37,6 +37,11 @@ form.form-horizontal(name='form', ng-submit='save(form)', novalidate)
     +productRating('reliability', 'Reliability', 'ProductSoftware')
     +productRating('easeOfUse', 'Ease of use', 'ProductSoftware')
     +productRating('easeOfEditing', 'Ease of editing', 'ProductSoftware')
+    
+    // ACCESS SOLUTION
+    +productRating('reliability', 'Reliability', 'ProductAccessSolution')
+    +productRating('easeOfUse', 'Ease of use', 'ProductAccessSolution')
+    +productRating('support', 'Support', 'ProductAccessSolution')
 
 
     .form-group(ng-class='{ "has-success": form.comment.$valid && form.$submitted,\

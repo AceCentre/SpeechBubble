@@ -45,10 +45,14 @@ block content
         iframe(id='ytplayer', type='text/html', width='320', height='195', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
 
     img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
+      
+    
 
-    dl.dl-inline(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
-      dt Price
-      dd
+    dl.dl-inline()
+      dt Product Type
+      dd {{ product.type | type }}
+      dt(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro') Price
+      dd(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
         +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
         +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
         +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')

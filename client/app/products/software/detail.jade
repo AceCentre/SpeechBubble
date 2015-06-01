@@ -71,6 +71,11 @@ table.table.table-striped
       th Operating systems
       td
         +listLines('product.features.operatingSystems')
+        
+    tr(ng-if='product.features.supportedDevices.length')
+      th Supported devices
+      td
+        +listLines('product.features.supportedDevices')
 
     tr(ng-if='product.features.associatedCosts')
       th Associated costs

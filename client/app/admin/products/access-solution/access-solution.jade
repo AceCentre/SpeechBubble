@@ -1,0 +1,23 @@
+include ../../../mixins/form-helpers
+include ../form-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Access Solutions product
+
+form.form-horizontal(name='form', novalidate)
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .panel.panel-default
+        .panel-heading Product Details
+        .panel-body
+          input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
+          +productDetails()
+
+      +productImages()
+      +productVideos()
+      +vocabularies()
+      +price()
+      +productRevisions('product')
+
+    +draftActions()
