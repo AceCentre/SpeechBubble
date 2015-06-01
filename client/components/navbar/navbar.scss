@@ -48,6 +48,8 @@
     a[href='/'] {
       @extend .glyphicon;
       @extend .glyphicon-home;
+      padding: 20px;
+      margin: -20px;
 
       &:before {
         font-size: .8em;
