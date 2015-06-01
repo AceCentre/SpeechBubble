@@ -6,12 +6,6 @@ block append sidebar
     h2 Narrow results
     div(ng-include='"components/forms/product-filters.html"')
 
-block sidebar
-  div.sidebar.col-sm-12
-    h2 Utils
-    a.btn.btn-primary(ng-click='importAppsForAAC()') Import Products
-    a.btn.btn-primary(ng-click='updateSlugs()') Update URLs
-
 block content
   button.btn.btn-primary.pull-right(ng-click='create()') New Product
   h1 Product Administration
