@@ -1,6 +1,6 @@
 include ../../mixins/form-helpers
 
-mixin productDetails()
+mixin productDetails()   
   +input('product', 'text', 'name', 'Name', 'form')
   +textarea('product', 'description', 'Description', 'form')
   .form-group
@@ -460,23 +460,30 @@ mixin productRevisions(model)
       +input(model, 'text', 'note', 'Comment', 'form')
 
   .panel.panel-default(ng-if='revisions.length')
-    .panel-heading Drafts
+    .panel-heading Version History
     .panel-body
       table.table.table-striped
         thead
           tr
-            th Note
-            th Author
-            th Date
+            th.actions: button.btn.btn-tertiary Compare
+            th Version
+            th Status
             th.actions Actions
         tbody
           tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage', ng-class='{ "edit-mode": (product.currentRevision === rev._id) }')
-            td {{ rev.note || "Draft" }}
-            td {{ rev.author.firstName }} {{ rev.author.lastName }}
-            td {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }} #[span(ng-if='product.currentRevision === rev._id') (current)]
             td.actions
-              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
-              a(href='#', ng-click='publish(getPublishMessage(rev), rev._id)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
+              input(type='radio')
+              input(type='radio')
+            td 
+              a(ng-href='/products/{{ current.slug }}/{{ rev._id }}', target='_blank') {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
+              | &nbsp; by {{ rev.author.firstName }} {{ rev.author.lastName }}
+            td
+              span(ng-if='current.currentRevision === rev._id') PUBLISHED
+              span(ng-if='current.currentRevision !== rev._id') DRAFT
+            td.actions
+              a(href='#', ng-click='revert(rev)') Edit
+              a(href='#', ng-click='publish(getPublishMessage(rev), rev._id)', ng-if='isAdmin()') Publish
+               View
 
       .text-center
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
