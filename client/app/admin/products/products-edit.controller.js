@@ -1,24 +1,36 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl, localStorageService) {
+  .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $window, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl, localStorageService) {
+
+    var isLatestRevision = function(item, revision) {
+      var item = item || current;
+      var revision = revision || item.currentRevision;
+      if(!item.revisions.length) {
+        return true;
+      }
+      if(item.revisions[item.revisions.length - 1]._id === revision) {
+        return true;
+      }
+      return false;
+    };
+
+    var revertToLatestRevision = function(item) {
+      $scope.revert(item.revisions[item.revisions.length - 1]);
+    };
 
     // Current working product
     $scope.product = angular.copy(current);
     $scope.current = current;
     $scope.autoSave = localStorageService.get(current._id);
-
-    if($scope.autoSave) {
-      growl.success('Restored product from auto-save.', { ttl: 5000 });
-      $scope.product = $scope.autoSave;
-    }
-
-    $scope.$watch('product', function() {
-      localStorageService.set(current._id, angular.copy($scope.product));
-    }, true);
+    $scope.isLatestRevision = isLatestRevision;
 
     $scope.isAdmin = Auth.isAdmin;
     $scope.isSaving = false;
+    $scope.compare = {
+      'rev1': '',
+      'rev2': ''
+    };
 
     // Product options
     $scope.devices = ProductOptions.devices;
@@ -153,7 +165,11 @@ angular.module('speechBubbleApp')
         // workaround - ui-select clears suppliers after replacing parent
         $scope.product.suppliers = revision.suppliers;
       });
-      growl.warning('Set as working draft.');
+      if( isLatestRevision(current, revision) ) {
+        growl.success('Set published revision as working draft.', { 'ttl': 3000 });
+      } else {
+        growl.error('Set unpublished revision as working draft.', { 'ttl': 5000 })
+      }
     };
 
     $scope.refreshSuppliers = function(term) {
@@ -182,5 +198,23 @@ angular.module('speechBubbleApp')
       localStorageService.remove(current._id);
       $modalInstance.dismiss();
     };
+
+    $scope.openSplitCompareWindow = function() {
+      if($scope.compare.rev1 && $scope.compare.rev2) {
+        return $window.open('/products/split/' + current.slug + '/' + $scope.compare.rev1 + '/' + $scope.compare.rev2);
+      }
+      growl.warning('select 2 revisions to compare.');
+    };
+
+    if($scope.autoSave) {
+      growl.success('Restored product from auto-save.', { ttl: 5000 });
+      $scope.product = $scope.autoSave;
+    } else if( !isLatestRevision(current) ) {
+      revertToLatestRevision(current);
+    }
+
+    $scope.$watch('product', function() {
+      localStorageService.set(current._id, angular.copy($scope.product));
+    }, true);
 
   });
