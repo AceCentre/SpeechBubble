@@ -105,6 +105,11 @@ angular.module('speechBubbleApp', [
         }
       }
     })
+    .state('productSplit', {
+      url: '/products/split/:slug/:rev1/:rev2',
+      controller: 'ProductSplitCtrl',
+      templateUrl: 'app/products/split.html'
+    })
     .state('productRevisionDetail', {
       url: '/products/:id/:revisionId',
       templateUrl: 'app/products/detail.html',
