@@ -30,6 +30,7 @@
 
     a {
       color: darken($backgroundColor, 45%);
+      display: block;
     }
 
     &.active a, a:hover, a:active, a:focus {
