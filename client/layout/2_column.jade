@@ -1,6 +1,6 @@
 .container
   .row
-    .col-sm-3
+    .col-sm-3.sidebar-container
       div.sidebar.col-sm-12(ng-controller='TwitterFeedCtrl')
         a.donate(href="http://www.justgiving.com/acecentre/donate/?utm_source=website_cid139889&utm_medium=buttons&utm_content=acecentre&utm_campaign=donate_white")
           img.img-responsive(src="/assets/images/btn-just-giving.png", alt="Donate with JustGiving")
@@ -16,7 +16,7 @@
               img.media-object(ng-src='{{ tweet.user.profile_image_url }}')
             .media-body
               p(ng-bind-html='tweet.text | tweet')
-    .col-sm-9
+    .col-sm-9.main-container
       .main-content
         block content
 
