@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl, localStorageService) {
+  .controller('AdminProductEditCtrl', function(Auth, $timeout, $filter, $rootScope, $window, $scope, $http, $modal, $modalInstance, Modal, $upload, Product, Supplier, current, ProductOptions, ProductImages, ProductVideos, ProductLinks, growl, localStorageService) {
 
     var isLatestRevision = function(item, revision) {
       var item = item || current;
@@ -27,6 +27,10 @@ angular.module('speechBubbleApp')
 
     $scope.isAdmin = Auth.isAdmin;
     $scope.isSaving = false;
+    $scope.compare = {
+      'rev1': '',
+      'rev2': ''
+    };
 
     // Product options
     $scope.devices = ProductOptions.devices;
@@ -193,6 +197,13 @@ angular.module('speechBubbleApp')
     $scope.cancel = function() {
       localStorageService.remove(current._id);
       $modalInstance.dismiss();
+    };
+
+    $scope.openSplitCompareWindow = function() {
+      if($scope.compare.rev1 && $scope.compare.rev2) {
+        return $window.open('/products/split/' + current.slug + '/' + $scope.compare.rev1 + '/' + $scope.compare.rev2);
+      }
+      growl.warning('select 2 revisions to compare.');
     };
 
     if($scope.autoSave) {
