@@ -44,3 +44,18 @@
   top: 10px;
   right: 10px;
 }
+
+/**
+Split compare within iframe
+**/
+.iframe {
+  .header, .footer, .sidebar-container, .social-share, [ng-click] {
+    display: none;
+  }
+  .main-container {
+    width: 100%;
+  }
+  .page-content {
+    padding-bottom: 0;
+  }
+}
