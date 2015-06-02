@@ -17,20 +17,20 @@ form.form-horizontal(name='form', novalidate)
       .panel.panel-default
         .panel-heading Category
         .panel-body
-          +radio('product.features', 'category', 'switch', 'Switch', true)
-          +radio('product.features', 'category', 'eyegaze', 'Eyegaze', true)
-          +radio('product.features', 'category', 'mouse', 'Mouse', true)
-          +radio('product.features', 'category', 'alternative', 'Alternative/Keyboard', true)
-          +radio('product.features', 'category', 'force', 'Movement/force', true)
-          +radio('product.features', 'category', 'discrete', 'Discrete', true)
-          +radio('product.features', 'category', 'gross', 'Gross', true)
+          +radio('product.features', 'category', 'switch', 'Switch')
+          +radio('product.features', 'category', 'eyegaze', 'Eyegaze')
+          +radio('product.features', 'category', 'mouse', 'Mouse')
+          +radio('product.features', 'category', 'alternative', 'Alternative/Keyboard')
+          +radio('product.features', 'category', 'force', 'Movement/force')
+          +radio('product.features', 'category', 'discrete', 'Discrete')
+          +radio('product.features', 'category', 'gross', 'Gross')
 
       .panel.panel-default
         .panel-heading Output
         .panel-body
-          +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch', true)
-          +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - Multiple switched', true)
-          +radio('product.features', 'output', 'proportional', 'Proportional', true)
+          +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch')
+          +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - Multiple switched')
+          +radio('product.features', 'output', 'proportional', 'Proportional')
 
       +productImages()
       +productVideos()
