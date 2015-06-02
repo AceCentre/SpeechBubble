@@ -2,7 +2,7 @@ extends ../../../layout/2_column
 
 block content
   button.btn.btn-primary.pull-right(ng-file-select, ng-model='filesToUpload', ng-multiple='true') Add files
-  h1 File Administration
+  h1 File Admin
   
   progressbar(ng-if='!file.complete', ng-repeat='file in filesToUpload', value='file.progress') {{ file.name }}
 

@@ -30,6 +30,7 @@
 
     a {
       color: darken($backgroundColor, 45%);
+      display: block;
     }
 
     &.active a, a:hover, a:active, a:focus {
@@ -48,6 +49,8 @@
     a[href='/'] {
       @extend .glyphicon;
       @extend .glyphicon-home;
+      padding: 20px;
+      margin: -20px;
 
       &:before {
         font-size: .8em;

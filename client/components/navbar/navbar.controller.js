@@ -30,13 +30,13 @@ angular.module('speechBubbleApp')
     ];
 
     $scope.adminMenu = [
-      { 'title': 'User moderation', 'link': '/admin/users' },
-      { 'title': 'Product moderation', 'link': '/admin/products' },
-      { 'title': 'Supplier moderation', 'link': '/admin/suppliers' },
-      { 'title': 'Rating moderation', link: '/admin/ratings' },
-      { 'title': 'Page moderation', 'link': '/admin/pages' },
-      { 'title': 'Glossary moderation', 'link': '/admin/glossary' },
-      { 'title': 'File administration', 'link': '/admin/upload' }
+      { 'title': 'User Admin', 'link': '/admin/users' },
+      { 'title': 'Product Admin', 'link': '/admin/products' },
+      { 'title': 'Supplier Admin', 'link': '/admin/suppliers' },
+      { 'title': 'Rating Admin', link: '/admin/ratings' },
+      { 'title': 'Page Admin', 'link': '/admin/pages' },
+      { 'title': 'Glossary Admin', 'link': '/admin/glossary' },
+      { 'title': 'File Admin', 'link': '/admin/upload' }
     ];
 
     $scope.isLoggedIn = Auth.isLoggedIn;
