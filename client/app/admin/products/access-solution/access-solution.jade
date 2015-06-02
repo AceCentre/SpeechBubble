@@ -11,8 +11,19 @@ form.form-horizontal(name='form', novalidate)
       .panel.panel-default
         .panel-heading Product Details
         .panel-body
-          input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
+          input(type='hidden', ng-init='product.type = "ProductAccessSolution"')
           +productDetails()
+
+      .panel.panel-default
+        .panel-heading Category
+        .panel-body
+          +radio('product.features', 'category', 'switch', 'Switch', true)
+          +radio('product.features', 'category', 'eyegaze', 'Eyegaze', true)
+          +radio('product.features', 'category', 'mouse', 'Mouse', true)
+          +radio('product.features', 'category', 'alternative', 'Alternative/Keyboard', true)
+          +radio('product.features', 'category', 'force', 'Movement/force', true)
+          +radio('product.features', 'category', 'discrete', 'Discrete', true)
+          +radio('product.features', 'category', 'gross', 'Gross', true)
 
       +productImages()
       +productVideos()
