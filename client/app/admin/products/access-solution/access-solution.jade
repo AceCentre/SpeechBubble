@@ -25,6 +25,13 @@ form.form-horizontal(name='form', novalidate)
           +radio('product.features', 'category', 'discrete', 'Discrete', true)
           +radio('product.features', 'category', 'gross', 'Gross', true)
 
+      .panel.panel-default
+        .panel-heading Output
+        .panel-body
+          +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch', true)
+          +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - Multiple switched', true)
+          +radio('product.features', 'output', 'proportional', 'Proportional', true)
+
       +productImages()
       +productVideos()
       +vocabularies()
