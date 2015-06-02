@@ -134,6 +134,7 @@ angular.module('speechBubbleApp')
       }
     });
     modalInstance.result.then(function (product) {
+      $scope.product = product;
       $state.go('productDetail', { id: product.slug });
     });
   };

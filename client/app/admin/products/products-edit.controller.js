@@ -20,6 +20,7 @@ angular.module('speechBubbleApp')
     };
 
     // Current working product
+    $scope.revisions = angular.copy(current.revisions);
     $scope.product = angular.copy(current);
     $scope.current = current;
     $scope.autoSave = localStorageService.get(current._id);
@@ -46,19 +47,8 @@ angular.module('speechBubbleApp')
     $scope.videos = ProductVideos($scope);
 
     // Revision pagination
-    $scope.revisions = [];
     $scope.revisionsPerPage = 5;
     $scope.currentPage = 1;
-
-    function updateRevisions() {
-      $http.get('/api/product/' + current._id + '/revisions')
-      .success(function(res) {
-        $scope.revisions = res;
-      })
-      .error(function(res) {
-        growl.error('Could not fetch revisions.');
-      });
-    }
 
     function publishRevision(revision) {
       $scope.isSaving = true;
@@ -74,9 +64,6 @@ angular.module('speechBubbleApp')
           growl.error('Could not publish revision.');
         });
     }
-
-    // Fetch revisions on initialisation
-    updateRevisions();
 
     $scope.$watch('imagesToUpload', $scope.images.add);
 
@@ -140,7 +127,7 @@ angular.module('speechBubbleApp')
               $scope.publish('the current draft', res.revisions[res.revisions.length - 1]);
             } else {
               current = res;
-              $modalInstance.close();
+              $modalInstance.close(res);
               growl.success('Product updated.');
             }
           },
