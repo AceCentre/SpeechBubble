@@ -454,11 +454,6 @@ mixin pageRevisions(model)
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
 
 mixin productRevisions(model)
-  .panel.panel-default
-    .panel-heading Draft summary
-    .panel-body
-      +input(model, 'text', 'note', 'Comment', 'form')
-
   .panel.panel-default(ng-if='revisions.length')
     .panel-heading Version History
     .panel-body
