@@ -1,0 +1,27 @@
+include ../../mixins/product-helpers
+include ../../mixins/form-helpers
+
+h3 Product information
+table.table.table-striped
+  tbody
+    tr
+      th Discontinued
+      td {{ product.discontinued ? 'Yes': 'No' }}
+
+    tr(ng-if='product.features.category')
+      th Category
+      td {{ product.features.category }}
+      
+    tr(ng-if='product.features.output')
+      th Output
+      td {{ product.features.output }}
+      
+    tr(ng-if='product.features.canBeControlledBy')
+      th Typical body part that controls
+      td
+        +listLines('product.features.canBeControlledBy')
+        
+    tr(ng-if='product.features.canBeControlledBy')
+      th Mounting
+      td
+        +listLines('product.features.mountingOptions')
