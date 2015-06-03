@@ -12,7 +12,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
 
-mongoose.set('debug', true);
+mongoose.set('debug', false);
 
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
