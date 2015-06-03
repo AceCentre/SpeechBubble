@@ -93,6 +93,10 @@ angular.module('speechBubbleApp')
           controller = 'ProductsCompareCtrl';
           template = 'app/products/hardware/compare.html';
           break;
+        case 'ProductAccessSolution':
+          controller = 'ProductsCompareCtrl';
+          template = 'app/products/access-solution/compare.html';
+          break;
         case 'ProductSoftware':
           controller = 'ProductsCompareCtrl';
           template = 'app/products/software/compare.html';
@@ -122,6 +126,10 @@ angular.module('speechBubbleApp')
         case 'ProductHardware':
           controller = 'AdminProductEditCtrl';
           template = 'app/admin/products/hardware/hardware.html';
+          break;
+        case 'ProductAccessSolution':
+          controller = 'AdminProductEditCtrl';
+          template = 'app/admin/products/access-solution/access-solution.html';
           break;
         case 'ProductSoftware':
           controller = 'AdminProductEditCtrl';

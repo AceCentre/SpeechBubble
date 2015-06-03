@@ -70,7 +70,7 @@ angular.module('speechBubbleApp')
         backdrop: 'static'
       });
 
-      modalInstance.result.then(function() {
+      modalInstance.result.then(function(product) {
         $rootScope.$broadcast('resultsUpdated');
       }, function() {
         $rootScope.$broadcast('resultsUpdated');

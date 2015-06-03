@@ -1,0 +1,55 @@
+include ../../mixins/product-helpers
+include ../../mixins/form-helpers
+
+h3 Product information
+table.table.table-striped
+  tbody
+    tr
+      th Discontinued
+      td {{ product.discontinued ? 'Yes': 'No' }}
+
+    tr(ng-if='product.features.category')
+      th Category
+      td {{ product.features.category }}
+      
+    tr(ng-if='product.features.output')
+      th Output
+      td
+        +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
+        +textLineIf('Binary - Multiple switched', 'product.features.output === "binaryMultipleSwitch"')
+        +textLineIf('Proportional', 'product.features.output === "proportional"')
+      
+    tr(ng-if='product.features.canBeControlledBy')
+      th Typical body part that controls
+      td
+        ul
+          li(ng-if='product.features.canBeControlledBy.hand') Hand
+          li(ng-if='product.features.canBeControlledBy.eye') Eye
+          li(ng-if='product.features.canBeControlledBy.head') Head
+          li(ng-if='product.features.canBeControlledBy.arm') Arm
+          li(ng-if='product.features.canBeControlledBy.knee') Knee
+          li(ng-if='product.features.canBeControlledBy.elbow') Elbow
+          li(ng-if='product.features.canBeControlledBy.muscle') Muscle
+          
+        dl(ng-if='product.features.canBeControlledByOtherDetails')
+          dt Other
+          dd {{ product.features.canBeControlledByOtherDetails }}
+        
+        
+    tr(ng-if='product.features.mountingOptions')
+      th Mounting
+      td
+        ul
+          li(ng-if='product.features.mountingOptions.oneQuarterInchThread') 1/4" thread
+          li(ng-if='product.features.mountingOptions.oneEighthInchThread') 1/8" thread
+          li(ng-if='product.features.mountingOptions.vesa') VESA
+          li(ng-if='product.features.mountingOptions.suction') Suction
+          li(ng-if='product.features.mountingOptions.magnetic') Magnets
+          
+        dl(ng-if='product.features.mountingOptionsOtherDetails')
+          dt Other
+          dd {{ product.features.mountingOptionsOtherDetails }}
+          
+
+
+        

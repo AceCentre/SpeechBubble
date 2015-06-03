@@ -11,7 +11,7 @@ include ../../mixins/product-helpers
     tbody
       +compareThumbnail()
       +compareRating()
-      +tickRow('Discontinued', 'product.discontinued')
+      +compareTickRow('Discontinued', 'product.discontinued')
       tr
         th How is the vocabulary primarily represented?
         td.text-center(ng-repeat='product in products')

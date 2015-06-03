@@ -1,0 +1,68 @@
+include ../../../mixins/form-helpers
+include ../form-helpers
+
+.modal-header
+  button.close(type='button', ng-click='cancel()') ×
+  h3.modal-title Access Solutions product
+
+form.form-horizontal(name='form', novalidate)
+  fieldset(ng-disabled='isSaving')
+    .modal-body
+      .panel.panel-default
+        .panel-heading Product Details
+        .panel-body
+          input(type='hidden', ng-init='product.type = "ProductAccessSolution"')
+          +productDetails()
+
+      .panel.panel-default
+        .panel-heading Category
+        .panel-body
+          +radio('product.features', 'category', 'Switch', 'Switch')
+          +radio('product.features', 'category', 'Eyegaze', 'Eyegaze')
+          +radio('product.features', 'category', 'Mouse', 'Mouse')
+          +radio('product.features', 'category', 'Alternative', 'Alternative/Keyboard')
+          +radio('product.features', 'category', 'Force', 'Movement/force')
+          +radio('product.features', 'category', 'Discrete', 'Discrete')
+          +radio('product.features', 'category', 'Gross', 'Gross')
+
+      .panel.panel-default
+        .panel-heading Output
+        .panel-body
+          +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch')
+          +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - Multiple switched')
+          +radio('product.features', 'output', 'proportional', 'Proportional')
+          
+      .panel.panel-default
+        .panel-heading Typical body part that controls (multiple)
+        .panel-body
+          +checkbox('product.features.canBeControlledBy', 'hand', 'Hand')
+          +checkbox('product.features.canBeControlledBy', 'eye', 'Eye')
+          +checkbox('product.features.canBeControlledBy', 'head', 'Head')
+          +checkbox('product.features.canBeControlledBy', 'arm', 'Arm')
+          +checkbox('product.features.canBeControlledBy', 'knee', 'Knee')
+          +checkbox('product.features.canBeControlledBy', 'elbow', 'Elbow')
+          +checkbox('product.features.canBeControlledBy', 'muscle', 'Muscle')
+          +checkbox('product.features.canBeControlledBy', 'other', 'Other')
+          +checkbox('temp', 'canBeControlledByOther', 'Other')
+          
+          textarea.form-control(ng-show='temp.canBeControlledByOther', destroy='canBeControlledByOtherDetails', ng-model='product.features.canBeControlledByOtherDetails')
+          
+      .panel.panel-default
+        .panel-heading Mounting options (multiple)
+        .panel-body
+          +checkbox('product.features.mountingOptions', 'oneQuarterInchThread', '1/4" thread')
+          +checkbox('product.features.mountingOptions', 'oneEighthInchThread', '1/8" thread')
+          +checkbox('product.features.mountingOptions', 'vesa', 'VESA')
+          +checkbox('product.features.mountingOptions', 'suction', 'Suction')
+          +checkbox('product.features.mountingOptions', 'magnetic', 'Magnets')
+          +checkbox('temp', 'mountingOptionsOther', 'Other')
+          
+          textarea.form-control(ng-show='temp.mountingOptionsOther', destroy='mountingOptionsOtherDetails', ng-model='product.features.mountingOptionsOtherDetails')
+
+      +productImages()
+      +productVideos()
+      +vocabularies()
+      +price()
+      +productRevisions('product')
+
+    +draftActions()

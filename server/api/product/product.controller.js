@@ -207,7 +207,7 @@ exports.create = function(req, res) {
 // Adds a new revision to a product
 exports.publish = function(req, res) {
   var productId = req.params.id;
-  var revisionId = req.params.revision;
+  var revisionId = req.params.revisionId;
 
   Product
   .findById(productId)
@@ -219,7 +219,7 @@ exports.publish = function(req, res) {
       return res.send(404);
     }
 
-    var revision = product.revisions.id(revisionId)
+    var revision = product.revisions.id(revisionId);
     revision.published = true;
     var newProductData = _.omit(revision.toObject(), ['_id', 'createdAt', 'updatedAt']);
 
@@ -251,15 +251,17 @@ exports.publish = function(req, res) {
           auto_text: true
         }
       }, function(result) {
-        Product
-          .findById(productId)
-          .populate('suppliers')
-          .exec(function(err, product) {
-            if (err) {
-              return handleError(res, err);
-            }
-            return res.send(200, product);
-          });
+        Product.findById(productId, function(err, product) {
+          Product.populate(product, { path: 'revisions.author', model: 'User', select: 'firstName lastName' }, function(err, product) {
+            product.populate('suppliers', function(err, product) {
+              if (err) {
+                return handleError(res, err);
+              }
+              return res.send(200, product);
+            });
+          })
+
+        });
       });
     });
   });
@@ -306,7 +308,18 @@ exports.update = function(req, res) {
             auto_text: true
           }
         }, function(result) {
-          res.send(200, product);
+          Product.populate(product, { path: 'revisions.author', model: 'User', select: 'firstName lastName' }, function(err, product) {
+              if (err) {
+                return handleError(res, err);
+              }
+              product.populate('suppliers', function(err, product) {
+                if (err) {
+                  return handleError(res, err);
+                }
+                res.send(200, product);
+              });
+            });
+
         });
       });
     });

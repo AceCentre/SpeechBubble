@@ -45,10 +45,14 @@ block content
         iframe(id='ytplayer', type='text/html', width='320', height='195', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
 
     img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
+      
+    
 
-    dl.dl-inline(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
-      dt Price
-      dd
+    dl.dl-inline()
+      dt Product Type
+      dd {{ product.type | type }}
+      dt(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro') Price
+      dd(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
         +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
         +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
         +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
@@ -57,6 +61,7 @@ block content
     p {{ product.description }}
 
   article(ng-if='product.type === "ProductHardware"', ng-include='"app/products/hardware/detail.html"')
+  article(ng-if='product.type === "ProductAccessSolution"', ng-include='"app/products/access-solution/detail.html"')
   article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/software/detail.html"')
   article(ng-if='product.type === "ProductLowTech"', ng-include='"app/products/low-tech/detail.html"')
   article(ng-if='product.type === "ProductVocabulary"', ng-include='"app/products/vocabulary/detail.html"')
