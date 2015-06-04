@@ -28,13 +28,13 @@ include ../../mixins/product-helpers
       tr
         th Mobile phone capabilities
         td.text-center(ng-repeat='product in products')
-          +textLineIf('In-built SIM', 'product.features.mobilePhone.mobilePhoneSIM')
-          +textLineIf('Phone required', 'product.features.mobilePhone.mobilePhoneRequired')
-          +textLineIf('-', '!product.features.mobilePhone.mobilePhoneSIM && !product.features.mobilePhone.mobilePhoneRequired')
+          +textLineIf('In-built SIM', 'product.features.mobilePhoneSim')
+          +textLineIf('Phone required', 'product.features.mobilePhoneRequired')
+          +textLineIf('-', '!product.features.mobilePhoneSim && !product.features.mobilePhoneRequired')
 
       +comparePrice()
 
-      +compareTextRow('Battery life (hours)', 'product.features.battery.batteryLife')
+      +compareTextRow('Battery life (hours)', 'product.features.batteryLife')
       tr
         th Mounting
         td.text-center(ng-repeat='product in products')
@@ -46,16 +46,16 @@ include ../../mixins/product-helpers
       tr
         th Size (mm)
         td.text-center(ng-repeat='product in products')
-          div(ng-if='product.features.dimensions.height && product.features.dimensions.width && product.features.dimensions.depth') {{ product.features.dimensions.height }} x {{ product.features.dimensions.width }} x {{ product.features.dimensions.depth }}
-          div(ng-if='!product.features.dimensions.height || !product.features.dimensions.width || !product.features.dimensions.depth') -
+          div(ng-if='product.features.height && product.features.width && product.features.depth') {{ product.features.height }} x {{ product.features.width }} x {{ product.features.depth }}
+          div(ng-if='!product.features.height || !product.features.width || !product.features.depth') -
 
       tr
         th Weight (kg)
-        td.text-center(ng-repeat='product in products') {{ product.features.dimensions.weight || '-' }}
+        td.text-center(ng-repeat='product in products') {{ product.features.weight || '-' }}
 
       tr
         th Screen size (inches)
-        td.text-center(ng-repeat='product in products') {{ product.features.dimensions.screenSize || '-' }}
+        td.text-center(ng-repeat='product in products') {{ product.features.screenSize || '-' }}
 
       +compareAccessMethods()
 

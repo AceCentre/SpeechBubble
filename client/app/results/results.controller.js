@@ -11,14 +11,17 @@ angular.module('speechBubbleApp')
     $scope.skip = Number($location.search().skip) || 0;
     $scope.page = ($scope.skip / $scope.limit) + 1;
     $scope.total = 0;
+    
+    
 
     function fetch() {
+      var facets = _.compactObject($scope.search.facets).keys().value();
       $scope.isLoading = true;
       $scope.skip = ($scope.page - 1) * $scope.limit;
       var query = angular.extend({
-        skip: $scope.skip,
-        limit: $scope.limit
-      }, $scope.search);
+        'skip': $scope.skip,
+        'limit': $scope.limit
+      }, $scope.search, { 'facets': facets });
 
       api.query(query, function(res) {
         $scope.isLoading = false;

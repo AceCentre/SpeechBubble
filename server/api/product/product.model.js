@@ -6,6 +6,7 @@ var ENUM = require('../../enum');
 var ProductBaseSchema = require('./product-base.schema');
 var extend = require('mongoose-schema-extend');
 var _ = require('lodash');
+var facets = require('fancy-facets');
 
 var ProductSchema = ProductBaseSchema.extend({
   type: {
@@ -29,11 +30,20 @@ var ProductSchema = ProductBaseSchema.extend({
     }
   },
   awaitingModeration: Boolean,
-  revisions: [ProductBaseSchema]
+  revisions: [ProductBaseSchema],
+  facets: [{
+    type: String,
+    index: true
+  }]
 }, { collection: 'products' });
 
 ProductSchema.pre('save', function(next) {
   this.slug = this.name.split(' ').join('-').toLowerCase();
+  next();
+});
+
+ProductSchema.pre('save', function(next) {
+  this.facets = facets(this.features);
   next();
 });
 

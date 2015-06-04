@@ -33,6 +33,7 @@ function addToQuery(query, name, value, shouldAdd) {
 
 // Get list of products
 exports.index = function(req, res) {
+  var facets = req.query.facets;
   var skip = req.query.skip || 0;
   var limit = req.query.limit || 10;
   var term = req.query.term;
@@ -40,6 +41,9 @@ exports.index = function(req, res) {
   var orQuery = [];
   var query = {};
 
+  if(facets) {
+    query.facets = { '$in': _.isString(facets) ? [facets]: facets };
+  }
 
   if(term) {
     orQuery.push({ $text: { $search: term } });
@@ -53,25 +57,17 @@ exports.index = function(req, res) {
   // HARDWARE FILTERS
 
   if(req.query.type === 'ProductHardware') {
-    var mobilePhone = req.query.mobilePhone && JSON.parse(req.query.mobilePhone);
     var batteryLife = req.query.batteryLife;
     var screenSize = req.query.screenSize;
 
-    addToQuery(query, 'features.battery.batteryLife', {
+    addToQuery(query, 'features.batteryLife', {
       $gte: parseInt(batteryLife, 10)
     }, batteryLife);
 
-    addToQuery(query, 'features.dimensions.screenSize', {
+    addToQuery(query, 'features.screenSize', {
       $gte: parseInt(screenSize, 10)
     }, screenSize);
 
-    _.each(mobilePhone, function(value, key) {
-      if(value) {
-        var temp = {};
-        temp['features.mobilePhone.' + key] = value;
-        orQuery.push(temp);
-      }
-    });
   }
 
   // SOFTWARE FILTERS

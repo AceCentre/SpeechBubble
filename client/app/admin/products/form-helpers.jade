@@ -251,8 +251,8 @@ mixin sharedHardware()
       | Battery 
       span(glossary='556781f95719a8bb50f5e545')
     .panel-body
-      +input('product.features.battery', 'number', 'batteryLife', 'Battery life (hours)')
-      +textarea('product.features.battery', 'spareBatteryOptions', 'Spare battery options')
+      +input('product.features', 'number', 'batteryLife', 'Battery life (hours)')
+      +textarea('product.features', 'spareBatteryOptions', 'Spare battery options')
 
   .panel.panel-default
     .panel-heading 
@@ -270,15 +270,15 @@ mixin sharedHardware()
   .panel.panel-default
     .panel-heading Dimensions
     .panel-body
-      +input('product.features.dimensions', 'number', 'weight', 'Weight (kg)')
-      +input('product.features.dimensions', 'number', 'depth', 'Depth (mm)')
-      +input('product.features.dimensions', 'number', 'height', 'Height (mm)')
-      +input('product.features.dimensions', 'number', 'width', 'Width (mm)')
-      +input('product.features.dimensions', 'number', 'screenSize', 'Screen size (in)')
+      +input('product.features', 'number', 'weight', 'Weight (kg)')
+      +input('product.features', 'number', 'depth', 'Depth (mm)')
+      +input('product.features', 'number', 'height', 'Height (mm)')
+      +input('product.features', 'number', 'width', 'Width (mm)')
+      +input('product.features', 'number', 'screenSize', 'Screen size (in)')
       .panel.panel-default
         .panel-heading Are these dimensions with a case?
         .panel-body
-          +switch('product.features.dimensions', 'sizeIncludingCase')
+          +switch('product.features', 'sizeIncludingCase')
 
   +enviroControl()
   +accessMethodsHardware()

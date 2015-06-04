@@ -64,7 +64,7 @@ mixin radioChange(model, id, value, label, change)
 mixin checkbox(model, id, label)
   div.checkbox
     label
-      input(type='checkbox', name='#{id}', ng-model='#{model}.#{id}')
+      input(type='checkbox', name='#{id}', ng-model="#{model}['#{id}']")
       | #{label}
 
 mixin switch(model, id)

@@ -43,8 +43,8 @@ div.product-filters
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
         label.control-label(for="mobilePhoneCapabilities") Mobile phone capabilities
-        +checkbox('search.mobilePhone', 'mobilePhoneSIM', 'In-built SIM')
-        +checkbox('search.mobilePhone', 'mobilePhoneRequired', 'Phone required')
+        +checkbox('search.facets', 'mobile-phone-sim', 'In-built SIM')
+        +checkbox('search.facets', 'mobile-phone-required', 'Phone required')
 
 
       <!-- Vocabulary Only -->
