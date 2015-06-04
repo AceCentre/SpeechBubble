@@ -10,9 +10,7 @@ angular.module('speechBubbleApp')
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
   $scope.devices = ProductOptions.devices;
-  $scope.search = ProductSearch;
-
-  angular.extend($scope.search, $location.search());
+  $scope.search = ProductSearch.get();
 
   $scope.performSearch = function() {
     $rootScope.$broadcast('resultsUpdated');
