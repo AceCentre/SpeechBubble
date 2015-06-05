@@ -7,8 +7,6 @@ angular.module('speechBubbleApp')
 
     $scope.isLoading = false;
     $scope.total = 0;
-    
-    console.log($scope.limit, $scope.page, $scope.skip);
 
     var fetch = _.debounce(function() {
       $scope.isLoading = true;
@@ -29,7 +27,7 @@ angular.module('speechBubbleApp')
       return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
     };
 
-    $scope['delete'] = Modal.confirm['delete'](function(item) { // callback when modal is confirmed
+    $scope['delete'] = Modal.confirm['delete'](function(item) {
       api.remove({ id: item._id });
       angular.forEach($scope.items, function(current, index) {
         if (current === item) {
