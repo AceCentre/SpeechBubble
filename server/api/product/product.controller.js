@@ -34,8 +34,9 @@ function addToQuery(query, name, value, shouldAdd) {
 // Get list of products
 exports.index = function(req, res) {
   var facets = req.query.facets;
-  var skip = req.query.skip || 0;
+  var page = req.query.page || 1;
   var limit = req.query.limit || 10;
+  var skip = (page - 1) * limit;
   var term = req.query.term;
 
   var orQuery = [];
