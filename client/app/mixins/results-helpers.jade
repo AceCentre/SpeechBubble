@@ -41,7 +41,7 @@ mixin mediaSimple()
 mixin pagination()
   hr
   .text-center
-    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='limit', ng-model='search.page', boundary-links='true')
+    pagination.pagination-sm(total-items='total', max-size='10', items-per-page='search.limit', ng-model='search.page', boundary-links='true')
   hr
 
 mixin pageListingNotice(type)
