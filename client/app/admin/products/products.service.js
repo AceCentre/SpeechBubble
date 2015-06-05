@@ -15,6 +15,7 @@ angular.module('speechBubbleApp')
       'update': { method: 'PUT' }
     });
   })
+  
   .factory('ProductSearch', function($rootScope, $location) {
     var search = {};
     
@@ -36,6 +37,8 @@ angular.module('speechBubbleApp')
       $location.search(location);
     }
     
+    $rootScope.$on('$locationChangeSuccess', get);
+    
     $rootScope.$watch(function() {
       return search;
     }, set, true);
@@ -44,6 +47,7 @@ angular.module('speechBubbleApp')
       get: get
     };
   })
+  
   .factory('ProductVideos', function($sce) {
     return function(scope) {
       return {
