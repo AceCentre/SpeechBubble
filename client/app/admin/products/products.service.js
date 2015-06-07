@@ -17,11 +17,11 @@ angular.module('speechBubbleApp')
   })
   
   .factory('ProductSearch', function($rootScope, $location) {
-    var defaults = {
-      'page': 1,
-      'limit': 10
+    var search = {
+      page: 1,
+      limit: 10,
+      facets: []
     };
-    var search = {};
     
     var get = function(){
       var location = $location.search();
@@ -29,27 +29,19 @@ angular.module('speechBubbleApp')
       angular.forEach(location.facets, function(key) {
         facets[key] = true;
       });
-      angular.copy(angular.extend(defaults, location, { 'facets': facets }), search);
+      location.page = Number(location.page) || 1;
+      location.limit = Number(location.limit) || 10;
+      
+      var searchFilters = angular.extend(location, { 'facets': facets });
+      angular.copy(searchFilters, search);
       return search;
     };
     
     get();
     
-    var set = function() {
-      var location = angular.copy(search);
-      location.facets = _.compactObject(location.facets).keys().value();
-      $location.search(location);
-    }
-    
     $rootScope.$on('$locationChangeSuccess', get);
     
-    $rootScope.$watch(function() {
-      return search;
-    }, set, true);
-    
-    return {
-      get: get
-    };
+    return search;
   })
   
   .factory('ProductVideos', function($sce) {

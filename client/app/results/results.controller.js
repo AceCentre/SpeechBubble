@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ResultsCtrl', function ($scope, $resource, $location, Modal, growl, $sce) {
+  .controller('ResultsCtrl', function ($scope, $resource, $location, Modal, growl, $sce, ProductSearch) {
 
     var api = $resource($scope.endpoint, { id: '@_id' }, { query: { method: 'GET' } });
 
     $scope.isLoading = false;
     $scope.total = 0;
+    $scope.search = ProductSearch;
 
     var fetch = _.debounce(function() {
       $scope.isLoading = true;
