@@ -29,10 +29,10 @@ angular.module('speechBubbleApp')
       angular.forEach(location.facets, function(key) {
         facets[key] = true;
       });
-      location.page = Number(location.page) || 1;
-      location.limit = Number(location.limit) || 10;
+      var page = Number(location.page) || 1;
+      var limit = Number(location.limit) || 10;
       
-      var searchFilters = angular.extend(location, { 'facets': facets });
+      var searchFilters = angular.extend({ 'facets': facets, 'page': page, 'limit': limit }, location);
       angular.copy(searchFilters, search);
       return search;
     };

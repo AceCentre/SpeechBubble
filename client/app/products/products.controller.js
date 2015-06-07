@@ -13,6 +13,7 @@ angular.module('speechBubbleApp')
   $scope.search = ProductSearch;
   
   var changeLocation = function(now, then) {
+    console.log('change loca');
     if(now.page === then.page) {
       now.page = 1;
     }
