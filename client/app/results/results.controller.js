@@ -10,7 +10,6 @@ angular.module('speechBubbleApp')
     $scope.search = ProductSearch;
     
     var changeLocation = function(now, then) {
-      console.log($scope.search);
       if(now.page === then.page) {
         now.page = 1;
       }
@@ -26,6 +25,7 @@ angular.module('speechBubbleApp')
         delete location.type;
       }
       $location.search(location);
+      console.log($scope.search);
     };
     
     $scope.$watch('search', changeLocation, true);

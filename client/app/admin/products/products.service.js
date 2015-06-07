@@ -29,6 +29,8 @@ angular.module('speechBubbleApp')
       angular.copy(facets, search.facets);
       search.page = Number(location.page || 1);
       search.limit = Number(location.limit || 10);
+      search.type = location.type || '';
+      console.log(search);
       return search;
     };
     
