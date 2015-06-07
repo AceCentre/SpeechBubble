@@ -8,6 +8,17 @@ angular.module('speechBubbleApp')
     $scope.isLoading = false;
     $scope.total = 0;
     $scope.search = ProductSearch;
+    
+    var changeLocation = function(now, then) {
+      if(now.page === then.page) {
+        now.page = 1;
+      }
+      var location = angular.copy($scope.search);
+      location.facets = _.compactObject(location.facets).keys().value();
+      $location.search(location);
+    };
+    
+    $scope.$watch('search', changeLocation, true);
 
     var fetch = _.debounce(function() {
       $scope.isLoading = true;
