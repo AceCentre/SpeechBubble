@@ -10,11 +10,21 @@ angular.module('speechBubbleApp')
     $scope.search = ProductSearch;
     
     var changeLocation = function(now, then) {
+      console.log($scope.search);
       if(now.page === then.page) {
         now.page = 1;
       }
       var location = angular.copy($scope.search);
       location.facets = _.compactObject(location.facets).keys().value();
+      if(location.page === 1) {
+        delete location.page;
+      }
+      if(location.limit === 10) {
+        delete location.limit;
+      }
+      if(!location.type) {
+        delete location.type;
+      }
       $location.search(location);
     };
     

@@ -17,11 +17,7 @@ angular.module('speechBubbleApp')
   })
   
   .factory('ProductSearch', function($rootScope, $location) {
-    var search = {
-      page: 1,
-      limit: 10,
-      facets: []
-    };
+    var search = {};
     
     var get = function(){
       var location = $location.search();
@@ -29,11 +25,10 @@ angular.module('speechBubbleApp')
       angular.forEach(location.facets, function(key) {
         facets[key] = true;
       });
-      var page = Number(location.page) || 1;
-      var limit = Number(location.limit) || 10;
-      
-      var searchFilters = angular.extend({ 'facets': facets, 'page': page, 'limit': limit }, location);
-      angular.copy(searchFilters, search);
+      delete location.facets;      
+      angular.copy(facets, search.facets);
+      search.page = Number(location.page || 1);
+      search.limit = Number(location.limit || 10);
       return search;
     };
     
