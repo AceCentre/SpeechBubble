@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('AdminProductsCtrl', function ($rootScope, $http, $scope, $modal, Auth, ProductTemplate, ProductOptions, ProductSearch, PageTitle) {
+  .controller('AdminProductsCtrl', function ($rootScope, $location, $http, $scope, $modal, Auth, ProductTemplate, ProductOptions, ProductSearch, PageTitle) {
 
     PageTitle('Product Search Admin');
     $scope.isAdmin = Auth.isAdmin;
@@ -46,13 +46,17 @@ angular.module('speechBubbleApp')
     };
 
     // Clear search filters when type is changed
-    $scope.$watch('search.type', function() {
-      angular.forEach($scope.search, function(value, key) {
-        if(key !== 'term' && key !== 'type') {
-          delete $scope.search[key];
-        }
-      });
+  $scope.$watch('search.type', function() {
+    var doNotClear = ['type', 'term', 'page', 'limit'];
+    angular.forEach($scope.search, function(value, key) {
+      if(key === 'type') {
+        return;
+      }
+      if(doNotClear.indexOf(key) === -1) {
+        delete $scope.search[key];
+      }
     });
+  });
 
     $scope.edit = function(product) {
 

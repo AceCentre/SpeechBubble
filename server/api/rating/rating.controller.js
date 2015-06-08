@@ -6,8 +6,9 @@ var RatingReview = require('./rating.model').RatingReview;
 var Product = require('../product/product.model');
 
 exports.list = function(req, res) {
-  var skip = req.query.skip || 0;
+  var page = req.query.page || 1;
   var limit = req.query.limit || 10;
+  var skip = (page - 1) * limit;
   var query = { 'reviews.visible': false };
 
   Rating.find(query).count(function(err, total) {

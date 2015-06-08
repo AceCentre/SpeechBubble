@@ -24,7 +24,7 @@ div.product-filters
 
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
-        label.control-label(for="type") Minimum Battery Life
+        label.control-label(for="type") Minimum Battery Life (hrs)
           div(ng-class='{ "has-error": searchForm.searchBatteryLife.$invalid }')
             input.form-control(id='searchBatteryLife', name='searchBatteryLife', type='number', ng-model='search.batteryLife')
 
@@ -33,7 +33,7 @@ div.product-filters
 
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
-        label.control-label(for="screenSize") Minimum Screen Size
+        label.control-label(for="screenSize") Minimum Screen Size (in)
           div(ng-class='{ "has-error": searchForm.searchScreenSize.$invalid }')
             input.form-control(id='searchScreenSize', name='searchScreenSize', type='number', ng-model='search.screenSize')
 
@@ -43,38 +43,39 @@ div.product-filters
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
         label.control-label(for="mobilePhoneCapabilities") Mobile phone capabilities
-        +checkbox('search.mobilePhone', 'mobilePhoneSIM', 'In-built SIM')
-        +checkbox('search.mobilePhone', 'mobilePhoneRequired', 'Phone required')
+        +checkbox('search.facets', 'mobile-phone-sim', 'In-built SIM')
+        +checkbox('search.facets', 'mobile-phone-required', 'Phone required')
 
 
+      <!-- TODO: currently not being tagged as a facet on the model due to string value -->
       <!-- Vocabulary Only -->
       .form-group(ng-if='search.type && search.type === "ProductVocabulary"')
         label.control-label Form of representation
-        +checkbox('search.presentation', 'textOnly', 'Text only')
-        +checkbox('search.presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
-        +checkbox('search.presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
-        +checkbox('search.presentation', 'visualScenes', 'Visual Scenes')
+        +checkbox('search.facets', 'presentation-text-only', 'Text only')
+        +checkbox('search.facets', 'presentation-text-and-symbols-or-photos', 'Text & Symbols or Photos')
+        +checkbox('search.facets', 'presentation-symbols-or-photos', 'Symbols or Photos Only')
+        +checkbox('search.facets', 'presentation-visual-scenes', 'Visual Scenes')
 
       <!-- Software Only -->
       .form-group(ng-if='search.type && search.type === "ProductSoftware"')
         label.control-label Form of representation
-        +checkbox('search.imageRepresentation', 'photos', 'Photos')
-        +checkbox('search.imageRepresentation', 'symbols', 'Symbols')
-        +checkbox('search.imageRepresentation', 'videos', 'Videos')
+        +checkbox('search.facets', 'image-representation-photos', 'Photos')
+        +checkbox('search.facets', 'image-representation-symbols', 'Symbols')
+        +checkbox('search.facets', 'image-representation-videos', 'Videos')
 
       .form-group(ng-if='search.type && search.type === "ProductSoftware"')
         label.control-label Speech Type Options
-        +checkbox('search.speechTypeOptions', 'synthesised', 'Synthesised')
-        +checkbox('search.speechTypeOptions', 'recorded', 'Recorded')
+        +checkbox('search.facets', 'speech-type-options-synthesised', 'Synthesised')
+        +checkbox('search.facets', 'speech-type-options-recorded', 'Recorded')
 
 
       <!-- Except Low Tech -->
       .form-group(ng-if='search.type && search.type !== "ProductLowTech"')
         label.control-label(for="type") Access Methods
-          +checkbox('search.accessMethods', 'touch', 'Touch')
-          +checkbox('search.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
-          +checkbox('search.accessMethods', 'eyegaze', 'Eyegaze')
-          +checkbox('search.accessMethods', 'switch', 'Switch')
+          +checkbox('search.facets', 'access-methods-touch', 'Touch')
+          +checkbox('search.facets', 'access-methods-mouse-or-alternative', 'Mouse or Mouse alternative')
+          +checkbox('search.facets', 'access-methods-eyegaze', 'Eyegaze')
+          +checkbox('search.facets', 'access-methods-switch', 'Switch')
 
       <!-- Admin -->
       .form-group(ng-if='isAdmin()')

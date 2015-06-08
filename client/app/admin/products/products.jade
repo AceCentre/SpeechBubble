@@ -5,6 +5,11 @@ block append sidebar
   div.sidebar.col-sm-12
     h2 Narrow results
     div(ng-include='"components/forms/product-filters.html"')
+    
+block sidebar
+  div.sidebar.col-sm-12
+    h2 Utils
+    a.btn.btn-primary(ng-click='updateSlugs()') Bump Products
 
 block content
   button.btn.btn-primary.pull-right(ng-click='create()') New Product

@@ -15,12 +15,32 @@ angular.module('speechBubbleApp')
       'update': { method: 'PUT' }
     });
   })
-  .factory('ProductSearch', function() {
-    var search = {
-      type: ''
+  
+  .factory('ProductSearch', function($rootScope, $location) {
+    var search = {};
+    
+    var get = function(){
+      var location = $location.search();
+      var facets = {};
+      angular.forEach(location.facets, function(key) {
+        facets[key] = true;
+      });
+      delete location.facets;      
+      angular.copy(facets, search.facets);
+      search.page = Number(location.page || 1);
+      search.limit = Number(location.limit || 10);
+      search.type = location.type || '';
+      search.term = location.term || '';
+      return search;
     };
+    
+    get();
+    
+    $rootScope.$on('$locationChangeSuccess', get);
+    
     return search;
   })
+  
   .factory('ProductVideos', function($sce) {
     return function(scope) {
       return {

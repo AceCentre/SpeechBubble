@@ -11,22 +11,22 @@ table.table.table-striped
       th Can be locked to communication software?
       td {{ product.features.dedicated ? 'Yes': 'No' }} {{ product.features.dedicatedInfo ? '- ' + product.features.dedicatedInfo : '' }}
 
-    tr(ng-if='product.features.mobilePhone.mobilePhoneSIM')
+    tr(ng-if='product.features.mobilePhoneSim')
       th In-built SIM features
       td
-        span(ng-if='product.features.mobilePhoneSIMType === "smsOnly"') SMS Only
-        span(ng-if='product.features.mobilePhoneSIMType === "phoneOnly"') Phone Only
-        span(ng-if='product.features.mobilePhoneSIMType === "smsAndPhone"') SMS and Phone
+        span(ng-if='product.features.mobilePhoneSimType === "smsOnly"') SMS Only
+        span(ng-if='product.features.mobilePhoneSimType === "phoneOnly"') Phone Only
+        span(ng-if='product.features.mobilePhoneSimType === "smsAndPhone"') SMS and Phone
 
-    tr(ng-if='product.features.mobilePhone.mobilePhoneRequired')
+    tr(ng-if='product.features.mobilePhoneRequired')
       th Phone required features
       td
         +textLineIf('SMS Only', 'product.features.mobilePhoneRequiredType === "smsOnly"')
         +textLineIf('SMS and Phone', 'product.features.mobilePhoneRequiredType === "smsAndPhone"')
 
-    tr(ng-if='product.features.mobilePhone.mobilePhoneViaOther')
+    tr(ng-if='product.features.mobilePhoneViaOther')
       th Other phone features
-      td {{ product.features.mobilePhone.mobilePhoneViaOther }}
+      td {{ product.features.mobilePhoneViaOther }}
 
 
     tr(ng-if='product.features.premadeVocabulariesAvailable.length')
@@ -47,13 +47,13 @@ table.table.table-striped
       th Warranty options
       td {{ product.features.warrantyOptions }}
 
-    tr(ng-if='product.features.battery.batteryLife')
+    tr(ng-if='product.features.batteryLife')
       th Battery life (hours)
-      td {{ product.features.battery.batteryLife }}
+      td {{ product.features.batteryLife }}
 
-    tr(ng-if='product.features.battery.spareBatteryOptions')
+    tr(ng-if='product.features.spareBatteryOptions')
       th Spare battery options
-      td {{ product.features.battery.spareBatteryOptions }}
+      td {{ product.features.spareBatteryOptions }}
 
     tr(ng-if='product.features.mountingOptions.daessy')
       th Mounting
@@ -64,20 +64,20 @@ table.table.table-striped
         +textLineIf('Carrying strap available', 'product.features.mountingOptions.carryingStrap')
         em(ng-if='product.features.mountingOtherDetails') {{ product.features.mountingOtherDetails }}
 
-    tr(ng-if='product.features.dimensions.weight || product.features.dimensions.depth || product.features.dimensions.height || product.features.dimensions.width || product.features.dimensions.screenSize')
-      th Dimensions (case {{ product.features.dimensions.sizeIncludingCase ? 'included': 'not included' }})
+    tr(ng-if='product.features.weight || product.features.depth || product.features.height || product.features.width || product.features.screenSize')
+      th Dimensions (case {{ product.features.sizeIncludingCase ? 'included': 'not included' }})
       td
         dl
-          dt(ng-if='product.features.dimensions.weight') Weight
-          dd(ng-if='product.features.dimensions.weight') {{ product.features.dimensions.weight }}kg
-          dt(ng-if='product.features.dimensions.depth') Depth
-          dd(ng-if='product.features.dimensions.depth') {{ product.features.dimensions.depth }}mm
-          dt(ng-if='product.features.dimensions.height') Height
-          dd(ng-if='product.features.dimensions.height') {{ product.features.dimensions.height }}mm
-          dt(ng-if='product.features.dimensions.width') Width
-          dd(ng-if='product.features.dimensions.width') {{ product.features.dimensions.width }}mm
-          dt(ng-if='product.features.dimensions.screenSize') Screen size
-          dd(ng-if='product.features.dimensions.screenSize') {{ product.features.dimensions.screenSize }}"
+          dt(ng-if='product.features.weight') Weight
+          dd(ng-if='product.features.weight') {{ product.features.weight }}kg
+          dt(ng-if='product.features.depth') Depth
+          dd(ng-if='product.features.depth') {{ product.features.depth }}mm
+          dt(ng-if='product.features.height') Height
+          dd(ng-if='product.features.height') {{ product.features.height }}mm
+          dt(ng-if='product.features.width') Width
+          dd(ng-if='product.features.width') {{ product.features.width }}mm
+          dt(ng-if='product.features.screenSize') Screen size
+          dd(ng-if='product.features.screenSize') {{ product.features.screenSize }}"
 
     tr
       th Environmental control capabilities

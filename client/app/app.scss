@@ -35,8 +35,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
  }
 
 .ng-hide-animate {
-  -webkit-transition:all linear 0.75s;
-  transition:all linear 0.75s;
+  -webkit-transition:all linear 200ms;
+  transition:all linear 200ms;
 
   &.ng-hide {
     opacity:0;

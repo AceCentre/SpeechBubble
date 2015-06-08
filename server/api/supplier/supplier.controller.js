@@ -5,8 +5,9 @@ var Supplier = require('./supplier.model');
 
 // Get list of suppliers
 exports.index = function(req, res) {
-  var skip = req.query.skip || 0;
+  var page = req.query.page || 1;
   var limit = req.query.limit || 10;
+  var skip = (page - 1) * limit;
   var re = new RegExp(req.query.term, 'i');
   var query = [
     { name: re }
