@@ -1,4 +1,4 @@
-header.header
+header.header(ng-controller="HeaderCtrl")
   div.container
     div.row
       div.col-sm-3
@@ -8,8 +8,7 @@ header.header
       div.col-sm-9
         div(ng-include='"components/navbar/navbar.html"')
 
-        form.header-form-search(action='/products', method='GET')
-          input.header-search-input(id='term', name='term', type='text', placeholder='Search for products...', value='{{ search.term }}')
-          span.glyphicon.glyphicon-search
-          button(type='submit') Search
-          a(href='/products') view all products
+        form.header-form-search(name='form', ng-submit='submit(term, $event)')
+          input.header-search-input(id='term', ng-model='term' name='term', type='text', placeholder='Search for a product...', value='{{ search.term }}')
+          a.glyphicon.glyphicon-search(ng-click="submit(term)")
+          a.link(href='/products') view all products
