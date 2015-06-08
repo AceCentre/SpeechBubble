@@ -24,7 +24,7 @@ div.product-filters
 
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
-        label.control-label(for="type") Minimum Battery Life
+        label.control-label(for="type") Minimum Battery Life (hrs)
           div(ng-class='{ "has-error": searchForm.searchBatteryLife.$invalid }')
             input.form-control(id='searchBatteryLife', name='searchBatteryLife', type='number', ng-model='search.batteryLife')
 
@@ -33,7 +33,7 @@ div.product-filters
 
       <!-- Hardware Only -->
       .form-group(ng-if='search.type && search.type === "ProductHardware"')
-        label.control-label(for="screenSize") Minimum Screen Size
+        label.control-label(for="screenSize") Minimum Screen Size (in)
           div(ng-class='{ "has-error": searchForm.searchScreenSize.$invalid }')
             input.form-control(id='searchScreenSize', name='searchScreenSize', type='number', ng-model='search.screenSize')
 

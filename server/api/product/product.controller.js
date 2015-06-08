@@ -71,57 +71,13 @@ exports.index = function(req, res) {
 
   }
 
-  // SOFTWARE FILTERS
-  if(req.query.type === 'ProductSoftware') {
-    var imageRepresentation = req.query.imageRepresentation && JSON.parse(req.query.imageRepresentation);
-    var speechTypeOptions = req.query.speechTypeOptions && JSON.parse(req.query.speechTypeOptions);
-
-    _.each(speechTypeOptions, function(value, key) {
-      if(value) {
-        var temp = {};
-        temp['features.speechTypeOptions.' + key] = value;
-        orQuery.push(temp);
-      }
-    });
-
-    _.each(imageRepresentation, function(value, key) {
-      if(value) {
-        var temp = {};
-        temp['features.imageRepresentation.' + key] = value;
-        orQuery.push(temp);
-      }
-    });
-  }
-
-  // VOCABULARY FILTERS
-  if(req.query.type === 'ProductVocabulary') {
-    var presentation = req.query.presentation && JSON.parse(req.query.presentation);
-
-    _.each(presentation, function(value, key) {
-      if(value) {
-        var temp = {};
-        temp['features.presentation'] = key;
-        orQuery.push(temp);
-      }
-    });
-  }
-
   // NOT LOW TECH FILTERS
   if(req.query.type !== 'ProductLowTech') {
     var devices = req.query.devices;
-    var accessMethods = req.query.accessMethods && JSON.parse(req.query.accessMethods);
 
     addToQuery(query, 'features.operatingSystems', {
       $in: _.isArray(devices) ? devices: [devices]
     }, devices);
-
-    _.each(accessMethods, function(value, key) {
-      if(value) {
-        var temp = {};
-        temp['features.accessMethods.' + key] = value;
-        orQuery.push(temp);
-      }
-    });
   }
 
   orQuery = orQuery.length ? orQuery: null;
