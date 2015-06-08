@@ -30,6 +30,7 @@ angular.module('speechBubbleApp')
       search.page = Number(location.page || 1);
       search.limit = Number(location.limit || 10);
       search.type = location.type || '';
+      search.term = location.term || '';
       return search;
     };
     

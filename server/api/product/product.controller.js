@@ -45,6 +45,8 @@ exports.index = function(req, res) {
   if(facets) {
     query.facets = { '$in': _.isString(facets) ? [facets]: facets };
   }
+  
+  console.log(term);
 
   if(term) {
     orQuery.push({ $text: { $search: term } });

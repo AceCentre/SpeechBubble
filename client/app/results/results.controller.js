@@ -24,6 +24,9 @@ angular.module('speechBubbleApp')
       if(!location.type) {
         delete location.type;
       }
+      if(!location.term) {
+        delete location.term;
+      }
       $location.search(location);
     };
     
