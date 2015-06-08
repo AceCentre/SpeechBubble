@@ -17,16 +17,16 @@ angular.module('speechBubbleApp')
   })
   
   .factory('ProductSearch', function($rootScope, $location) {
-    var search = {};
+    var search = { 'facets': {} };
     
     var get = function(){
       var location = $location.search();
-      var facets = {};
-      angular.forEach(location.facets, function(key) {
-        facets[key] = true;
+      angular.forEach(search.facets, function(value, key) {
+        delete search.facets[key];
+      });    
+      angular.forEach(location.facets, function(value) {
+        search.facets[value] = true;
       });
-      delete location.facets;      
-      angular.copy(facets, search.facets);
       search.page = Number(location.page || 1);
       search.limit = Number(location.limit || 10);
       search.type = location.type || '';

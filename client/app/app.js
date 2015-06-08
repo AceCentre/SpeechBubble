@@ -223,7 +223,7 @@ angular.module('speechBubbleApp', [
       // Intercept 401s and redirect you to login
       responseError: function(response) {
         if(response.config.url === '/api/users/me') {
-          return; // do not redirect to login for status check
+          return $q.reject(response); // do not redirect to login for status check
         }
         if(response.status === 401) {
           growl.error('You are currently logged out. Please <a href="/login" target="_self">login</a>.', {ttl: -1});

@@ -26,20 +26,6 @@ angular.module('speechBubbleApp')
     $scope.performSearch();
   };
 
-
-  // Clear search filters when type is changed
-  $scope.$watch('search.type', function() {
-    var doNotClear = ['type', 'term', 'page', 'limit'];
-    angular.forEach($scope.search, function(value, key) {
-      if(key === 'type') {
-        return;
-      }
-      if(doNotClear.indexOf(key) === -1) {
-        delete $scope.search[key];
-      }
-    });
-  });
-
   $scope.create = function() {
     var modalInstance = $modal.open({
       templateUrl: 'app/admin/products/create.html',
