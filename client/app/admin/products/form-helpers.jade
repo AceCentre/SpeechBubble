@@ -1,6 +1,6 @@
 include ../../mixins/form-helpers
 
-mixin productDetails()   
+mixin productDetails()
   +input('product', 'text', 'name', 'Name', 'form')
   +textarea('product', 'description', 'Description', 'form')
   .form-group
@@ -118,6 +118,7 @@ mixin accessMethodOptions(dependsOn)
 mixin price()
   .panel.panel-default
     .panel-heading Guide price
+      span(glossary='557031a827f0a51b74cbba80')
     .panel-body
       +input('product.features.price', 'number', 'gbp', 'GBP (£)')
       +input('product.features.price', 'number', 'aud', 'AUD ($)')
@@ -131,7 +132,7 @@ mixin price()
 
 mixin enviroControl()
   .panel.panel-default
-    .panel-heading 
+    .panel-heading
       | Environmental control capabilities
       span(glossary='556782dc5719a8bb50f5e54a')
     .panel-body
@@ -143,8 +144,8 @@ mixin enviroControl()
 
 mixin accessMethods()
   .panel.panel-default
-    .panel-heading 
-      | Access methods supported      
+    .panel-heading
+      | Access methods supported
       span(glossary='556781785719a8bb50f5e542')
     .panel-body
       <!-- Touch -->
@@ -195,7 +196,7 @@ mixin accessMethods()
 mixin accessMethodsHardware()
   .panel.panel-default
     .panel-heading
-      | Access methods supported      
+      | Access methods supported
       span(glossary='556781785719a8bb50f5e542')
     .panel-body
       <!-- Touch -->
@@ -247,15 +248,15 @@ mixin sharedHardware()
       +textarea('product.features', 'warrantyOptions', 'Warranty options')
 
   .panel.panel-default
-    .panel-heading 
-      | Battery 
+    .panel-heading
+      | Battery
       span(glossary='556781f95719a8bb50f5e545')
     .panel-body
       +input('product.features', 'number', 'batteryLife', 'Battery life (hours)')
       +textarea('product.features', 'spareBatteryOptions', 'Spare battery options')
 
   .panel.panel-default
-    .panel-heading 
+    .panel-heading
       | Mounting
       span(glossary='556783cc5719a8bb50f5e553')
     .panel-body
@@ -348,7 +349,7 @@ mixin imageRepresentationSupported()
 
 mixin supportedOperatingSystems()
   .panel.panel-default
-    .panel-heading 
+    .panel-heading
       | Operating systems
       span(glossary='5567840f5719a8bb50f5e556')
     .panel-body
@@ -359,7 +360,7 @@ mixin supportedOperatingSystems()
 
 mixin deviceSupportedOperatingSystems()
   .panel.panel-default()
-    .panel-heading 
+    .panel-heading
       | Does the device have an operating system?
       span(glossary='5567840f5719a8bb50f5e556')
     .panel-body
@@ -375,7 +376,7 @@ mixin deviceSupportedOperatingSystems()
 
       <!-- from the messageLevels mixin -->
       .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
-        .panel-heading 
+        .panel-heading
           | Message levels
           span(glossary='556783b65719a8bb50f5e552')
         .panel-body
@@ -400,6 +401,7 @@ mixin deviceSupportedOperatingSystems()
 mixin dedicated()
   .panel.panel-default(ng-show='product.features.hasOperatingSystem', destroy='dedicated')
     .panel-heading Hardware can be locked to communication software
+      span(glossary='556782555719a8bb50f5e548')
     .panel-body
       +switch('product.features', 'dedicated')
       .panel.panel-default(ng-show='product.features.dedicated', destroy='dedicatedInfo')
@@ -469,7 +471,7 @@ mixin productRevisions(model)
             td.actions
               input(type='radio', name='CompareRevision1', ng-click='compare.rev1 = rev._id', ng-disabled='compare.rev2 === rev._id')
               input(type='radio', name='CompareRevision2', ng-click='compare.rev2 = rev._id', ng-disabled='compare.rev1 === rev._id')
-            td 
+            td
               a(ng-href='/products/{{ current.slug }}/{{ rev._id }}', target='_blank') {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
               | &nbsp; by {{ rev.author.firstName }} {{ rev.author.lastName }}
             td
@@ -485,7 +487,7 @@ mixin productRevisions(model)
 
 mixin messageLevels()
   .panel.panel-default(ng-show='!product.features.hasOperatingSystem', destroy='messageLevels')
-    .panel-heading 
+    .panel-heading
       | Message levels
       span(glossary='556783b65719a8bb50f5e552')
     .panel-body
