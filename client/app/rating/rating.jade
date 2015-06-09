@@ -8,6 +8,12 @@ mixin productRatingDisplay(name, label)
       span.form-rating(rating, ng-model="review.#{name}", min="1", max="5")
 
 block content
+  ol.breadcrumb
+    li: a(ui-sref='main') Home
+    li: a(ui-sref='products') Products
+    li: a(ui-sref='productDetail({ id: ratings.product.slug })') {{ ratings.product.name }}
+    li.active Reviews
+    
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') Create review
   h1 {{ ratings.product.name }}
   div.ratings(rating, ng-model="ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !ratings.average }')
