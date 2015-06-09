@@ -1,12 +1,8 @@
 extends ../../layout/2_column
+extends ../../layout/1_column
 include ../mixins/results-helpers
 include ../mixins/form-helpers
 include ../admin/products/form-helpers
-
-block append sidebar
-  div.sidebar.col-sm-12
-    h2 Narrow results
-    div(ng-include='"components/forms/product-filters.html"')
 
 block append left-pane
   div.product-comparing-list.sidebar.col-sm-12(ng-if='comparing.length')

@@ -14,19 +14,110 @@
 .header {
   padding-top: 20px;
   padding-bottom: 13px;
-  margin-bottom: 20px;
   background: #fff;
   border-top: 4px solid $backgroundColor;
   position: relative;
+  border-bottom: 10px solid $secondaryColor;
+  
+  div {
+    outline: none;
+  }
 
   form {
-    a {
-      color: $secondaryColor;
+    clear: both;
+    padding-top: 20px;
+    padding-right: 125px;
+    position: relative;
+    outline: none;
+    
+    .form-control-feedback {
+      height: 42px;
+      width: 42px;
+      line-height: 42px;
+    }
+    
+    .form-group, .input-group {
+      width: 100%;
+      
+      .btn-filter {
+        width: 100px;
+        
+        .caret {
+          position: relative;
+          left: 5px;
+        }
+      }
+      
+      &.open .btn-filter {
+        border-bottom-color: $backgroundColor;
+      }
+    }
+    
+    .form-control {
+      height: 42px;
+    }
+    
+    .control-label {
+      display: block;
+    }
+    
+    .input-group.open > .dropdown-menu {
+      width: 100%;
+      border-radius: 0;
+      margin-top: 0;
+      padding: 20px;
+      box-shadow: none;
+      border: 1px solid #ccc;
+      border-top: 0;
+      background: $backgroundColor;
+      
+      .ui-select-container {
+        z-index: 1001;
+      }
+      
+      .ui-select-choices {
+        background: #ffffff;
+      }
     }
 
-    a:hover, a:active, a:focus {
-      color: $primaryColor;
+    .input-group-addon {
+      border-radius: 0;
+      background: $backgroundColor;
+      
+      &:hover {
+        cursor: pointer;
+      }
     }
+    
+    .link {
+      position: absolute;
+      right: 0;
+      top: 20px;
+      font-weight: bold;
+      line-height: 42px;
+      color: $secondaryColor;
+    }
+    
+    a.glyphicon-search {
+      z-index: 100;
+      
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    
+    .btn + .btn {
+      margin-left: 10px;
+    }
+    
+    .product-advanced-actions {
+      text-align: right
+    }
+    
+    .product-advanced-filters .form-group {
+      @include clearfix;
+    }
+    
   }
 }
 
@@ -45,77 +136,3 @@
   }
 }
 
-.header-form-search {
-  clear: both;
-  padding-top: 18px;
-  position: relative;
-
-  .glyphicon.glyphicon-search {
-    position: relative;
-    top: 2px;
-    margin-left: -35px;
-    background: darken($backgroundColor, 45%);
-    color: #ffffff;
-    width: 35px;
-    line-height: 35px;
-    outline: none;
-    text-align: center;
-    
-    &:hover, &:focus {
-      cursor: pointer;
-      text-decoration: none;
-      background: darken($backgroundColor, 55%);
-    }
-    
-    &:active {
-      background: darken($backgroundColor, 65%);
-    }
-
-  }
-
-  .header-search-input {
-    background: $backgroundColor;
-    color: $secondaryColor;
-    border: 0;
-    padding: 8px 12px;
-    width: 81%;
-    @include transition(box-shadow ease 300ms);
-
-    @media (max-width: $screen-sm-max) {
-        width: 75%;
-    }
-
-    @media (max-width: $screen-xs-max) {
-        width: 100%;
-    }
-
-    &:active, &:focus {
-      outline: 0;
-      box-shadow: inset 0 0 5px rgba(0,0,0,.2);
-    }
-
-    @include input-placeholder {
-      color: $secondaryColor;
-      font-weight: bold;
-    }
-  }
-
-  .link {
-    font-weight: bold;
-    display: inline-block;
-    padding-right: 0;
-    text-align: right;
-    line-height: 37px;
-    width: 19%;
-
-    @media (max-width: $screen-sm-max) {
-        width: 25%;
-    }
-
-    @media (max-width: $screen-xs-max) {
-        width: 100%;
-        text-align: center;
-    }
-  }
-
-}
