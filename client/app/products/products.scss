@@ -70,9 +70,11 @@ Split compare within iframe
   border-radius: 0;
   background: $secondaryColor;
   border: 0;
+  text-transform: uppercase;
   
   .navbar-brand {
     color: #ffffff;
+    font-size: 1em;
     
     &:hover {
       color: #ffffff;
