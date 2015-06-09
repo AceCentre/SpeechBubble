@@ -68,6 +68,16 @@ Split compare within iframe
 .navbar-compare {
   z-index: 102;
   border-radius: 0;
+  background: $secondaryColor;
+  border: 0;
+  
+  .navbar-brand {
+    color: #ffffff;
+    
+    &:hover {
+      color: #ffffff;
+    }
+  }
   
   &.affix-top {
     width: 100%;
@@ -124,10 +134,11 @@ Split compare within iframe
 }
 
 .nav.navbar-nav.navbar-right a {
-  color: $secondaryColor;
+  color: #ffffff;
   outline: none;
   
   &:hover {
     text-decoration: underline;
+    color: #ffffff;
   }
 }
