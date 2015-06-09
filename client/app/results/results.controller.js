@@ -47,10 +47,6 @@ angular.module('speechBubbleApp')
       });
     }, 100);
 
-    $scope.getThumbnail = function(item) {
-      return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
-    };
-
     $scope['delete'] = Modal.confirm['delete'](function(item) {
       api.remove({ id: item._id });
       angular.forEach($scope.items, function(current, index) {

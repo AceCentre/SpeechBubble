@@ -4,25 +4,23 @@ include ../mixins/results-helpers
 include ../mixins/form-helpers
 include ../admin/products/form-helpers
 
-block append left-pane
-  div.product-comparing-list.sidebar.col-sm-12(ng-if='comparing.length')
-    h2 Comparing {{ comparing[0].type | type | lowercase }} products
-    div.list-group()
-      a(href="#", ng-click='clearCompare(product)', ng-repeat='product in comparing track by $index').list-group-item
-        span.glyphicon.glyphicon-remove
-        h3.list-group-item-heading {{ product.name | more:15 }}
-
-    a.btn.btn-primary(ng-if='comparing.length > 1', ng-click='goCompare()') View comparison
-    a.btn.btn-tertiary(ng-if='comparing.length > 1', ng-click='clearCompare()') Remove all
-
 block content
   ol.breadcrumb
     li: a(ui-sref='main') Home
     li.active Products
     
-  p current filters:
-  ul(ng-repeat='(filter, value) in search.facets')
-    li(ng-if='value') {{ filter | facets }}
+  nav.navbar.navbar-default.navbar-compare(ng-if='comparing.length', affix)
+    .container
+      .navbar-header
+        .navbar-brand
+          | Comparing {{ comparing[0].type | type | lowercase }} products
+      ul.nav.navbar-nav.navbar-left
+        li(ng-repeat='product in comparing track by $index', ng-click='clearCompare(product)')
+          img.media-object(ng-src='{{ getThumbnail(product) }}', width='40', height='40')
+            
+      ul.nav.navbar-nav.navbar-right
+        li: a(ng-if='comparing.length > 1', href='#') View comparison
+        li: a(ng-if='comparing.length > 1', ng-click='clearCompare()',  href='#') Remove all
     
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
   h1 Products
@@ -38,3 +36,5 @@ block content
         +pagination()
         +media()
         +pagination()
+
+  

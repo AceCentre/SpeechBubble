@@ -2,7 +2,7 @@
 
 angular.module('speechBubbleApp')
 
-.controller('ProductsCtrl', function ($scope, $http, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch, PageTitle) {
+.controller('ProductsCtrl', function ($scope, $sce, $http, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch, PageTitle) {
 
   PageTitle('Product Search');
 
@@ -14,6 +14,10 @@ angular.module('speechBubbleApp')
 
   $scope.performSearch = function() {
     $rootScope.$broadcast('resultsUpdated');
+  };
+  
+  $scope.getThumbnail = function(item) {
+    return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
   };
 
   $scope.clearSearchFilters = function() {
@@ -71,11 +75,9 @@ angular.module('speechBubbleApp')
     if($scope.isComparingProduct(product)) {
       var i = $scope.comparing.indexOf(product);
       $scope.comparing.splice(i, 1);
-      return growl.warning('Removed product to comparison.');
     } else if($scope.comparing.length >= 4) {
       return growl.warning('You can only compare 4 items at a time.');
     } else if( $scope.canCompareProduct(product) ) {
-      growl.success('Added product to comparison.');
       $scope.comparing.push(product);
     } else {
       growl.warning('You can only compare products that are the same type.');

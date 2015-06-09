@@ -64,3 +64,69 @@ Split compare within iframe
     padding-bottom: 0;
   }
 }
+
+.navbar-compare {
+  z-index: 102;
+  
+  &.affix-top {
+    width: 100%;
+  }
+  
+  .container {
+    max-width: 100%;
+  }
+  
+  &.affix, &.affix-bottom {
+    width: 100%;
+    left: 0;
+    top: 0 !important;
+    position: fixed;
+  }
+  
+}
+
+.nav.navbar-nav.navbar-left {
+  li {
+    padding: 5px;
+    position: relative;
+    text-align: center;
+    transition: opacity ease 200ms;
+    outline: none;
+    
+    &:hover {
+      opacity: .5;
+      cursor: pointer;
+      
+      &:before {
+        position: absolute;
+        height: 40px;
+        line-height: 40px;
+        width: 40px;
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        content: "\e014";
+        left: 5px;
+        top: 5px;
+        z-index: 1;
+        color: $primaryColor;
+      }
+    }
+    
+    a {
+      padding: 0;
+    }
+  }
+}
+
+.nav.navbar-nav.navbar-right a {
+  color: $secondaryColor;
+  outline: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
