@@ -5,9 +5,12 @@ var Glossary = require('./glossary.model');
 
 // Get list of glossarys
 exports.index = function(req, res) {
-  var page = req.query.page || 1;
-  var limit = req.query.limit || 10;
-  var skip = (page - 1) * limit;
+  var page = req.query.page || 0;
+  var limit = req.query.limit || 0;
+  var skip = 0;
+  if(page) {
+     skip = (page - 1) * limit;
+  }
   Glossary.find().count(function(err, total) {
     Glossary.find().sort('title').limit(limit).skip(skip).exec(function (err, items) {
       if(err) { return handleError(res, err); }
