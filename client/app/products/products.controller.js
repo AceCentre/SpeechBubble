@@ -56,7 +56,7 @@ angular.module('speechBubbleApp')
     }
   };
 
-  $scope.goCompare = function() {
+  $scope.viewComparison = function() {
     var modal = ProductCompareTemplate($scope.comparing[0]);
 
     var modalInstance = $modal.open({

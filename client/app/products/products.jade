@@ -19,7 +19,7 @@ block content
           img.media-object(ng-src='{{ getThumbnail(product) }}', width='40', height='40')
             
       ul.nav.navbar-nav.navbar-right
-        li: a(ng-if='comparing.length > 1', href='#') View comparison
+        li: a(ng-if='comparing.length > 1', href='#', ng-click='viewComparison()') View comparison
         li: a(ng-if='comparing.length > 1', ng-click='clearCompare()',  href='#') Remove all
     
   button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
