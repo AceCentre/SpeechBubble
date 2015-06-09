@@ -13,7 +13,8 @@ angular.module('speechBubbleApp')
         return $scope.search.term = term;
       }
       if(!term) {
-        return $location.url('/products');
+        $scope.applyFilters();
+        $state.go('products');
       }
 		  return $location.url('/products').search({ 'term': term  })
 	  };
