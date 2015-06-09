@@ -2,14 +2,14 @@ mixin media()
   .media.product-listing(ng-repeat='item in items')
     .media-left
       a(ng-href='/products/{{ item.slug }}')
-        img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
+        img.media-object(ng-src='{{ getThumbnail(item) }}', width='128', height='128')
+      div.ratings(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
     .media-body
       div.row
         div.col-md-9.item-listing-description
           h4.media-heading: a(ng-href='/products/{{ item.slug }}') {{ item.name }}
           p {{ item.description | more:240 }}
         div.col-md-3
-          div.ratings(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
           dl
             dt Type
             dd {{ item.type | type }}
@@ -29,7 +29,7 @@ mixin mediaSimple()
   .media.product-listing.product-listing-simple(ng-repeat='item in items | limitTo: 5')
     .media-left
       a(ng-href='/products/{{ item.slug }}')
-        img.media-object(ng-src='{{ getThumbnail(item) }}', width='64', height='64')
+        img.media-object(ng-src='{{ getThumbnail(item) }}', width='32', height='32')
     .media-body
       div.row
         div.col-md-12

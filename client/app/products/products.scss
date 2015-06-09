@@ -19,8 +19,27 @@
 
 .product-listing .ratings {
   display: block;
-  margin-top: 2px;
-  margin-bottom: 3px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.product-listing {
+  .media-left {
+  	padding-right: 20px;
+  	text-align: center;
+  }
+  
+  dl {
+  	margin-bottom: 0;
+  }
+  
+  dd {
+  	margin-bottom: 5px;
+  }
+  
+  hr {
+    margin: 15px 0;
+  }
 }
 
 .product-listing-simple .media-heading {
