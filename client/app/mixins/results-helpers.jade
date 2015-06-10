@@ -45,10 +45,8 @@ mixin pagination()
   hr
 
 mixin pageListingNotice(type)
-  div(ng-hide='total || initial')
-    p No #{type} found.
-
-  p(ng-hide='!total', page-count='', page-type='#{type}')
+  p.text-center(ng-hide='total || initial') No #{type} found.
+  p.text-center(ng-hide='!total', page-count='', page-type='#{type}')
 
 mixin ratings(average, id)
   div.ratings(rating, ng-model="#{average}", max="5", readonly="true", ng-class='{ "no-ratings": !#{average} }')
