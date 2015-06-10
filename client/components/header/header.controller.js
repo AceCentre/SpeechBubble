@@ -19,6 +19,16 @@ angular.module('speechBubbleApp')
 		  return $location.url('/products').search({ 'term': term  })
 	  };
     
+    $scope.clearSearchRetainType = function() {
+      var s = $scope.search;
+      delete s.page;
+      delete s.limit;
+      
+      angular.forEach(s.facets, function(value, key) {
+        delete s.facets[key];
+      });
+    };
+    
     $scope.applyFilters = function() {
       angular.copy($scope.search, ProductSearch);
     };
@@ -30,7 +40,4 @@ angular.module('speechBubbleApp')
       });
     };
     
-    $scope.$watch('search.term', function(term) {
-      $scope.term = term;
-    });
   });

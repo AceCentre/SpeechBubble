@@ -8,7 +8,7 @@ header.header(ng-controller="HeaderCtrl")
       div.col-sm-9
         div(ng-include='"components/navbar/navbar.html"')
           
-        form(name='form', ng-submit='submit(term, $event)')
+        form(name='form', ng-submit='submit(search.term, $event)')
           .form-group
             .input-group(dropdown, auto-close="disabled")
               span.input-group-addon.btn-filter(dropdown-toggle)
@@ -16,6 +16,6 @@ header.header(ng-controller="HeaderCtrl")
                 span.caret
               div.dropdown-menu
                 div(ng-include='"components/forms/product-filters.html"')
-              input.form-control(id='term', ng-model='term' name='term', type='text', placeholder='Search for a product...', value='{{ search.term }}')
+              input.form-control(id='term', ng-model='search.term' name='term', type='text', placeholder='Search for a product...')
               span.glyphicon.glyphicon-search.form-control-feedback
           a.link(ui-sref='products()') view all products
