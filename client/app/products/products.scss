@@ -87,7 +87,7 @@ Split compare within iframe
 .navbar-compare {
   z-index: 102;
   border-radius: 0;
-  background: $secondaryColor;
+  background: $footerBackgroundColor;
   border: 0;
   text-transform: uppercase;
   clear: both;
@@ -159,7 +159,7 @@ Split compare within iframe
   color: #ffffff;
   outline: none;
   
-  &:hover {
+  &:hover, &:active, &:focus {
     text-decoration: underline;
     color: #ffffff;
   }
