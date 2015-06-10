@@ -9,26 +9,9 @@ angular.module('speechBubbleApp')
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
-  $scope.devices = ProductOptions.devices;
-  $scope.search = ProductSearch;
-
-  $scope.performSearch = function() {
-    $rootScope.$broadcast('resultsUpdated');
-  };
   
   $scope.getThumbnail = function(item) {
     return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
-  };
-
-  $scope.clearSearchFilters = function() {
-    angular.forEach($scope.search, function(value, key) {
-      if(key !== 'term') {
-        delete $scope.search[key];
-      }
-    });
-    $scope.search.term = '';
-    $scope.search.type = '';
-    $scope.performSearch();
   };
 
   $scope.create = function() {
