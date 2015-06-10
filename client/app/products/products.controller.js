@@ -122,7 +122,8 @@ angular.module('speechBubbleApp')
         current: function() {
           return product;
         }
-      }
+      },
+      backdrop: 'static'
     });
     modalInstance.result.then(function (product) {
       $scope.product = product;
