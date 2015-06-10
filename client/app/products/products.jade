@@ -9,25 +9,27 @@ block content
     li: a(ui-sref='main') Home
     li.active Products
     
-  nav.navbar.navbar-default.navbar-compare(ng-if='comparing.length', affix)
-    .container
-      .navbar-header
-        .navbar-brand
-          | Comparing {{ comparing[0].type | type | lowercase }} products
-      ul.nav.navbar-nav.navbar-left
-        li(ng-repeat='product in comparing track by $index', ng-click='clearCompare(product)')
-          img.media-object(ng-src='{{ getThumbnail(product) }}', width='40', height='40')
-            
-      ul.nav.navbar-nav.navbar-right
-        li: a(ng-if='comparing.length > 1', href='#', ng-click='viewComparison()') View comparison
-        li: a(ng-if='comparing.length > 1', ng-click='clearCompare()',  href='#') Remove all
-    
-  button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
-  h1 Products
+  
 
   div(ng-controller='ResultsCtrl')
-
+  
+    button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
+    h1 Products
     +pageListingNotice('products')
+    
+    nav.navbar.navbar-default.navbar-compare(ng-if='comparing.length', affix)
+      .container
+        .navbar-header
+          .navbar-brand
+            | Comparing {{ comparing[0].type | type | lowercase }} products
+        ul.nav.navbar-nav.navbar-left
+          li(ng-repeat='product in comparing track by $index', ng-click='clearCompare(product)')
+            img.media-object(ng-src='{{ getThumbnail(product) }}', width='40', height='40', title='{{ product.name }}')
+              
+        ul.nav.navbar-nav.navbar-right
+          li: a(ng-if='comparing.length > 1', href='#', ng-click='viewComparison()') View comparison
+          li: a(ng-if='comparing.length > 1', ng-click='clearCompare()',  href='#') Remove all
+
     div(ng-hide='!total')
       div(ng-if='isLoading')
         img.loading.ng-hide-animate(ng-show='isLoading', src='/assets/images/loading.gif', width='39', height='39')
