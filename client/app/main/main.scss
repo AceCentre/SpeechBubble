@@ -21,4 +21,26 @@
   .product-advanced-actions {
     display: none;
   }
+  
+}
+
+.main-search {
+  text-align: center;
+  .control-label {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    margin-top: 20px;
+  }
+  .radio {
+    display: inline-block;
+    
+    input {
+      margin-top: 3px;
+    }
+    
+    & + .radio {
+      margin-left: 20px;
+    }
+  }
 }

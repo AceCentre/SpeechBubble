@@ -1,24 +1,25 @@
-extends ../../layout/2_column
+extends ../../layout/1_column
 include ../../app/mixins/results-helpers
 include ../../app/mixins/form-helpers
 include ../../app/admin/products/form-helpers
 
 block content
-  h1 Product Search
-  div.row.page-main
-    div.col-sm-7
-      h3 Select your options
-      hr
-      div(ng-include='"components/forms/product-filters.html"')
-    div.col-sm-5
-      h3 Results
-      hr
-      div(ng-controller='ResultsCtrl')
-        div(ng-hide='!total')
-          +mediaSimple()
+  section.main-search  
+    h1 Search
+    
+    form  
+      .form-group
+        .control-label Do you want options that provide pre-created/organised vocabulary?
+        +switch('search', 'premadeVocabularies')
+        
+      .form-group(ng-if="search.premadeVocabularies")
+        .control-label How should the vocabulary primarily be presented? 
+        +radio('search', 'presentation', 'textOnly', 'Text only')
+        +radio('search', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
+        +radio('search', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
   div.row.page-main
     div.col-sm-12
       hr
       div.text-center
-        a.btn.btn-secondary(ng-click='viewAll()') View all
-        a.btn.btn-tertiary(ng-click='clearSearchFilters()') Clear
+        a.btn.btn-primary.btn-lg(ng-click='search()') Search
+        a.btn.btn-secondary.btn-lg(ng-click='viewAll()') View all
