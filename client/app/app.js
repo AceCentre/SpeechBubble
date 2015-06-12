@@ -40,7 +40,7 @@ angular.module('speechBubbleApp', [
       controller: 'PageCtrl'
     })
 
-    .state('main_search', {
+    .state('search', {
       url: '/search',
       templateUrl: 'app/main/main-search.html',
       controller: 'PageCtrl'

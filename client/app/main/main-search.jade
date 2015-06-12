@@ -4,19 +4,91 @@ include ../../app/mixins/form-helpers
 include ../../app/admin/products/form-helpers
 
 block content
+  ol.breadcrumb
+      li: a(ui-sref='main') Home
+      li.active Search
+
   section.main-search  
     h1 Search
+    
+    | {{search|json}}
     
     form  
       .form-group
         .control-label Do you want options that provide pre-created/organised vocabulary?
         +switch('search', 'premadeVocabularies')
         
+      // YES - PREMADE VOCABULARIES
       .form-group(ng-if="search.premadeVocabularies")
         .control-label How should the vocabulary primarily be presented? 
         +radio('search', 'presentation', 'textOnly', 'Text only')
         +radio('search', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
         +radio('search', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
+        
+      // TEXT ONLY
+      .form-group(ng-if='search.presentation === "textOnly"')
+        .control-label How should the text be primarily be presented?
+        +radio('search', 'presentationText', 'keyboard', 'Keyboard')
+        +radio('search', 'presentationText', 'singleWords', 'Single words')
+        +radio('search', 'presentationText', 'phrases', 'Phrases')
+        
+      // PRESENTATION -> KEYBOARD
+      .form-group(ng-if='search.presentationText === "keyboard"')
+        .control-label Does the vocabulary system allow for abbreviation expansion (e.g. omy expands to "On my way!")
+        +switch('search', 'abbrExpansion')
+        
+      .form-group(ng-if='search.presentationText === "keyboard"')
+        .control-label Does the vocabulary system allow for word prediction?
+        +switch('search', 'wordPrediction')
+        
+      // PRESENTATION -> SINGLE WORDS
+      .form-group(ng-if='search.presentationText === "singleWords"')
+        .control-label Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
+        +switch('search', 'presentRelatedWords')
+        
+      .form-group(ng-if='search.presentationText === "singleWords"')
+        .control-label How are words on the start page largely organised?
+        .panel-body
+        +radio('search', 'wordsOrganisedStart', 'core', 'Core words')
+        +radio('search', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
+
+      .form-group(ng-if='search.presentationText === "singleWords"')
+        .control-label How are words organised across the rest of the device?
+        +radio('search', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
+        +radio('search', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+        +radio('search', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+        
+      // PRESENTATION -> PHRASES ONLY
+      .form-group(ng-if='search.presentationText === "phrases"')
+        .control-label Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
+        +switch('product.features', 'presentRelatedPhrases')
+
+      .form-group(ng-if='search.presentationText === "phrases"')
+        .control-label How are phrases on the start page largely organised?
+        +radio('product.features', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
+        +radio('product.features', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
+        +radio('product.features', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
+
+      .form-group(ng-if='search.presentationText === "phrases"')
+        .control-label How are phrases organised across the rest of the device?
+        +radio('product.features', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
+        +radio('product.features', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+        +radio('product.features', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+
+      // NO - PREMADE VOCABULARIES
+      .form-group(ng-if="search.premadeVocabularies === false")
+        .control-label Should language be presented with:
+        +radio('search', 'presentation', 'textOnly', 'Text only')
+        +radio('search', 'presentation', 'textAndSymbolsOrPhotos', 'Symbols or Photos')
+        +radio('search', 'presentation', 'auditory', 'Auditory')
+        
+      .form-group
+        .control-label How will the user access the device? 
+          ui-select(multiple, reset-search-input='true', ng-model="search.access")
+            ui-select-match(placeholder="Select types") {{$item.name}}
+            ui-select-choices(repeat="item in options.access")
+              div {{item.name}}
+        
   div.row.page-main
     div.col-sm-12
       hr

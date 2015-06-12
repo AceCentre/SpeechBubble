@@ -3,8 +3,24 @@
 angular.module('speechBubbleApp')
 .controller('MainCtrl', function ($rootScope, $scope, $state, $location, $http, ProductOptions, ProductSearch) {
   $scope.endpoint = '/api/product/:id';
-  $scope.search = ProductSearch;
+  $scope.search = angular.copy(ProductSearch);
   $scope.devices = ProductOptions.devices;
+  $scope.state = {
+    'step': 1
+  };
+  
+  $scope.step = function(step) {
+    return $scope.state.step = step || $scope.state.step;
+  };
+  
+  $scope.options = {
+    'access': [{
+      'name': 'touch',
+      'facet': 'access-types-touch'
+    }]
+  };
+  
+  
 
   $scope.clearSearchFilters = function() {
     angular.forEach($scope.search, function(value, key) {

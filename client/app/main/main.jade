@@ -6,18 +6,4 @@ include ../../app/admin/products/form-helpers
 block content
   div.jumbotron
     div(ng-bind-html='content')
-    button.btn.btn-secondary.btn-lg(ng-click='isSearchVisible = true', ng-show="!isSearchVisible") Begin Search
-    
-    section.main-search(ng-show="isSearchVisible")    
-      h1 Search
-      
-      form  
-        .form-group
-          .control-label Do you want options that provide pre-created/organised vocabulary?
-          +switch('search', 'premadeVocabularies')
-          
-        .form-group(ng-if="search.premadeVocabularies")
-          .control-label How should the vocabulary primarily be presented? 
-          +radio('search', 'presentation', 'textOnly', 'Text only')
-          +radio('search', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
-          +radio('search', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
+    a.btn.btn-secondary.btn-lg(ui-sref='search') Begin Search
