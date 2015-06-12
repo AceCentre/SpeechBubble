@@ -68,14 +68,13 @@ angular.module('speechBubbleApp')
       extraAllowedContent: '*[id](*)'
     };
 
-    $scope.save = function(form, message) {
-      $scope.submitted = true;
-      $scope.isSaving = true;
+    $scope.save = function(form, shouldPublish) {
+      $scope.submitted = true;      
       if(form.$valid) {
+        $scope.isSaving = true;
         Page.update($scope.page, function(res, close) {
-          if($scope.shouldPublish) {
+          if(shouldPublish) {
             $scope.publish('the current draft', res.revisions[res.revisions.length - 1]);
-            $scope.shouldPublish = false;
           } else {
             growl.success('Page updated.');
             $modalInstance.close();
