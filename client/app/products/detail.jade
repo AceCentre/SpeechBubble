@@ -9,34 +9,32 @@ block content
       li.active {{ product.name }}
       
   button.btn.btn-primary.pull-right(ng-click='edit(product)', ng-if='isLoggedIn()') Edit
-  h1 {{ product.name }}
-  .text-center
-    +ratings('product.ratings.average', 'product._id')
 
-  hr
-
-  div.product-summary
-    div.img-thumbnail(carousel, ng-if='product.images.length || product.videos.length')
+  .product-summary
+    .img-thumbnail(carousel, ng-if='product.images.length || product.videos.length')
       div(slide, ng-repeat='image in product.images' active='slide.active')
         img(ng-src="{{ image.url }}", width='200', height='200')
       div(slide, ng-repeat='video in product.videos' active='slide.active')
         iframe(id='ytplayer', type='text/html', width='320', height='195', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
-
-    img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
-      
     
-
-    dl.dl-inline()
-      dt Product Type
-      dd {{ product.type | type }}
-      dt(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro') Price
-      dd(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
-        +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
-        +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
-        +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
-        +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
-
-    p {{ product.description }}
+    
+    img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
+        
+    .product-details
+      h1 {{ product.name }}
+      +ratings('product.ratings.average', 'product._id')
+  
+      dl.dl-inline
+        dt Product Type
+        dd {{ product.type | type }}
+        dt(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro') Price
+        dd(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
+          +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
+          +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
+          +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
+          +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
+  
+      p {{ product.description }}
 
   article(ng-if='product.type === "ProductHardware"', ng-include='"app/products/hardware/detail.html"')
   article(ng-if='product.type === "ProductAccessSolution"', ng-include='"app/products/access-solution/detail.html"')

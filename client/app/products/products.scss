@@ -1,6 +1,19 @@
 .product-summary {
   @include clearfix();
   margin-top: 20px;
+  
+  .product-details {
+    padding-left: 230px;
+  }
+  
+  h1 {
+    font-size: 2em;
+    text-align: left;
+  }
+  
+  dd {
+    margin-bottom: 0;
+  }
 }
 
 .product-summary .img-thumbnail {
