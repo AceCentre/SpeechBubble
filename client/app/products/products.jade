@@ -5,16 +5,13 @@ include ../mixins/form-helpers
 include ../admin/products/form-helpers
 
 block content
+  button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
   ol.breadcrumb
     li: a(ui-sref='main') Home
     li: a(ui-sref='search') Search
     li.active Products
     
-  
-
   div(ng-controller='ResultsCtrl')
-  
-    button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
     h1 Products
     +pageListingNotice('products')
     

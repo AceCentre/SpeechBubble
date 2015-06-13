@@ -42,7 +42,6 @@ mixin pagination()
   hr
   .text-center
     pagination.pagination-sm(total-items='total', max-size='10', items-per-page='search.limit', ng-model='search.page', boundary-links='true')
-  hr
 
 mixin pageListingNotice(type)
   p.text-center(ng-hide='total || initial') No #{type} found.
