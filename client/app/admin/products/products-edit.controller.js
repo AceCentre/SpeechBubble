@@ -153,15 +153,15 @@ angular.module('speechBubbleApp')
         $scope.product.suppliers = revision.suppliers;
       });
       if( isLatestRevision(current, revision) ) {
-        growl.success('Set published revision as working draft.', { 'ttl': 3000 });
+        growl.success('Set published version as working draft.', { 'ttl': 3000 });
       } else {
-        growl.error('Set unpublished revision as working draft.', { 'ttl': 5000 })
+        growl.error('Set unpublished version as working draft.', { 'ttl': 5000 })
       }
     };
 
     $scope.refreshSuppliers = function(term) {
-      Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {
-        $scope.supplierOptions = res.items;
+      Supplier.query({ term: term, limit: 1000, skip: 0 }, function(res) {
+        //$scope.supplierOptions = res.items;
       });
     };
 

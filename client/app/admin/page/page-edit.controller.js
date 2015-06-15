@@ -14,12 +14,12 @@ angular.module('speechBubbleApp')
       $http.post('/api/page/publish/' + page._id + '/' + revision._id)
         .success(function(res) {
           $scope.isSaving = false;
-          growl.success('Revision published.');
+          growl.success('Version published.');
           $modalInstance.close();
           $rootScope.$broadcast('resultsUpdated');
         })
         .error(function(res) {
-          growl.error('Could not publish revision.');
+          growl.error('Could not publish version.');
           $scope.isSaving = false;
         });
     }
@@ -30,7 +30,7 @@ angular.module('speechBubbleApp')
           $scope.revisions = res;
         })
         .error(function(res) {
-          growl.error('Could not fetch revisions.');
+          growl.error('Could not fetch versions.');
         });
     }
 
