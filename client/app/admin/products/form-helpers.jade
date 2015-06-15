@@ -467,7 +467,7 @@ mixin productRevisions(model)
             th Status
             th.actions Actions
         tbody
-          tr(ng-repeat='rev in revisions track by $index | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage', ng-class='{ "edit-mode": (product.currentRevision === rev._id) }')
+          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage track by $index', ng-class='{ "edit-mode": (product.currentRevision === rev._id) }')
             td.actions
               input(type='radio', name='CompareRevision1', ng-click='compare.rev1 = rev._id', ng-disabled='compare.rev2 === rev._id')
               input(type='radio', name='CompareRevision2', ng-click='compare.rev2 = rev._id', ng-disabled='compare.rev1 === rev._id')
