@@ -33,7 +33,7 @@ form.form-horizontal(name='form', ng-submit='create(form)', novalidate)
             .col-sm-10
               +radio('product', 'type', 'ProductLowTech', 'Low-tech', true)
               +radio('product', 'type', 'ProductHardware', 'Hardware', true)
-              +radio('product', 'type', 'ProductAccessSolution', 'AccessSolution', true)
+              +radio('product', 'type', 'ProductAccessSolution', 'Access Solution', true)
               +radio('product', 'type', 'ProductSoftware', 'Software / Application', true)
               +radio('product', 'type', 'ProductVocabulary', 'Vocabulary', true)
               p.help-block(ng-show='form.type.$error.required && form.$submitted')
