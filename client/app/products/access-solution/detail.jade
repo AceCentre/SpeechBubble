@@ -16,8 +16,28 @@ table.table.table-striped
       th Output
       td
         +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
-        +textLineIf('Binary - Multiple switched', 'product.features.output === "binaryMultipleSwitch"')
+        +textLineIf('Binary - 2 or more switches', 'product.features.output === "binaryMultipleSwitch"')
         +textLineIf('Proportional', 'product.features.output === "proportional"')
+        
+    tr(ng-if='product.features.computerControl')
+      th Typical body part that controls
+      td
+        ul
+          li 
+            +textLineIf('Keyboard', 'product.features.computerControl.keyboard')
+            ul(ng-if="product.features.computerControl.wiredKeyboard || product.features.computerControl.wirelessKeyboard")
+              li(ng-if="product.features.computerControl.wiredKeyboard") Wired
+              li(ng-if="product.features.computerControl.wirelessKeyboard") Wireless
+            small(ng-if="product.features.computerControl.additionalSoftwareKeyboard")
+              * Additional software required
+          li
+            +textLineIf('Mouse', 'product.features.computerControl.mouse')
+            ul(ng-if="product.features.computerControl.wiredMouse || product.features.computerControl.wirelessMouse")
+              li(ng-if="product.features.computerControl.wiredMouse") Wired
+              li(ng-if="product.features.computerControl.wirelessMouse") Wireless
+            small(ng-if="product.features.computerControl.additionalSoftwareMouse")
+              * Additional software required
+        
       
     tr(ng-if='product.features.canBeControlledBy')
       th Typical body part that controls
