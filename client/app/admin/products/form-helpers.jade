@@ -467,19 +467,19 @@ mixin productRevisions(model)
             th Status
             th.actions Actions
         tbody
-          tr(ng-repeat='rev in revisions | orderBy:"updatedAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage track by $index', ng-class='{ "edit-mode": (product.currentRevision === rev._id) }')
+          tr(ng-repeat='rev in revisions | orderBy:"createdAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage track by $index', ng-class='{ "edit-mode": (product.currentRevision === rev._id) }')
             td.actions
               input(type='radio', name='CompareRevision1', ng-click='compare.rev1 = rev._id', ng-disabled='compare.rev2 === rev._id')
               input(type='radio', name='CompareRevision2', ng-click='compare.rev2 = rev._id', ng-disabled='compare.rev1 === rev._id')
             td
-              a(ng-href='/products/{{ current.slug }}/{{ rev._id }}', target='_blank') {{ rev.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}
+              a(ng-href='/products/{{ current.slug }}/{{ rev._id }}', target='_blank') {{ rev.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}
               | &nbsp; by {{ rev.author.firstName }} {{ rev.author.lastName }}
             td
               span(ng-if='current.currentRevision === rev._id') PUBLISHED
               span(ng-if='current.currentRevision !== rev._id') DRAFT
             td.actions
               a(href='#', ng-click='revert(rev)') Edit
-              a(href='#', ng-click='publish(getPublishMessage(rev), rev._id)', ng-if='isAdmin()') Publish
+              a(href='#', ng-click='publish(getPublishMessage(rev), rev)', ng-if='isAdmin()') Publish
               a(href='#', ng-click='deleteRevision(rev._id, rev, $index)', ng-if='isAdmin()') Delete
 
       .text-center

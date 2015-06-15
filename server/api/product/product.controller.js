@@ -95,6 +95,7 @@ exports.index = function(req, res) {
     .limit(limit)
     .populate('suppliers')
     .populate('revisions.suppliers')
+    .populate('revisions.author')
     .exec(function (err, products) {
       if(err) { return handleError(res, err); }
       return res.json(200, {
@@ -180,7 +181,9 @@ exports.publish = function(req, res) {
     product = _.extend(product, newProductData, { currentRevision: revisionId });
 
     // If we are publishing the latest revision remove moderation flag
-    if(_.last(revision.revisions) === revisionId) {
+    console.log(_.last(product.revisions).get('_id').toString());
+    if(_.last(product.revisions).get('_id').toString() === revisionId) {
+      
       product.awaitingModeration = false;
     }
 

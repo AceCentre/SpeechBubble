@@ -51,6 +51,7 @@ angular.module('speechBubbleApp')
     $scope.currentPage = 1;
 
     function publishRevision(revision) {
+      console.log(revision);
       $scope.isSaving = true;
       $http.post('/api/product/publish/' + current._id + '/' + revision._id)
         .success(function(res) {
