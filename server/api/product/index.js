@@ -23,6 +23,7 @@ router.get('/:slug/:revisionId', controller.showRevision);
 router.get('/:slug', controller.show);
 
 // Product Admin
+router.delete('/:id/:revisionId', auth.hasRole('admin'), controller.destroyRevision);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.post('/publish/:id/:revisionId', auth.hasRole('admin'), controller.publish); // publish a revision
 router.delete('/upload/:productId/:imageId', auth.hasRole('admin'), controller.deleteImage);

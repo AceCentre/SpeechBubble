@@ -292,6 +292,21 @@ exports.destroy = function(req, res) {
   });
 };
 
+// Deletes a product revision from the DB.
+exports.destroyRevision = function(req, res) {
+  var revisionId = req.params.revisionId;
+  Product.findById(req.params.id, function (err, product) {
+    if(err) { return handleError(res, err); }
+    if(!product) { return res.send(404); }
+    product.revisions.id(revisionId).remove();
+    product.save(function(err, product) {
+      if(err) { return handleError(res, err); }
+      if(!product) { return res.send(404); }
+      return res.send(200);
+    })
+  });
+};
+
 // lists product images
 exports.listImages = function(req, res) {
   var id = req.params.productId;

@@ -193,6 +193,19 @@ angular.module('speechBubbleApp')
       }
       growl.warning('select 2 revisions to compare.');
     };
+    
+    $scope.deleteRevision = Modal.confirm['delete'](function(rev, index) { // callback when modal is confirmed
+      $http({
+        'method': 'DELETE',
+        'url': '/api/product/' + $scope.product._id + '/' + rev._id
+      })
+      .success(function() {
+        $scope.revisions.splice(index, 1);
+      })
+      .error(function() {
+        growl.error('Could not delete version ' + rev._id);
+      });
+    });
 
     if($scope.autoSave) {
       growl.success('Restored product from auto-save.', { ttl: 5000 });
