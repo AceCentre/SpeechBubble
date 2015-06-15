@@ -118,6 +118,7 @@ angular.module('speechBubbleApp')
           return growl.error('Form validation failure, please check your information.');
         }
         $scope.isSaving = true;
+        
         Product.update($scope.product,
           function(res) {
             $scope.isSaving = false;
@@ -160,8 +161,8 @@ angular.module('speechBubbleApp')
     };
 
     $scope.refreshSuppliers = function(term) {
-      Supplier.query({ term: term, limit: 1000, skip: 0 }, function(res) {
-        //$scope.supplierOptions = res.items;
+      Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {
+        $scope.supplierOptions = res.items;
       });
     };
 

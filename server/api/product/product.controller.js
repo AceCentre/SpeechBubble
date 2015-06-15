@@ -10,9 +10,9 @@ var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
 
 function mapSuppliers(suppliers) {
-  return suppliers.map(function(supplier) {
+  return _.uniq(suppliers.map(function(supplier) {
     return _.isString(supplier) ? supplier: supplier._id;
-  });
+  }));
 }
 
 exports.compare = function(req, res) {
@@ -94,6 +94,7 @@ exports.index = function(req, res) {
     .skip(skip)
     .limit(limit)
     .populate('suppliers')
+    .populate('revisions.suppliers')
     .exec(function (err, products) {
       if(err) { return handleError(res, err); }
       return res.json(200, {
@@ -231,7 +232,7 @@ exports.update = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
 
-    var data = _.omit(req.body, ['createdAt', 'updatedAt', '_id'])
+    var data = _.omit(req.body, ['createdAt', 'updatedAt', '_id']);
 
     product.revisions.push(data);
 
