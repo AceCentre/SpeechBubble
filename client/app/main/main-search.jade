@@ -11,26 +11,28 @@ block content
   section.main-search  
     h1 Search
     
-    | {{search|json}}
+    ul.current-facets
+      li(ng-repeat="(key, value) in filters") 
+        a.btn.btn-tertiary.btn.filter(ng-if='value', ng-click='remove(key)') {{ key }}
     
     form  
       .form-group
         .control-label Do you want options that provide pre-created/organised vocabulary?
-        +switch('search', 'premadeVocabularies')
+        +switch('filters', 'premade-vocabularies')
         
       // YES - PREMADE VOCABULARIES
-      .form-group(ng-if="search.premadeVocabularies")
+      .form-group(ng-if="filters['premade-vocabularies']")
         .control-label How should the vocabulary primarily be presented? 
-        +radio('search', 'presentation', 'textOnly', 'Text only')
-        +radio('search', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
-        +radio('search', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
+        +radio('filters', 'presentation-text-only', true, 'Text only')
+        +radio('filters', 'presentation-text-and-symbols-or-photos', true, 'Text & Symbols or Photos')
+        +radio('filters', 'presentation-symbols-or-photos', true, 'Symbols or Photos Only')
         
       // TEXT ONLY
       .form-group(ng-if='search.presentation === "textOnly"')
         .control-label How should the text be primarily be presented?
-        +radio('search', 'presentationText', 'keyboard', 'Keyboard')
-        +radio('search', 'presentationText', 'singleWords', 'Single words')
-        +radio('search', 'presentationText', 'phrases', 'Phrases')
+        +radio('search', 'presentation-text-keyboard', true, 'Keyboard')
+        +radio('search', 'presentation-text-single-words', true, 'Single words')
+        +radio('search', 'presentation-text-phrases', true, 'Phrases')
         
       // PRESENTATION -> KEYBOARD
       .form-group(ng-if='search.presentationText === "keyboard"')

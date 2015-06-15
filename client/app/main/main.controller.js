@@ -5,9 +5,7 @@ angular.module('speechBubbleApp')
   $scope.endpoint = '/api/product/:id';
   $scope.search = angular.copy(ProductSearch);
   $scope.devices = ProductOptions.devices;
-  $scope.state = {
-    'step': 1
-  };
+  $scope.filters = {};
   
   $scope.step = function(step) {
     return $scope.state.step = step || $scope.state.step;
@@ -20,7 +18,11 @@ angular.module('speechBubbleApp')
     }]
   };
   
-  
+  $scope.remove = function(key) {
+    console.log(key);
+    console.log($scope);
+    delete $scope.filters[key];
+  };
 
   $scope.clearSearchFilters = function() {
     angular.forEach($scope.search, function(value, key) {
