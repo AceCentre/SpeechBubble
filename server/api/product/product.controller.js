@@ -25,6 +25,19 @@ exports.compare = function(req, res) {
   });
 };
 
+exports.similar = function(req, res) {
+  var term = req.query.term;
+  Product
+  .find({ 'name': new RegExp(term, "i") })
+  .limit(10)
+  .exec(function(err, products) {
+    if(err) { return handleError(res, err); }
+    res.send(200, products.map(function(product) {
+      return product.name;
+    }));
+  });
+};
+
 function addToQuery(query, name, value, shouldAdd) {
   if(shouldAdd) {
     query[name] = value;
@@ -38,9 +51,16 @@ exports.index = function(req, res) {
   var limit = req.query.limit || 10;
   var skip = (page - 1) * limit;
   var term = req.query.term;
+  var sort = {};
 
   var orQuery = [];
   var query = {};
+  
+  if(req.query.sort) {
+    sort
+  } else {
+    sort.name = 'asc'
+  }
 
   if(facets) {
     query.facets = { '$in': _.isString(facets) ? [facets]: facets };

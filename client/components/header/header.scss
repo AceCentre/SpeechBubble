@@ -117,8 +117,15 @@
     .product-advanced-filters .form-group {
       @include clearfix;
     }
-    
   }
+  
+    
+  .dropdown-menu > .active > a, 
+  .dropdown-menu > .active > a:hover, 
+  .dropdown-menu > .active > a:focus {
+    background-color: $secondaryColor;
+  }
+  
 }
 
 .header-logo {

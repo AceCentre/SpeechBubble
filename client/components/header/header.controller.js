@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('HeaderCtrl', function ($scope, $location, Auth, ProductSearch, $state, $timeout) {
+  .controller('HeaderCtrl', function ($scope, $location, $http, Auth, ProductSearch, $state, $timeout) {
 	  $scope.search = angular.copy(ProductSearch);
 	  
 	  $scope.submit = function(term, event) {
@@ -26,6 +26,16 @@ angular.module('speechBubbleApp')
       
       angular.forEach(s.facets, function(value, key) {
         delete s.facets[key];
+      });
+    };
+    
+    $scope.getSimilar = function(term) {
+      return $http.get('/api/product/similar', {
+        params: {
+          term: term
+        }
+      }).then(function(res) {
+        return res.data;
       });
     };
     

@@ -16,6 +16,7 @@ header.header(ng-controller="HeaderCtrl")
                 span.caret
               div.dropdown-menu
                 div(ng-include='"components/forms/product-filters.html"')
-              input.form-control(id='term', ng-model='search.term' name='term', type='text', placeholder='Search for a product...')
+              | {{search.term | json}}
+              input.form-control(id='term', ng-model='search.term', typeahead="o as o for o in getSimilar($viewValue)", name='term', type='text', placeholder='Search for a product...', autocomplete='off')
               span.glyphicon.glyphicon-search.form-control-feedback
           a.link(ui-sref='products()') view all products
