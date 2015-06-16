@@ -68,7 +68,9 @@ block content
     .panel-heading Purchase
     .panel-body  
       ul.list-unstyled
-        li(ng-repeat='link in product.features.purchaseLinks'): a.trunate(ng-href='{{ link.url }}') {{ link.label }}
+        li(ng-repeat='link in product.features.purchaseLinks')
+          a(ng-if="link.url.indexOf('apple.com') > -1", ng-href="{{ link.url }}?at=1000l3Qz") {{ link.label }}
+          a.trunate(ng-if="link.url.indexOf('apple.com') === -1", ng-href='{{ link.url }}') {{ link.label }}
   
   .panel.panel-default(ng-if='(product.revisions | published).length > 1')
     .panel-heading Recent Publications
