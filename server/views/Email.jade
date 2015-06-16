@@ -1,0 +1,42 @@
+doctype html(lang='en')
+head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(name='viewport', content='initial-scale=1.0')
+    meta(name='format-detection', content='telephone=no')
+    title Speech Bubble
+    style(type='text/css').
+        .ReadMsgBody { width: 100%; background-color: #f6eedd;}
+        .ExternalClass {width: 100%; background-color: #f6eedd;}
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height:100%;}
+        body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+        body {margin:0; padding:0;}
+        table {border-spacing:0;}
+        table td {border-collapse:collapse;}
+        .yshortcuts a {border-bottom: none !important;}
+        a, a:link, a:visited, a:active, a:hover { color: #ff1822; }
+    body(style='margin:0; padding:10px 0; background:#f5f5f5', bgcolor='#f5f5f5', leftmargin='0', topmargin='0', marginwidth='0', marginheight='0')
+        table(border='0', width='100%', height='100%', cellpadding='0', cellspacing='0', bgcolor='#f5f5f5')
+            tr
+                td(align='center')
+                    table.container(border='0', width='600', cellpadding='0', cellspacing='0', style='background-color: #ffffff; width: 600px; margin: 0 auto;')
+                        tr
+                            td
+                                a(href="#{domain}")
+                                    img(src='#{domain}/assets/images/emails/email-header.gif', alt='', border='0', hspace='0', vspace='0', width='600', height='151', style='display:block; line-height: 0')
+                        tr
+                            td(height='10', style='background-color: #3b2e48;height: 10px;font-size: 0px;line-height: 0px;')
+                            | &nbsp;                
+                        tr
+                            td
+                                table(border='0', width='560', cellpadding='0', cellspacing='0', style='background-color: #ffffff; width: 560px; margin:0 20px;padding-top: 30px;padding-bottom: 30px;')
+                                    tr
+                                        td(style='background-color: #ffffff;color: #000000;font-size: 16px;font-family: Arial')
+                                            block content              
+                        tr
+                            td(bgcolor='#56565a', style='background-color: #56565a;color: #ffffff;font-size: 10px;padding-top: 20px;padding-bottom: 20px;text-align: center')
+                                | Copyright &amp;copy 2015 ACE Centre is a registered charity no. 1089313.
+                                br
+                                | Registered as a company limited by guarantee no. 04268143 (England &amp; Wales).
+                                | Registered office:
+                                br
+                                | SpeechBubble, Hollinwood Business Centre, Albert Street, Oldham, OL8 3QL. VAT registration number 785728278
