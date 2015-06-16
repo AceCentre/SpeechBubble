@@ -51,7 +51,6 @@ exports.index = function(req, res) {
   var limit = req.query.limit || 10;
   var skip = (page - 1) * limit;
   var term = req.query.term;
-  var sort = {};
 
   var orQuery = [];
   var query = {
@@ -60,12 +59,6 @@ exports.index = function(req, res) {
   
   if(req.query.type === "ProductAccessSolution") {
     delete query.type;
-  }
-  
-  if(req.query.sort) {
-    sort
-  } else {
-    sort.name = 'asc'
   }
 
   if(facets) {
