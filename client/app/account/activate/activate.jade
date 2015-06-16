@@ -3,4 +3,10 @@ extends ../../../layout/1_column
 block content
   h1 Account Verification
   
-  p {{ message }}
+  div.text-center(ng-if="showMessage && verified")
+    p Your account has been verified.
+    p Why not #[a(href="/search") search] for a product?
+  
+  div.text-center(ng-if="showMessage && !verified")    
+    p Your account has already been verified.
+    p If you have a problem with your account #[a(href="/contact") get in touch].

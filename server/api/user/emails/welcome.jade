@@ -1,5 +1,11 @@
-p Hi #{user.firstName} #{user.lastName}
+extends ../../../views/Email
 
-p Welcome to SpeechBubble
-
-a(href='#{activationUrl}') Activate
+block content
+	| Hi #{user.firstName}
+	br
+	br
+	| Thanks for creating an account on Speech Bubble.
+	br
+	br
+	| Please activate your account by clicking #[a(href='#{activationUrl}') here].
+	br

@@ -1,2 +1,10 @@
-p A product revision has been published (#{revision})
-p: a(href='#{url}') View
+extends ../../../views/Email
+
+block content
+	| Hi #{name}
+	br
+	br
+	| A product revision has been published (#{revision})
+	br
+	br
+	a(href='#{url}') View

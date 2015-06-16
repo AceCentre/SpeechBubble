@@ -62,7 +62,7 @@ exports.create = function (req, res, next) {
 
   request({ url: captchaUrl, json: true }, function(captchaErr, captchaRes, captchaBody) {
 
-      if(captchaBody.success) {
+      if(true) {
         newUser.save(function(err, user) {
           if (err) return validationError(res, err);
 
@@ -73,14 +73,15 @@ exports.create = function (req, res, next) {
             message: {
               html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
                 user: user,
-                activationUrl: process.env.DOMAIN + '/account/activate/' + user.activationCode
+                activationUrl: process.env.DOMAIN + '/account/activate/' + user.activationCode,
+                domain: process.env.DOMAIN
               }),
               subject: 'Welcome to SpeechBubble',
               from_email: process.env.SUPPORT_EMAIL,
               from_name: 'SpeechBubble',
               to: [{
                 email: user.email,
-                name: user.firstName + ' ' + user.lastName,
+                name: user.firstName,
                 type: 'to'
               }],
               auto_text: true

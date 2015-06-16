@@ -4,13 +4,16 @@ angular.module('speechBubbleApp')
   .controller('ActivateCtrl', function ($scope, PageTitle, User, $stateParams) {
 
     PageTitle('Account verification');
+    
+    $scope.showMessage = false;
 
-    $scope.message = '';
     User.activate({
       controller: $stateParams.id
     }, function() {
-      $scope.message = 'Account Verified.';
+      $scope.verified = true;
+      $scope.showMessage = true;
     }, function() {
-      $scope.message = 'Account could not be found.';
+      $scope.verified = false;
+      $scope.showMessage = true;
     });
   });

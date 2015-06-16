@@ -197,7 +197,9 @@ exports.publish = function(req, res) {
         message: {
           html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
             url: process.env.DOMAIN + '/products/' + product.slug,
-            revision: revisionId
+            name: 'Admin',
+            revision: revisionId,
+            domain: process.env.DOMAIN
           }),
           subject: 'New Product Revision Published',
           from_email: 'no-reply@speechbubble.org.uk',
@@ -254,7 +256,9 @@ exports.update = function(req, res) {
           message: {
             html: jade.renderFile(path.resolve(__dirname, 'emails/new-revision.jade'), {
               url: process.env.DOMAIN + '/products/' + product.slug + '?edit',
-              revision: product.revisions[0]._id
+              name: 'Admin',
+              revision: product.revisions[0]._id,
+              domain: process.env.DOMAIN
             }),
             subject: 'New Product Revision',
             from_email: 'no-reply@speechbubble.org.uk',
