@@ -54,7 +54,13 @@ exports.index = function(req, res) {
   var sort = {};
 
   var orQuery = [];
-  var query = {};
+  var query = {
+    'type': { $not: { $eq: 'ProductAccessSolution' } }
+  };
+  
+  if(req.query.type === "ProductAccessSolution") {
+    delete query.type;
+  }
   
   if(req.query.sort) {
     sort
