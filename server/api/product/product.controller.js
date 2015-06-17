@@ -54,7 +54,7 @@ exports.index = function(req, res) {
 
   var orQuery = [];
   var query = {
-    'type': { $not: { $eq: 'ProductAccessSolution' } }
+    'type': { $not: { $eq: 'ProductAccessSolution' } },
   };
   
   if(req.query.type === "ProductAccessSolution") {
@@ -63,7 +63,10 @@ exports.index = function(req, res) {
 
   if(facets) {
     query.facets = { '$in': _.isString(facets) ? [facets]: facets };
+  } else {
+    query.facets = { '$not': { '$in': ['no-software-required'] } };
   }
+  
 
   if(term) {
     orQuery.push({ $text: { $search: term } });

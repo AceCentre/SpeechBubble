@@ -7,6 +7,10 @@ table.table.table-striped
     tr
       th Discontinued
       td {{ product.discontinued ? 'Yes': 'No' }}
+      
+    tr
+      th Software required
+      td {{ product.features.noSoftwareRequired ? 'No' : 'Yes' }}
 
     tr
       th Vocabulary Primary Presentation

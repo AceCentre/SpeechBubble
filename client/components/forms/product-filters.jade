@@ -57,7 +57,11 @@ include ../../app/admin/products/form-helpers
               +checkbox('search.facets', 'presentation-text-only', 'Text only')
               +checkbox('search.facets', 'presentation-text-and-symbols-or-photos', 'Text & Symbols or Photos')
               +checkbox('search.facets', 'presentation-symbols-or-photos', 'Symbols or Photos Only')
-              +checkbox('search.facets', 'presentation-visual-scenes', 'Visual Scenes')
+              +checkbox('search.facets', 'presentation-visual-scenes', 'Visual Scenes')    
+              
+            .form-group(ng-if='search.type && search.type === "ProductVocabulary"')
+              label.control-label Requirements
+                +checkbox('search.facets', 'no-software-required', 'No software required')             
       
             <!-- Software Only -->
             .form-group(ng-if='search.type && search.type === "ProductSoftware"')

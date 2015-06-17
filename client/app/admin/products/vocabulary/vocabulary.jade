@@ -17,6 +17,11 @@ form.form-horizontal(name='form', novalidate)
       +productImages()
       +productVideos()
       +price()
+      
+      .panel.panel-default
+        .panel-heading Is this designed to work without software
+        .panel-body
+          +switch('product.features', 'noSoftwareRequired')
 
       .panel.panel-default
         .panel-heading How is the vocabulary primarily represented?
