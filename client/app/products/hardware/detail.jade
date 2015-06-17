@@ -117,10 +117,14 @@ table.table.table-striped
             li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available           
         
         
-.panel.panel-default(ng-if='product.features.premadeVocabulariesAvailable.length')
+.panel.panel-default(ng-if='product.features.premadeVocabulariesAvailable.length > 1')
   .panel-heading Associated Vocabularies
   .panel-body
     +displayVocabularies()
+
+section(ng-if='product.features.premadeVocabulariesAvailable.length === 1')
+  h3 Vocabulary Information
+  .nested-product(onload="product = premadeVocabulariesAvailable[0]", ng-if='product.features.premadeVocabulariesAvailable.length === 1', ng-include='"app/products/vocabulary/detail.html"')
 
 .panel.panel-default(ng-if='product.features.associatedSoftware.length')
   .panel-heading Associated Software
@@ -128,3 +132,5 @@ table.table.table-striped
     ul.list-unstyled
       li(ng-repeat='item in product.features.associatedSoftware')
         a(ng-href='/products/{{ item.slug }}') {{ item.name }}
+        
+        
