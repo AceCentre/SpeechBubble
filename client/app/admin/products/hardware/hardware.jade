@@ -8,40 +8,82 @@ include ../form-helpers
 form.form-horizontal(name='form', novalidate)
   fieldset(ng-disabled='isSaving')
     .modal-body
-      .panel.panel-default
-        .panel-heading Product Details
-        .panel-body
-          input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
-          +productDetails()
+      ul.nav.nav-tabs(role='tablist')
+        li.active(role='presentation'): a(href='#', data-target='#tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
+        li(role='presentation'): a(href='#', data-target='#tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features
+        li(role='presentation'): a(href='#', data-target='#tabSpecification', aria-controls='basic', role='tab', data-toggle='tab') Technical Specifications
+        li(role='presentation'): a(href='#', data-target='#tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
+        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
 
-      +productImages()
-      +productVideos()
-      +vocabularies()
-      +associatedSoftware()
-      +deviceSupportedOperatingSystems()
-      +dedicated()
-
-      .panel.panel-default
-        .panel-heading Mobile phone capabilities
-        .panel-body
-          +checkbox('product.features', 'mobilePhoneSim', 'In-built SIM')
-          .panel.panel-default(ng-show='product.features.mobilePhoneSim', destroy='mobilePhoneSimType')
-            .panel-heading In-built SIM features
+      .tab-content
+        #tabBasic.tab-pane.active(role='tabpanel')
+          .panel.panel-default
+            .panel-heading Product Details
             .panel-body
-              +radio('product.features', 'mobilePhoneSimType', 'smsOnly', 'SMS Only')
-              +radio('product.features', 'mobilePhoneSimType', 'phoneOnly', 'Phone Only')
-              +radio('product.features', 'mobilePhoneSimType', 'smsAndPhone', 'SMS and Phone')
-          +checkbox('product.features', 'mobilePhoneRequired', 'Phone required')
-          .panel.panel-default(ng-show='product.features.mobilePhoneRequired', destroy='mobilePhoneRequiredType')
-            .panel-heading Phone required features
+              input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
+              +productDetails()
+    
+          +productImages()
+          +productVideos()
+        
+        #tabFeatures.tab-pane(role='tabpanel')
+          +vocabularies()
+          +associatedSoftware()
+          .panel.panel-default
+            .panel-heading Mobile phone capabilities
             .panel-body
-              +radio('product.features', 'mobilePhoneRequiredType', 'smsOnly', 'SMS Only')
-              +radio('product.features', 'mobilePhoneRequiredType', 'smsAndPhone', 'SMS and Phone')
-          +checkbox('temp', 'mobilePhoneOther', 'Other')
-          textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
-
-      +sharedHardware()
-      +addLinks('moreInformationLinks', 'More information URLs')
-      +productRevisions('product')
-
-    +draftActions()
+              +checkbox('product.features', 'mobilePhoneSim', 'In-built SIM')
+              .panel.panel-default(ng-show='product.features.mobilePhoneSim', destroy='mobilePhoneSimType')
+                .panel-heading In-built SIM features
+                .panel-body
+                  +radio('product.features', 'mobilePhoneSimType', 'smsOnly', 'SMS Only')
+                  +radio('product.features', 'mobilePhoneSimType', 'phoneOnly', 'Phone Only')
+                  +radio('product.features', 'mobilePhoneSimType', 'smsAndPhone', 'SMS and Phone')
+              +checkbox('product.features', 'mobilePhoneRequired', 'Phone required')
+              .panel.panel-default(ng-show='product.features.mobilePhoneRequired', destroy='mobilePhoneRequiredType')
+                .panel-heading Phone required features
+                .panel-body
+                  +radio('product.features', 'mobilePhoneRequiredType', 'smsOnly', 'SMS Only')
+                  +radio('product.features', 'mobilePhoneRequiredType', 'smsAndPhone', 'SMS and Phone')
+              +checkbox('temp', 'mobilePhoneOther', 'Other')
+              textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
+    
+          +deviceSupportedOperatingSystems()
+          +dedicated()
+          +sharedHardware()
+          
+        #tabSpecification.tab-pane(role='tabpanel')
+          .panel.panel-default
+            .panel-heading
+              | Battery
+              span(glossary='556781f95719a8bb50f5e545')
+            .panel-body
+              +input('product.features', 'number', 'batteryLife', 'Battery life (hours)')
+              +textarea('product.features', 'spareBatteryOptions', 'Spare battery options')
+              
+          .panel.panel-default
+            .panel-heading Dimensions
+            .panel-body
+              +input('product.features', 'number', 'weight', 'Weight (kg)')
+              +input('product.features', 'number', 'depth', 'Depth (mm)')
+              +input('product.features', 'number', 'height', 'Height (mm)')
+              +input('product.features', 'number', 'width', 'Width (mm)')
+              +input('product.features', 'number', 'screenSize', 'Screen size (in)')
+              .panel.panel-default
+                .panel-heading Are these dimensions with a case?
+                .panel-body
+                  +switch('product.features', 'sizeIncludingCase')
+              
+        #tabCostSupport.tab-pane(role='tabpanel')
+          +price()
+          +addLinks('moreInformationLinks', 'More information URLs')
+          .panel.panel-default
+            .panel-heading Support and warranty
+            .panel-body
+              +textarea('product.features', 'supportOptions', 'Support options')
+              +textarea('product.features', 'warrantyOptions', 'Warranty options')
+          
+        #tabVersions.tab-pane(role='tabpanel', ng-if='revisions.length')
+          +productRevisions('product')
+          
+      +draftActions()

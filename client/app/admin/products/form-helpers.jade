@@ -249,22 +249,6 @@ mixin accessMethodsHardware()
 <!-- Shared: Hardware -->
 mixin sharedHardware()
 
-  +price()
-
-  .panel.panel-default
-    .panel-heading Support and warranty
-    .panel-body
-      +textarea('product.features', 'supportOptions', 'Support options')
-      +textarea('product.features', 'warrantyOptions', 'Warranty options')
-
-  .panel.panel-default
-    .panel-heading
-      | Battery
-      span(glossary='556781f95719a8bb50f5e545')
-    .panel-body
-      +input('product.features', 'number', 'batteryLife', 'Battery life (hours)')
-      +textarea('product.features', 'spareBatteryOptions', 'Spare battery options')
-
   .panel.panel-default
     .panel-heading
       | Mounting
@@ -277,19 +261,6 @@ mixin sharedHardware()
 
       +checkbox('temp', 'mountingOther', 'Other')
       textarea.form-control(ng-show='temp.mountingOther', destroy='mountingOtherDetails', ng-model='product.features.mountingOtherDetails')
-
-  .panel.panel-default
-    .panel-heading Dimensions
-    .panel-body
-      +input('product.features', 'number', 'weight', 'Weight (kg)')
-      +input('product.features', 'number', 'depth', 'Depth (mm)')
-      +input('product.features', 'number', 'height', 'Height (mm)')
-      +input('product.features', 'number', 'width', 'Width (mm)')
-      +input('product.features', 'number', 'screenSize', 'Screen size (in)')
-      .panel.panel-default
-        .panel-heading Are these dimensions with a case?
-        .panel-body
-          +switch('product.features', 'sizeIncludingCase')
 
   +enviroControl()
   +accessMethodsHardware()
