@@ -34,8 +34,17 @@ angular.module('speechBubbleApp')
     $scope.performSearch = function() {
       $rootScope.$broadcast('resultsUpdated');
     };
+    
+    // Clear search filters when type is changed
+    $scope.clearSearchRetainType = function() {
+      angular.forEach($scope.search, function(value, key) {
+        if(key !== 'term' && key !== 'type') {
+          delete $scope.search[key];
+        }
+      });
+    };
 
-    $scope.clearSearchFilters = function() {
+    $scope.clearFilters = function() {
       angular.forEach($scope.search, function(value, key) {
         if(key !== 'term') {
           delete $scope.search[key];

@@ -168,3 +168,18 @@ Split compare within iframe
 .nested-product h3 {
   display: none;
 }
+
+.sidebar .product-filters {
+  .col-sm-4,
+  .col-sm-8 {
+    width: 100%;
+    clear: both;
+  }
+  .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .product-advanced-actions .btn-primary {
+    display: none; // admin updates on change
+  }
+}
