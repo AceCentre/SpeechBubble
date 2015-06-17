@@ -62,7 +62,7 @@ angular.module('speechBubbleApp')
 
           var modal = ProductTemplate($scope.product);
 
-          $modalInstance.close();
+          $modalInstance.close($scope.product);
 
           $modal.open({
             templateUrl: modal.template,

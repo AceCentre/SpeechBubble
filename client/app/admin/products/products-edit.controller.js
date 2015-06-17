@@ -81,6 +81,15 @@ angular.module('speechBubbleApp')
           return scope;
         })()
       });
+      modalInstance.result.then(function(product) {
+        if(product.type === "ProductVocabulary") {
+          if($scope.product.features.premadeVocabulariesAvailable) {
+            $scope.product.features.premadeVocabulariesAvailable.push(product);
+          } else {
+            $scope.product.features.premadeVocabulariesAvailable = [product];
+          }
+        }
+      });
     };
 
     $scope.hasChanges = function() {

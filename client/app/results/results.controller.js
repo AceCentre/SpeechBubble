@@ -29,7 +29,7 @@ angular.module('speechBubbleApp')
     
     $scope.getItemsPerPage = function() {
       return $scope.search.limit || 10;
-    }
+    };
     
     $scope.$watch('search', changeLocation, true);
 
