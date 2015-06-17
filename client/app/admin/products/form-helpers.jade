@@ -445,7 +445,7 @@ mixin vocabularies()
             ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
               div {{item.name}}
 
-          p Create a #[a(ng-click='create()', href='#') new vocabulary]
+          p If you would like to define how this product can organise vocabulary #[a(ng-click='create()', href='#') click here].
 
 mixin pageRevisions(model)
   .panel.panel-default
