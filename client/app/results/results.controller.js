@@ -27,6 +27,10 @@ angular.module('speechBubbleApp')
       $location.search(location);
     };
     
+    $scope.getItemsPerPage = function() {
+      return $scope.search.limit || 10;
+    }
+    
     $scope.$watch('search', changeLocation, true);
 
     var fetch = _.debounce(function() {
