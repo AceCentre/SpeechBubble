@@ -138,7 +138,7 @@ angular.module('speechBubbleApp')
         
         // reduce associated vocabularies if does not contain pre-made vocabularies
         if(productCanHaveAssociatedVocabularies && $scope.product.features.premadeVocabularies === false) {
-          $scope.product.features.premadeVocabularies.length = 1;
+          $scope.product.features.premadeVocabulariesAvailable.length = 1;
         }
         
         Product.update($scope.product,
