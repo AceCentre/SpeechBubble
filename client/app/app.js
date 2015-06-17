@@ -245,11 +245,16 @@ angular.module('speechBubbleApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth, $window) {
+    $window.disqus_config = function () {
+        this.page.remote_auth_s3 = Auth.getCurrentUser().disqus.auth;
+        this.page.api_key = Auth.getCurrentUser().disqus.pubKey;
+    }
+    
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
-        window.doorbellOptions.email = Auth.getCurrentUser().email;
+        $window.doorbellOptions.email = Auth.getCurrentUser().email;        
         if (next.authenticate && !loggedIn) {
           $location.path('/login');
         }
