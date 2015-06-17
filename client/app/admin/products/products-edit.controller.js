@@ -39,6 +39,7 @@ angular.module('speechBubbleApp')
     $scope.productLinks = ProductLinks($scope);
     $scope.supplierOptions = [];
     $scope.vocabularyOptions = [];
+    $scope.softwareOptions = [];
     $scope.deviceOptions = [];
     $scope.symbols = ProductOptions.symbols;
 
@@ -163,6 +164,12 @@ angular.module('speechBubbleApp')
     $scope.refreshSuppliers = function(term) {
       Supplier.query({ term: term, limit: 0, skip: 0 }, function(res) {
         $scope.supplierOptions = res.items;
+      });
+    };
+    
+    $scope.refreshSoftware = function(term) {
+      Product.query({ 'type': 'ProductSoftware', term: term, limit: 0, skip: 0 }, function(res) {
+        $scope.softwareOptions = res.items;
       });
     };
 

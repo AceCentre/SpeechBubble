@@ -121,3 +121,10 @@ table.table.table-striped
           ul()
             li(ng-if='product.features.accessMethodsSwitchBuiltIn') Built-in switch
             li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available
+
+.panel.panel-default(ng-if='product.features.associatedSoftware.length')
+    .panel-heading Associated Software
+    .panel-body
+      ul.list-unstyled
+        li(ng-repeat='item in product.features.associatedSoftware')
+          a(ng-href='/products/{{ item.slug }}') {{ item.name }}

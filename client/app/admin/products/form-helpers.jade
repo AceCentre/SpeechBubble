@@ -1,5 +1,15 @@
 include ../../mixins/form-helpers
 
+mixin associatedSoftware()
+  .panel.panel-default
+    .panel-heading Associated Software
+    .panel-body
+      ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.associatedSoftware")
+        ui-select-match(placeholder="Select software") {{$item.name}}
+        ui-select-choices(repeat="item in softwareOptions | filter: $select.search", refresh='refreshSoftware($select.search)', refresh-delay='500')
+          div {{item.name}}
+      
+
 mixin productDetails()
   +input('product', 'text', 'name', 'Name', 'form')
   +textarea('product', 'description', 'Description', 'form')
