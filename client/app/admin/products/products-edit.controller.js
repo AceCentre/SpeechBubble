@@ -13,7 +13,7 @@ angular.module('speechBubbleApp')
         return true;
       }
       return false;
-    };
+    };    
 
     var revertToLatestRevision = function(item) {
       $scope.revert(item.revisions[item.revisions.length - 1]);
@@ -50,6 +50,13 @@ angular.module('speechBubbleApp')
     // Revision pagination
     $scope.revisionsPerPage = 5;
     $scope.currentPage = 1;
+    
+    var productCanHaveAssociatedVocabularies = _.contains(['ProductHardware', 'ProductSoftware'], $scope.product.type);
+    
+    // make sure we have a vocabularies array to bind single select to index 0
+    if(productCanHaveAssociatedVocabularies) {
+      $scope.product.features.premadeVocabulariesAvailable = $scope.product.features.premadeVocabulariesAvailable || [];
+    }
 
     function publishRevision(revision) {
       $scope.isSaving = true;
@@ -84,7 +91,7 @@ angular.module('speechBubbleApp')
       modalInstance.result.then(function(product) {
         if(product.type === "ProductVocabulary") {
           if($scope.product.features.premadeVocabulariesAvailable) {
-            $scope.product.features.premadeVocabulariesAvailable.push(product);
+            $scope.product.features.premadeVocabulariesAvailable.unshift(product);
           } else {
             $scope.product.features.premadeVocabulariesAvailable = [product];
           }
@@ -128,6 +135,11 @@ angular.module('speechBubbleApp')
           return growl.error('Form validation failure, please check your information.');
         }
         $scope.isSaving = true;
+        
+        // reduce associated vocabularies if does not contain pre-made vocabularies
+        if(productCanHaveAssociatedVocabularies && $scope.product.features.premadeVocabularies === false) {
+          $scope.product.features.premadeVocabularies.length = 1;
+        }
         
         Product.update($scope.product,
           function(res) {

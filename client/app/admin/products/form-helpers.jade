@@ -426,12 +426,22 @@ mixin vocabularies()
     .panel-body
       +switch('product.features', 'premadeVocabularies')
 
-      .panel.panel-default(ng-show='product.features.premadeVocabularies', destroy='premadeVocabulariesAvailable')
+      .panel.panel-default(ng-if="product.features.premadeVocabularies")
         .panel-heading Available vocabularies
         .panel-body
 
           ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.premadeVocabulariesAvailable")
             ui-select-match(placeholder="Select a vocabulary") {{$item.name}}
+            ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
+              div {{item.name}}
+
+          p Create a #[a(ng-click='create()', href='#') new vocabulary]
+          
+      .panel.panel-default(ng-if="product.features.premadeVocabularies === false")
+        .panel-heading Vocabulary
+        .panel-body
+          ui-select(search-enabled, reset-search-input='true', ng-model="product.features.premadeVocabulariesAvailable[0]")
+            ui-select-match(placeholder="Select a vocabulary") {{$select.selected.name}}
             ui-select-choices(repeat="item in vocabularyOptions | filter: $select.search", refresh='refreshVocabularies($select.search)', refresh-delay='500')
               div {{item.name}}
 
