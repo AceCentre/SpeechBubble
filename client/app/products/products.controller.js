@@ -114,16 +114,19 @@ angular.module('speechBubbleApp')
     });
   };
 
-  // Related Software for Vocabulary
+  // Related Software and Hardware for Vocabulary
   if($scope.product.type === 'ProductVocabulary') {
     $scope.relatedSoftwareForVocabulary = [];
+    $scope.relatedHardwareForVocabulary = [];
+    
     $http({
       method: 'GET',
-      url: '/api/product/softwareForVocabulary/',
+      url: '/api/product/supportedForVocabulary/',
       params: { vocabulary: $scope.product._id }
     })
     .success(function(res) {
-      $scope.relatedSoftwareForVocabulary = res;
+      $scope.relatedSoftwareForVocabulary = res.software;
+      $scope.relatedHardwareForVocabulary = res.hardware;
     });
   }
 

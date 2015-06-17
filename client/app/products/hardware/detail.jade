@@ -28,12 +28,6 @@ table.table.table-striped
       th Other phone features
       td {{ product.features.mobilePhoneViaOther }}
 
-
-    tr(ng-if='product.features.premadeVocabulariesAvailable.length')
-      th Vocabularies
-      td
-        +displayVocabularies()
-
     tr(ng-if='product.features.operatingSystems.length')
       th Operating systems
       td
@@ -120,11 +114,17 @@ table.table.table-striped
         div(ng-if='product.features.accessMethods.switch') Switch
           ul()
             li(ng-if='product.features.accessMethodsSwitchBuiltIn') Built-in switch
-            li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available
+            li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available           
+        
+        
+.panel.panel-default(ng-if='product.features.premadeVocabulariesAvailable.length')
+  .panel-heading Associated Vocabularies
+  .panel-body
+    +displayVocabularies()
 
 .panel.panel-default(ng-if='product.features.associatedSoftware.length')
-    .panel-heading Associated Software
-    .panel-body
-      ul.list-unstyled
-        li(ng-repeat='item in product.features.associatedSoftware')
-          a(ng-href='/products/{{ item.slug }}') {{ item.name }}
+  .panel-heading Associated Software
+  .panel-body
+    ul.list-unstyled
+      li(ng-repeat='item in product.features.associatedSoftware')
+        a(ng-href='/products/{{ item.slug }}') {{ item.name }}

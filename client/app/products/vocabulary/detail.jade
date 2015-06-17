@@ -165,3 +165,9 @@ table.table.table-striped
   .panel-body
     ul.list-unstyled(ng-repeat='item in relatedSoftwareForVocabulary')
       li: a(ng-href='/products/{{ item.slug }}') {{ item.name }}
+
+.panel.panel-default(ng-if='relatedHardwareForVocabulary.length')
+  .panel-heading Supporting Hardware
+  .panel-body
+    ul.list-unstyled(ng-repeat='item in relatedHardwareForVocabulary')
+      li: a(ng-href='/products/{{ item.slug }}') {{ item.name }}

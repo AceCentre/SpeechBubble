@@ -19,7 +19,7 @@ router.get('/', controller.index);
 router.get('/similar', controller.similar);
 router.get('/compare', controller.compare);
 router.get('/:id/revisions', auth.isAuthenticated(), controller.revisions);
-router.get('/softwareForVocabulary/', controller.getSoftwareForVocabulary);
+router.get('/supportedForVocabulary/', controller.getSupportedForVocabulary);
 router.get('/:slug/:revisionId', controller.showRevision);
 router.get('/:slug', controller.show);
 

@@ -472,10 +472,16 @@ exports.addImages = function(req, res) {
 
 };
 
-exports.getSoftwareForVocabulary = function(req, res) {
-  Product.find({ type: 'ProductSoftware', 'features.premadeVocabulariesAvailable._id': req.query.vocabulary }, function(err, products) {
+exports.getSupportedForVocabulary = function(req, res) {
+  Product.find({ type: 'ProductSoftware', 'features.premadeVocabulariesAvailable._id': req.query.vocabulary }, function(err, software) {
     if(err) { return handleError(res, err); }
-    return res.send(200, products);
+    Product.find({ type: 'ProductHardware', 'features.premadeVocabulariesAvailable._id': req.query.vocabulary }, function(err, hardware) {
+      if(err) { return handleError(res, err); }
+      return res.send(200, {
+        'software': software,
+        'hardware': hardware
+      });
+    });
   });
 };
 

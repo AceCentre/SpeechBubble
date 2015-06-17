@@ -62,11 +62,6 @@ table.table.table-striped
         +textLineIf('Eye gaze', 'product.features.accessMethods.eyegaze')
         +textLineIf('Switch', 'product.features.accessMethods.switch')
 
-    tr(ng-if='product.features.premadeVocabulariesAvailable.length')
-      th Vocabularies
-      td
-        +displayVocabularies()
-
     tr(ng-if='product.features.operatingSystems.length')
       th Operating systems
       td
@@ -81,3 +76,8 @@ table.table.table-striped
       th Associated costs
       td
         p {{ product.features.associatedCosts }}
+
+.panel.panel-default(ng-if='product.features.premadeVocabulariesAvailable.length')
+  .panel-heading Associated Vocabularies
+  .panel-body
+    +displayVocabularies()
