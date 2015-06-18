@@ -7,73 +7,73 @@ form.form-horizontal(name='form', novalidate)
   fieldset(ng-disabled='isSaving')
     .modal-body
       ul.nav.nav-tabs(role='tablist')
-          li.active(role='presentation'): a(href='#', data-target='#tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
-          li(role='presentation'): a(href='#', data-target='#tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features        
-          li(role='presentation'): a(href='#', data-target='#tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
-          li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
-  
-        .tab-content
-          #tabBasic.tab-pane.active(role='tabpanel')
-            .panel.panel-default
-              .panel-heading Product Details
-              .panel-body
-                input(type='hidden', ng-init='product.type = "ProductSoftware"')
-                +productDetails()
-            
-            +productScreenshots()
-            +productVideos()
-            +addLinks('purchaseLinks', 'Purchase URLs')
-            +addLinks('moreInformationLinks', 'More information URLs')
-            
-          #tabFeatures.tab-pane(role='tabpanel')
-            +imageRepresentationSupported()
-            +speechTypeOptions()
-            +enviroControl()
-            .panel.panel-default
-              .panel-heading Software can control control a separate computer/device
-              .panel-body
-                +switch('product.features', 'controlAnotherDeviceFromSoftware')
-      
-            .panel.panel-default
-              .panel-heading Software can control operating system
-              .panel-body
-                +switch('product.features', 'controlOperatingSystemFromSoftware')
-                
-            .panel.panel-default
-              .panel-heading Editing options
-              .panel-body
-                textarea.form-control(ng-model='product.features.editingOptions')
-      
-            .panel.panel-default
-              .panel-heading Visual options
-              .panel-body
-                +checkbox('product.features.visualOptions', 'zoom', 'Zoom')
-                +checkbox('product.features.visualOptions', 'cellHighlight', 'Cell Highlight')
-                +checkbox('product.features.visualOptions', 'changeableCellHighlight', 'Changeable Cell Highlight')
-                +checkbox('product.features.visualOptions', 'editableFontStyles', 'Editable font styles')
-      
-                .panel.panel-default
-                  .panel-heading More information
-                  .panel-body
-                    textarea.form-control(ng-model='product.features.visualOptionsMoreInfo')
-      
-            .panel.panel-default
-              .panel-heading Supported devices
-              .panel-body
-                ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.supportedDevices")
-                  ui-select-match(placeholder="Select a devices") {{$item.name}}
-                  ui-select-choices(repeat="item in deviceOptions | filter: $select.search", refresh='refreshDevices($select.search)', refresh-delay='500')
-                    div {{item.name}}
-      
-            +supportedOperatingSystems()
-            +vocabularies()
-            +accessMethods()
-            
-          #tabCostSupport.tab-pane(role='tabpanel')   
-            +price()
-            +addLinks('supportLinks', 'Support URLs')
+        li.active(role='presentation'): a(href='#', data-target='#tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
+        li(role='presentation'): a(href='#', data-target='#tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features        
+        li(role='presentation'): a(href='#', data-target='#tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
+        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
 
-          #tabVersions.tab-pane(role='tabpanel', ng-if='revisions.length')
-            +productRevisions('product')
+      .tab-content
+        #tabBasic.tab-pane.active(role='tabpanel')
+          .panel.panel-default
+            .panel-heading Product Details
+            .panel-body
+              input(type='hidden', ng-init='product.type = "ProductSoftware"')
+              +productDetails()
+          
+          +productScreenshots()
+          +productVideos()
+          +addLinks('purchaseLinks', 'Purchase URLs')
+          +addLinks('moreInformationLinks', 'More information URLs')
+          
+        #tabFeatures.tab-pane(role='tabpanel')
+          +imageRepresentationSupported()
+          +speechTypeOptions()
+          +enviroControl()
+          .panel.panel-default
+            .panel-heading Software can control control a separate computer/device
+            .panel-body
+              +switch('product.features', 'controlAnotherDeviceFromSoftware')
+    
+          .panel.panel-default
+            .panel-heading Software can control operating system
+            .panel-body
+              +switch('product.features', 'controlOperatingSystemFromSoftware')
+              
+          .panel.panel-default
+            .panel-heading Editing options
+            .panel-body
+              textarea.form-control(ng-model='product.features.editingOptions')
+    
+          .panel.panel-default
+            .panel-heading Visual options
+            .panel-body
+              +checkbox('product.features.visualOptions', 'zoom', 'Zoom')
+              +checkbox('product.features.visualOptions', 'cellHighlight', 'Cell Highlight')
+              +checkbox('product.features.visualOptions', 'changeableCellHighlight', 'Changeable Cell Highlight')
+              +checkbox('product.features.visualOptions', 'editableFontStyles', 'Editable font styles')
+    
+              .panel.panel-default
+                .panel-heading More information
+                .panel-body
+                  textarea.form-control(ng-model='product.features.visualOptionsMoreInfo')
+    
+          .panel.panel-default
+            .panel-heading Supported devices
+            .panel-body
+              ui-select(multiple, search-enabled, reset-search-input='true', ng-model="product.features.supportedDevices")
+                ui-select-match(placeholder="Select a devices") {{$item.name}}
+                ui-select-choices(repeat="item in deviceOptions | filter: $select.search", refresh='refreshDevices($select.search)', refresh-delay='500')
+                  div {{item.name}}
+    
+          +supportedOperatingSystems()
+          +vocabularies()
+          +accessMethods()
+          
+        #tabCostSupport.tab-pane(role='tabpanel')   
+          +price()
+          +addLinks('supportLinks', 'Support URLs')
 
-        +draftActions()
+        #tabVersions.tab-pane(role='tabpanel', ng-if='revisions.length')
+          +productRevisions('product')
+
+      +draftActions()

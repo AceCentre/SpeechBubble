@@ -8,89 +8,102 @@ include ../form-helpers
 form.form-horizontal(name='form', novalidate)
   fieldset(ng-disabled='isSaving')
     .modal-body
-      .panel.panel-default
-        .panel-heading Product Details
-        .panel-body
-          input(type='hidden', ng-init='product.type = "ProductAccessSolution"')
-          +productDetails()
+      ul.nav.nav-tabs(role='tablist')
+        li.active(role='presentation'): a(href='#', data-target='#tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
+        li(role='presentation'): a(href='#', data-target='#tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features        
+        li(role='presentation'): a(href='#', data-target='#tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
+        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
 
-      .panel.panel-default
-        .panel-heading Input required
-        .panel-body
-          +radio('product.features', 'category', 'Switch', 'Switch')
-          +radio('product.features', 'category', 'Eyegaze', 'Eye movement')
-          +radio('product.features', 'category', 'Mouse', 'Mouse')
-          +radio('product.features', 'category', 'Alternative', 'Alternative/Keyboard')
-          +radio('product.features', 'category', 'Force', 'Movement/force')
-          +radio('product.features', 'category', 'Discrete', 'Body movement - Discrete')
-          +radio('product.features', 'category', 'Gross', 'Body movement - Gross')
-
-      .panel.panel-default
-        .panel-heading Output
-        .panel-body
-          +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch')
-          +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - 2 or more switches')
-          +radio('product.features', 'output', 'proportional', 'Proportional')
+      .tab-content
+          #tabBasic.tab-pane.active(role='tabpanel')
+            .panel.panel-default
+              .panel-heading Product Details
+              .panel-body
+                input(type='hidden', ng-init='product.type = "ProductAccessSolution"')
+                +productDetails()
+                
+            +productImages()
+            +productVideos()
+          #tabFeatures.tab-pane(role='tabpanel')
+            .panel.panel-default
+              .panel-heading Input required
+              .panel-body
+                +radio('product.features', 'category', 'Switch', 'Switch')
+                +radio('product.features', 'category', 'Eyegaze', 'Eye movement')
+                +radio('product.features', 'category', 'Mouse', 'Mouse')
+                +radio('product.features', 'category', 'Alternative', 'Alternative/Keyboard')
+                +radio('product.features', 'category', 'Force', 'Movement/force')
+                +radio('product.features', 'category', 'Discrete', 'Body movement - Discrete')
+                +radio('product.features', 'category', 'Gross', 'Body movement - Gross')
+      
+            .panel.panel-default
+              .panel-heading Output
+              .panel-body
+                +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch')
+                +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - 2 or more switches')
+                +radio('product.features', 'output', 'proportional', 'Proportional')
+                
+            .panel.panel-default
+              .panel-heading Computer control options (multiple)
+              .panel-body
+                +checkbox('product.features.computerControl', 'keyboard', 'Keyboard')
+                .panel.panel-default(ng-if="product.features.computerControl.keyboard")
+                  .panel-heading Is additional software required to make this work?
+                  .panel-body
+                    +switch('product.features.computerControl', 'additionalSoftwareKeyboard')
+                    
+                .panel.panel-default(ng-if="product.features.computerControl.keyboard")
+                  .panel-heading Wired or Wireless Keyboard Support?
+                  .panel-body
+                    +checkbox('product.features.computerControl', 'wiredKeyboard', 'Wired')
+                    +checkbox('product.features.computerControl', 'wirelessKeyboard', 'Wireless')
+                    
+                
+                +checkbox('product.features.computerControl', 'mouse', 'Mouse')
+                .panel.panel-default(ng-if="product.features.computerControl.mouse")
+                  .panel-heading Is additional software required to make this work?
+                  .panel-body
+                    +switch('product.features.computerControl', 'additionalSoftwareMouse')
+                    
+                .panel.panel-default(ng-if="product.features.computerControl.keyboard")
+                  .panel-heading Wired or Wireless Mouse Support?
+                  .panel-body
+                    +checkbox('product.features.computerControl', 'wiredMouse', 'Wired')
+                    +checkbox('product.features.computerControl', 'wirelessMouse', 'Wireless')
+                
+            .panel.panel-default
+              .panel-heading Typical body part that controls (multiple)
+              .panel-body
+                +checkbox('product.features.canBeControlledBy', 'hand', 'Hand')
+                +checkbox('product.features.canBeControlledBy', 'eye', 'Eye')
+                +checkbox('product.features.canBeControlledBy', 'head', 'Head')
+                +checkbox('product.features.canBeControlledBy', 'arm', 'Arm')
+                +checkbox('product.features.canBeControlledBy', 'knee', 'Knee')
+                +checkbox('product.features.canBeControlledBy', 'elbow', 'Elbow')
+                +checkbox('product.features.canBeControlledBy', 'muscle', 'Muscle')
+                +checkbox('product.features.canBeControlledBy', 'other', 'Other')
+                +checkbox('temp', 'canBeControlledByOther', 'Other')
+                
+                textarea.form-control(ng-show='temp.canBeControlledByOther', destroy='canBeControlledByOtherDetails', ng-model='product.features.canBeControlledByOtherDetails')
+                
+            .panel.panel-default
+              .panel-heading Mounting options (multiple)
+              .panel-body
+                +checkbox('product.features.mountingOptions', 'oneQuarterInchThread', '1/4" thread')
+                +checkbox('product.features.mountingOptions', 'oneEighthInchThread', '1/8" thread')
+                +checkbox('product.features.mountingOptions', 'vesa', 'VESA')
+                +checkbox('product.features.mountingOptions', 'suction', 'Suction')
+                +checkbox('product.features.mountingOptions', 'magnetic', 'Magnets')
+                +checkbox('product.features.mountingOptions', 'standalone', 'Standalone')
+                +checkbox('temp', 'mountingOptionsOther', 'Other')
+                
+                textarea.form-control(ng-show='temp.mountingOptionsOther', destroy='mountingOptionsOtherDetails', ng-model='product.features.mountingOptionsOtherDetails')
+  
+          #tabCostSupport.tab-pane(role='tabpanel')   
+            +price()
+            +addLinks('supportLinks', 'Support URLs')
           
-      .panel.panel-default
-        .panel-heading Computer control options (multiple)
-        .panel-body
-          +checkbox('product.features.computerControl', 'keyboard', 'Keyboard')
-          .panel.panel-default(ng-if="product.features.computerControl.keyboard")
-            .panel-heading Is additional software required to make this work?
-            .panel-body
-              +switch('product.features.computerControl', 'additionalSoftwareKeyboard')
-              
-          .panel.panel-default(ng-if="product.features.computerControl.keyboard")
-            .panel-heading Wired or Wireless Keyboard Support?
-            .panel-body
-              +checkbox('product.features.computerControl', 'wiredKeyboard', 'Wired')
-              +checkbox('product.features.computerControl', 'wirelessKeyboard', 'Wireless')
-              
-          
-          +checkbox('product.features.computerControl', 'mouse', 'Mouse')
-          .panel.panel-default(ng-if="product.features.computerControl.mouse")
-            .panel-heading Is additional software required to make this work?
-            .panel-body
-              +switch('product.features.computerControl', 'additionalSoftwareMouse')
-              
-          .panel.panel-default(ng-if="product.features.computerControl.keyboard")
-            .panel-heading Wired or Wireless Mouse Support?
-            .panel-body
-              +checkbox('product.features.computerControl', 'wiredMouse', 'Wired')
-              +checkbox('product.features.computerControl', 'wirelessMouse', 'Wireless')
-          
-      .panel.panel-default
-        .panel-heading Typical body part that controls (multiple)
-        .panel-body
-          +checkbox('product.features.canBeControlledBy', 'hand', 'Hand')
-          +checkbox('product.features.canBeControlledBy', 'eye', 'Eye')
-          +checkbox('product.features.canBeControlledBy', 'head', 'Head')
-          +checkbox('product.features.canBeControlledBy', 'arm', 'Arm')
-          +checkbox('product.features.canBeControlledBy', 'knee', 'Knee')
-          +checkbox('product.features.canBeControlledBy', 'elbow', 'Elbow')
-          +checkbox('product.features.canBeControlledBy', 'muscle', 'Muscle')
-          +checkbox('product.features.canBeControlledBy', 'other', 'Other')
-          +checkbox('temp', 'canBeControlledByOther', 'Other')
-          
-          textarea.form-control(ng-show='temp.canBeControlledByOther', destroy='canBeControlledByOtherDetails', ng-model='product.features.canBeControlledByOtherDetails')
-          
-      .panel.panel-default
-        .panel-heading Mounting options (multiple)
-        .panel-body
-          +checkbox('product.features.mountingOptions', 'oneQuarterInchThread', '1/4" thread')
-          +checkbox('product.features.mountingOptions', 'oneEighthInchThread', '1/8" thread')
-          +checkbox('product.features.mountingOptions', 'vesa', 'VESA')
-          +checkbox('product.features.mountingOptions', 'suction', 'Suction')
-          +checkbox('product.features.mountingOptions', 'magnetic', 'Magnets')
-          +checkbox('product.features.mountingOptions', 'standalone', 'Standalone')
-          +checkbox('temp', 'mountingOptionsOther', 'Other')
-          
-          textarea.form-control(ng-show='temp.mountingOptionsOther', destroy='mountingOptionsOtherDetails', ng-model='product.features.mountingOptionsOtherDetails')
-
-      +productImages()
-      +productVideos()
-      +price()
-      +productRevisions('product')
-
-    +draftActions()
+          #tabVersions.tab-pane(role='tabpanel', ng-if='revisions.length')
+            +productRevisions('product')
+  
+        +draftActions()
