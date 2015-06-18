@@ -453,13 +453,13 @@ mixin productRevisions(model)
       table.table.table-striped
         thead
           tr
-            th.actions: button.btn.btn-tertiary(type='button', ng-click='openSplitCompareWindow()') Compare
+            th.actions(ng-if="revisions.length > 1"): button.btn.btn-tertiary(type='button', ng-click='openSplitCompareWindow()') Compare
             th Version
             th Status
             th.actions Actions
         tbody
           tr(ng-repeat='rev in revisions | orderBy:"createdAt":true | from:((currentPage - 1) * revisionsPerPage) | limitTo: revisionsPerPage track by $index', ng-class='{ "edit-mode": (product.currentRevision === rev._id) }')
-            td.actions
+            td.actions(ng-if="revisions.length > 1")
               input(type='radio', name='CompareRevision1', ng-click='compare.rev1 = rev._id', ng-disabled='compare.rev2 === rev._id')
               input(type='radio', name='CompareRevision2', ng-click='compare.rev2 = rev._id', ng-disabled='compare.rev1 === rev._id')
             td
