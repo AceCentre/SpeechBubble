@@ -25,6 +25,7 @@ form.form-horizontal(name='form', novalidate)
     
           +productImages()
           +productVideos()
+          +addLinks('moreInformationLinks', 'More information URLs')
         
         #tabFeatures.tab-pane(role='tabpanel')
           +vocabularies()
@@ -75,8 +76,7 @@ form.form-horizontal(name='form', novalidate)
                   +switch('product.features', 'sizeIncludingCase')
               
         #tabCostSupport.tab-pane(role='tabpanel')
-          +price()
-          +addLinks('moreInformationLinks', 'More information URLs')
+          +price()          
           .panel.panel-default
             .panel-heading Support and warranty
             .panel-body

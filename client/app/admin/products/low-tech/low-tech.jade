@@ -6,27 +6,42 @@ include ../form-helpers
 form.form-horizontal(name='form', novalidate)
   fieldset(ng-disabled='isSaving')
     .modal-body
-      .panel.panel-default
-        .panel-heading Product Details
-        .panel-body
-          input(type='hidden', ng-init='product.type = "ProductLowTech"')
-          +productDetails()
+      ul.nav.nav-tabs(role='tablist')
+        li.active(role='presentation'): a(href='#', data-target='#tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
+        li(role='presentation'): a(href='#', data-target='#tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features        
+        li(role='presentation'): a(href='#', data-target='#tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
+        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
 
-      +productImages()
-      +imageRepresentationSupported()
-      +price()
-      +addLinks('supportLinks', 'Support URLs')
-      +addLinks('purchaseLinks', 'Purchase URLs')
-      +addLinks('moreInformationLinks', 'More information URLs')
-      .panel.panel-default
-        .panel-heading 
-          | What access method is this designed for? (multiple allowed)
-          span(glossary='556781785719a8bb50f5e542')
-        .panel-body
-          +checkbox('product.features.accessMethods', 'finger', 'Finger pointing')
-          +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')
-          +checkbox('product.features.accessMethods', 'eyePointing', 'Eye pointing')
-          +checkbox('product.features.accessMethods', 'scanning', 'Partner assisted scan')
-      +productRevisions('product')
+      .tab-content
+        #tabBasic.tab-pane.active(role='tabpanel')
+          .panel.panel-default
+            .panel-heading Product Details
+            .panel-body
+              input(type='hidden', ng-init='product.type = "ProductLowTech"')
+              +productDetails()
+          +productImages()
+          +productVideos()
+          +addLinks('purchaseLinks', 'Purchase URLs')
+          +addLinks('moreInformationLinks', 'More information URLs')
+          
+              
+        #tabFeatures.tab-pane(role='tabpanel')
+          +imageRepresentationSupported()
+          .panel.panel-default
+            .panel-heading 
+              | What access method is this designed for? (multiple allowed)
+              span(glossary='556781785719a8bb50f5e542')
+            .panel-body
+              +checkbox('product.features.accessMethods', 'finger', 'Finger pointing')
+              +checkbox('product.features.accessMethods', 'grossPointing', 'Fist pointing')
+              +checkbox('product.features.accessMethods', 'eyePointing', 'Eye pointing')
+              +checkbox('product.features.accessMethods', 'scanning', 'Partner assisted scan')
+           
+        #tabCostSupport.tab-pane(role='tabpanel')   
+          +price()
+          +addLinks('supportLinks', 'Support URLs')
+      
+        #tabVersions.tab-pane(role='tabpanel', ng-if='revisions.length')
+          +productRevisions('product')
 
-    +draftActions()
+      +draftActions()
