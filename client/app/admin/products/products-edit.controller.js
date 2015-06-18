@@ -129,9 +129,11 @@ angular.module('speechBubbleApp')
     });
 
     $scope.save = function(form, publish) {
-      $scope.submitted = true;
+      form.$submitted = true;
+      
       if($scope.hasChanges()) {
         if(!form.$valid) {
+          $('a[data-target="#tabBasic"]').tab('show');
           return growl.error('Form validation failure, please check your information.');
         }
         $scope.isSaving = true;
