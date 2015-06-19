@@ -31,8 +31,6 @@ block content
           li: a(ng-if='comparing.length > 1', ng-click='clearCompare()',  href='#') Remove all
 
     div(ng-hide='!total')
-      div(ng-if='isLoading')
-        img.loading.ng-hide-animate(ng-show='isLoading', src='/assets/images/loading.gif', width='39', height='39')
 
       div.ng-hide-animate(ng-hide='isLoading')
         +pagination()
