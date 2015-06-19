@@ -15,6 +15,12 @@
   dd {
   	margin-bottom: 5px;
   }
+  
+  @media (min-width: 480px) {
+    th {
+      width: 240px;
+    }
+  }
 }
 
 .product-summary .img-thumbnail {
