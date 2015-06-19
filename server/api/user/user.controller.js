@@ -153,16 +153,18 @@ exports.changePassword = function(req, res, next) {
  * Get my info
  */
 exports.me = function(req, res, next) {
-  var userId = req.user._id;
-  User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
-    if (err) return next(err);
-    if (!user) return res.json(401);
-    var data = user.toJSON();
-    data.disqus = user.disqus;
-    res.json(data);
-  });
+  User 
+    .findOne({ '_id': req.user._id})
+    .populate('recentlyViewed')
+    .populate('recentDrafts')
+    .select('-salt -hashedPassword') // don't ever give out the password or salt
+    .exec(function(err, user) { 
+      if (err) return next(err);
+      if (!user) return res.json(401);
+      var data = user.toJSON();
+      data.disqus = user.disqus;
+      res.json(data);
+    });
 };
 
 /**

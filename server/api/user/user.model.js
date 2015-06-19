@@ -57,7 +57,16 @@ var UserSchema = new Schema({
   salt: String,
   facebook: {},
   twitter: {},
-  google: {}
+  google: {},
+  // behaviour
+  'recentlyViewed': [{
+    'type': Schema.Types.ObjectId,
+    'ref': 'Product'
+  }],
+  'recentDrafts': [{
+    'type': Schema.Types.ObjectId,
+    'ref': 'Product'
+  }]
 });
 
 /**
@@ -251,6 +260,26 @@ UserSchema.methods = {
     if (!password || !this.salt) { return ''; }
     var salt = new Buffer(this.salt, 'base64');
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
+  },
+  
+  viewedProduct: function(id, callback) {
+    var index = this.recentlyViewed.indexOf(id);
+    if(index > -1) {
+      this.recentlyViewed.splice(index, 1);
+    }
+    this.recentlyViewed.unshift(id);
+    this.recentlyViewed.splice(3, this.recentlyViewed.length);
+    return this.save(callback);
+  },
+
+  draftProduct: function(id, callback) {
+    var index = this.recentDrafts.indexOf(id);
+    if(index > -1) {
+      this.recentDrafts.splice(index, 1);
+    }
+    this.recentDrafts.unshift(id);
+    this.recentDrafts.splice(3, this.recentDrafts.length);
+    return this.save(callback);
   }
 };
 

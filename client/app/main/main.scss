@@ -22,3 +22,11 @@
     display: none;
   }
 }
+
+.logged-in-panels {
+  @media (min-width: 992px) {
+    .panel-body {
+      min-height: 252px;
+    }
+  }
+}

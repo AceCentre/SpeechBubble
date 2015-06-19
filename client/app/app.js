@@ -245,7 +245,7 @@ angular.module('speechBubbleApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth, $window) {
+  .run(function ($rootScope, $location, Auth, User, $window) {
     $window.disqus_config = function () {
         this.page.remote_auth_s3 = Auth.getCurrentUser().disqus.auth;
         this.page.api_key = Auth.getCurrentUser().disqus.pubKey;

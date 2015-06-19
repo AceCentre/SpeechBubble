@@ -4,7 +4,7 @@ angular.module('speechBubbleApp')
 
 .controller('ProductsCtrl', function ($scope, $sce, $http, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch, PageTitle) {
 
-  PageTitle('Product Search');
+  PageTitle('Product Search');  
 
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;

@@ -8,6 +8,7 @@ var Product = require('./product.model');
 var formidable = require('formidable');
 var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
+var User = require('../user/user.model');
 
 function flatten(suppliers) {
   return _.uniq(suppliers.map(function(supplier) {
@@ -51,11 +52,16 @@ exports.index = function(req, res) {
   var limit = req.query.limit || 10;
   var skip = (page - 1) * limit;
   var term = req.query.term;
+  var sortBy = {};
 
   var orQuery = [];
   var query = {
     'type': { $not: { $eq: 'ProductAccessSolution' } },
   };
+  
+  // default to sort by name ascending
+  sortBy[req.query.sortBy || 'name'] = 'asc';
+
   
   if(req.query.type === "ProductAccessSolution") {
     delete query.type;
@@ -112,7 +118,7 @@ exports.index = function(req, res) {
     Product
     .find(query)
     .or(orQuery)
-    .sort({ name: 'asc' })
+    .sort(sortBy)
     .skip(skip)
     .limit(limit)
     .populate('suppliers')
@@ -142,6 +148,9 @@ exports.show = function(req, res) {
   .exec(function (err, product) {
     if(err) { return handleError(res, err); }
     if(!product) { return res.send(404); }
+    if(req.user) {
+      req.user.viewedProduct(product._id);
+    }
     Product
     .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
       if(err) { return handleError(res, err); }
@@ -158,7 +167,7 @@ exports.showRevision = function(req, res) {
   .populate('suppliers')
   .exec(function (err, product) {
     if(err) { return handleError(res, err); }
-    if(!product) { return res.send(404); }
+    if(!product) { return res.send(404); }    
     Product
     .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
       if(err) { return handleError(res, err); }
@@ -183,6 +192,9 @@ exports.create = function(req, res) {
     author: req.user._id
   }, function(err, product) {
     if(err) { return handleError(res, err); }
+    if(req.user) {
+      req.user.draftProduct(product._id);
+    }
     return res.json(201, product);
   });
 };
@@ -279,6 +291,9 @@ exports.update = function(req, res) {
       product.save(function(err, product) {
         if (err) {
           return handleError(res, err);
+        }
+        if(req.user) {
+          req.user.draftProduct(product._id);
         }
         mandrill_client.messages.send({
           message: {

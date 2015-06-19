@@ -38,7 +38,6 @@ function isAuthenticated() {
 
 /**
  * Attaches the user object to the request if authenticated
- * Otherwise returns 403
  */
 function isAuthenticatedNo403() {
   return compose()

@@ -7,3 +7,49 @@ block content
   div.jumbotron
     div(ng-bind-html='content')
     a.btn.btn-secondary.btn-lg(href='/search') Search Products
+    
+  hr(ng-if="isLoggedIn()")
+    
+  section.row.logged-in-panels(ng-if="isLoggedIn()")
+    aside.col-sm-12.col-md-4
+      .panel.panel-default
+        .panel-heading Latest Products
+        .panel-body
+          .media(ng-repeat='product in recentlyPublished')
+            .media-left
+              a(ui-sref='productDetail({ id: product.slug })')
+                img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
+            .media-body
+              h4.media-heading: a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
+          
+    
+    aside.col-sm-12.col-md-4
+      .panel.panel-default
+        .panel-heading Your Recently Viewed Products
+        .panel-body 
+          .text-center(ng-if='!user.recentlyViewed.length') 
+            p Nothing to display
+            p: a.btn.btn-secondary(ui-sref='products()') View All Products
+            
+          .media(ng-repeat='product in user.recentlyViewed')
+            .media-left
+              a(ui-sref='productDetail({ id: product.slug })')
+                img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
+            .media-body
+              h4.media-heading: a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
+    
+    aside.col-sm-12.col-md-4
+      .panel.panel-default
+        .panel-heading Your Recent Contributions
+        .panel-body
+          .text-center(ng-if='!user.recentDrafts.length') 
+            p Nothing to display
+            p: a.btn.btn-primary(ng-click='create()') Create Product
+            
+          .media(ng-repeat='product in user.recentDrafts')
+            .media-left
+              a(ui-sref='productDetail({ id: product.slug })')
+                img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
+            .media-body
+              h4.media-heading: a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
+              

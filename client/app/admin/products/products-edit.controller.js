@@ -51,6 +51,8 @@ angular.module('speechBubbleApp')
     $scope.revisionsPerPage = 5;
     $scope.currentPage = 1;
     
+    $scope.product.features = $scope.product.features || {};
+    
     var productCanHaveAssociatedVocabularies = _.contains(['ProductHardware', 'ProductSoftware'], $scope.product.type);
     
     // make sure we have a vocabularies array to bind single select to index 0
