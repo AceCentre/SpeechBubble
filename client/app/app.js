@@ -252,7 +252,6 @@ angular.module('speechBubbleApp', [
     };
     
     $rootScope.$on('$locationChangeSuccess',function(){
-      console.log(Math.random());
       $("html, body").animate({ scrollTop: 0 }, 200);
     });
 
