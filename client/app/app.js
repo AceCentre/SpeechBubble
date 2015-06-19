@@ -251,6 +251,14 @@ angular.module('speechBubbleApp', [
         this.page.api_key = Auth.getCurrentUser().disqus.pubKey;
     };
     
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+      // reload the home controller to get latest user views/edits      
+      if(fromState.name && toState.name === 'main' && fromState.name !== 'login') {
+        event.preventDefault();
+        return $window.location.href = '/';
+      }
+    });
+    
     $rootScope.$on('$locationChangeSuccess',function(){
       $("html, body").animate({ scrollTop: 0 }, 200);
     });
