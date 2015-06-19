@@ -23,6 +23,10 @@
   }
 }
 
+.jumbotron .btn + .btn {
+  margin-left: 15px;
+}
+
 .home-panels {
   @media (min-width: 992px) {
     .panel-body {
