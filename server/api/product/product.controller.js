@@ -60,7 +60,7 @@ exports.index = function(req, res) {
   };
   
   // default to sort by name ascending
-  sortBy[req.query.sortBy || 'name'] = 'asc';
+  sortBy[req.query.sort || 'name'] = 'asc';
 
   
   if(req.query.type === "ProductAccessSolution") {
