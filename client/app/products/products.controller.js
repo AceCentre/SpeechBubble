@@ -87,7 +87,6 @@ angular.module('speechBubbleApp')
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.videos = ProductVideos($scope);
   $scope.product = product.data;
-  $scope.comments = true;
 
   PageTitle($scope.product.name);
 

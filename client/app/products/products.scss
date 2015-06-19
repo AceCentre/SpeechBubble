@@ -1,6 +1,20 @@
 .product-summary {
-  @include clearfix();
+  clear: both;
   margin-top: 20px;
+  padding: 20px 0;
+  
+  h1 {
+    font-size: 2em;
+    text-align: left;
+  }
+  
+  dl {
+  	margin-bottom: 0;
+  }
+  
+  dd {
+  	margin-bottom: 5px;
+  }
 }
 
 .product-summary .img-thumbnail {

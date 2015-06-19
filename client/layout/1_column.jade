@@ -4,4 +4,5 @@
       .main-content
         block content
 
-        div(ng-if='comments', comments='')
+        block comments
+          div(ng-if='comments', comments='')

@@ -2,6 +2,9 @@ extends ../../layout/1_column
 include ../mixins/product-helpers
 include ../mixins/results-helpers
 
+block comments
+  // comments included withing main content
+
 block content
   ol.breadcrumb
       li: a(ui-sref='main') Home
@@ -9,80 +12,86 @@ block content
       li.active {{ product.name }}
       
   button.btn.btn-primary.pull-right(ng-click='edit(product)', ng-if='isLoggedIn()') Edit
-  h1 {{ product.name }}
-  .text-center
-    +ratings('product.ratings.average', 'product._id')
-
-  hr
-
-  div.product-summary
-    div.img-thumbnail(carousel, ng-if='product.images.length || product.videos.length')
-      div(slide, ng-repeat='image in product.images' active='slide.active')
-        img(ng-src="{{ image.url }}", width='200', height='200')
-      div(slide, ng-repeat='video in product.videos' active='slide.active')
-        iframe(id='ytplayer', type='text/html', width='320', height='195', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
-
-    img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
-      
-    
-
-    dl.dl-inline()
-      dt Product Type
-      dd {{ product.type | type }}
-      dt(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro') Price
-      dd(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
-        +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
-        +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
-        +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
-        +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
-
-    p {{ product.description }}
-
-  article(ng-if='product.type === "ProductHardware"', ng-include='"app/products/hardware/detail.html"')
-  article(ng-if='product.type === "ProductAccessSolution"', ng-include='"app/products/access-solution/detail.html"')
-  article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/software/detail.html"')
-  article(ng-if='product.type === "ProductLowTech"', ng-include='"app/products/low-tech/detail.html"')
-  article(ng-if='product.type === "ProductVocabulary"', ng-include='"app/products/vocabulary/detail.html"')
-
-  .panel.panel-default(ng-if='product.suppliers.length')
-    .panel-heading Suppliers
-    .panel-body
-      ul.list-unstyled
-        li(ng-repeat='item in product.suppliers')
-          a(ng-href='/suppliers/{{ item._id }}') {{ item.name }}
-       
-  .panel.panel-default(ng-if='product.features.supportLinks.length')
-    .panel-heading Support
-    .panel-body 
-      ul.list-unstyled
-        li(ng-repeat='link in product.features.supportLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
-                 
-  .panel.panel-default(ng-if='product.features.moreInformationLinks.length')
-    .panel-heading More information
-    .panel-body   
-      ul.list-unstyled
-        li(ng-repeat='link in product.features.moreInformationLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
-    
-    
-  .panel.panel-default(ng-if='product.features.purchaseLinks.length')
-    .panel-heading Purchase
-    .panel-body  
-      ul.list-unstyled
-        li(ng-repeat='link in product.features.purchaseLinks')
-          a(ng-if="link.url.indexOf('apple.com') > -1", ng-href="{{ link.url }}?at=1000l3Qz") {{ link.label }}
-          a.trunate(ng-if="link.url.indexOf('apple.com') === -1", ng-href='{{ link.url }}') {{ link.label }}
   
-  .panel.panel-default(ng-if='(product.revisions | published).length > 1')
-    .panel-heading Recent Publications
-    .panel-body  
-      ul.list-unstyled
-        li(ng-repeat='revision in product.revisions | published | reverse | limitTo: 4')
-          span(ng-if='$first')
-            a(ui-sref='productDetail({ id: product.slug })') 
-              {{ revision.createdAt | date:'dd/MM/yyyy @ HH:mm:ss' }} 
-            | &nbsp;by {{ revision.author.firstName }}
-          span(ng-if='!$first')
-            a(ui-sref='productRevisionDetail({ id: product.slug, revisionId: revision._id })') 
-              {{ revision.createdAt | date:'dd/MM/yyyy @ HH:mm:ss' }}
-            | &nbsp;by {{ revision.author.firstName }}
-            
+  .container-fluid.product-summary
+    .row
+      .col-sm-3
+        div.img-thumbnail(carousel, ng-if='product.images.length || product.videos.length')
+          div(slide, ng-repeat='image in product.images' active='slide.active')
+            img(ng-src="{{ image.url }}", width='200', height='200')
+          div(slide, ng-repeat='video in product.videos' active='slide.active')
+            iframe(id='ytplayer', type='text/html', width='320', height='195', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
+    
+        img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='200', height='200')
+        
+        .text-center
+          +ratings('product.ratings.average', 'product._id')
+      
+      .col-sm-9
+      
+        h1 {{ product.name }}
+        
+     
+        dl.dl-inline()
+          dt Product Type
+          dd {{ product.type | type }}
+          dt(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro') Price
+          dd(ng-if='product.features.price.gbp || product.features.price.aud || product.features.price.usd || product.features.price.euro')
+            +textLineIf('£{{ product.features.price.gbp }} (GBP)', 'product.features.price.gbp')
+            +textLineIf('${{ product.features.price.aud }} (AUS)', 'product.features.price.aud')
+            +textLineIf('${{ product.features.price.usd }} (USD)', 'product.features.price.usd')
+            +textLineIf('€{{ product.features.price.euro }} (EUR)', 'product.features.price.euro')
+    
+        p {{ product.description }}
+    
+        article(ng-if='product.type === "ProductHardware"', ng-include='"app/products/hardware/detail.html"')
+        article(ng-if='product.type === "ProductAccessSolution"', ng-include='"app/products/access-solution/detail.html"')
+        article(ng-if='product.type === "ProductSoftware"', ng-include='"app/products/software/detail.html"')
+        article(ng-if='product.type === "ProductLowTech"', ng-include='"app/products/low-tech/detail.html"')
+        article(ng-if='product.type === "ProductVocabulary"', ng-include='"app/products/vocabulary/detail.html"')
+      
+        .panel.panel-default(ng-if='product.suppliers.length')
+          .panel-heading Suppliers
+          .panel-body
+            ul.list-unstyled
+              li(ng-repeat='item in product.suppliers')
+                a(ng-href='/suppliers/{{ item._id }}') {{ item.name }}
+             
+        .panel.panel-default(ng-if='product.features.supportLinks.length')
+          .panel-heading Support
+          .panel-body 
+            ul.list-unstyled
+              li(ng-repeat='link in product.features.supportLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
+                       
+        .panel.panel-default(ng-if='product.features.moreInformationLinks.length')
+          .panel-heading More information
+          .panel-body   
+            ul.list-unstyled
+              li(ng-repeat='link in product.features.moreInformationLinks'): a.truncate(ng-href='{{ link.url }}') {{ link.label }}
+          
+          
+        .panel.panel-default(ng-if='product.features.purchaseLinks.length')
+          .panel-heading Purchase
+          .panel-body  
+            ul.list-unstyled
+              li(ng-repeat='link in product.features.purchaseLinks')
+                a(ng-if="link.url.indexOf('apple.com') > -1", ng-href="{{ link.url }}?at=1000l3Qz") {{ link.label }}
+                a.trunate(ng-if="link.url.indexOf('apple.com') === -1", ng-href='{{ link.url }}') {{ link.label }}
+        
+        .panel.panel-default(ng-if='(product.revisions | published).length > 1')
+          .panel-heading Recent Publications
+          .panel-body  
+            ul.list-unstyled
+              li(ng-repeat='revision in product.revisions | published | reverse | limitTo: 4')
+                span(ng-if='$first')
+                  a(ui-sref='productDetail({ id: product.slug })') 
+                    {{ revision.createdAt | date:'dd/MM/yyyy @ HH:mm:ss' }} 
+                  | &nbsp;by {{ revision.author.firstName }}
+                span(ng-if='!$first')
+                  a(ui-sref='productRevisionDetail({ id: product.slug, revisionId: revision._id })') 
+                    {{ revision.createdAt | date:'dd/MM/yyyy @ HH:mm:ss' }}
+                  | &nbsp;by {{ revision.author.firstName }}
+                  
+                  
+                  
+        div(comments='')
