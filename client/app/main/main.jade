@@ -8,9 +8,9 @@ block content
     div(ng-bind-html='content')
     a.btn.btn-secondary.btn-lg(href='/search') Search Products
     
-  hr(ng-if="isLoggedIn()")
+  hr
     
-  section.row.logged-in-panels(ng-if="isLoggedIn()")
+  section.row.home-panels
     aside.col-sm-12.col-md-4
       .panel.panel-default
         .panel-heading Latest Products
@@ -18,12 +18,12 @@ block content
           .media(ng-repeat='product in recentlyPublished')
             .media-left
               a(ui-sref='productDetail({ id: product.slug })')
-                img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
+                img(ng-src='{{ getThumbnail(product) }}', width='48', height='48')
             .media-body
-              h4.media-heading: a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
+              a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
           
     
-    aside.col-sm-12.col-md-4
+    aside.col-sm-12.col-md-4(ng-if="isLoggedIn()")
       .panel.panel-default
         .panel-heading Your Recently Viewed Products
         .panel-body 
@@ -34,11 +34,11 @@ block content
           .media(ng-repeat='product in user.recentlyViewed')
             .media-left
               a(ui-sref='productDetail({ id: product.slug })')
-                img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
+                img(ng-src='{{ getThumbnail(product) }}', width='48', height='48')
             .media-body
-              h4.media-heading: a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
+              a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
     
-    aside.col-sm-12.col-md-4
+    aside.col-sm-12.col-md-4(ng-if="isLoggedIn()")
       .panel.panel-default
         .panel-heading Your Recent Contributions
         .panel-body
@@ -49,7 +49,16 @@ block content
           .media(ng-repeat='product in user.recentDrafts')
             .media-left
               a(ui-sref='productDetail({ id: product.slug })')
-                img(ng-src='{{ getThumbnail(product) }}', width='64', height='64')
+                img(ng-src='{{ getThumbnail(product) }}', width='48', height='48')
             .media-body
-              h4.media-heading: a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
+              a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
               
+    aside.col-sm-12.col-md-8(ng-if="!isLoggedIn()", ng-controller='TwitterFeedCtrl')
+      .panel.panel-default
+        .panel-heading Recent Tweets
+        .panel-body
+          .media(ng-repeat='tweet in feed')
+            .media-left
+              img.media-object(ng-src='{{ tweet.user.profile_image_url }}', width="")
+            .media-body
+              p(ng-bind-html='tweet.text | tweet')            
