@@ -21,7 +21,7 @@ router.get('/compare', controller.compare);
 router.get('/:id/revisions', auth.isAuthenticated(), controller.revisions);
 router.get('/supportedForVocabulary/', controller.getSupportedForVocabulary);
 router.get('/:slug/:revisionId', controller.showRevision);
-router.get('/:slug', auth.isAuthenticatedNo403(), controller.show);
+router.get('/:slug', auth.attachUser(), controller.show);
 
 // Product Admin
 router.delete('/:id/:revisionId', auth.hasRole('admin'), controller.destroyRevision);

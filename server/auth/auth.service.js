@@ -8,6 +8,7 @@ var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 var User = require('../api/user/user.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
+var _ = require('lodash');
 
 var jwtQueryParam = function jwt(req, res, next) {
   // allow access_token to be passed through query parameter as well
@@ -52,6 +53,24 @@ function isAuthenticatedNo403() {
       });
     });
 }
+
+function attachUser() {
+  return compose()
+    .use(function(req, res, next) {
+        validateJwt(req, res, function(val) {
+            if(_.isUndefined(val)) {
+                User.findById(req.user._id, function(err, user) {
+                    if(err) { return next(err); }
+                    req.user = user;
+                    return next();
+                });
+            } else {
+                req.user = undefined;
+                next();
+            }
+        });
+    });
+};
 
 /**
  * Checks if the user role meets the minimum requirements of the route
@@ -101,3 +120,4 @@ exports.hasRole = hasRole;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;
 exports.redirectForPasswordCreation = redirectForPasswordCreation;
+exports.attachUser = attachUser;
