@@ -249,8 +249,13 @@ angular.module('speechBubbleApp', [
     $window.disqus_config = function () {
         this.page.remote_auth_s3 = Auth.getCurrentUser().disqus.auth;
         this.page.api_key = Auth.getCurrentUser().disqus.pubKey;
-    }
+    };
     
+    $rootScope.$on('$locationChangeSuccess',function(){
+      console.log(Math.random());
+      $("html, body").animate({ scrollTop: 0 }, 200);
+    });
+
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
