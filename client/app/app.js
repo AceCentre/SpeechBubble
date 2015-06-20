@@ -253,7 +253,7 @@ angular.module('speechBubbleApp', [
     
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
       // reload the home controller to get latest user views/edits      
-      if(fromState.name && toState.name === 'main' && fromState.name !== 'login') {
+      if(fromState.name && toState.name === 'main') {
         event.preventDefault();
         return $window.location.href = '/';
       }
