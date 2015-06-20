@@ -9,6 +9,10 @@ block append sidebar
         li(ng-repeat='(category, definitions) in items | groupBy: "category" | orderBy: "title" '): a(ng-href='#{{ category }}') {{ category }}
 
 block content
+  ol.breadcrumb
+    li: a(ui-sref='main') Home
+    li.active Glossary
+    
   h1 Glossary of Terms
 
   div(ng-hide='!total')

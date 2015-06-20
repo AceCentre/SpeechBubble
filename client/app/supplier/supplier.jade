@@ -2,6 +2,10 @@ extends ../../layout/1_column
 include ../mixins/results-helpers
 
 block content
+  ol.breadcrumb
+    li: a(ui-sref='main') Home
+    li.active Suppliers
+    
   h1 Suppliers
 
   div(ng-controller='ResultsCtrl')

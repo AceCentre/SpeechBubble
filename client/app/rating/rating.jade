@@ -10,6 +10,7 @@ mixin productRatingDisplay(name, label)
 block content
   ol.breadcrumb
     li: a(ui-sref='main') Home
+    li: a(ui-sref='main_search') Search
     li: a(ui-sref='products') Products
     li: a(ui-sref='productDetail({ id: ratings.product.slug })') {{ ratings.product.name }}
     li.active Reviews
