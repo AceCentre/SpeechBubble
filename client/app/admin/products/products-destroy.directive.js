@@ -6,11 +6,11 @@ angular.module('speechBubbleApp')
     if(attrs.destroy.indexOf('.') > -1) {
       scope.$on('$destroy', function() {
         var getter = $parse(attrs.destroy);
-        return delete getter.assign(scope, null);
+        return getter.assign(scope, null);
       });
     } else {
       scope.$on('$destroy', function() {
-        return delete scope.product.features[attrs.destroy];
+        return scope.product.features[attrs.destroy] = null;
       });
     }
   };
