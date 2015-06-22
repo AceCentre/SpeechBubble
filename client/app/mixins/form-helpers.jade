@@ -52,13 +52,13 @@ mixin textarea(model, id, label, requiredForm)
 mixin radio(model, id, value, label, required)
   div.radio
     label
-      input(type='radio', ng-model='#{model}.#{id}', name='#{id}', value='#{value}', ng-required='#{required}')
+      input(type='radio', ng-model="#{model}['#{id}']", name='#{id}', value='#{value}', ng-required='#{required}')
       | #{label}
 
 mixin radioChange(model, id, value, label, change)
   div.radio
     label
-      input(type='radio', ng-model='#{model}.#{id}', name='#{id}', value='#{value}', ng-change='#{change}')
+      input(type='radio', ng-model="#{model}['#{id}']", name='#{id}', value='#{value}', ng-change='#{change}')
       | #{label}
 
 mixin checkbox(model, id, label)
@@ -69,8 +69,8 @@ mixin checkbox(model, id, label)
 
 mixin switch(model, id)
   div.btn-group.btn-group-switch
-    label.btn.btn-primary(ng-model='#{model}.#{id}', btn-checkbox btn-checkbox-true="false") No
-    label.btn.btn-primary(ng-model='#{model}.#{id}', btn-checkbox btn-checkbox-true="true") Yes
+    label.btn.btn-primary(ng-model="#{model}['#{id}']", btn-checkbox btn-checkbox-true="false") No
+    label.btn.btn-primary(ng-model="#{model}['#{id}']", btn-checkbox btn-checkbox-true="true") Yes
 
 mixin defaultedSwitch(model, id)
   div.btn-group.btn-group-switch

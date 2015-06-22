@@ -23,6 +23,31 @@
   }
 }
 
+.jumbotron {
+  clear: both;
+  
+  .panel + .panel {
+    position: relative;
+    margin-top: 40px;
+    
+    &:before {
+      position: absolute;
+      color: $secondaryColor;
+      top: -34px;
+      margin-left: -16px;
+      font-size: 2em;
+      display: inline-block;
+      font-family: 'Glyphicons Halflings';
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      content: "\e114";
+    }
+  }
+}
+
 .jumbotron .btn + .btn {
   margin-left: 15px;
 }

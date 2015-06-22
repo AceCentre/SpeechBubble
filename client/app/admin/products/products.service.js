@@ -103,6 +103,38 @@ angular.module('speechBubbleApp')
       };
     };
   })
+  .factory('FancyFacets', function() {
+    return function(input) {
+      var facets = [];
+  
+      var getFacets = function(value, key, parent) {
+        parent = (parent && [parent, key].join('-')) || key;
+        
+        if(Object.prototype.toString.call(value) === '[object Object]') {
+          for(var objKey in value) {
+            if( value.hasOwnProperty(objKey) ) {
+              getFacets(value[objKey], objKey, parent);
+            }
+          }
+        }
+        
+        if(value === true || typeof value === 'string') {
+          if(typeof value === 'string') {
+            parent += (value.charAt(0).toUpperCase() + value.slice(1));
+          }
+          facets.push(parent.split(/(?=[A-Z])/).join('-').toLowerCase());
+        }
+      };
+      
+      for(var key in input) {
+        if( input.hasOwnProperty(key) ) {
+          getFacets(input[key], key);
+        }
+      }
+    
+      return facets;
+    };
+  })
   .factory('ProductCompareTemplate', function() {
     return function(product) {
       var template;

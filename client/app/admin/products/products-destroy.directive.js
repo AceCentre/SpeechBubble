@@ -1,12 +1,17 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.directive('destroy', function() {
+.directive('destroy', function($parse) {
   return function(scope, elem, attrs) {
-    scope.$watch(attrs.ngShow, function destroyWatchAction(value) {
-      if(!value && scope.product.features) {
-        delete scope.product.features[attrs.destroy];
-      }
-    });
-  }
+    if(attrs.destroy.indexOf('.') > -1) {
+      scope.$on('$destroy', function() {
+        var getter = $parse(attrs.destroy);
+        return delete getter.assign(scope, null);
+      });
+    } else {
+      scope.$on('$destroy', function() {
+        return delete scope.product.features[attrs.destroy];
+      });
+    }
+  };
 });

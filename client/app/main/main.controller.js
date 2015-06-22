@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('MainCtrl', function (Auth, User, $sce, $rootScope, $scope, $modal, $state, $location, $http, ProductOptions, ProductSearch) {
+.controller('MainCtrl', function (Auth, User, $sce, $rootScope, $scope, $modal, $state, $location, $http, ProductOptions, ProductSearch, FancyFacets) {
   
   angular.extend($scope, {
     'endpoint': '/api/product/:id',
@@ -9,8 +9,23 @@ angular.module('speechBubbleApp')
     'devices': ProductOptions.devices,
     'isLoggedIn': Auth.isLoggedIn,
     'recentlyPublished': [],
-    'user': Auth.getCurrentUser()
+    'user': Auth.getCurrentUser(),
+    'filters': {},
+    'options': {
+      'access': []
+    },
+    'getThumbnail': function(item) {
+      return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
+    },
+    'facets': [],
+    'applyFilters': function() {
+      $location.url('/products').search({ 'facets': $scope.facets });
+    }
   });
+  
+  $scope.$watch('filters', function() {
+    $scope.facets = FancyFacets($scope.filters);
+  }, true);
   
   $http.get('/api/product', {
     'params': {
@@ -21,10 +36,6 @@ angular.module('speechBubbleApp')
   .success(function(res) {
     $scope.recentlyPublished = res.items;
   });
-  
-  $scope.getThumbnail = function(item) {
-    return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
-  };
 
   $scope.clearSearchFilters = function() {
     angular.forEach($scope.search, function(value, key) {
