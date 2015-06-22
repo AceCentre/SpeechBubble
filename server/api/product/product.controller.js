@@ -53,15 +53,12 @@ exports.index = function(req, res) {
   var skip = (page - 1) * limit;
   var term = req.query.term;
   var sortBy = {};
-
-  var orQuery = [];
   var query = {
     'type': { $not: { $eq: 'ProductAccessSolution' } },
   };
   
   // default to sort by name ascending
   sortBy[req.query.sort || 'name'] = 'asc';
-
   
   if(req.query.type === "ProductAccessSolution") {
     delete query.type;
@@ -70,14 +67,11 @@ exports.index = function(req, res) {
   if(facets) {
     query.facets = { '$in': _.isString(facets) ? [facets]: facets };
   } else {
+    // Hide vocabularies that are built-in hardware by default
     query.facets = { '$not': { '$in': ['no-software-required'] } };
   }
   
-
-  if(term) {
-    orQuery.push({ $text: { $search: term } });
-  }
-
+  addToQuery(query, '$text', { '$search': req.query.term }, req.query.term);
   addToQuery(query, 'type', req.query.type, req.query.type);
 
   // ADMIN FILTERS
@@ -107,17 +101,13 @@ exports.index = function(req, res) {
       $in: _.isArray(devices) ? devices: [devices]
     }, devices);
   }
-
-  orQuery = orQuery.length ? orQuery: null;
-
   Product
   .find(query)
-  .or(orQuery)
   .count(function(err, total) {
+    console.log(err);
     if(err) { return handleError(res, err); }
     Product
     .find(query)
-    .or(orQuery)
     .sort(sortBy)
     .skip(skip)
     .limit(limit)
@@ -131,6 +121,7 @@ exports.index = function(req, res) {
       'select': 'firstName'
     })
     .exec(function (err, products) {
+      console.log(err);
       if(err) { return handleError(res, err); }
       return res.json(200, {
         total: total,
