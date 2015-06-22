@@ -104,7 +104,6 @@ exports.index = function(req, res) {
   Product
   .find(query)
   .count(function(err, total) {
-    console.log(err);
     if(err) { return handleError(res, err); }
     Product
     .find(query)
@@ -121,7 +120,6 @@ exports.index = function(req, res) {
       'select': 'firstName'
     })
     .exec(function (err, products) {
-      console.log(err);
       if(err) { return handleError(res, err); }
       return res.json(200, {
         total: total,
