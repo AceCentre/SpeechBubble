@@ -4,6 +4,9 @@ include ../../mixins/results-helpers
 block append sidebar
   div.sidebar.col-sm-12
     h2 Narrow results
+    .form-group
+      label.control-label(for='Term') Search
+      input.form-control(id='Term', name='term', ng-model='search.term')
     div(ng-include='"components/forms/product-filters.html"')
     
 block sidebar

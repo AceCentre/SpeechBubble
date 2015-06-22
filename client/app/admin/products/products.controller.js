@@ -46,9 +46,7 @@ angular.module('speechBubbleApp')
 
     $scope.clearFilters = function() {
       angular.forEach($scope.search, function(value, key) {
-        if(key !== 'term') {
-          delete $scope.search[key];
-        }
+        delete $scope.search[key];
       });
       $scope.search.type = '';
       $scope.performSearch();
