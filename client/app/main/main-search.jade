@@ -104,5 +104,5 @@ block content
           
         // ONLY ALLOW SEARCH AFTER FIRST QUESTION HAS BEEN ANSWERED
         div(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true")
-          p {{ results }} products found
+          p(ng-pluralize count='results' when="{ '0': 'No products found', 'one': '1 product found', 'other': '{} products found' }")
           button.btn.btn-primary.btn-lg(ng-disabled='!results', type='button', ng-click='applyFilters()') View Results
