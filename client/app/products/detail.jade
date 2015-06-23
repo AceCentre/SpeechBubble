@@ -30,6 +30,8 @@ block content
       
       .col-sm-9
       
+        .alert.alert-warning.text-center(ng-if='isPreviousRevision') You are viewing a previous revision to view the current published product #[a(ui-sref='productDetail({ id: product.slug })') click here].
+        
         h1 {{ product.name }}
         
      

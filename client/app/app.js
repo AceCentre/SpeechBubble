@@ -102,6 +102,9 @@ angular.module('speechBubbleApp', [
       resolve: {
         product: function($stateParams, $http) {
           return $http.get('/api/product/' + $stateParams.id);
+        },
+        isPreviousRevision: function() {
+          return false;
         }
       }
     })
@@ -117,6 +120,9 @@ angular.module('speechBubbleApp', [
       resolve: {
         product: function($stateParams, $http) {
           return $http.get('/api/product/' + $stateParams.id + '/' + $stateParams.revisionId);
+        },
+        isPreviousRevision: function() {
+          return true;
         }
       }
     })
