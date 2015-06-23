@@ -5,17 +5,26 @@ include ../mixins/form-helpers
 include ../admin/products/form-helpers
 
 block content
-  ol.breadcrumb
-    li: a(ui-sref='main') Home
-    li: a(ui-sref='main_search') Search
-    li.active Products
-    
-  
 
-  div(ng-controller='ResultsCtrl')
+  div.product-listing(ng-controller='ResultsCtrl')
   
+    .current-filters(ng-if='hasFacets()')
+      h2 
+        | Current filters
+        a(ng-click='clearFilters()', href='#') clear all
+      a.btn.btn-tertiary(ng-repeat='(key, value) in search.facets', ng-click="search.facets[key] = null") 
+        | {{ key | facets }}
+        span.glyphicon.glyphicon-remove
+  
+    ol.breadcrumb
+      li: a(ui-sref='main') Home
+      li: a(ui-sref='main_search') Search
+      li.active Products
+  
+    
     button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
     h1 Products
+      
     +pageListingNotice('products')
     
     nav.navbar.navbar-default.navbar-compare(ng-if='comparing.length', affix)
@@ -37,5 +46,3 @@ block content
         +pagination()
         +media()
         +pagination()
-
-  

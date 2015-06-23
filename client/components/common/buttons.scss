@@ -5,6 +5,7 @@
   padding: 10px 20px;
   text-transform: uppercase;
   text-shadow: none;
+  outline: none;
   @include transition(background-color ease 300ms);
 
   @media (max-width: $screen-xs-max) {
@@ -12,9 +13,14 @@
       width: 100%;
   }
 
-  &:hover, &:active, &:focus {
+  &:hover, &:active, &:focus, &:active:focus {
     outline: 0;
     text-decoration: none;
+  }
+  
+  &[disabled] {
+    cursor: not-allowed;
+    pointer-events: auto;
   }
 }
 

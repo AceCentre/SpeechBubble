@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-  .controller('ResultsCtrl', function ($scope, $resource, $location, Modal, growl, $sce, ProductSearch) {
+  .controller('ResultsCtrl', function ($scope, $resource, $location, Modal, growl, $sce, ProductSearch, FancyFacets) {
 
     var api = $resource($scope.endpoint, { id: '@_id' }, { query: { method: 'GET' } });
 
@@ -11,7 +11,7 @@ angular.module('speechBubbleApp')
     
     var changeLocation = function(now, then) {
       var location = angular.copy($scope.search);
-      location.facets = _.compactObject(location.facets).keys().value();
+      location.facets = FancyFacets(location.facets);
       if(location.page === 1) {
         delete location.page;
       }
@@ -25,6 +25,16 @@ angular.module('speechBubbleApp')
         delete location.term;
       }
       $location.search(location);
+    };
+    
+    $scope.clearFilters = function() {
+      angular.copy({}, ProductSearch.facets);
+    };
+    
+    $scope.hasFacets = function() {
+      var location = angular.copy($scope.search);
+      location.facets = FancyFacets(location.facets);
+      return !!location.facets.length;
     };
     
     $scope.getItemsPerPage = function() {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('speechBubbleApp')
-.controller('MainCtrl', function (Auth, User, $sce, $rootScope, $scope, $modal, $state, $location, $http, ProductOptions, ProductSearch, FancyFacets) {
+.controller('MainCtrl', function (Auth, User, $sce, $rootScope, $scope, $modal, $state, $location, $http, ProductOptions, ProductSearch, FancyFacets, growl) {
   
   angular.extend($scope, {
     'endpoint': '/api/product/:id',
@@ -21,6 +21,17 @@ angular.module('speechBubbleApp')
     'applyFilters': function() {
       $location.url('/products').search({ 'facets': $scope.facets });
     }
+  });
+  
+  $scope.$watch('facets', function() {
+    $http.get('/api/product', {
+      'params': {
+        'facets': $scope.facets
+      }
+    })
+    .success(function(res) {
+      $scope.results = res.total;
+    });   
   });
   
   $scope.$watch('filters', function() {
