@@ -21,6 +21,9 @@ angular.module('speechBubbleApp')
     
     var get = function(){
       var location = $location.search();
+      if(typeof location.facets === 'string') {
+        location.facets = [location.facets]; 
+      }
       angular.forEach(search.facets, function(value, key) {
         delete search.facets[key];
       });    
