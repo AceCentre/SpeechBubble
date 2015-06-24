@@ -100,7 +100,33 @@ block content
           .panel-body
             +checkbox('filters.imageRepresentation', 'photos', 'Photos')
             +checkbox('filters.imageRepresentation', 'symbols', 'Symbols')
-            +checkbox('filters.imageRepresentation', 'videos', 'Videos')                  
+            +checkbox('filters.imageRepresentation', 'videos', 'Videos')
+            
+        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.dedicated')
+          .panel-heading Locked to communication software possible?
+          .panel-body
+            +switch('filters', 'dedicated')
+          
+        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.enviroControl')
+          .panel-heading Environmental control possible?
+          .panel-body
+            +switch('filters.enviroControl', 'built-in')
+          
+        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.controlOperatingSystemFromSoftware')
+          .panel-heading Can control operating system?
+          .panel-body
+            +switch('filters', 'controlOperatingSystemFromSoftware')
+          
+        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.controlAnotherDeviceFromSoftware')
+          .panel-heading Can control other computer?
+          .panel-body
+            +switch('filters', 'controlAnotherDeviceFromSoftware')
+          
+        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.mobile-phone-sim')
+          .panel-heading Mobile phone support?
+          .panel-body   
+            +switch('filters', 'mobile-phone-sim') 
+                       
           
         // ONLY ALLOW SEARCH AFTER FIRST QUESTION HAS BEEN ANSWERED
         div(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true")
