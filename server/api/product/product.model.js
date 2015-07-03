@@ -47,4 +47,18 @@ ProductSchema.pre('save', function(next) {
   next();
 });
 
+/**
+ * Cleanup pre-save
+ */
+ProductSchema.pre('save', function(next) {
+  if(this.features && this.features.price) {
+    for(var prop in this.features.price) {
+      var price = this.features.price[prop];
+      if(price) {
+        this.features.price[prop] = parseFloat(price);
+      }      
+    }
+  }
+});
+
 module.exports = mongoose.model('Product', ProductSchema);
