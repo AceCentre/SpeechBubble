@@ -15,18 +15,19 @@ angular.module('speechBubbleApp')
       'update': { method: 'PUT' }
     });
   })
-  
+
   .factory('ProductSearch', function($rootScope, $location) {
-    var search = { 'facets': {} };
-    
+    var search = {};
+
     var get = function(){
       var location = $location.search();
       if(typeof location.facets === 'string') {
-        location.facets = [location.facets]; 
+        location.facets = [location.facets];
       }
+      angular.extend(search, location, { 'facets': {} });
       angular.forEach(search.facets, function(value, key) {
         delete search.facets[key];
-      });    
+      });
       angular.forEach(location.facets, function(value) {
         search.facets[value] = true;
       });
@@ -36,14 +37,14 @@ angular.module('speechBubbleApp')
       search.term = location.term || '';
       return search;
     };
-    
+
     get();
-    
+
     $rootScope.$on('$locationChangeSuccess', get);
-    
+
     return search;
   })
-  
+
   .factory('ProductVideos', function($sce) {
     return function(scope) {
       return {
@@ -109,10 +110,10 @@ angular.module('speechBubbleApp')
   .factory('FancyFacets', function() {
     return function(input) {
       var facets = [];
-  
+
       var getFacets = function(value, key, parent) {
         parent = (parent && [parent, key].join('-')) || key;
-        
+
         if(Object.prototype.toString.call(value) === '[object Object]') {
           for(var objKey in value) {
             if( value.hasOwnProperty(objKey) ) {
@@ -120,7 +121,7 @@ angular.module('speechBubbleApp')
             }
           }
         }
-        
+
         if(value === true || typeof value === 'string') {
           if(typeof value === 'string') {
             parent += (value.charAt(0).toUpperCase() + value.slice(1));
@@ -128,13 +129,13 @@ angular.module('speechBubbleApp')
           facets.push(parent.split(/(?=[A-Z])/).join('-').toLowerCase());
         }
       };
-      
+
       for(var key in input) {
         if( input.hasOwnProperty(key) ) {
           getFacets(input[key], key);
         }
       }
-    
+
       return facets;
     };
   })
@@ -233,9 +234,10 @@ angular.module('speechBubbleApp')
       };
     };
   })
-  .factory('ProductOptions', function () {
+  .factory('ProductOptions', function ($http) {
 
     var suppliers = [];
+    var products = [];
 
     return {
       speech: [
@@ -320,7 +322,19 @@ angular.module('speechBubbleApp')
         'Bliss',
         'Dynasims',
         'Sclera'
-      ]
+      ],
+      getHardwareProducts: function() {
+        if(!products.length) {
+          $http({
+            'url': '/api/product/listHardware',
+            'action': 'GET'
+          })
+          .success(function(res) {
+            angular.copy(res, products);
+          });
+        }
+        return products;
+      }
     };
 
   });

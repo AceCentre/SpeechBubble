@@ -14,121 +14,174 @@ block content
       h1 Search
       
       form  
-        .panel.panel-default
-          .panel-heading Do you want options that ONLY provide pre-created vocabulary?
+      
+        // PHYSICAL DEVICES
+        .panel.panel-default(destroy='options.physicalDevice')
+          .panel-heading Are you looking for a physical device?
           .panel-body
-            +switch('filters', 'premadeVocabularies')
+            +switch('options', 'physicalDevice')
             
-        // YES && NO PREMADE VOCABULARIES - SHOW AFTER FIRST SELECTION
-        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.accessMethods')
-          .panel-heading How will the user access the solution? 
+        .panel.panel-default(ng-if="options.physicalDevice", destroy="filters.accessMethods")
+          .panel-heading How will the user access the device?
           .panel-body
             +checkbox('filters.accessMethods', 'touch', 'Touch')
             +checkbox('filters.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
             +checkbox('filters.accessMethods', 'eyegaze', 'Eyegaze')
             +checkbox('filters.accessMethods', 'switch', 'Switch')
-          
-        // YES - PREMADE VOCABULARIES
-        .panel.panel-default(ng-if="filters.premadeVocabularies", destroy='filters.presentation')
+      
+        .panel.panel-default(ng-if="options.physicalDevice && hasSelections(filters.accessMethods)", destroy='filters.presentation')
           .panel-heading How should the vocabulary primarily be presented? 
           .panel-body
             +radio('filters', 'presentation', 'textOnly', 'Text only')
             +radio('filters', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
             +radio('filters', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
-          
-        // TEXT ONLY
-        .panel.panel-default(ng-if='filters.presentation === "textOnly"', destroy='filters.presentationText')
-          .panel-heading How should the text be primarily be presented?
+            +radio('filters', 'presentation', 'visualScenes', 'Visual Scenes')
+      
+        // SOFTWARE FOR DEVICE
+        .panel.panel-default(ng-if='options.physicalDevice === false', destroy='options.existingDevice')
+          .panel-heading Are you looking for software that runs on an existing device (e.g Tablet computer you own)?
           .panel-body
-            +radio('filters', 'presentationText', 'keyboard', 'Keyboard')
-            +radio('filters', 'presentationText', 'singleWords', 'Single words')
-            +radio('filters', 'presentationText', 'phrases', 'Phrases')
-          
-        // PRESENTATION -> KEYBOARD
-        .panel.panel-default(ng-if='filters.presentationText === "keyboard"', destroy='filters.abbrExpansion')
-          .panel-heading Does the vocabulary system allow for abbreviation expansion (e.g. omy expands to "On my way!")
-          .panel-body
-            +switch('filters', 'abbrExpansion')
-
-        .panel.panel-default(ng-if='filters.presentationText === "keyboard"', destroy='filters.wordPrediction')
-          .panel-heading Does the vocabulary system allow for word prediction?
-          .panel-body
-            +switch('filters', 'wordPrediction')
-          
-        // PRESENTATION -> SINGLE WORDS
-        .panel.panel-default(ng-if='filters.presentationText === "singleWords"', destroy='filters.presentRelatedWords')
-          .panel-heading Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
-          .panel-body 
-            +switch('filters', 'presentRelatedWords')
-          
-        .panel.panel-default(ng-if='filters.presentationText === "singleWords"', destroy='filters.wordsOrganisedStart')
-          .panel-heading How are words on the start page largely organised?
-          .panel-body
-            +radio('filters', 'wordsOrganisedStart', 'core', 'Core words')
-            +radio('filters', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
+            +switch('options', 'existingDevice')
         
-        .panel.panel-default(ng-if='filters.presentationText === "singleWords"', destroy='filters.wordsOrganisedDevice')
-          .panel-heading How are words organised across the rest of the device?
+        
+        .panel.panel-default(ng-if="options.existingDevice", destroy="options.selectedDevice")
+          .panel-heading Please choose your device
           .panel-body
-            +radio('filters', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
-            +radio('filters', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-            +radio('filters', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+            ui-select(search-enabled, reset-search-input='true', ng-model="options.selectedDevice")
+              ui-select-match(placeholder="Select device") {{ options.selectedDevice.name }}
+              ui-select-choices(repeat="item in hardwareProducts | filter: $select.search")
+                div {{item.name}}
             
-        // PRESENTATION -> PHRASES ONLY
-        .panel.panel-default(ng-if='filters.presentationText === "phrases"', destroy='filters.presentRelatedPhrases')
-          .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
-          .panel-body 
-            +switch('filters', 'presentRelatedPhrases')
-  
-        .panel.panel-default(ng-if='filters.presentationText === "phrases"', destroy='filters.phrasesOrganisedStart')
-          .panel-heading How are phrases on the start page largely organised?
+        // SOFTWARE FOR DEVICE FILTERS
+        .panel.panel-default(ng-if="options.existingDevice === false", destroy="filters.accessMethods")
+          .panel-heading How will the user access the device?
           .panel-body
-            +radio('filters', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
-            +radio('filters', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
-            +radio('filters', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
-    
-        .panel.panel-default(ng-if='filters.presentationText === "phrases"', destroy='filters.phrasesOrganisedDevice')
-          .panel-heading How are phrases organised across the rest of the device?
-          .panel-body
-            +radio('filters', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
-            +radio('filters', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
-            +radio('filters', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
-    
-        // NO - PREMADE VOCABULARIES
-        .panel.panel-default(ng-if="filters.premadeVocabularies === false", destroy='filters.imageRepresentation')
-          .panel-heading Should language be presented with:
-          .panel-body
-            +checkbox('filters.imageRepresentation', 'photos', 'Photos')
-            +checkbox('filters.imageRepresentation', 'symbols', 'Symbols')
-            +checkbox('filters.imageRepresentation', 'videos', 'Videos')
+            +checkbox('filters.accessMethods', 'touch', 'Touch')
+            +checkbox('filters.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
+            +checkbox('filters.accessMethods', 'eyegaze', 'Eyegaze')
+            +checkbox('filters.accessMethods', 'switch', 'Switch')  
             
-        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.dedicated')
-          .panel-heading Locked to communication software possible?
+        .panel.panel-default(ng-if='!options.physicalDevice && hasSelections(filters.accessMethods)', destroy='filters.premadeVocabularies')
+          .panel-heading Do you want options that ONLY provide pre-created vocabulary?
           .panel-body
-            +switch('filters', 'dedicated')
+            +switch('filters', 'premadeVocabularies')
+        
+        
+        div(ng-if="false")          
+              
+          // YES && NO PREMADE VOCABULARIES - SHOW AFTER FIRST SELECTION
+          .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.accessMethods')
+            .panel-heading How will the user access the solution? 
+            .panel-body
+              +checkbox('filters.accessMethods', 'touch', 'Touch')
+              +checkbox('filters.accessMethods', 'mouseOrAlternative', 'Mouse or Mouse alternative')
+              +checkbox('filters.accessMethods', 'eyegaze', 'Eyegaze')
+              +checkbox('filters.accessMethods', 'switch', 'Switch')
+            
+          // YES - PREMADE VOCABULARIES
+          .panel.panel-default(ng-if="filters.premadeVocabularies", destroy='filters.presentation')
+            .panel-heading How should the vocabulary primarily be presented? 
+            .panel-body
+              +radio('filters', 'presentation', 'textOnly', 'Text only')
+              +radio('filters', 'presentation', 'textAndSymbolsOrPhotos', 'Text & Symbols or Photos')
+              +radio('filters', 'presentation', 'symbolsOrPhotos', 'Symbols or Photos Only')
+            
+          // TEXT ONLY
+          .panel.panel-default(ng-if='filters.presentation === "textOnly"', destroy='filters.presentationText')
+            .panel-heading How should the text be primarily be presented?
+            .panel-body
+              +radio('filters', 'presentationText', 'keyboard', 'Keyboard')
+              +radio('filters', 'presentationText', 'singleWords', 'Single words')
+              +radio('filters', 'presentationText', 'phrases', 'Phrases')
+            
+          // PRESENTATION -> KEYBOARD
+          .panel.panel-default(ng-if='filters.presentationText === "keyboard"', destroy='filters.abbrExpansion')
+            .panel-heading Does the vocabulary system allow for abbreviation expansion (e.g. omy expands to "On my way!")
+            .panel-body
+              +switch('filters', 'abbrExpansion')
+
+          .panel.panel-default(ng-if='filters.presentationText === "keyboard"', destroy='filters.wordPrediction')
+            .panel-heading Does the vocabulary system allow for word prediction?
+            .panel-body
+              +switch('filters', 'wordPrediction')
+            
+          // PRESENTATION -> SINGLE WORDS
+          .panel.panel-default(ng-if='filters.presentationText === "singleWords"', destroy='filters.presentRelatedWords')
+            .panel-heading Does the vocabulary present words that are linked to other related words on selecting? (e.g. I press "go to" the vocabulary presents places)
+            .panel-body 
+              +switch('filters', 'presentRelatedWords')
+            
+          .panel.panel-default(ng-if='filters.presentationText === "singleWords"', destroy='filters.wordsOrganisedStart')
+            .panel-heading How are words on the start page largely organised?
+            .panel-body
+              +radio('filters', 'wordsOrganisedStart', 'core', 'Core words')
+              +radio('filters', 'wordsOrganisedStart', 'categoryLinks', 'Category Links')
           
-        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.enviroControl')
-          .panel-heading Environmental control possible?
-          .panel-body
-            +switch('filters.enviroControl', 'built-in')
-          
-        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.controlOperatingSystemFromSoftware')
-          .panel-heading Can control operating system?
-          .panel-body
-            +switch('filters', 'controlOperatingSystemFromSoftware')
-          
-        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.controlAnotherDeviceFromSoftware')
-          .panel-heading Can control other computer?
-          .panel-body
-            +switch('filters', 'controlAnotherDeviceFromSoftware')
-          
-        .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.mobile-phone-sim')
-          .panel-heading Mobile phone support?
-          .panel-body   
-            +switch('filters', 'mobile-phone-sim') 
-                       
+          .panel.panel-default(ng-if='filters.presentationText === "singleWords"', destroy='filters.wordsOrganisedDevice')
+            .panel-heading How are words organised across the rest of the device?
+            .panel-body
+              +radio('filters', 'wordsOrganisedDevice', 'contextually', 'contextually (e.g. around activities)')
+              +radio('filters', 'wordsOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+              +radio('filters', 'wordsOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+              
+          // PRESENTATION -> PHRASES ONLY
+          .panel.panel-default(ng-if='filters.presentationText === "phrases"', destroy='filters.presentRelatedPhrases')
+            .panel-heading Does the vocabulary present phrases that are linked to other related phrases on selecting? (e.g. I press "go to" the vocabulary presents places)
+            .panel-body 
+              +switch('filters', 'presentRelatedPhrases')
+    
+          .panel.panel-default(ng-if='filters.presentationText === "phrases"', destroy='filters.phrasesOrganisedStart')
+            .panel-heading How are phrases on the start page largely organised?
+            .panel-body
+              +radio('filters', 'phrasesOrganisedStart', 'starterPhrases', 'Starter Phrases')
+              +radio('filters', 'phrasesOrganisedStart', 'pragmaticStarters', 'Pragmatic Sentence Starters (e.g. "I want")')
+              +radio('filters', 'phrasesOrganisedStart', 'categoryLinks', 'Category links (e.g. "Places I go")')
+      
+          .panel.panel-default(ng-if='filters.presentationText === "phrases"', destroy='filters.phrasesOrganisedDevice')
+            .panel-heading How are phrases organised across the rest of the device?
+            .panel-body
+              +radio('filters', 'phrasesOrganisedDevice', 'contextually', 'Contextually (e.g. around activities)')
+              +radio('filters', 'phrasesOrganisedDevice', 'taxonomically', 'Taxonomically (e.g. in Catgeogies such as Food, Toys)')
+              +radio('filters', 'phrasesOrganisedDevice', 'similarMeaningLocations', 'Semantic Compaction')
+      
+          // NO - PREMADE VOCABULARIES
+          .panel.panel-default(ng-if="filters.premadeVocabularies === false", destroy='filters.imageRepresentation')
+            .panel-heading Should language be presented with:
+            .panel-body
+              +checkbox('filters.imageRepresentation', 'photos', 'Photos')
+              +checkbox('filters.imageRepresentation', 'symbols', 'Symbols')
+              +checkbox('filters.imageRepresentation', 'videos', 'Videos')
+              
+          .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.dedicated')
+            .panel-heading Locked to communication software possible?
+            .panel-body
+              +switch('filters', 'dedicated')
+            
+          .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.enviroControl')
+            .panel-heading Environmental control possible?
+            .panel-body
+              +switch('filters.enviroControl', 'built-in')
+            
+          .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.controlOperatingSystemFromSoftware')
+            .panel-heading Can control operating system?
+            .panel-body
+              +switch('filters', 'controlOperatingSystemFromSoftware')
+            
+          .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.controlAnotherDeviceFromSoftware')
+            .panel-heading Can control other computer?
+            .panel-body
+              +switch('filters', 'controlAnotherDeviceFromSoftware')
+            
+          .panel.panel-default(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true", destroy='filters.mobile-phone-sim')
+            .panel-heading Mobile phone support?
+            .panel-body   
+              +switch('filters', 'mobile-phone-sim')          
           
         // ONLY ALLOW SEARCH AFTER FIRST QUESTION HAS BEEN ANSWERED
-        div(ng-if="filters.premadeVocabularies === false || filters.premadeVocabularies === true")
+        div(ng-if="shouldShowActions()")
           p(ng-pluralize count='results' when="{ '0': 'No products found', 'one': '1 product found', 'other': '{} products found' }")
           button.btn.btn-primary.btn-lg(ng-disabled='!results', type='button', ng-click='applyFilters()') View Results
+
+        // ONLY ALLOW SEARCH AFTER FIRST QUESTION HAS BEEN ANSWERED
+        div(ng-if="!shouldShowActions()")
+          p Please answer the question above to continue search.

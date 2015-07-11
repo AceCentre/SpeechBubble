@@ -20,6 +20,7 @@ router.get('/similar', controller.similar);
 router.get('/compare', controller.compare);
 router.get('/:id/revisions', auth.isAuthenticated(), controller.revisions);
 router.get('/supportedForVocabulary/', controller.getSupportedForVocabulary);
+router.get('/listHardware', controller.listHardware);
 router.get('/:slug/:revisionId', controller.showRevision);
 router.get('/:slug', auth.attachUser(), controller.show);
 

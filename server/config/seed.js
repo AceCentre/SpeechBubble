@@ -14,7 +14,7 @@ var chance = require('chance').Chance();
 var _ = require('lodash');
 var ENUM = require('../enum');
 
-
+/**
 User.find().remove(function() {
   User.create({
     provider: 'local',
@@ -100,3 +100,4 @@ User.find().remove(function() {
     })
   });
 });
+**/

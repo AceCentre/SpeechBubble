@@ -39,75 +39,211 @@ exports.similar = function(req, res) {
   });
 };
 
-function addToQuery(query, name, value, shouldAdd) {
-  if(shouldAdd) {
-    query[name] = value;
-  }
+function returnProducts(req, res, err, products) {
+  if(err) { return handleError(res, err); }
+  if(!products) { return res.send(404); }
+  res.send(200, {
+    'items': products,
+    'total': products.length
+  });
 }
+
+function wizardAssociatedExistingDeviceQuery(req, res) {
+  if(!req.query.selectedDevice) {
+    return res.send(200, []);
+  }
+  Product
+  .find({ '_id': req.query.selectedDevice })
+  .exec(function(err, products) {
+    // Get associated software and vocabularies
+    if(err) { return handleError(res, err); }
+    if(!products) { return res.send(404); }
+
+    var or = getAssociatedOrQuery(req, products);
+
+    Product
+    .find()
+    .or(or)
+    .exec(function(err, associated) {
+      returnProducts(req, res, err, associated);
+    });
+  });
+}
+
+function getAssociatedOrQuery(req, products) {
+  var associatedSoftware = products.reduce(function(memo, current) {
+    if(current.features && current.features.associatedSoftware) {
+      return memo.concat(current.features.associatedSoftware.map(function(item) {
+        return item._id;
+      }));
+    }
+    return memo;
+  }, []);
+
+  var associatedVocabulary = products.reduce(function(memo, current) {
+    if(current.features && current.features.premadeVocabulariesAvailable) {
+      return memo.concat(current.features.premadeVocabulariesAvailable.map(function(item) {
+        return item._id;
+      }));
+    }
+    return memo;
+  }, []);
+
+  var acceptableFacets = {
+    'vocabulary': [
+      'presentation-text-only',
+      'presentation-text-and-symbols-or-photos',
+      'presentation-symbols-or-photos',
+      'presentation-visual-scenes'
+    ]
+  };
+
+  var or = [];
+
+  // we have facets containing acceptable for vocabulary
+  var facets = _.isString(req.query.facets) ? [req.query.facets]: req.query.facets;
+
+  if(req.query.facets && _.intersection(facets, acceptableFacets.vocabulary).length) {
+    or.push({ '_id': {
+      '$in': associatedVocabulary },
+      'facets': { '$in': facets }
+    });
+  } else {
+    or.push({ '_id': { '$in': associatedVocabulary } });
+  }
+
+  or.push({ '_id': { '$in': associatedSoftware } });
+
+  return or;
+}
+
+function wizardAssociatedPhysicalQuery(req, res) {
+  var qb = new QueryBuilder();
+  var facets = [];
+
+  if(req.query.facets) {
+    facets = _.isString(req.query.facets) ? [req.query.facets]: req.query.facets;
+  }
+
+  if(facets.length) {
+    qb.add('type', 'ProductHardware');
+    qb.add('facets', { '$in': facets });
+  }
+
+  Product
+  .find(qb.query)
+  .exec(function(err, products) {
+    if(err) { return handleError(res, err); }
+    if(!products) { return res.send(404); }
+
+    if(facets.indexOf('premade-vocabularies') > -1) {
+      products = products.filter(function(p) {
+        return p.facets.indexOf('premade-vocabularies') > -1;
+      });
+      console.log(products.length);
+    }
+
+    var or = getAssociatedOrQuery(req, products);
+
+    Product
+    .find()
+    .where('type').ne('ProductHardware')
+    .or(or)
+    .exec(function(err, associated) {
+      if(err) { return handleError(res, err); }
+      if(!associated) { return res.send(404); }
+      var results = associated.concat(products);
+      return res.send(200, {
+        'items': results,
+        'total': results.length
+      });
+    });
+  });
+}
+
+function QueryBuilder() {
+  this.query = {};
+}
+
+QueryBuilder.prototype.add = function(key, value, defaultValue) {
+  var value = value || defaultValue;
+  if(!key) {
+    return;
+  }
+  if(value) {
+    return this.query[key] = value;
+  }
+};
 
 // Get list of products
 exports.index = function(req, res) {
-  var facets = req.query.facets;
   var page = req.query.page || 1;
   var limit = req.query.limit || 10;
   var skip = (page - 1) * limit;
-  var term = req.query.term;
-  var sortBy = {};
-  var query = {
-    'type': { $not: { $eq: 'ProductAccessSolution' } },
-  };
-  
-  // default to sort by name ascending
-  sortBy[req.query.sort || 'name'] = 'asc';
-  
-  if(req.query.type === "ProductAccessSolution") {
-    delete query.type;
+
+  // Search Wizard Existing Device
+  if(req.query.existingDevice === 'true') {
+    return wizardAssociatedExistingDeviceQuery(req, res, qb);
   }
+
+  // Search Wizard Physical
+  if(req.query.physicalDevice === 'true' || req.query.existingDevice === 'false') {
+    return wizardAssociatedPhysicalQuery(req, res, qb);
+  }
+
+  var qb = new QueryBuilder();
+
+  if(req.query.term) {
+    qb.add('$text', { '$search': req.query.term })
+  }
+
+  // Hide access solutions by default
+  if(req.query.type) {
+    qb.add('type', req.query.type);
+  } else {
+    qb.add('type', { $not: { $eq: 'ProductAccessSolution' } });
+  }
+
+  // Hide vocabularies that are built into hardware by default
+  var facets = req.query.facets;
 
   if(facets) {
-    query.facets = { '$in': _.isString(facets) ? [facets]: facets };
+    qb.add('facets', { '$in': _.isString(facets) ? [facets]: facets });
   } else {
-    // Hide vocabularies that are built-in hardware by default
-    query.facets = { '$not': { '$in': ['no-software-required'] } };
+    qb.add('facets', { '$not': { '$in': ['no-software-required'] } });
   }
-  
-  addToQuery(query, '$text', { '$search': req.query.term }, req.query.term);
-  addToQuery(query, 'type', req.query.type, req.query.type);
 
-  // ADMIN FILTERS
-  addToQuery(query, 'awaitingModeration', true, req.query.awaitingModeration === 'true');
+  if(req.query.awaitingModeration === 'true') {
+    qb.add('awaitingModeration', true);
+  }
 
   // HARDWARE FILTERS
-
   if(req.query.type === 'ProductHardware') {
-    var batteryLife = req.query.batteryLife;
-    var screenSize = req.query.screenSize;
-
-    addToQuery(query, 'features.batteryLife', {
-      $gte: parseInt(batteryLife, 10)
-    }, batteryLife);
-
-    addToQuery(query, 'features.screenSize', {
-      $gte: parseInt(screenSize, 10)
-    }, screenSize);
-
+    if(req.query.batteryLife) {
+      qb.add('batteryLife', { $gte: parseInt(req.query.batteryLife, 10) });
+    }
+    if(req.query.screenSize) {
+      qb.add('screenSize', { $gte: parseInt(req.query.screenSize, 10) });
+    }
   }
 
-  // NOT LOW TECH FILTERS
+  // EXCEPT LOW TECH
   if(req.query.type !== 'ProductLowTech') {
     var devices = req.query.devices;
-
-    addToQuery(query, 'features.operatingSystems', {
-      $in: _.isArray(devices) ? devices: [devices]
-    }, devices);
+    if(devices) {
+      qb.add('operatingSystems', { $in: _.isArray(devices) ? devices: [devices] });
+    }
   }
+
   Product
-  .find(query)
+  .find(qb.query)
   .count(function(err, total) {
     if(err) { return handleError(res, err); }
     Product
-    .find(query)
-    .sort(sortBy)
+    .find(qb.query)
+    .sort({
+      'name': 'asc'
+    })
     .skip(skip)
     .limit(limit)
     .populate('suppliers')
@@ -156,7 +292,7 @@ exports.showRevision = function(req, res) {
   .populate('suppliers')
   .exec(function (err, product) {
     if(err) { return handleError(res, err); }
-    if(!product) { return res.send(404); }    
+    if(!product) { return res.send(404); }
     Product
     .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
       if(err) { return handleError(res, err); }
@@ -259,7 +395,7 @@ exports.update = function(req, res) {
   delete req.body.__t;
   req.body.suppliers = flatten(req.body.suppliers);
   req.body.author = req.user._id;
-  
+
   if(req.body.associatedSoftware) {
     req.body.associatedSoftware = flatten(req.body.associatedSoftware);
   }
@@ -487,6 +623,16 @@ exports.getSupportedForVocabulary = function(req, res) {
       });
     });
   });
+};
+
+exports.listHardware = function(req, res) {
+  Product
+  .find({ 'type': 'ProductHardware' })
+  .select('name _id')
+  .exec(function(err, products) {
+    if(err) { return handleError(res, err); }
+    res.send(200, products);
+  })
 };
 
 exports.slugify = function(req, res) {
