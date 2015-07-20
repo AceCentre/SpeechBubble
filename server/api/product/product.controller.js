@@ -194,7 +194,7 @@ exports.index = function(req, res) {
   var qb = new QueryBuilder();
 
   if(req.query.term) {
-    qb.add('$text', { '$search': req.query.term })
+    qb.add('name', new RegExp(req.query.term, "i") );
   }
 
   // Hide access solutions by default
