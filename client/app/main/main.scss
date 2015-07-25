@@ -1,3 +1,15 @@
+.search-actions-bar {
+  color: #000000;
+  width: 100%;
+  text-align: center;
+  background: darken($backgroundColor, 20%);
+  padding: 30px 10px;
+  z-index: 101;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
 .main-content .page-main {
 
   form {
@@ -25,11 +37,11 @@
 
 .jumbotron {
   clear: both;
-  
+
   .panel + .panel {
     position: relative;
     margin-top: 40px;
-    
+
     &:before {
       position: absolute;
       color: $secondaryColor;

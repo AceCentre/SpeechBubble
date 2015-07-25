@@ -178,10 +178,8 @@ block content
               +switch('filters', 'mobile-phone-sim')          
           
         // ONLY ALLOW SEARCH AFTER FIRST QUESTION HAS BEEN ANSWERED
-        div(ng-if="shouldShowActions()")
-          p(ng-pluralize count='results' when="{ '0': 'No products found', 'one': '1 product found', 'other': '{} products found' }")
-          button.btn.btn-primary.btn-lg(ng-disabled='!results', type='button', ng-click='applyFilters()') View Results
-
-        // ONLY ALLOW SEARCH AFTER FIRST QUESTION HAS BEEN ANSWERED
-        div(ng-if="!shouldShowActions()")
-          p Please answer the question above to continue search.
+        div.search-actions-bar
+          p(ng-if="!shouldShowActions()") Please answer the question above to continue search.
+          p(ng-if="shouldShowActions()", ng-pluralize count='results' when="{ '0': 'No products found', 'one': '1 product found', 'other': '{} products found' }")
+          button.btn.btn-primary.btn-lg(ng-disabled='!shouldShowActions() || !results', type='button', ng-click='applyFilters()') View Results
+        
