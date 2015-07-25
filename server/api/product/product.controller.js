@@ -94,7 +94,11 @@ function getAssociatedOrQuery(req, products) {
       'presentation-text-only',
       'presentation-text-and-symbols-or-photos',
       'presentation-symbols-or-photos',
-      'presentation-visual-scenes'
+      'presentation-visual-scenes',
+      'access-methods-touch',
+      'access-methods-mouse-or-alternative',
+      'access-methods-eyegaze',
+      'access-methods-switch'
     ]
   };
 
@@ -103,10 +107,13 @@ function getAssociatedOrQuery(req, products) {
   // we have facets containing acceptable for vocabulary
   var facets = _.isString(req.query.facets) ? [req.query.facets]: req.query.facets;
 
+  console.log('hitting this search');
+
   if(req.query.facets && _.intersection(facets, acceptableFacets.vocabulary).length) {
+    console.log(associatedVocabulary);
     or.push({ '_id': {
       '$in': associatedVocabulary },
-      'facets': { '$in': facets }
+      'facets': { '$all': facets }
     });
   } else {
     or.push({ '_id': { '$in': associatedVocabulary } });
@@ -127,7 +134,6 @@ function wizardAssociatedPhysicalQuery(req, res) {
 
   if(facets.length) {
     qb.add('type', 'ProductHardware');
-    qb.add('facets', { '$in': facets });
   }
 
   Product
@@ -140,7 +146,6 @@ function wizardAssociatedPhysicalQuery(req, res) {
       products = products.filter(function(p) {
         return p.facets.indexOf('premade-vocabularies') > -1;
       });
-      console.log(products.length);
     }
 
     var or = getAssociatedOrQuery(req, products);
