@@ -251,7 +251,7 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: ['<%= yeoman.client %>/index.html'],
+      html: ['server/views/index.ejs'],
       options: {
         dest: '<%= yeoman.dist %>/public'
       }
