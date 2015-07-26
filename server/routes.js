@@ -5,6 +5,7 @@
 'use strict';
 
 var errors = require('./components/errors');
+var url = require('url');
 
 module.exports = function(app) {
 
@@ -28,6 +29,11 @@ module.exports = function(app) {
   // All other routes should redirect to the index.html
   app.route('/*')
     .get(function(req, res) {
-      res.sendfile(app.get('appPath') + '/index.html');
+      req.pathname = req.path;
+      req.query['_escaped_fragment_'] = '';
+      var meanSeoUrl = url.format(req);
+      res.render('index.ejs', {
+        meanSeoUrl: meanSeoUrl
+      });
     });
 };

@@ -1,8 +1,5 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="speechBubbleApp"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org"id="ng-app" ng-app="speechBubbleApp"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org"id="ng-app" ng-app="speechBubbleApp"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" xmlns:ng="http://angularjs.org"id="ng-app" ng-app="speechBubbleApp"> <!--<![endif]-->
+<html class="no-js" xmlns:ng="http://angularjs.org"id="ng-app" ng-app="speechBubbleApp">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,7 +44,7 @@
   <body ng-cloak>
     <!-- remove directive in place for mean SEO and no-js static serving -->
     <noscript class="alert alert-danger" role="alert" remove>
-      For a greater experience please enable JavaScript. Alternatively <a href="?_escaped_fragment_">click here</a> to be provided with a static version of this website.
+      For a greater experience please enable JavaScript. Alternatively <a href="<%= meanSeoUrl %>">click here</a> to be provided with a static version of this website.
     </noscript>
 
     <!--[if lt IE 7]>

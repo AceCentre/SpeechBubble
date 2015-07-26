@@ -107,10 +107,7 @@ function getAssociatedOrQuery(req, products) {
   // we have facets containing acceptable for vocabulary
   var facets = _.isString(req.query.facets) ? [req.query.facets]: req.query.facets;
 
-  console.log('hitting this search');
-
   if(req.query.facets && _.intersection(facets, acceptableFacets.vocabulary).length) {
-    console.log(associatedVocabulary);
     or.push({ '_id': {
       '$in': associatedVocabulary },
       'facets': { '$all': facets }
