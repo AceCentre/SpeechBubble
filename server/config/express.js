@@ -20,12 +20,14 @@ var mongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 var fs = require('fs');
 var seo = require('mean-seo');
+var engines = require('consolidate');
 
 module.exports = function(app) {
   var env = app.get('env');
 
   app.set('views', config.root + '/server/views');
   app.set('view engine', 'jade');
+  app.engine('html', engines.ejs);
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());

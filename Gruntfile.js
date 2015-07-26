@@ -227,7 +227,7 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       target: {
-        src: 'server/views/index.ejs',
+        src: 'server/views/index.html',
         ignorePath: '<%= yeoman.client %>/',
         exclude: [/bootstrap-sass-official/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/]
       }
@@ -251,7 +251,7 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: ['server/views/index.ejs'],
+      html: ['server/views/index.html'],
       options: {
         dest: '<%= yeoman.dist %>/public'
       }

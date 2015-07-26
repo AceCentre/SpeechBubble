@@ -32,7 +32,7 @@ module.exports = function(app) {
       req.pathname = req.path;
       req.query['_escaped_fragment_'] = '';
       var meanSeoUrl = url.format(req);
-      res.render('index.ejs', {
+      res.render('index.html', {
         meanSeoUrl: meanSeoUrl
       });
     });
