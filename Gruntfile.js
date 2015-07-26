@@ -229,7 +229,7 @@ module.exports = function (grunt) {
     wiredep: {
       target: {
         src: '<%= yeoman.server %>/views/index.html',
-        ignorePath: '<%= yeoman.client %>/',
+        ignorePath: '../../client',
         exclude: [/bootstrap-sass-official/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/]
       }
     },
