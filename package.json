@@ -9,6 +9,7 @@
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
     "connect-mongo": "^0.8.1",
+    "consolidate": "^0.13.1",
     "cookie-parser": "~1.0.1",
     "crypto-js": "^3.1.5",
     "ejs": "^2.3.3",
