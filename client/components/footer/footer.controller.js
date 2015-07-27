@@ -8,8 +8,5 @@ angular.module('speechBubbleApp')
     }, {
       'title': 'Privacy Policy',
       'link': '/privacy'
-    },{
-      'title': 'Accessibility',
-      'link': '/accessibility'
     }];
   });
