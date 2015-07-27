@@ -8,7 +8,7 @@ mixin associatedSoftware()
         ui-select-match(placeholder="Select software") {{$item.name}}
         ui-select-choices(repeat="item in softwareOptions | filter: $select.search", refresh='refreshSoftware($select.search)', refresh-delay='500')
           div {{item.name}}
-      
+
 
 mixin productDetails()
   +input('product', 'text', 'name', 'Name', 'form')
@@ -74,6 +74,7 @@ mixin productScreenshots()
 mixin productVideos()
   .panel.panel-default
     .panel-heading Product Videos
+      span(glossary='55b5ebf93820417a04908238')
     .panel-body
       table.table.table-striped(ng-show='product.videos.length')
         thead
@@ -137,6 +138,7 @@ mixin price()
 
   .panel.panel-default
     .panel-heading Associated Costs
+      span(glossary='556781785719a8bb50f5e542')
     .panel-body
       textarea.form-control(ng-model='product.features.associatedCosts')
 
@@ -292,6 +294,7 @@ mixin speechTypeOptions()
   <!-- Speech Type -->
   .panel.panel-default
     .panel-heading Speech type options
+      span(glossary='55b5ede223ef0c6c0b2cbd9e')
     .panel-body
       +checkbox('product.features.speechTypeOptions', 'synthesised', 'Synthesised')
       .panel.panel-default(ng-show='product.features.speechTypeOptions.synthesised', destroy='speechTypeSynthesisedTypes')
@@ -316,6 +319,7 @@ mixin imageRepresentationSupported()
   <!-- Image Representation Supported -->
   .panel.panel-default
     .panel-heading Form of representation
+      span(glossary='55b5ed5b23ef0c6c0b2cbd9d')
     .panel-body
       +checkbox('product.features.imageRepresentation', 'photos', 'Photos')
       +checkbox('product.features.imageRepresentation', 'symbols', 'Symbols')
@@ -407,7 +411,7 @@ mixin vocabularies()
               div {{item.name}}
 
           p Create a #[a(ng-click='create()', href='#') new vocabulary]
-          
+
       .panel.panel-default(ng-if="product.features.premadeVocabularies === false")
         .panel-heading Vocabulary
         .panel-body
