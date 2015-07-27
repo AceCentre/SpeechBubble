@@ -194,15 +194,15 @@ mixin accessMethods()
       +accessMethodOptions('accessMethodEyegaze')
       <!-- Switch -->
       +checkbox('product.features.accessMethods', 'switch', 'Switch')
-      .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='accessMethodSwitchOptions')
+      .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='switchOptions')
         .panel-heading Scanning options available (without additional software)
         .panel-body
-          +checkbox('product.features', 'accessMethodSwitchOptions.crosshair', 'Crosshair')
-          +checkbox('product.features', 'accessMethodSwitchOptions.columnRow', 'Column Row')
-          +checkbox('product.features', 'accessMethodSwitchOptions.rowColumn', 'Row Column')
-          +checkbox('product.features', 'accessMethodSwitchOptions.block', 'Block')
-          +checkbox('product.features', 'accessMethodSwitchOptions.quartered', 'Quartered')
-          +checkbox('product.features', 'accessMethodSwitchOptions.morse', 'Morse')
+          +checkbox('product.features.switchOptions', 'crosshair', 'Crosshair')
+          +checkbox('product.features.switchOptions', 'columnRow', 'Column Row')
+          +checkbox('product.features.switchOptions', 'rowColumn', 'Row Column')
+          +checkbox('product.features.switchOptions', 'block', 'Block')
+          +checkbox('product.features.switchOptions', 'quartered', 'Quartered')
+          +checkbox('product.features.switchOptions', 'morse', 'Morse')
 
 <!-- Modified accessMethods for Hardware -->
 mixin accessMethodsHardware()
