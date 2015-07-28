@@ -213,6 +213,7 @@ form.form-horizontal(name='form', novalidate)
               .panel.panel-default(ng-show='product.features.accessMethods.switch', destroy='switchOptions')
                 .panel-heading Scanning options available (without additional software)
                 .panel-body
+                  +checkbox('product.features.switchOptions', 'linear', 'Linear')
                   +checkbox('product.features.switchOptions', 'crosshair', 'Crosshair')
                   +checkbox('product.features.switchOptions', 'columnRow', 'Column Row')
                   +checkbox('product.features.switchOptions', 'rowColumn', 'Row Column')
