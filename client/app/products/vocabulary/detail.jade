@@ -7,7 +7,7 @@ table.table.table-striped
     tr
       th Discontinued
       td {{ product.discontinued ? 'Yes': 'No' }}
-      
+
     tr
       th Software required
       td {{ product.features.noSoftwareRequired ? 'No' : 'Yes' }}
@@ -20,10 +20,19 @@ table.table.table-striped
         +textLineIf('Symbols or Photos Only', 'product.features.presentation === "symbolsOrPhotos"')
         +textLineIf('Visual Scenes', 'product.features.presentation === "visualScenes"')
 
+    tr(ng-if='product.features.imageRepresentation')
+      th Image representation
+      td
+        +textLineIf('Photos', 'product.features.imageRepresentation.photos')
+        +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
+        +textLineIf('Videos', 'product.features.imageRepresentation.videos')
+
+        ul(ng-if='product.features.imageRepresentation.symbols')
+          li(ng-repeat='symbol in product.features.symbols') {{ symbol }}
 
     <!-- Text only -->
     tr(ng-if='product.features.presentation === "textOnly"')
-      th Presentation features
+      th Primary Presentation features
       td
         +textLineIf('Keyboard', 'product.features.presentationText == "keyboard"')
         +textLineIf('Single words', 'product.features.presentationText == "singleWords"')
@@ -107,7 +116,7 @@ table.table.table-striped
 
     <!-- symbolsOrPhotos only -->
     tr(ng-if='product.features.wordsOrganisedDevice')
-      th Presentation features
+      th Secondary presentation features
       td
         ul
           li(ng-if='product.features.wordsOrganisedDevice === "contextually"')
@@ -117,16 +126,6 @@ table.table.table-striped
           li(ng-if='product.features.wordsOrganisedDevice === "similarMeaningLocations"')
             | Language organised by meaning
 
-
-    tr(ng-if='product.features.imageRepresentation')
-      th Form of representation
-      td
-        +textLineIf('Photos', 'product.features.imageRepresentation.photos')
-        +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
-        +textLineIf('Videos', 'product.features.imageRepresentation.videos')
-
-        ul(ng-if='product.features.imageRepresentation.symbols')
-          li(ng-repeat='symbol in product.features.symbols') {{ symbol }}
 
     tr
       th Access methods supported
