@@ -4,9 +4,9 @@ h3 Product Information
 
 table.table.table-striped
   tbody
-    tr
+    tr(ng-if='product.discontinued')
       th Discontinued
-      td {{ product.discontinued ? 'Yes': 'No' }}
+      td This product is discontinued!
 
     tr(ng-if='product.features.imageRepresentation.photos || product.features.imageRepresentation.symbols || product.features.imageRepresentation.videos')
       th Form of representation
@@ -66,7 +66,7 @@ table.table.table-striped
       th Operating systems
       td
         +listLines('product.features.operatingSystems')
-        
+
     tr(ng-if='product.features.supportedDevices.length')
       th Supported devices
       td

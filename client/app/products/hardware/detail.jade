@@ -4,9 +4,10 @@ include ../../mixins/form-helpers
 h3 Product Information
 table.table.table-striped
   tbody
-    tr
+    tr(ng-if='product.discontinued')
       th Discontinued
-      td {{ product.discontinued ? 'Yes': 'No' }}
+      td This product is discontinued!
+
     tr
       th Can be locked to communication software?
       td {{ product.features.dedicated ? 'Yes': 'No' }} {{ product.features.dedicatedInfo ? '- ' + product.features.dedicatedInfo : '' }}
@@ -114,9 +115,9 @@ table.table.table-striped
         div(ng-if='product.features.accessMethods.switch') Switch
           ul()
             li(ng-if='product.features.accessMethodsSwitchBuiltIn') Built-in switch
-            li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available           
-        
-        
+            li(ng-if='!product.features.accessMethodsSwitchBuiltIn') Switch available
+
+
 .panel.panel-default(ng-if='product.features.premadeVocabulariesAvailable.length > 1')
   .panel-heading Associated Vocabularies
   .panel-body
@@ -132,5 +133,3 @@ section(ng-if='product.features.premadeVocabulariesAvailable.length === 1')
     ul.list-unstyled
       li(ng-repeat='item in product.features.associatedSoftware')
         a(ng-href='/products/{{ item.slug }}') {{ item.name }}
-        
-        

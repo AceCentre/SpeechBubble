@@ -4,26 +4,26 @@ include ../../mixins/form-helpers
 h3 Product Information
 table.table.table-striped
   tbody
-    tr
+    tr(ng-if='product.discontinued')
       th Discontinued
-      td {{ product.discontinued ? 'Yes': 'No' }}
+      td This product is discontinued!
 
     tr(ng-if='product.features.category')
       th Category
       td {{ product.features.category }}
-      
+
     tr(ng-if='product.features.output')
       th Output
       td
         +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
         +textLineIf('Binary - 2 or more switches', 'product.features.output === "binaryMultipleSwitch"')
         +textLineIf('Proportional', 'product.features.output === "proportional"')
-        
+
     tr(ng-if='product.features.computerControl')
       th Typical body part that controls
       td
         ul
-          li 
+          li
             +textLineIf('Keyboard', 'product.features.computerControl.keyboard')
             ul(ng-if="product.features.computerControl.wiredKeyboard || product.features.computerControl.wirelessKeyboard")
               li(ng-if="product.features.computerControl.wiredKeyboard") Wired
@@ -37,8 +37,8 @@ table.table.table-striped
               li(ng-if="product.features.computerControl.wirelessMouse") Wireless
             small(ng-if="product.features.computerControl.additionalSoftwareMouse")
               * Additional software required
-        
-      
+
+
     tr(ng-if='product.features.canBeControlledBy')
       th Typical body part that controls
       td
@@ -50,12 +50,12 @@ table.table.table-striped
           li(ng-if='product.features.canBeControlledBy.knee') Knee
           li(ng-if='product.features.canBeControlledBy.elbow') Elbow
           li(ng-if='product.features.canBeControlledBy.muscle') Muscle
-          
+
         dl(ng-if='product.features.canBeControlledByOtherDetails')
           dt Other
           dd {{ product.features.canBeControlledByOtherDetails }}
-        
-        
+
+
     tr(ng-if='product.features.mountingOptions')
       th Mounting
       td
@@ -65,11 +65,7 @@ table.table.table-striped
           li(ng-if='product.features.mountingOptions.vesa') VESA
           li(ng-if='product.features.mountingOptions.suction') Suction
           li(ng-if='product.features.mountingOptions.magnetic') Magnets
-          
+
         dl(ng-if='product.features.mountingOptionsOtherDetails')
           dt Other
           dd {{ product.features.mountingOptionsOtherDetails }}
-          
-
-
-        
