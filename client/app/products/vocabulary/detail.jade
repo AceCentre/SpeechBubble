@@ -4,9 +4,9 @@ include ../../mixins/form-helpers
 h3 Product Information
 table.table.table-striped
   tbody
-    tr
+    tr(ng-if='product.discontinued')
       th Discontinued
-      td {{ product.discontinued ? 'Yes': 'No' }}
+      td This product is discontinued!  
 
     tr
       th Software required
