@@ -29,7 +29,7 @@ Another very useful way to contribute to the SpeechBubble project is to identify
 
 ### Install
 
-#### Install OSX
+#### On OSX
 
 1. Install homebrew
 2. Install nodejs

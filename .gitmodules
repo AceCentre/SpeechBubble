@@ -1,3 +1,0 @@
-[submodule ".ebextensions"]
-	path = .ebextensions
-	url = git@bitbucket.org:willwade/speechbubble-ebextensions.git
