@@ -9,25 +9,25 @@ form.form-horizontal(name='form', novalidate)
   fieldset(ng-disabled='isSaving')
     .modal-body
       ul.nav.nav-tabs(role='tablist')
-        li.active(role='presentation'): a(href='#', data-target='#tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
-        li(role='presentation'): a(href='#', data-target='#tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features
-        li(role='presentation'): a(href='#', data-target='#tabSpecification', aria-controls='basic', role='tab', data-toggle='tab') Technical Specifications
-        li(role='presentation'): a(href='#', data-target='#tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
-        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
+        li.active(role='presentation'): a(href='#', data-target='#{{ product._id }}tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
+        li(role='presentation'): a(href='#', data-target='#{{ product._id }}tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features
+        li(role='presentation'): a(href='#', data-target='#{{ product._id }}tabSpecification', aria-controls='basic', role='tab', data-toggle='tab') Technical Specifications
+        li(role='presentation'): a(href='#', data-target='#{{ product._id }}tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
+        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#{{ product._id }}tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
 
       .tab-content
-        #tabBasic.tab-pane.active(role='tabpanel')
+        .tab-pane.active(id="{{ product._id }}tabBasic", role='tabpanel')
           .panel.panel-default
             .panel-heading Product Details
             .panel-body
               input(type='hidden', ng-init='product.type = "ProductHardwareAdvanced"')
               +productDetails()
-    
+
           +productImages()
           +productVideos()
           +addLinks('moreInformationLinks', 'More information URLs')
-        
-        #tabFeatures.tab-pane(role='tabpanel')
+
+        .tab-pane(id="{{ product._id }}tabFeatures", role='tabpanel')
           +vocabularies()
           +associatedSoftware()
           .panel.panel-default
@@ -48,12 +48,12 @@ form.form-horizontal(name='form', novalidate)
                   +radio('product.features', 'mobilePhoneRequiredType', 'smsAndPhone', 'SMS and Phone')
               +checkbox('temp', 'mobilePhoneOther', 'Other')
               textarea.form-control(ng-show='temp.mobilePhoneOther', ng-model='product.features.mobilePhoneViaOther', name='mobilePhoneViaOther', id='mobilePhoneViaOther')
-    
+
           +deviceSupportedOperatingSystems()
           +dedicated()
           +sharedHardware()
-          
-        #tabSpecification.tab-pane(role='tabpanel')
+
+        .tab-pane(id="{{ product._id }}tabSpecification", role='tabpanel')
           .panel.panel-default
             .panel-heading
               | Battery
@@ -61,7 +61,7 @@ form.form-horizontal(name='form', novalidate)
             .panel-body
               +input('product.features', 'number', 'batteryLife', 'Battery life (hours)')
               +textarea('product.features', 'spareBatteryOptions', 'Spare battery options')
-              
+
           .panel.panel-default
             .panel-heading Dimensions
             .panel-body
@@ -74,16 +74,16 @@ form.form-horizontal(name='form', novalidate)
                 .panel-heading Are these dimensions with a case?
                 .panel-body
                   +switch('product.features', 'sizeIncludingCase')
-              
-        #tabCostSupport.tab-pane(role='tabpanel')
-          +price()          
+
+        .tab-pane(id="{{ product._id }}tabCostSupport", role='tabpanel')
+          +price()
           .panel.panel-default
             .panel-heading Support and warranty
             .panel-body
               +textarea('product.features', 'supportOptions', 'Support options')
               +textarea('product.features', 'warrantyOptions', 'Warranty options')
-          
-        #tabVersions.tab-pane(role='tabpanel', ng-if='revisions.length')
+
+        .tab-pane(id="{{ product._id }}tabVersions", role='tabpanel', ng-if='revisions.length')
           +productRevisions('product')
-          
+
       +draftActions()

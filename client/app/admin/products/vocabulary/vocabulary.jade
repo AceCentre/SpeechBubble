@@ -9,13 +9,13 @@ form.form-horizontal(name='form', novalidate)
   fieldset(ng-disabled='isSaving')
     .modal-body
       ul.nav.nav-tabs(role='tablist')
-        li.active(role='presentation'): a(href='#', data-target='#tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
-        li(role='presentation'): a(href='#', data-target='#tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features
-        li(role='presentation'): a(href='#', data-target='#tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
-        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
+        li.active(role='presentation'): a(href='#', data-target='#{{ product._id }}tabBasic', aria-controls='basic', role='tab', data-toggle='tab') Basic
+        li(role='presentation'): a(href='#', data-target='#{{ product._id }}tabFeatures', aria-controls='basic', role='tab', data-toggle='tab') Features
+        li(role='presentation'): a(href='#', data-target='#{{ product._id }}tabCostSupport', aria-controls='basic', role='tab', data-toggle='tab') Costs &amp; Support
+        li(role='presentation', ng-if='revisions.length'): a(href='#', data-target='#{{ product._id }}tabVersions', aria-controls='basic', role='tab', data-toggle='tab') Versions
 
       .tab-content
-        #tabBasic.tab-pane.active(role='tabpanel')
+        .tab-pane.active(id="{{ product._id }}tabBasic", role='tabpanel')
           .panel.panel-default
             .panel-heading Product Details
             .panel-body
@@ -26,7 +26,7 @@ form.form-horizontal(name='form', novalidate)
           +productVideos()
           +addLinks('moreInformationLinks', 'More information URLs')
 
-        #tabFeatures.tab-pane(role='tabpanel')
+        .tab-pane(id="{{ product._id }}tabFeatures", role='tabpanel')
           .panel.panel-default
             .panel-heading Is this designed to work without software
             .panel-body
@@ -221,10 +221,10 @@ form.form-horizontal(name='form', novalidate)
                   +checkbox('product.features.switchOptions', 'quartered', 'Quartered')
                   +checkbox('product.features.switchOptions', 'morse', 'Morse')
 
-        #tabCostSupport.tab-pane(role='tabpanel')
+        .tab-pane(id="{{ product._id }}tabCostSupport", role='tabpanel')
           +price()
 
-        #tabVersions.tab-pane(role='tabpanel', ng-if='revisions.length')
+        .tab-pane(id="{{ product._id }}tabVersions", role='tabpanel', ng-if='revisions.length')
           +productRevisions('product')
 
       +draftActions()
