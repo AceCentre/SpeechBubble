@@ -2,20 +2,20 @@
   clear: both;
   margin-top: 20px;
   padding: 20px 0;
-  
+
   h1 {
     font-size: 2em;
     text-align: left;
   }
-  
+
   dl {
   	margin-bottom: 0;
   }
-  
+
   dd {
   	margin-bottom: 5px;
   }
-  
+
   @media (min-width: 480px) {
     th {
       width: 240px;
@@ -27,14 +27,14 @@
   padding: 10px 15px;
   background: $backgroundColor;
   margin: -20px -20px 20px;
-  
+
   h2 {
     text-transform: uppercase;
     font-size: 1em;
     color: #878787;
     margin-top: 5px;
     font-weight: bold;
-    
+
     a {
       margin-left: 8px;
       font-size: .75em;
@@ -42,7 +42,7 @@
       text-decoration: underline;
     }
   }
-  
+
   .btn {
     color: #878787;
     transition: color ease 300ms;
@@ -50,15 +50,15 @@
     margin-bottom: 5px;
     font-size: .75em;
     padding: 5px 10px 5px 8px;
-    
+
     &:hover {
       color: #000;
     }
-    
+
     &:hover .glyphicon {
       color: #000;
     }
-    
+
     .glyphicon {
       transition: color ease 300ms;
       color: #878787;
@@ -66,18 +66,26 @@
       position: relative;
       top: 1px;
     }
-  } 
+  }
 }
 
 .product-summary .img-thumbnail {
-  margin-bottom: 20px;
+  margin-bottom: 35px;
   margin-right: 20px;
   float: left;
   width: 100%;
 }
 
 .product-summary .carousel-indicators {
-  bottom: 0;
+  bottom: -35px;
+
+  .active {
+    background: #ccc;
+  }
+
+  li {
+    border: 1px solid #ccc;
+  }
 }
 
 .product-summary .carousel-control {
@@ -95,15 +103,15 @@
   	padding-right: 20px;
   	text-align: center;
   }
-  
+
   dl {
   	margin-bottom: 0;
   }
-  
+
   dd {
   	margin-bottom: 5px;
   }
-  
+
   hr {
     margin: 15px 0;
   }
@@ -158,31 +166,31 @@ Split compare within iframe
   border: 0;
   text-transform: uppercase;
   clear: both;
-  
+
   .navbar-brand {
     color: #ffffff;
     font-size: 1em;
-    
+
     &:hover {
       color: #ffffff;
     }
   }
-  
+
   &.affix-top {
     width: 100%;
   }
-  
+
   .container {
     max-width: 100%;
   }
-  
+
   &.affix, &.affix-bottom {
     width: 100%;
     left: 0;
     top: 0 !important;
     position: fixed;
   }
-  
+
 }
 
 .nav.navbar-nav.navbar-left {
@@ -192,11 +200,11 @@ Split compare within iframe
     text-align: center;
     transition: opacity ease 200ms;
     outline: none;
-    
+
     &:hover {
       opacity: .5;
       cursor: pointer;
-      
+
       &:before {
         position: absolute;
         height: 40px;
@@ -215,7 +223,7 @@ Split compare within iframe
         color: $primaryColor;
       }
     }
-    
+
     a {
       padding: 0;
     }
@@ -225,7 +233,7 @@ Split compare within iframe
 .nav.navbar-nav.navbar-right a {
   color: #ffffff;
   outline: none;
-  
+
   &:hover, &:active, &:focus {
     text-decoration: underline;
     color: #ffffff;
