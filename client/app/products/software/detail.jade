@@ -84,7 +84,7 @@ table.table.table-striped
 
 section(ng-if='product.features.premadeVocabulariesAvailable.length === 1')
   h3 Vocabulary Information
-  .nested-product(onload="product = premadeVocabulariesAvailable[0]", ng-if='product.features.premadeVocabulariesAvailable.length === 1', ng-include='"app/products/vocabulary/detail.html"')
+  .nested-product(onload="product = product.features.premadeVocabulariesAvailable[0]", ng-if='product.features.premadeVocabulariesAvailable.length === 1', ng-include='"app/products/vocabulary/detail.html"')
 
 .panel.panel-default(ng-if='product.features.associatedSoftware.length')
   .panel-heading Associated Software
