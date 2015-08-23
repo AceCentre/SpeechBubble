@@ -30,7 +30,9 @@ module.exports = function(app) {
   app.engine('html', engines.ejs);
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({
+    limit: '1mb'
+  }));
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
