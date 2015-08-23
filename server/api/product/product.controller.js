@@ -29,7 +29,7 @@ exports.compare = function(req, res) {
 exports.similar = function(req, res) {
   var term = req.query.term;
   Product
-  .find({ 'name': new RegExp(term, "i") })
+  .find({ 'name': { '$regex': req.query.term, '$options': 'i' } })
   .limit(10)
   .exec(function(err, products) {
     if(err) { return handleError(res, err); }
@@ -196,7 +196,7 @@ exports.index = function(req, res) {
   var qb = new QueryBuilder();
 
   if(req.query.term) {
-    qb.add('name', new RegExp(req.query.term, "i") );
+    qb.add('name', { '$regex': req.query.term, '$options': 'i' });
   }
 
   // Hide access solutions by default
