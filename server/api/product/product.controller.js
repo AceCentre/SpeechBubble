@@ -74,7 +74,7 @@ function getAssociatedOrQuery(req, products) {
   var associatedSoftware = products.reduce(function(memo, current) {
     if(current.features && current.features.associatedSoftware) {
       return memo.concat(current.features.associatedSoftware.map(function(item) {
-        return item._id;
+        return item && item._id;
       }));
     }
     return memo;
@@ -83,7 +83,7 @@ function getAssociatedOrQuery(req, products) {
   var associatedVocabulary = products.reduce(function(memo, current) {
     if(current.features && current.features.premadeVocabulariesAvailable) {
       return memo.concat(current.features.premadeVocabulariesAvailable.map(function(item) {
-        return item._id;
+        return item && item._id;
       }));
     }
     return memo;
