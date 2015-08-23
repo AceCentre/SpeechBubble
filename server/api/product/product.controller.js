@@ -287,9 +287,7 @@ exports.show = function(req, res) {
         return Product.find({
           _id: { $in: product.features.premadeVocabulariesAvailable }
         }, function(err, vocabularies) {
-          console.log(new Date());
           product.features.premadeVocabulariesAvailable = vocabularies;
-          console.log(product.features.premadeVocabulariesAvailable);
           return res.json(product);
         });
       }
