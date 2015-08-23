@@ -282,6 +282,18 @@ exports.show = function(req, res) {
     .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
       if(err) { return handleError(res, err); }
       if(!product) { return res.send(404); }
+
+      if(product.features && product.features.premadeVocabulariesAvailable) {
+        return Product.find({
+          _id: { $in: product.features.premadeVocabulariesAvailable }
+        }, function(err, vocabularies) {
+          console.log(new Date());
+          product.features.premadeVocabulariesAvailable = vocabularies;
+          console.log(product.features.premadeVocabulariesAvailable);
+          return res.json(product);
+        });
+      }
+
       return res.json(product);
     });
   });
@@ -400,6 +412,10 @@ exports.update = function(req, res) {
 
   if(req.body.associatedSoftware) {
     req.body.associatedSoftware = flatten(req.body.associatedSoftware);
+  }
+
+  if(req.body.features && req.body.features.premadeVocabulariesAvailable) {
+    req.body.features.premadeVocabulariesAvailable = flatten(req.body.features.premadeVocabulariesAvailable);
   }
 
   Product.findById(req.params.id, function(err, product) {
