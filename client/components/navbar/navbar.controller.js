@@ -17,9 +17,7 @@ angular.module('speechBubbleApp')
       'title': 'Help',
       'children': [
         { 'title': 'About', 'link': '/about' },
-        { 'title': 'Contribute', 'link': '/contribute' },
         { 'title': 'Glossary', 'link': '/glossary' },
-        { 'title': 'Feedback', 'link': '/feedback' },
         { 'title': 'Contact', 'link': '/contact' }
       ]
     }];
