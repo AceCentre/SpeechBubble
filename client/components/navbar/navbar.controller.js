@@ -10,7 +10,10 @@ angular.module('speechBubbleApp')
       'title': 'Products',
       'children': [
         { 'title': 'Search', 'link': '/search' },
-        { 'title': 'Browse', 'link': '/products' },
+        { 'title': 'Browse All', 'link': '/products' },
+        { 'title': 'Low-tech solutions', 'link': '/products?type=ProductLowTech'},
+        { 'title': 'Hardware solutions', 'link': '/products?type=ProductHardware'},
+        { 'title': 'Access solutions', 'link': '/products?type=ProductAccessSolution'},
         { 'title': 'Suppliers', 'link': '/suppliers' }
       ]
     }, {
