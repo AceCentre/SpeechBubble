@@ -11,7 +11,7 @@ angular.module('speechBubbleApp')
 
     function publishRevision(revision) {
       $scope.isSaving = true;
-      $http.post('/api/page/publish/' + page._id + '/' + revision._id)
+      $http.post('/api/page/publish/' + page._id + '/' + revision)
         .success(function(res) {
           $scope.isSaving = false;
           growl.success('Version published.');
