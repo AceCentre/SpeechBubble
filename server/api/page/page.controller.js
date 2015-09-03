@@ -84,13 +84,19 @@ exports.create = function(req, res) {
 // Adds a new revision to a page.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  req.body.author = req.user._id;
 
   Page.findById(req.params.id, function(err, page) {
     if (err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-
-    page.revisions.push( _.omit(req.body, 'revisions') );
+    
+    page.revisions.push({
+      title: req.body.title,
+      content: req.body.content,
+      slug: req.body.slug,
+      comments: req.body.comments,
+      note: req.body.note,
+      author: req.user._id
+    });
 
     page.save(function(err, product) {
       if (err) {
