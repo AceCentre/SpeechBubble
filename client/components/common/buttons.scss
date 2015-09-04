@@ -17,7 +17,7 @@
     outline: 0;
     text-decoration: none;
   }
-  
+
   &[disabled] {
     cursor: not-allowed;
     pointer-events: auto;
@@ -73,3 +73,5 @@ fieldset[disabled] .btn {
     color: #333;
   }
 }
+
+#doorbell-button { z-index: 1060 }

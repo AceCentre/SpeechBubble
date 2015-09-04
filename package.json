@@ -20,7 +20,7 @@
     "fancy-facets": "0.0.3",
     "formidable": "^1.0.17",
     "jade": "~1.2.0",
-    "jsonwebtoken": "^0.3.0",
+    "jsonwebtoken": "^5.0.5",
     "lodash": "^2.4.1",
     "lru-cache": "^2.6.4",
     "mailchimp": "^1.1.0",
