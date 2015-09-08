@@ -131,6 +131,12 @@ function wizardAssociatedPhysicalQuery(req, res) {
 
   if(facets.length) {
     qb.add('type', 'ProductHardware');
+    var accessMethods = _.filter(facets, function(facet) {
+      return facet.indexOf("access-methods") > -1;
+    });
+    if(accessMethods.length) {
+      qb.add("facets", {'$in': accessMethods});
+    }
   }
 
   Product
