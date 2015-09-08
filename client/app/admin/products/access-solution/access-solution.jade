@@ -83,9 +83,8 @@ form.form-horizontal(name='form', novalidate)
                 +checkbox('product.features.canBeControlledBy', 'elbow', 'Elbow')
                 +checkbox('product.features.canBeControlledBy', 'muscle', 'Muscle')
                 +checkbox('product.features.canBeControlledBy', 'other', 'Other')
-                +checkbox('temp', 'canBeControlledByOther', 'Other')
 
-                textarea.form-control(ng-show='temp.canBeControlledByOther', destroy='canBeControlledByOtherDetails', ng-model='product.features.canBeControlledByOtherDetails')
+                textarea.form-control(ng-show='product.features.canBeControlledBy.other', destroy='canBeControlledByOtherDetails', ng-model='product.features.canBeControlledByOtherDetails')
 
             .panel.panel-default
               .panel-heading Mounting options (multiple)
@@ -96,9 +95,9 @@ form.form-horizontal(name='form', novalidate)
                 +checkbox('product.features.mountingOptions', 'suction', 'Suction')
                 +checkbox('product.features.mountingOptions', 'magnetic', 'Magnets')
                 +checkbox('product.features.mountingOptions', 'standalone', 'Standalone')
-                +checkbox('temp', 'mountingOptionsOther', 'Other')
+                +checkbox('product.features.mountingOptions', 'other', 'Other')
 
-                textarea.form-control(ng-show='temp.mountingOptionsOther', destroy='mountingOptionsOtherDetails', ng-model='product.features.mountingOptionsOtherDetails')
+                textarea.form-control(ng-show='product.features.mountingOptions.other', destroy='mountingOptionsOtherDetails', ng-model='product.features.mountingOptionsOtherDetails')
 
           .tab-pane(id="{{ product._id }}tabCostSupport", role='tabpanel')
             +price()
