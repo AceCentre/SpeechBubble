@@ -89,15 +89,10 @@ angular.module('speechBubbleApp')
   $scope.product = product.data;
   $scope.isPreviousRevision = isPreviousRevision;
 
-  $scope.product.images = [{
-    url: 'http://placehold.it/500x500'
-  }, {
-    url: 'http://placehold.it/600x500'
-  }, {
-    url: 'http://placehold.it/700x500'
-  }, {
-    url: 'http://placehold.it/800x500'
-  }];
+  // add video type property to all videos
+  _.each($scope.product.videos, function(item) {
+    item.type = 'video';
+  });
 
   PageTitle($scope.product.name);
 

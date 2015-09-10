@@ -62,6 +62,11 @@ angular.module('speechBubbleApp')
           var urlArray = url.split('/');
           var embedId = urlArray[urlArray.length - 1];
           return $sce.trustAsResourceUrl('//youtube.com/embed/' + embedId);
+        },
+        getYoutubeThumbnail: function(url) {
+          var urlArray = url.split('/');
+          var embedId = urlArray[urlArray.length - 1];
+          return $sce.trustAsResourceUrl('http://img.youtube.com/vi/' + embedId + '/0.jpg');
         }
       };
     };

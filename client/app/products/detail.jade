@@ -21,7 +21,7 @@ block content
           div(slide, ng-repeat='image in product.images' active='slide.active')
             img(ng-src="{{ image.url }}", width='100%', ng-click="openLightboxModal(product.images, $index)")
           div(slide, ng-repeat='video in product.videos' active='slide.active')
-            iframe(id='ytplayer', type='text/html', width='100%', height='200', ng-src='{{ videos.getYoutubeUrl(video.url) }}', frameborder='0')
+            img(ng-src="{{ videos.getYoutubeThumbnail(video.url) }}", width="100%", ng-click="openLightboxModal(product.videos, $index)")
 
         img.img-thumbnail(ng-if='!product.images.length && !product.videos.length', src='/assets/images/products/default.png', width='100%')
 

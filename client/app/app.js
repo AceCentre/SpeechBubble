@@ -14,7 +14,8 @@ angular.module('speechBubbleApp', [
   'ui.select',
   'angular.filter',
   'LocalStorageModule',
-  'bootstrapLightbox'
+  'bootstrapLightbox',
+  'videosharing-embed'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider, LightboxProvider) {
     $locationProvider.html5Mode(true);
