@@ -7,7 +7,7 @@ header.header(ng-controller="HeaderCtrl")
           img(src='/assets/images/brand/logo.png')
       div.col-sm-9
         div(ng-include='"components/navbar/navbar.html"')
-          
+
         form(name='form', ng-submit='submit(search.term, $event)')
           .form-group
             .input-group(dropdown, auto-close="disabled")
@@ -17,5 +17,6 @@ header.header(ng-controller="HeaderCtrl")
               div.dropdown-menu
                 div(ng-include='"components/forms/product-filters.html"')
               input.form-control(id='term', ng-model='search.term', typeahead="o as o for o in getSimilar($viewValue)", typeahead-focus-first="false", name='term', type='text', placeholder='Search for a product...', autocomplete='off')
-              span.glyphicon.glyphicon-search.form-control-feedback
+              button.form-control-feedback(type="submit")
+                span.glyphicon.glyphicon-search
           a.link(ui-sref='products()') view all products
