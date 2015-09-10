@@ -4,12 +4,12 @@ angular.module('speechBubbleApp')
 
 .controller('ProductsCtrl', function ($scope, $sce, $http, $location, Auth, $modal, $rootScope, growl, ProductCompareTemplate, ProductOptions, ProductSearch, PageTitle) {
 
-  PageTitle('Product Search');  
+  PageTitle('Product Search');
 
   $scope.endpoint = '/api/product/:id';
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
-  
+
   $scope.getThumbnail = function(item) {
     return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
   };
@@ -83,17 +83,29 @@ angular.module('speechBubbleApp')
   };
 })
 
-.controller('ProductDetailCtrl', function($state, $http, $scope, $location, product, Rating, ProductTemplate, ProductVideos, PageTitle, $modal, Auth, isPreviousRevision) {
+.controller('ProductDetailCtrl', function($state, $http, $scope, $location, product, Rating, ProductTemplate, ProductVideos, PageTitle, $modal, Auth, isPreviousRevision, Lightbox) {
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.videos = ProductVideos($scope);
   $scope.product = product.data;
   $scope.isPreviousRevision = isPreviousRevision;
+
+  $scope.product.images = [{
+    url: 'http://placehold.it/500x500'
+  }, {
+    url: 'http://placehold.it/600x500'
+  }, {
+    url: 'http://placehold.it/700x500'
+  }, {
+    url: 'http://placehold.it/800x500'
+  }];
 
   PageTitle($scope.product.name);
 
   Rating.get({ id: $scope.product._id }, function(res) {
     $scope.ratings = res;
   });
+
+  $scope.openLightboxModal = Lightbox.openModal;
 
   $scope.edit = function(product) {
     var modal = ProductTemplate(product);
@@ -118,7 +130,7 @@ angular.module('speechBubbleApp')
   if($scope.product.type === 'ProductVocabulary') {
     $scope.relatedSoftwareForVocabulary = [];
     $scope.relatedHardwareForVocabulary = [];
-    
+
     $http({
       method: 'GET',
       url: '/api/product/supportedForVocabulary/',

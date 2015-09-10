@@ -13,12 +13,15 @@ angular.module('speechBubbleApp', [
   'frapontillo.bootstrap-switch',
   'ui.select',
   'angular.filter',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'bootstrapLightbox'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, growlProvider, LightboxProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
     growlProvider.globalTimeToLive({success: 2000, error: 5000, warning: 2000, info: 2000});
+
+    LightboxProvider.fullScreenMode = true;
 
     // Prevent caching
     if (!$httpProvider.defaults.headers.get) {
@@ -256,15 +259,15 @@ angular.module('speechBubbleApp', [
         this.page.remote_auth_s3 = Auth.getCurrentUser().disqus.auth;
         this.page.api_key = Auth.getCurrentUser().disqus.pubKey;
     };
-    
+
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-      // reload the home controller to get latest user views/edits      
+      // reload the home controller to get latest user views/edits
       if(fromState.name && toState.name === 'main') {
         event.preventDefault();
         return $window.location.href = '/';
       }
     });
-    
+
     $rootScope.$on('$locationChangeSuccess',function(){
       $("html, body").animate({ scrollTop: 0 }, 200);
     });
@@ -272,7 +275,7 @@ angular.module('speechBubbleApp', [
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
-        $window.doorbellOptions.email = Auth.getCurrentUser().email;        
+        $window.doorbellOptions.email = Auth.getCurrentUser().email;
         if (next.authenticate && !loggedIn) {
           $location.path('/login');
         }

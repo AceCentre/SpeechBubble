@@ -41,6 +41,10 @@
   background: $primaryColor;
 }
 
+.modal-content {
+  height: auto !important; // fix content overflowing in product zoom
+}
+
 @media (max-width: $screen-xs-max) {
   .modal-body {
     overflow-x: auto;
