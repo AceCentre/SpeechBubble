@@ -46,6 +46,16 @@ angular.module('speechBubbleApp')
   })
 
   .factory('ProductVideos', function($sce) {
+
+    function getVideoId(url) {
+      var videoId = url.split('v=')[1];
+      var amp = videoId.indexOf('&');
+      if(amp > -1) {
+        videoId = videoId.substr(0, amp);
+      }
+      return videoId;
+    }
+
     return function(scope) {
       return {
         add: function(url) {
@@ -59,14 +69,10 @@ angular.module('speechBubbleApp')
           scope.product.videos.splice(index, 1);
         },
         getYoutubeUrl: function(url) {
-          var urlArray = url.split('/');
-          var embedId = urlArray[urlArray.length - 1];
-          return $sce.trustAsResourceUrl('//youtube.com/embed/' + embedId);
+          return $sce.trustAsResourceUrl('//youtube.com/embed/' + getVideoId(url));
         },
         getYoutubeThumbnail: function(url) {
-          var urlArray = url.split('/');
-          var embedId = urlArray[urlArray.length - 1];
-          return $sce.trustAsResourceUrl('http://img.youtube.com/vi/' + embedId + '/0.jpg');
+          return $sce.trustAsResourceUrl('http://img.youtube.com/vi/' + getVideoId(url) + '/0.jpg');
         }
       };
     };
