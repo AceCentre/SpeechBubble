@@ -37,6 +37,7 @@ angular.module('speechBubbleApp')
     };
 
     $scope.applyFilters = function() {
+      $scope.status.isopen = false;
       angular.copy($scope.search, ProductSearch);
     };
 

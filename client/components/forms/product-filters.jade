@@ -24,32 +24,32 @@ include ../../app/admin/products/form-helpers
                 ui-select-match(placeholder="Select operating systems") {{$item}}
                 ui-select-choices(repeat="item in devices | filter: $select.search")
                   div {{ item }}
-      
+
             <!-- Hardware Only -->
             .form-group(ng-if='search.type && search.type === "ProductHardware"')
               label.control-label(for="type") Minimum Battery Life (hrs)
                 div(ng-class='{ "has-error": searchForm.searchBatteryLife.$invalid }')
                   input.form-control(id='searchBatteryLife', name='searchBatteryLife', type='number', ng-model='search.batteryLife')
-      
+
                   p.help-block(ng-show='searchForm.searchBatteryLife.$error.number')
                     | #{label} Please enter a number
-      
+
             <!-- Hardware Only -->
             .form-group(ng-if='search.type && search.type === "ProductHardware"')
               label.control-label(for="screenSize") Minimum Screen Size (in)
                 div(ng-class='{ "has-error": searchForm.searchScreenSize.$invalid }')
                   input.form-control(id='searchScreenSize', name='searchScreenSize', type='number', ng-model='search.screenSize')
-      
+
                   p.help-block(ng-show='searchForm.searchScreenSize.$error.number')
                     | #{label} Please enter a number
-      
+
             <!-- Hardware Only -->
             .form-group(ng-if='search.type && search.type === "ProductHardware"')
               label.control-label(for="mobilePhoneCapabilities") Mobile phone capabilities
               +checkbox('search.facets', 'mobile-phone-sim', 'In-built SIM')
               +checkbox('search.facets', 'mobile-phone-required', 'Phone required')
-      
-      
+
+
             <!-- TODO: currently not being tagged as a facet on the model due to string value -->
             <!-- Vocabulary Only -->
             .form-group(ng-if='search.type && search.type === "ProductVocabulary"')
@@ -57,25 +57,25 @@ include ../../app/admin/products/form-helpers
               +checkbox('search.facets', 'presentation-text-only', 'Text only')
               +checkbox('search.facets', 'presentation-text-and-symbols-or-photos', 'Text & Symbols or Photos')
               +checkbox('search.facets', 'presentation-symbols-or-photos', 'Symbols or Photos Only')
-              +checkbox('search.facets', 'presentation-visual-scenes', 'Visual Scenes')    
-              
+              +checkbox('search.facets', 'presentation-visual-scenes', 'Visual Scenes')
+
             .form-group(ng-if='search.type && search.type === "ProductVocabulary"')
               label.control-label Requirements
-                +checkbox('search.facets', 'no-software-required', 'No software required')             
-      
+                +checkbox('search.facets', 'no-software-required', 'No software required')
+
             <!-- Software Only -->
             .form-group(ng-if='search.type && search.type === "ProductSoftware"')
               label.control-label Form of representation
               +checkbox('search.facets', 'image-representation-photos', 'Photos')
               +checkbox('search.facets', 'image-representation-symbols', 'Symbols')
               +checkbox('search.facets', 'image-representation-videos', 'Videos')
-      
+
             .form-group(ng-if='search.type && search.type === "ProductSoftware"')
               label.control-label Speech Type Options
               +checkbox('search.facets', 'speech-type-options-synthesised', 'Synthesised')
               +checkbox('search.facets', 'speech-type-options-recorded', 'Recorded')
-      
-      
+
+
             <!-- Except Low Tech -->
             .form-group(ng-if='search.type && search.type !== "ProductLowTech"')
               label.control-label(for="type") Access Methods
@@ -83,14 +83,14 @@ include ../../app/admin/products/form-helpers
                 +checkbox('search.facets', 'access-methods-mouse-or-alternative', 'Mouse or Mouse alternative')
                 +checkbox('search.facets', 'access-methods-eyegaze', 'Eyegaze')
                 +checkbox('search.facets', 'access-methods-switch', 'Switch')
-      
+
             <!-- Admin -->
             .form-group(ng-if='isAdmin()')
               label.control-label Admin
                 +checkbox('search', 'awaitingModeration', 'Awaiting Moderation')
-      
+
       hr
-      
+
       div.product-advanced-actions
         a.btn.btn-tertiary(ng-click='clearFilters()') Clear
-        button.btn.btn-primary(ng-click='applyFilters()') Update
+        button.btn.btn-primary(ng-click='applyFilters()') Search

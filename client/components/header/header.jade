@@ -10,7 +10,7 @@ header.header(ng-controller="HeaderCtrl")
 
         form(name='form', ng-submit='submit(search.term, $event)')
           .form-group
-            .input-group(dropdown, auto-close="disabled")
+            .input-group(dropdown, auto-close="disabled", is-open="status.isopen")
               span.input-group-addon.btn-filter(dropdown-toggle)
                 | Filters
                 span.caret
