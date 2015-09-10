@@ -445,8 +445,8 @@ mixin pageRevisions(model)
             td {{ rev.author.firstName }} {{ rev.author.lastName }}
             td {{ rev.createdAt | date:'dd/MM/yyyy HH:mm:ss' }} #[span(ng-if='currentRevision === rev._id') (current)]
             td.actions
-              a(href='#', ng-click='revert(rev)'): span.glyphicon.glyphicon-edit
-              a(href='#', ng-click='publish(getPublishMessage(rev), rev._id)', ng-if='isAdmin()'): span.glyphicon.glyphicon-globe
+              a(href='#', ng-click='revert(rev)') Edit
+              a(href='#', ng-click='publish(getPublishMessage(rev), rev)', ng-if='isAdmin()') Publish
 
       .text-center
         pagination.pagination-sm(total-items='revisions.length', max-size='10', items-per-page='revisionsPerPage', ng-model='currentPage', boundary-links='true')
