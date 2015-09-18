@@ -26,7 +26,6 @@ form.form-horizontal(name='form', novalidate)
           +addLinks('moreInformationLinks', 'More information URLs')
 
         .tab-pane(id="{{ product._id }}tabFeatures", role='tabpanel')
-          +imageRepresentationSupported()
           +speechTypeOptions()
           +enviroControl()
           .panel.panel-default
