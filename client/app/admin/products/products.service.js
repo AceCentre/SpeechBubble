@@ -272,6 +272,7 @@ angular.module('speechBubbleApp')
         'Microsoft Windows 7',
         'Microsoft Windows 8',
         'Microsoft Windows 8 Pro',
+        'Microsoft Windows 10',
         'Mac OS X 10.0 (Cheetah)',
         'Mac OS X 10.1 (Puma)',
         'Mac OS X 10.2 (Jaguar)',
@@ -306,6 +307,7 @@ angular.module('speechBubbleApp')
         'Apple iOS 6',
         'Apple iOS 7',
         'Apple iOS 8',
+        'Apple iOS 9',
         'Apple iPad',
         'Apple iPod',
         'Apple iPhone'
