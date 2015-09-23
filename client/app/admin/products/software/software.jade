@@ -75,7 +75,7 @@ form.form-horizontal(name='form', novalidate)
           +price()
           +addLinks('supportLinks', 'Support URLs')
 
-       .tab-pane(id="{{ product._id }}tabVersions", role='tabpanel', ng-if='revisions.length')
+        .tab-pane(id="{{ product._id }}tabVersions", role='tabpanel', ng-if='revisions.length')
           +productRevisions('product')
 
       +draftActions()
