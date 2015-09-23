@@ -8,15 +8,6 @@ table.table.table-striped
       th Discontinued
       td This product is discontinued!
 
-    tr(ng-if='product.features.imageRepresentation.photos || product.features.imageRepresentation.symbols || product.features.imageRepresentation.videos')
-      th Form of representation
-      td
-        +textLineIf('Photos', 'product.features.imageRepresentation.photos')
-        +textLineIf('Symbols', 'product.features.imageRepresentation.symbols')
-        ul(ng-if='product.features.symbols.length')
-          li(ng-repeat='item in product.features.symbols') {{ item }}
-        +textLineIf('Videos', 'product.features.imageRepresentation.videos')
-
     tr(ng-if='product.features.speechTypeOptions.synthesised || product.features.speechTypeOptions.recorded')
       th Speech type options
       td

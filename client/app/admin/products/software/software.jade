@@ -22,11 +22,9 @@ form.form-horizontal(name='form', novalidate)
 
           +productScreenshots()
           +productVideos()
-          +addLinks('purchaseLinks', 'Purchase URLs')
           +addLinks('moreInformationLinks', 'More information URLs')
 
         .tab-pane(id="{{ product._id }}tabFeatures", role='tabpanel')
-          +imageRepresentationSupported()
           +speechTypeOptions()
           +enviroControl()
           .panel.panel-default
@@ -73,6 +71,7 @@ form.form-horizontal(name='form', novalidate)
 
         .tab-pane(id="{{ product._id }}tabCostSupport", role='tabpanel')
           +price()
+          +addLinks('purchaseLinks', 'Purchase URLs')
           +addLinks('supportLinks', 'Support URLs')
 
         .tab-pane(id="{{ product._id }}tabVersions", role='tabpanel', ng-if='revisions.length')

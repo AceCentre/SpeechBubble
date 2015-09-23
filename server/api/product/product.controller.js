@@ -411,7 +411,11 @@ exports.publish = function(req, res) {
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   delete req.body.__t;
-  req.body.suppliers = flatten(req.body.suppliers);
+  
+  if(req.body.suppliers) {
+    req.body.suppliers = flatten(req.body.suppliers);
+  }
+  
   req.body.author = req.user._id;
 
   if(req.body.associatedSoftware) {
