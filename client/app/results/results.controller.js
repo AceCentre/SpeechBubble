@@ -8,7 +8,8 @@ angular.module('speechBubbleApp')
     $scope.isLoading = false;
     $scope.total = 0;
     $scope.search = ProductSearch;
-    
+    $scope.initial = true;
+
     var changeLocation = function(now, then) {
       var location = angular.copy($scope.search);
       location.facets = FancyFacets(location.facets);
@@ -26,21 +27,21 @@ angular.module('speechBubbleApp')
       }
       $location.search(location);
     };
-    
+
     $scope.clearFilters = function() {
       angular.copy({}, ProductSearch.facets);
     };
-    
+
     $scope.hasFacets = function() {
       var location = angular.copy($scope.search);
       location.facets = FancyFacets(location.facets);
       return !!location.facets.length;
     };
-    
+
     $scope.getItemsPerPage = function() {
       return $scope.search.limit || 10;
     };
-    
+
     $scope.$watch('search', changeLocation, true);
 
     var fetch = _.debounce(function() {
@@ -49,10 +50,12 @@ angular.module('speechBubbleApp')
       var query = angular.extend({}, $scope.search, { 'facets': facets });
 
       api.query(query, function(res) {
+        $scope.initial = false;
         $scope.isLoading = false;
         $scope.items = res.items;
         $scope.total = res.total;
       }, function(err) {
+        $scope.initial = false;
         $scope.isLoading = false;
         growl.error(err);
       });
