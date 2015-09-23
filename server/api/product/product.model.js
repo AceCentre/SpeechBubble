@@ -38,7 +38,7 @@ var ProductSchema = ProductBaseSchema.extend({
 }, { collection: 'products' });
 
 ProductSchema.pre('save', function(next) {
-  this.slug = this.name.split(' ').join('-').toLowerCase();
+  this.slug = this.name.split(' ').join('-').split('/').join('-').toLowerCase();
   next();
 });
 
@@ -56,7 +56,7 @@ ProductSchema.pre('save', function(next) {
       var price = this.features.price[prop];
       if(price) {
         this.features.price[prop] = parseFloat(price);
-      }      
+      }
     }
   }
   next();
