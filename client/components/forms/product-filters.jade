@@ -64,11 +64,6 @@ include ../../app/admin/products/form-helpers
                 +checkbox('search.facets', 'no-software-required', 'No software required')
 
             <!-- Software Only -->
-            .form-group(ng-if='search.type && search.type === "ProductSoftware"')
-              label.control-label Form of representation
-              +checkbox('search.facets', 'image-representation-photos', 'Photos')
-              +checkbox('search.facets', 'image-representation-symbols', 'Symbols')
-              +checkbox('search.facets', 'image-representation-videos', 'Videos')
 
             .form-group(ng-if='search.type && search.type === "ProductSoftware"')
               label.control-label Speech Type Options
