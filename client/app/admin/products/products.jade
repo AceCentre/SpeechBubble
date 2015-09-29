@@ -8,7 +8,7 @@ block append sidebar
       label.control-label(for='Term') Search
       input.form-control(id='Term', name='term', ng-model='search.term')
     div(ng-include='"components/forms/product-filters.html"')
-
+    
 block sidebar
   div.sidebar.col-sm-12
     h2 Utils
@@ -19,7 +19,7 @@ block content
   h1 Product Admin
 
   div(ng-controller='ResultsCtrl')
-type
+
     +pageListingNotice('products')
     div(ng-hide='!total')
       +pagination()
@@ -28,14 +28,12 @@ type
           tr
             th Name
             th Type
-            th Last Mod.
             th Awaiting Moderation
             th.actions Actions
         tbody
           tr(ng-repeat='item in items')
             td {{ item.name }}
             td {{ item.type | type }}
-            td {{ item.updatedAt }}
             td.icon
               span.glyphicon(ng-class='item.awaitingModeration ? "glyphicon-ok-circle": "glyphicon-remove-circle"')
             td.actions
