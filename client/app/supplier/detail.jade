@@ -6,16 +6,17 @@ block content
     li: a(ui-sref='main') Home
     li: a(ui-sref='suppliers') Suppliers
     li.active Suppliers
-    
+
   h1 {{ supplier.name }}
-  
+
   hr
   .panel.panel-default
     .panel-heading Details
     .panel-body
       dl.dl-horizontal
         dt Website
-        dd {{ supplier.url }}
+        dd
+           a(ng-href='{{ supplier.url }}') {{ supplier.url }}
         dt(ng-if='supplier.supportDetails') Support Information
         dd(ng-if='supplier.supportDetails') {{ supplier.supportDetails }}
 
@@ -34,5 +35,3 @@ block content
           strong Telephone:&nbsp;
           | {{ l.telephone }}
         hr(ng-if='!$last')
-
-
