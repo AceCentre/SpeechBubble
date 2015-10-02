@@ -7,10 +7,12 @@ var jade = require('jade');
 var Product = require('./product.model');
 var formidable = require('formidable');
 var mandrill = require('mandrill-api/mandrill');
+console.log(process.env.MANDRILL_API_KEY);
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
 var User = require('../user/user.model');
 
 function flatten(suppliers) {
+  suppliers = _.without(suppliers, null);
   return _.uniq(suppliers.map(function(supplier) {
     return _.isString(supplier) ? supplier: supplier._id;
   }));
