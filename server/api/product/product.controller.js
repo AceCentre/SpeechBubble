@@ -719,8 +719,9 @@ exports.cleanup = function(req, res) {
       product.features.supportedDevices = _.map(product.features.supportedDevices, function(item) {
         return item._id || item;
       });
+      product.save();
     });
-    res.send(200, 'Rebuilt slugs');
+    res.send(200, 'Cleaned up products');
   });
 };
 
