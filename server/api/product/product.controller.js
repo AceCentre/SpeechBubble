@@ -714,12 +714,20 @@ exports.slugify = function(req, res) {
 };
 
 exports.cleanup = function(req, res) {
-  Product.find({ "features.supportedDevices": { $exists: true } }, function(err, products) {
+  Product
+  .find({ "features.supportedDevices": { "$exists": true } })
+  .lean()
+  .exec(function(err, products) {
     products.forEach(function(product) {
-      product.features.supportedDevices = _.map(product.features.supportedDevices, function(item) {
+      var supportedDevices = _.map(product.features.supportedDevices, function(item, index) {
         return item._id || item;
       });
-      product.save();
+      console.log(supportedDevices);
+      Product.update({ _id: product._id }, {
+        "$set": { "features.supportedDevices": supportedDevices }
+      }, function(err, count) {
+        console.log("updated product: " + product._id);
+      });
     });
     res.send(200, 'Cleaned up products');
   });
