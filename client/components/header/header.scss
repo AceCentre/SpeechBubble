@@ -31,6 +31,10 @@
     position: relative;
     outline: none;
 
+    @media (max-width: $screen-xs-max) {
+      padding-right: 0;
+    }
+
     .form-control-feedback {
       height: 42px;
       width: 42px;
@@ -101,6 +105,12 @@
       font-weight: bold;
       line-height: 42px;
       color: $secondaryColor;
+
+      @media (max-width: $screen-xs-max) {
+        position: static;
+        display: block;
+        text-align: center;
+      }
     }
 
     a.glyphicon-search {
