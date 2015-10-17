@@ -33,6 +33,10 @@
 .jumbotron {
   clear: both;
 
+  @media (max-width: $screen-xs-max) {
+    padding: 10px;
+  }
+
   .panel + .panel {
     position: relative;
     margin-top: 40px;

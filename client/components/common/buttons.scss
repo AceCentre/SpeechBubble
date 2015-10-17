@@ -11,6 +11,11 @@
   @media (max-width: $screen-xs-max) {
       display: block;
       width: 100%;
+      margin-left: 0 !important;
+
+      & + .btn {
+        margin-top: 10px;
+      }
   }
 
   &:hover, &:active, &:focus, &:active:focus {
