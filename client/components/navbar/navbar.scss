@@ -130,3 +130,13 @@
     }
   }
 }
+
+.navbar-compare ul {
+  @media (max-width: $screen-xs-max) {
+    margin-left: 0;
+
+    li {
+      float: left;
+    }
+  }
+}
