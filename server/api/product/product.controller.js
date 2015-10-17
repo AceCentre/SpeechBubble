@@ -9,6 +9,7 @@ var formidable = require('formidable');
 var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
 var User = require('../user/user.model');
+var Promise = require("bluebird");
 
 function flatten(suppliers) {
   suppliers = _.without(suppliers, null);
@@ -53,18 +54,33 @@ function wizardAssociatedExistingDeviceQuery(req, res) {
   if(!req.query.selectedDevice) {
     return res.send(200, []);
   }
+
   Product
-  .find({ '_id': req.query.selectedDevice })
-  .exec(function(err, products) {
+  .findById(req.query.selectedDevice)
+  .exec(function(err, product) {
     // Get associated software and vocabularies
     if(err) { return handleError(res, err); }
-    if(!products) { return res.send(404); }
+    if(!product) { return res.send(404); }
 
-    var or = getAssociatedOrQuery(req, products);
+    var queries = [];
+    
+    var operatingSystems = product.features.operatingSystems;
+
+    if(operatingSystems) {
+      queries.push({
+        'type': 'ProductSoftware',
+        'features.operatingSystems': { $in: _.isArray(operatingSystems) ? operatingSystems: [operatingSystems] }
+      });
+    }
+
+    queries.push({
+      'type': 'ProductSoftware',
+      'features.supportedDevices': { $in: [product._id] }
+    });
 
     Product
     .find()
-    .or(or)
+    .or(queries)
     .exec(function(err, associated) {
       returnProducts(req, res, err, associated);
     });
@@ -256,7 +272,7 @@ exports.index = function(req, res) {
     .skip(skip)
     .limit(limit)
     .populate('suppliers')
-    .populate('revisions.suppliers')
+    .populate('revisions.suppliers')    
     .populate('associatedSoftware')
     .populate('revisions.associatedSoftware')
     .populate({
@@ -285,22 +301,45 @@ exports.show = function(req, res) {
     if(req.user) {
       req.user.viewedProduct(product._id);
     }
+
     Product
     .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
       if(err) { return handleError(res, err); }
       if(!product) { return res.send(404); }
 
-      if(product.features && product.features.premadeVocabulariesAvailable) {
-        return Product.find({
-          _id: { $in: product.features.premadeVocabulariesAvailable }
-        }, function(err, vocabularies) {
-          product.features.premadeVocabulariesAvailable = vocabularies;
-          return res.json(product);
-        });
-      }
+      var hasPopulatedPremadeVocabularies = new Promise(function(resolve, reject) {
+        if(product.features && product.features.premadeVocabulariesAvailable) {
+          Product
+          .populate(product, { path: 'features.premadeVocabulariesAvailable', model: 'Product' }, function(err, product) {
+            if(err) { return handleError(res, err); }
+            if(!product) { return res.send(404); }
+            resolve();
+          });
+        } else {
+          resolve();
+        }
+      });
 
-      return res.json(product);
+      var hasPopulatedSupportedDevices = new Promise(function(resolve, reject) {
+        if(product.features && product.features.supportedDevices) {
+          Product
+          .populate(product, { path: 'features.supportedDevices', model: 'Product' }, function(err, product) {
+            if(err) { return handleError(res, err); }
+            if(!product) { return res.send(404); }
+            resolve();
+          });
+        } else {
+          resolve();
+        }
+      });      
+
+      Promise
+      .all([hasPopulatedSupportedDevices, hasPopulatedPremadeVocabularies])
+      .then(function() {
+        return res.json(product);
+      });      
     });
+    
   });
 };
 
@@ -669,6 +708,17 @@ exports.slugify = function(req, res) {
       product.slug = product.name.split(' ').join('-').toLowerCase();
       product.author = req.user._id;
       product.save();
+    });
+    res.send(200, 'Rebuilt slugs');
+  });
+};
+
+exports.cleanup = function(req, res) {
+  Product.find({ "features.supportedDevices": { $exists: true } }, function(err, products) {
+    products.forEach(function(product) {
+      product.features.supportedDevices = _.map(product.features.supportedDevices, function(item) {
+        return item._id || item;
+      });
     });
     res.send(200, 'Rebuilt slugs');
   });

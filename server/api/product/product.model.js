@@ -47,6 +47,15 @@ ProductSchema.pre('save', function(next) {
   next();
 });
 
+ProductSchema.pre('save', function(next) {
+  if(this.features.supportedDevices) {
+    this.features.supportedDevices = _.map(this.features.supportedDevices, function(item) {
+      return item._id || item;
+    });
+  }
+  next();
+})
+
 /**
  * Cleanup pre-save
  */

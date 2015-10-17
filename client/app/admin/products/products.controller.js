@@ -31,6 +31,10 @@ angular.module('speechBubbleApp')
       $http.get('/api/product/slugify');
     };
 
+    $scope.cleanupProducts = function() {
+      $http.get('/api/product/cleanup');
+    };
+
     $scope.performSearch = function() {
       $rootScope.$broadcast('resultsUpdated');
     };

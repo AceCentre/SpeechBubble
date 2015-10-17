@@ -11,8 +11,9 @@ router.post('/upload/:productId', auth.isAuthenticated(), controller.addImages);
 router.post('/', auth.isAuthenticated(), controller.create); // Create a new product
 router.put('/:id', auth.isAuthenticated(), controller.update); // Create a new product revision
 
-// Update slug for all products based on name
+// Utils
 router.get('/slugify', auth.hasRole('admin'), controller.slugify);
+router.get('/cleanup', auth.hasRole('admin'), controller.cleanup);
 
 // View Products
 router.get('/', controller.index);
