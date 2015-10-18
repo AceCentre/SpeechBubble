@@ -2,7 +2,7 @@ mixin media()
   .media.product-listing(ng-repeat='item in items')
     .media-left
       a(ng-href='/products/{{ item.slug }}')
-        img.media-object(ng-src='{{ getThumbnail(item) }}', width='128', height='128')
+        img.media-object(ng-src='{{ getThumbnail(item, 128, 128) }}', width='128', height='128')
       div.ratings(rating, ng-model="item.ratings.average", max="5", readonly="true", ng-class='{ "no-ratings": !item.ratings.total }')
     .media-body
       div.row
@@ -29,7 +29,7 @@ mixin mediaSimple()
   .media.product-listing.product-listing-simple(ng-repeat='item in items | limitTo: 5')
     .media-left
       a(ng-href='/products/{{ item.slug }}')
-        img.media-object(ng-src='{{ getThumbnail(item) }}', width='32', height='32')
+        img.media-object(ng-src='{{ getThumbnail(item, 32, 32) }}', width='32', height='32')
     .media-body
       div.row
         div.col-md-12

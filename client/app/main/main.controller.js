@@ -13,8 +13,12 @@ angular.module('speechBubbleApp')
     'user': Auth.getCurrentUser(),
     'filters': {},
     'options': {},
-    'getThumbnail': function(item) {
-      return $sce.trustAsResourceUrl( item.images.length && item.images[0].url || '/assets/images/products/default-thumbnail.png' );
+    'getThumbnail': function(item, rWidth, rHeight) {
+      var image = '/assets/images/products/default-thumbnail.png';
+      if(item.images.length && item.images[0].url) {
+          image = "/resize/"+rWidth+'x'+rHeight+"/" + item.images[0].url.replace("/assets/images/uploads/products/", "");
+      }
+      return $sce.trustAsResourceUrl( image );
     },
     'facets': [],
     'applyFilters': function() {

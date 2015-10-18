@@ -7,26 +7,26 @@ include ../admin/products/form-helpers
 block content
 
   div.product-listing(ng-controller='ResultsCtrl')
-  
+
     .current-filters(ng-if='hasFacets()')
-      h2 
+      h2
         | Current filters
         a(ng-click='clearFilters()', href='#') clear all
-      a.btn.btn-tertiary(ng-repeat='(key, value) in search.facets', ng-click="search.facets[key] = null") 
+      a.btn.btn-tertiary(ng-repeat='(key, value) in search.facets', ng-click="search.facets[key] = null")
         | {{ key | facets }}
         span.glyphicon.glyphicon-remove
-  
+
     ol.breadcrumb
       li: a(ui-sref='main') Home
       li: a(ui-sref='main_search') Search
       li.active Products
-  
-    
+
+
     button.btn.btn-primary.pull-right(ng-click='create()', ng-if='isLoggedIn()') New Product
     h1 Products
-      
+
     +pageListingNotice('products')
-    
+
     nav.navbar.navbar-default.navbar-compare(ng-if='comparing.length', affix)
       .container
         .navbar-header
@@ -34,8 +34,8 @@ block content
             | Comparing {{ comparing[0].type | type | lowercase }} products
         ul.nav.navbar-nav.navbar-left
           li(ng-repeat='product in comparing track by $index', ng-click='clearCompare(product)')
-            img.media-object(ng-src='{{ getThumbnail(product) }}', width='40', height='40', title='{{ product.name }}')
-              
+            img.media-object(ng-src='{{ getThumbnail(product, 40, 40) }}', width='40', height='40', title='{{ product.name }}')
+
         ul.nav.navbar-nav.navbar-right
           li: a(ng-if='comparing.length > 1', href='#', ng-click='viewComparison()') View comparison
           li: a(ng-click='clearCompare()',  href='#') Remove all

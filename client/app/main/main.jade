@@ -8,9 +8,9 @@ block content
     div(ng-bind-html='content')
     a.btn.btn-primary.btn-lg(ui-sref='main_search()') Search Products
     a.btn.btn-secondary.btn-lg(ui-sref='products()') Browse Products
-    
+
   hr
-    
+
   section.row.home-panels
     aside.col-sm-12.col-md-4
       .panel.panel-default
@@ -19,41 +19,41 @@ block content
           .media(ng-repeat='product in recentlyPublished')
             .media-left
               a(ui-sref='productDetail({ id: product.slug })')
-                img(ng-src='{{ getThumbnail(product) }}', width='48', height='48')
+                img(ng-src='{{ getThumbnail(product, 48, 48) }}', width='48', height='48')
             .media-body
               a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
-          
-    
+
+
     aside.col-sm-12.col-md-4(ng-if="isLoggedIn()")
       .panel.panel-default
         .panel-heading Your Recently Viewed Products
-        .panel-body 
-          .text-center(ng-if='!user.recentlyViewed.length') 
+        .panel-body
+          .text-center(ng-if='!user.recentlyViewed.length')
             p Nothing to display
             p: a.btn.btn-secondary(ui-sref='products()') View All Products
-            
+
           .media(ng-repeat='product in user.recentlyViewed')
             .media-left
               a(ui-sref='productDetail({ id: product.slug })')
-                img(ng-src='{{ getThumbnail(product) }}', width='48', height='48')
+                img(ng-src='{{ getThumbnail(product, 48, 48) }}', width='48', height='48')
             .media-body
               a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
-    
+
     aside.col-sm-12.col-md-4(ng-if="isLoggedIn()")
       .panel.panel-default
         .panel-heading Your Recent Contributions
         .panel-body
-          .text-center(ng-if='!user.recentDrafts.length') 
+          .text-center(ng-if='!user.recentDrafts.length')
             p Nothing to display
             p: a.btn.btn-primary(ng-click='create()') Create Product
-            
+
           .media(ng-repeat='product in user.recentDrafts')
             .media-left
               a(ui-sref='productDetail({ id: product.slug })')
-                img(ng-src='{{ getThumbnail(product) }}', width='48', height='48')
+                img(ng-src='{{ getThumbnail(product, 48, 48) }}', width='48', height='48')
             .media-body
               a(ui-sref='productDetail({ id: product.slug })') {{ product.name }}
-              
+
     aside.col-sm-12.col-md-8(ng-if="!isLoggedIn()", ng-controller='TwitterFeedCtrl')
       .panel.panel-default
         .panel-heading Recent Tweets
@@ -62,4 +62,4 @@ block content
             .media-left
               img.media-object(ng-src='{{ tweet.user.profile_image_url }}', width="")
             .media-body
-              p(ng-bind-html='tweet.text | tweet')            
+              p(ng-bind-html='tweet.text | tweet')

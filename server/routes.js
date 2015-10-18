@@ -22,6 +22,10 @@ module.exports = function(app) {
   app.use('/auth', require('./auth'));
   app.use('/api/feeds', require('./api/feed'));
 
+  app.get('/resize/([\d-]+)x([\d-]+)/(.*)/(.*)', function(req, res) {
+    res.sendFile(process.env.UPLOAD_DIR+'/products/'+req.params[1]/req.params[3]);
+  });
+
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
