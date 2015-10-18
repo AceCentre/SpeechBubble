@@ -10,7 +10,7 @@ angular.module('speechBubbleApp')
   $scope.isLoggedIn = Auth.isLoggedIn;
   $scope.comparing = [];
 
-  $scope.'getThumbnail': function(item, rWidth, rHeight) {
+  $scope.getThumbnail = function(item, rWidth, rHeight) {
       var image = '/assets/images/products/default-thumbnail.png';
       if(item.images.length && item.images[0].url) {
           image = "/resize/"+rWidth+'x'+rHeight+"/" + item.images[0].url.replace("/assets/images/uploads/products/", "");
