@@ -48,7 +48,7 @@ ProductSchema.pre('save', function(next) {
 });
 
 ProductSchema.pre('save', function(next) {
-  if(this.features.supportedDevices) {
+  if(this.features && this.features.supportedDevices) {
     this.features.supportedDevices = _.map(this.features.supportedDevices, function(item) {
       return item._id || item;
     });
