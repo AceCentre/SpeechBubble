@@ -71,7 +71,7 @@ include ../../app/admin/products/form-helpers
               +checkbox('search.facets', 'speech-type-options-recorded', 'Recorded')
 
             <!-- Access Only -->
-            .form-group(ng-if='search.type && search.type !== "ProductAccessSolution"')
+            .form-group(ng-if='search.type && search.type == "ProductAccessSolution"')
               label.control-label(for="type") Input required
                 +checkbox('search.facets', 'category-switch', 'Switch')
                 +checkbox('search.facets', 'category-mouse', 'Mouse or Mouse alternative')
