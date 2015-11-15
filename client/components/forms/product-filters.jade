@@ -70,9 +70,16 @@ include ../../app/admin/products/form-helpers
               +checkbox('search.facets', 'speech-type-options-synthesised', 'Synthesised')
               +checkbox('search.facets', 'speech-type-options-recorded', 'Recorded')
 
+            <!-- Access Only -->
+            .form-group(ng-if='search.type && search.type !== "ProductAccessSolution"')
+              label.control-label(for="type") Input required
+                +checkbox('search.facets', 'category-switch', 'Switch')
+                +checkbox('search.facets', 'category-mouse', 'Mouse or Mouse alternative')
+                +checkbox('search.facets', 'category-eyegaze', 'Eyegaze')
+                +checkbox('search.facets', 'category-brain', 'Brain')
 
-            <!-- Except Low Tech -->
-            .form-group(ng-if='search.type && search.type !== "ProductLowTech"')
+            <!-- Except Low Tech or Access  -->
+            .form-group(ng-if='search.type && search.type !== "ProductLowTech" || search.type !=="ProductAccessSolution"')
               label.control-label(for="type") Access Methods
                 +checkbox('search.facets', 'access-methods-touch', 'Touch')
                 +checkbox('search.facets', 'access-methods-mouse-or-alternative', 'Mouse or Mouse alternative')
@@ -83,6 +90,7 @@ include ../../app/admin/products/form-helpers
             .form-group(ng-if='isAdmin()')
               label.control-label Admin
                 +checkbox('search', 'awaitingModeration', 'Awaiting Moderation')
+
 
       hr
 
