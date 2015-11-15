@@ -18,7 +18,7 @@ include ../../app/admin/products/form-helpers
               +radioChange('search', 'type', 'ProductVocabulary', 'Vocabulary', 'clearSearchRetainType()')
         .col-sm-8
           .product-advanced-filters
-            .form-group(ng-if='(search.type && search.type !== "ProductLowTech") || (search.type && search.type !== "ProductAccessSolution")')
+            .form-group(ng-if='search.type && !(search.type == "ProductLowTech" || search.type == "ProductAccessSolution")')
               label.control-label(for="type") Operating systems
               ui-select(multiple, search-enabled, reset-search-input='true', ng-model="search.devices")
                 ui-select-match(placeholder="Select operating systems") {{$item}}
@@ -79,7 +79,7 @@ include ../../app/admin/products/form-helpers
                 +checkbox('search.facets', 'category-brain', 'Brain')
 
             <!-- Except Low Tech or Access  -->
-            .form-group(ng-if='(search.type && search.type !== "ProductLowTech") || (search.type && search.type !== "ProductAccessSolution")')
+            .form-group(ng-if='search.type && !(search.type == "ProductLowTech" || search.type == "ProductAccessSolution")')
               label.control-label(for="type") Access Methods
                 +checkbox('search.facets', 'access-methods-touch', 'Touch')
                 +checkbox('search.facets', 'access-methods-mouse-or-alternative', 'Mouse or Mouse alternative')
