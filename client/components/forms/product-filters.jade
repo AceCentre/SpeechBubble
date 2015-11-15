@@ -79,7 +79,7 @@ include ../../app/admin/products/form-helpers
                 +checkbox('search.facets', 'category-brain', 'Brain')
 
             <!-- Except Low Tech or Access  -->
-            .form-group(ng-if='search.type && search.type !== "ProductLowTech" || search.type !=="ProductAccessSolution"')
+            .form-group(ng-if='search.type && (search.type !== "ProductLowTech" || search.type !=="ProductAccessSolution")')
               label.control-label(for="type") Access Methods
                 +checkbox('search.facets', 'access-methods-touch', 'Touch')
                 +checkbox('search.facets', 'access-methods-mouse-or-alternative', 'Mouse or Mouse alternative')
