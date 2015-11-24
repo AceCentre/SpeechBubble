@@ -13,34 +13,36 @@ include ../../mixins/product-helpers
       +compareThumbnail()
       +compareRating()
       +compareTickRow('Discontinued', 'product.discontinued')
-      
+
       tr
         th Category
         td.text-center(ng-repeat='product in products') {{ product.features.category }}
-        
+
       tr
         th Output
         td.text-center(ng-repeat='product in products')
           +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
           +textLineIf('Binary - Multiple switched', 'product.features.output === "binaryMultipleSwitch"')
           +textLineIf('Proportional', 'product.features.output === "proportional"')
-        
+
       tr
         th Typical body part that controls
         td.text-center(ng-repeat='product in products')
           +textLineIf('Hand', 'product.features.canBeControlledBy.hand')
-          +textLineIf('Eye', 'product.features.canBeControlledBy.eye') 
+          +textLineIf('Eye', 'product.features.canBeControlledBy.eye')
           +textLineIf('Head', 'product.features.canBeControlledBy.head')
-          +textLineIf('Arm', 'product.features.canBeControlledBy.arm') 
-          +textLineIf('Knee', 'product.features.canBeControlledBy.knee') 
+          +textLineIf('Arm', 'product.features.canBeControlledBy.arm')
+          +textLineIf('Knee', 'product.features.canBeControlledBy.knee')
           +textLineIf('Elbow', 'product.features.canBeControlledBy.elbow')
-          +textLineIf('Muscle', 'product.features.canBeControlledBy.muscle') 
-          
+          +textLineIf('Muscle', 'product.features.canBeControlledBy.muscle')
+
       tr
         th Mounting
         td.text-center(ng-repeat='product in products')
-          +textLineIf('1/4" thread', 'product.features.mountingOptions.oneQuarterInchThread') 
-          +textLineIf('1/8" thread', 'product.features.mountingOptions.oneEighthInchThread') 
-          +textLineIf('VESA', 'product.features.mountingOptions.vesa') 
-          +textLineIf('Suction', 'product.features.mountingOptions.suction') 
-          +textLineIf('Magnets', 'product.features.mountingOptions.magnetic') 
+          +textLineIf('1/4" thread', 'product.features.mountingOptions.oneQuarterInchThread')
+          +textLineIf('1/8" thread', 'product.features.mountingOptions.oneEighthInchThread')
+          +textLineIf('VESA', 'product.features.mountingOptions.vesa')
+          +textLineIf('Suction', 'product.features.mountingOptions.suction')
+          +textLineIf('Magnets', 'product.features.mountingOptions.magnetic')
+          +textLineIf('Standalone', 'product.features.mountingOptions.standalone')
+
