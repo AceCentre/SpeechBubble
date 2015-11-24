@@ -68,6 +68,34 @@ form.form-horizontal(name='form', novalidate)
                 +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - 2 or more switches (e.g. also includes keyboard)')
                 +radio('product.features', 'output', 'proportional', 'Proportional')
 
+              <!-- Eyegaze only -->
+              .panel.panel-default(ng-show='product.features.category === "eyegaze"')
+                .panel-heading Tracking technology
+                .panel-body
+                  +checkbox('product.features.eyegaze.technology',  'bright', 'Bright eye')
+                  +checkbox('product.features.eyegaze.selection', 'dark', 'Dark eye')
+
+                .panel-heading Head movement velocity
+                .panel-body
+                  +input('product.features.eyegaze', 'number', 'headvelocity', 'cm/s')
+
+                .panel-heading Track status clarity
+                .panel-body
+                  +radio('product.features.eyegaze', 'trackStatus', 'visualisation', 'Visualisation')
+                  +radio('product.features', 'trackStatus', 'video', 'Live video')
+
+                .panel-heading Monocular / Binocular options
+                .panel-body
+                  +radio('product.features.eyegaze', 'ocularity', 'Monocular', 'Monocular only')
+                  +radio('product.features.eyegaze', 'ocularity', 'Binocular', 'Binocular only')
+                  +radio('product.features.eyegaze', 'ocularity', 'BinocularMonocular', 'Binocular or Monocular')
+
+                .panel-heading Selection options
+                .panel-body
+                  +checkbox('product.features.eyegaze.selection',  'dwell', 'Dwell')
+                  +checkbox('product.features.eyegaze.selection', 'switch', 'Switch')
+                  +checkbox('product.features.eyegaze.selection', 'blink', 'Blink')
+
             .panel.panel-default
               .panel-heading Computer control options (multiple)
               .panel-body
