@@ -75,7 +75,7 @@ include ../../app/admin/products/form-helpers
 
             <!-- Access Only -->
             .form-group(ng-if='search.type && search.type == "ProductAccessSolution"')
-              label.control-label(for="type") Input required
+              label.control-label(for="type") Type
                 +checkbox('search.facets', 'category-switch', 'Switch')
                 +checkbox('search.facets', 'category-mouse', 'Mouse or Mouse alternative')
                 +checkbox('search.facets', 'category-eyegaze', 'Eyegaze')
