@@ -9,35 +9,16 @@ table.table.table-striped
       td This product is discontinued!
 
     tr(ng-if='product.features.category')
-      th Category
+      th Type
       td {{ product.features.category }}
 
-    tr(ng-if='product.features.output')
-      th Output
+    tr(ng-if='product.features.input')
+      th Input Required
       td
-        +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
-        +textLineIf('Binary - 2 or more switches', 'product.features.output === "binaryMultipleSwitch"')
-        +textLineIf('Proportional', 'product.features.output === "proportional"')
-
-    tr(ng-if='product.features.computerControl')
-      th Typical body part that controls
-      td
-        ul
-          li
-            +textLineIf('Keyboard', 'product.features.computerControl.keyboard')
-            ul(ng-if="product.features.computerControl.wiredKeyboard || product.features.computerControl.wirelessKeyboard")
-              li(ng-if="product.features.computerControl.wiredKeyboard") Wired
-              li(ng-if="product.features.computerControl.wirelessKeyboard") Wireless
-            small(ng-if="product.features.computerControl.additionalSoftwareKeyboard")
-              * Additional software required
-          li
-            +textLineIf('Mouse', 'product.features.computerControl.mouse')
-            ul(ng-if="product.features.computerControl.wiredMouse || product.features.computerControl.wirelessMouse")
-              li(ng-if="product.features.computerControl.wiredMouse") Wired
-              li(ng-if="product.features.computerControl.wirelessMouse") Wireless
-            small(ng-if="product.features.computerControl.additionalSoftwareMouse")
-              * Additional software required
-
+        +textLineIf('Single body movement - Discrete', 'product.features.input === "discrete"')
+        +textLineIf('Single body movement - Gross', 'product.features.input === "gross"')
+        +textLineIf('Co-ordinated body movement', 'product.features.input === "coordinated"')
+        +textLineIf('Muscle (NB: EMG and EEG)', 'product.features.input === "muscle"')
 
     tr(ng-if='product.features.canBeControlledBy')
       th Typical body part that controls
@@ -55,9 +36,34 @@ table.table.table-striped
           dt Other
           dd {{ product.features.canBeControlledByOtherDetails }}
 
+    tr(ng-if='product.features.output')
+      th Output
+      td
+        +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
+        +textLineIf('Binary - 2 or more switches', 'product.features.output === "binaryMultipleSwitch"')
+        +textLineIf('Proportional', 'product.features.output === "proportional"')
+
+    tr(ng-if='product.features.computerControl')
+      th Computer control options
+      td
+        ul
+          li
+            +textLineIf('Keyboard', 'product.features.computerControl.keyboard')
+            ul(ng-if="product.features.computerControl.wiredKeyboard || product.features.computerControl.wirelessKeyboard")
+              li(ng-if="product.features.computerControl.wiredKeyboard") Wired
+              li(ng-if="product.features.computerControl.wirelessKeyboard") Wireless
+            small(ng-if="product.features.computerControl.additionalSoftwareKeyboard")
+              * Additional software required
+          li
+            +textLineIf('Mouse', 'product.features.computerControl.mouse')
+            ul(ng-if="product.features.computerControl.wiredMouse || product.features.computerControl.wirelessMouse")
+              li(ng-if="product.features.computerControl.wiredMouse") Wired
+              li(ng-if="product.features.computerControl.wirelessMouse") Wireless
+            small(ng-if="product.features.computerControl.additionalSoftwareMouse")
+              * Additional software required
 
     tr(ng-if='product.features.mountingOptions')
-      th Mounting
+      th Mounting details
       td
         ul
           li(ng-if='product.features.mountingOptions.oneQuarterInchThread') 1/4" thread
