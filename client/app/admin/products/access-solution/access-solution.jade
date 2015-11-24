@@ -26,22 +26,42 @@ form.form-horizontal(name='form', novalidate)
             +productVideos()
           .tab-pane(id="{{ product._id }}tabFeatures", role='tabpanel')
             .panel.panel-default
-              .panel-heading Input required
+              .panel-heading Device type
               .panel-body
                 +radio('product.features', 'category', 'Switch', 'Switch')
                 +radio('product.features', 'category', 'Eyegaze', 'Eye movement')
                 +radio('product.features', 'category', 'Mouse', 'Mouse')
-                +radio('product.features', 'category', 'Alternative', 'Alternative/Keyboard')
-                +radio('product.features', 'category', 'Force', 'Movement/force')
-                +radio('product.features', 'category', 'Discrete', 'Body movement - Discrete')
-                +radio('product.features', 'category', 'Gross', 'Body movement - Gross')
-                +radio('product.features', 'category', 'Brain', 'Brain (e.g. EEG)')
+                +radio('product.features', 'category', 'Keyboard', 'Keyboard')
+                +radio('product.features', 'category', 'Brain', 'Brain Control interface')
+
+            .panel.panel-default
+              .panel-heading Input required
+              .panel-body
+                +radio('product.features', 'input', 'discrete', 'Single body movement - Discrete')
+                +radio('product.features', 'input', 'gross', 'Single body movement - Gross')
+                +radio('product.features', 'input', 'coordinated', 'Co-ordinated body movement')
+                +radio('product.features', 'input', 'muscle', 'Muscle (NB: EMG and EEG)')
+
+            .panel.panel-default
+              .panel-heading Typical body part that controls (multiple)
+              .panel-body
+                +checkbox('product.features.canBeControlledBy', 'hand', 'Hand')
+                +checkbox('product.features.canBeControlledBy', 'eye', 'Eye')
+                +checkbox('product.features.canBeControlledBy', 'head', 'Head')
+                +checkbox('product.features.canBeControlledBy', 'mouth', 'Mouth')
+                +checkbox('product.features.canBeControlledBy', 'arm', 'Arm')
+                +checkbox('product.features.canBeControlledBy', 'knee', 'Knee')
+                +checkbox('product.features.canBeControlledBy', 'elbow', 'Elbow')
+                +checkbox('product.features.canBeControlledBy', 'muscle', 'Muscle')
+                +checkbox('product.features.canBeControlledBy', 'other', 'Other')
+
+                textarea.form-control(ng-show='product.features.canBeControlledBy.other', destroy='canBeControlledByOtherDetails', ng-model='product.features.canBeControlledByOtherDetails')
 
             .panel.panel-default
               .panel-heading Output
               .panel-body
                 +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch')
-                +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - 2 or more switches')
+                +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - 2 or more switches (e.g. also includes keyboard)')
                 +radio('product.features', 'output', 'proportional', 'Proportional')
 
             .panel.panel-default
@@ -72,20 +92,6 @@ form.form-horizontal(name='form', novalidate)
                     +checkbox('product.features.computerControl', 'wiredMouse', 'Wired')
                     +checkbox('product.features.computerControl', 'wirelessMouse', 'Wireless')
 
-            .panel.panel-default
-              .panel-heading Typical body part that controls (multiple)
-              .panel-body
-                +checkbox('product.features.canBeControlledBy', 'hand', 'Hand')
-                +checkbox('product.features.canBeControlledBy', 'eye', 'Eye')
-                +checkbox('product.features.canBeControlledBy', 'head', 'Head')
-                +checkbox('product.features.canBeControlledBy', 'mouth', 'Mouth')
-                +checkbox('product.features.canBeControlledBy', 'arm', 'Arm')
-                +checkbox('product.features.canBeControlledBy', 'knee', 'Knee')
-                +checkbox('product.features.canBeControlledBy', 'elbow', 'Elbow')
-                +checkbox('product.features.canBeControlledBy', 'muscle', 'Muscle')
-                +checkbox('product.features.canBeControlledBy', 'other', 'Other')
-
-                textarea.form-control(ng-show='product.features.canBeControlledBy.other', destroy='canBeControlledByOtherDetails', ng-model='product.features.canBeControlledByOtherDetails')
 
             .panel.panel-default
               .panel-heading Mounting options (multiple)
