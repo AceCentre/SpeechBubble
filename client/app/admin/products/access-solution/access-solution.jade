@@ -27,6 +27,7 @@ form.form-horizontal(name='form', novalidate)
           .tab-pane(id="{{ product._id }}tabFeatures", role='tabpanel')
             .panel.panel-default
               .panel-heading Device type
+                span(glossary='5654e3bfa1146380160a83fb')
               .panel-body
                 +radio('product.features', 'category', 'Switch', 'Switch')
                 +radio('product.features', 'category', 'Eyegaze', 'Eye Gaze System')
@@ -36,6 +37,7 @@ form.form-horizontal(name='form', novalidate)
 
             .panel.panel-default
               .panel-heading Input required
+                span(glossary='5654e507a1146380160a84c2')
               .panel-body
                 +radio('product.features', 'input', 'discrete', 'Single body movement - Discrete')
                 +radio('product.features', 'input', 'gross', 'Single body movement - Gross')
@@ -44,6 +46,7 @@ form.form-horizontal(name='form', novalidate)
 
             .panel.panel-default
               .panel-heading Typical body part that controls (multiple)
+                span(glossary='5654e554a1146380160a84e4')
               .panel-body
                 +checkbox('product.features.canBeControlledBy', 'hand', 'Hand')
                 +checkbox('product.features.canBeControlledBy', 'eye', 'Eye')
@@ -59,6 +62,7 @@ form.form-horizontal(name='form', novalidate)
 
             .panel.panel-default
               .panel-heading Output
+                span(glossary='5654e5e6a1146380160a84e5')
               .panel-body
                 +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch')
                 +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - 2 or more switches (e.g. also includes keyboard)')
