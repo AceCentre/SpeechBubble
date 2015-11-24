@@ -70,6 +70,9 @@ include ../../app/admin/products/form-helpers
               +checkbox('search.facets', 'speech-type-options-synthesised', 'Synthesised')
               +checkbox('search.facets', 'speech-type-options-recorded', 'Recorded')
 
+              label.control-label Premade Vocabularies?
+              +checkbox('search.facets', 'premadeVocabularies', 'True')
+
             <!-- Access Only -->
             .form-group(ng-if='search.type && search.type == "ProductAccessSolution"')
               label.control-label(for="type") Input required
