@@ -46,6 +46,7 @@ include ../../mixins/product-helpers
           +textLineIf('Standalone', 'product.features.mountingOptions.standalone')
 
   section(ng-if='products[0].features.category === "Eyegaze"')
+     h4 products[0].features.category
      table.table.table-striped
         tr
           th Eye technology
