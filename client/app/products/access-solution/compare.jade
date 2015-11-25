@@ -45,7 +45,7 @@ include ../../mixins/product-helpers
           +textLineIf('Magnets', 'product.features.mountingOptions.magnetic')
           +textLineIf('Standalone', 'product.features.mountingOptions.standalone')
 
-      section(ng-if='product.features.category === "Eyegaze"')
+      section(ng-if='products[0].features.category === "Eyegaze"')
          tr
            th Eye technology
            td.text-center(ng-repeat='product in products')
