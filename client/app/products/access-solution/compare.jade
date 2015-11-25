@@ -45,34 +45,34 @@ include ../../mixins/product-helpers
           +textLineIf('Magnets', 'product.features.mountingOptions.magnetic')
           +textLineIf('Standalone', 'product.features.mountingOptions.standalone')
 
-      tr(ng-if='products[0].features.category === "Eyegaze"')
+      tr(ng-if="productsContainCategory(products, 'Eyegaze')")
         th Eye technology
         td.text-center(ng-repeat='product in products')
           +textLineIf('Bright eye tracking', 'product.features.eyegaze.technology.bright')
           +textLineIf('Dark eye tracking', 'product.features.eyegaze.technology.dark')
-      tr(ng-if='products[0].features.category === "Eyegaze"')
+      tr(ng-if="productsContainCategory(products, 'Eyegaze')")
         th Head movement velocity
         td.text-center(ng-repeat='product in products')
           div(ng-if='product.features.eyegaze.headvelocity')  {{ product.features.eyegaze.headvelocity }}cm/s
-      tr(ng-if='products[0].features.category === "Eyegaze"')
+      tr(ng-if="productsContainCategory(products, 'Eyegaze')")
         th Minimum operating distance
         td.text-center(ng-repeat='product in products')
            div(ng-if='product.features.eyegaze.operatingdistance') {{ product.features.eyegaze.operatingdistance }}cm
-      tr(ng-if='products[0].features.category === "Eyegaze"')
+      tr(ng-if="productsContainCategory(products, 'Eyegaze')")
         th Tracking recovery time
         td.text-center(ng-repeat='product in products')
           div(ng-if='product.features.eyegaze.trackRecovery')  {{ product.features.eyegaze.trackRecovery }}ms
-      tr(ng-if='products[0].features.category === "Eyegaze"')
+      tr(ng-if="productsContainCategory(products, 'Eyegaze')")
         th Track status clarity
         td.text-center(ng-repeat='product in products')
           +textLineIf('Live video', 'product.features.eyegaze.trackStatus.video')
           +textLineIf('Graphical visualisation', 'product.features.eyegaze.trackStatus.visualisation')
-      tr(ng-if='products[0].features.category === "Eyegaze"')
+      tr(ng-if="productsContainCategory(products, 'Eyegaze')")
         th Number of eyes
         td.text-center(ng-repeat='product in products')
           +textLineIf('Monocular', 'product.features.eyegaze.ocularity.Monocular')
           +textLineIf('Binocular', 'product.features.eyegaze.ocularity.Binocular')
-      tr(ng-if='products[0].features.category === "Eyegaze"')
+      tr(ng-if="productsContainCategory(products, 'Eyegaze')")
         th Selection options
         td.text-center(ng-repeat='product in products')
           +textLineIf('Dwell', 'product.features.eyegaze.selection.dwell')
