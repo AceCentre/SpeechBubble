@@ -12,6 +12,7 @@ include ../../mixins/product-helpers
     tbody
       +compareThumbnail()
       +compareRating()
+      +compareTickRow('Discontinued', 'product.discontinued')
 
       tr
         th Category
@@ -45,34 +46,3 @@ include ../../mixins/product-helpers
           +textLineIf('Magnets', 'product.features.mountingOptions.magnetic')
           +textLineIf('Standalone', 'product.features.mountingOptions.standalone')
 
-      section(ng-if='product.features.category === "Eyegaze"')
-         tr
-           th Eye technology
-           td
-             +textLineIf('Bright eye tracking', 'product.features.eyegaze.technology.bright')
-             +textLineIf('Dark eye tracking', 'product.features.eyegaze.technology.dark')
-         tr
-           th Head movement velocity
-           td {{ product.features.eyegaze.headvelocity }}cm/s
-         tr
-           th Minimum operating distance
-           td {{ product.features.eyegaze.operatingdistance }}cm
-         tr
-           th Tracking recovery time
-           td {{ product.features.eyegaze.trackRecovery }}ms
-         tr
-           th Track status clarity
-           td
-             +textLineIf('Live video', 'product.features.eyegaze.trackStatus.video')
-             +textLineIf('Graphical visualisation', 'product.features.eyegaze.trackStatus.visualisation')
-         tr
-           th Number of eyes
-           td
-             +textLineIf('Monocular', 'product.features.eyegaze.ocularity.Monocular')
-             +textLineIf('Binocular', 'product.features.eyegaze.ocularity.Binocular')
-         tr
-           th Selection options
-           td
-             +textLineIf('Dwell', 'product.features.eyegaze.selection.dwell')
-             +textLineIf('Switch', 'product.features.eyegaze.selection.switch')
-             +textLineIf('Blink', 'product.features.eyegaze.selection.blink')
