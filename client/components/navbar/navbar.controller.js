@@ -23,6 +23,9 @@ angular.module('speechBubbleApp')
         { 'title': 'Glossary', 'link': '/glossary' },
         { 'title': 'Contact', 'link': '/contact' }
       ]
+    }, {
+      'title': 'Blog',
+      'link': 'http://blog.speechbubble.org.uk'
     }];
 
     $scope.accountMenu = [
