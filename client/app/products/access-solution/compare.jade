@@ -45,37 +45,38 @@ include ../../mixins/product-helpers
           +textLineIf('Magnets', 'product.features.mountingOptions.magnetic')
           +textLineIf('Standalone', 'product.features.mountingOptions.standalone')
 
-      section(ng-if='products[0].features.category === "Eyegaze"')
-         tr
-           th Eye technology
-           td.text-center(ng-repeat='product in products')
-             +textLineIf('Bright eye tracking', 'product.features.eyegaze.technology.bright')
-             +textLineIf('Dark eye tracking', 'product.features.eyegaze.technology.dark')
-         tr
-           th Head movement velocity
-           td.text-center(ng-repeat='product in products')
-             {{ product.features.eyegaze.headvelocity }}cm/s
-         tr
-           th Minimum operating distance
-           td.text-center(ng-repeat='product in products')
-             {{ product.features.eyegaze.operatingdistance }}cm
-         tr
-           th Tracking recovery time
-           td.text-center(ng-repeat='product in products')
-             {{ product.features.eyegaze.trackRecovery }}ms
-         tr
-           th Track status clarity
-           td.text-center(ng-repeat='product in products')
-             +textLineIf('Live video', 'product.features.eyegaze.trackStatus.video')
-             +textLineIf('Graphical visualisation', 'product.features.eyegaze.trackStatus.visualisation')
-         tr
-           th Number of eyes
-           td.text-center(ng-repeat='product in products')
-             +textLineIf('Monocular', 'product.features.eyegaze.ocularity.Monocular')
-             +textLineIf('Binocular', 'product.features.eyegaze.ocularity.Binocular')
-         tr
-           th Selection options
-           td.text-center(ng-repeat='product in products')
-             +textLineIf('Dwell', 'product.features.eyegaze.selection.dwell')
-             +textLineIf('Switch', 'product.features.eyegaze.selection.switch')
-             +textLineIf('Blink', 'product.features.eyegaze.selection.blink')
+  section(ng-if='products[0].features.category === "Eyegaze"')
+     table.table.table-striped
+        tr
+          th Eye technology
+          td.text-center(ng-repeat='product in products')
+            +textLineIf('Bright eye tracking', 'product.features.eyegaze.technology.bright')
+            +textLineIf('Dark eye tracking', 'product.features.eyegaze.technology.dark')
+        tr
+          th Head movement velocity
+          td.text-center(ng-repeat='product in products')
+            {{ product.features.eyegaze.headvelocity }}cm/s
+        tr
+          th Minimum operating distance
+          td.text-center(ng-repeat='product in products')
+            {{ product.features.eyegaze.operatingdistance }}cm
+        tr
+          th Tracking recovery time
+          td.text-center(ng-repeat='product in products')
+            {{ product.features.eyegaze.trackRecovery }}ms
+        tr
+          th Track status clarity
+          td.text-center(ng-repeat='product in products')
+            +textLineIf('Live video', 'product.features.eyegaze.trackStatus.video')
+            +textLineIf('Graphical visualisation', 'product.features.eyegaze.trackStatus.visualisation')
+        tr
+          th Number of eyes
+          td.text-center(ng-repeat='product in products')
+            +textLineIf('Monocular', 'product.features.eyegaze.ocularity.Monocular')
+            +textLineIf('Binocular', 'product.features.eyegaze.ocularity.Binocular')
+        tr
+          th Selection options
+          td.text-center(ng-repeat='product in products')
+            +textLineIf('Dwell', 'product.features.eyegaze.selection.dwell')
+            +textLineIf('Switch', 'product.features.eyegaze.selection.switch')
+            +textLineIf('Blink', 'product.features.eyegaze.selection.blink')
