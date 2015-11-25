@@ -53,15 +53,15 @@ include ../../mixins/product-helpers
       tr(ng-if='products[0].features.category === "Eyegaze"')
         th Head movement velocity
         td.text-center(ng-repeat='product in products')
-          {{ product.features.eyegaze.headvelocity }}cm/s
+          div(ng-if='product.features.eyegaze.headvelocity')  {{ product.features.eyegaze.headvelocity }}cm/s
       tr(ng-if='products[0].features.category === "Eyegaze"')
         th Minimum operating distance
         td.text-center(ng-repeat='product in products')
-          {{ product.features.eyegaze.operatingdistance }}cm
+           div(ng-if='product.features.eyegaze.operatingdistance') {{ product.features.eyegaze.operatingdistance }}cm
       tr(ng-if='products[0].features.category === "Eyegaze"')
         th Tracking recovery time
         td.text-center(ng-repeat='product in products')
-          {{ product.features.eyegaze.trackRecovery }}ms
+          div(ng-if='product.features.eyegaze.trackRecovery')  {{ product.features.eyegaze.trackRecovery }}ms
       tr(ng-if='products[0].features.category === "Eyegaze"')
         th Track status clarity
         td.text-center(ng-repeat='product in products')
