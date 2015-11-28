@@ -39,9 +39,9 @@ table.table.table-striped
     tr(ng-if='product.features.output')
       th Output
       td
-        +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
-        +textLineIf('Binary - 2 or more switches', 'product.features.output === "binaryMultipleSwitch"')
-        +textLineIf('Proportional', 'product.features.output === "proportional"')
+        +textLineIf('Discrete - 1 Switch', 'product.features.output === "binaryOneSwitch"')
+        +textLineIf('Discrete - 2 or more switches', 'product.features.output === "binaryMultipleSwitch"')
+        +textLineIf('Continuous', 'product.features.output === "proportional"')
 
     tr(ng-if='product.features.computerControl')
       th Computer control options

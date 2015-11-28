@@ -64,9 +64,9 @@ form.form-horizontal(name='form', novalidate)
               .panel-heading Output
                 span(glossary='5654e5e6a1146380160a84e5')
               .panel-body
-                +radio('product.features', 'output', 'binaryOneSwitch', 'Binary - 1 Switch')
-                +radio('product.features', 'output', 'binaryMultipleSwitch', 'Binary - 2 or more switches (e.g. also includes keyboard)')
-                +radio('product.features', 'output', 'proportional', 'Proportional')
+                +radio('product.features', 'output', 'binaryOneSwitch', 'Discrete - 1 Switch')
+                +radio('product.features', 'output', 'binaryMultipleSwitch', 'Discrete - 2 or more switches (e.g. also includes keyboard)')
+                +radio('product.features', 'output', 'proportional', 'Continuous')
 
             <!-- Eyegaze only -->
             .panel.panel-default(ng-show='product.features.category === "Eyegaze"')

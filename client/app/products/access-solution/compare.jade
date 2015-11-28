@@ -20,9 +20,9 @@ include ../../mixins/product-helpers
       tr
         th Output
         td.text-center(ng-repeat='product in products')
-          +textLineIf('Binary - 1 Switch', 'product.features.output === "binaryOneSwitch"')
-          +textLineIf('Binary - Multiple switched', 'product.features.output === "binaryMultipleSwitch"')
-          +textLineIf('Proportional', 'product.features.output === "proportional"')
+          +textLineIf('Discrete - 1 Switch', 'product.features.output === "binaryOneSwitch"')
+          +textLineIf('Discrete - Multiple switched', 'product.features.output === "binaryMultipleSwitch"')
+          +textLineIf('Continuous', 'product.features.output === "proportional"')
 
       tr
         th Typical body part that controls
