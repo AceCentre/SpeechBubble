@@ -1,7 +1,7 @@
 'use strict';
 
-var mandrill = require('mandrill-api/mandrill');
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
+var nodemailer = require('nodemailer');
+var htmlToText = require('html-to-text');
 var path = require('path');
 var jade = require('jade');
 var request = require('request');
@@ -16,32 +16,29 @@ exports.send = function(req, res) {
 
   var captchaUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' + process.env.CAPTCHA_API_KEY + '&response=' + req.body.captcha + '&remoteip=' + userIp;
 
+  // nodemailer transport
+  var transporter = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICE,
+    auth: {
+       user: process.env.EMAIL_EMAILADDRESS,
+       pass: process.env.EMAIL_EMAILPASSWORD
+    }
+   });
+
   request({ url: captchaUrl, json: true }, function(captchaErr, captchaRes, captchaBody) {
     if(captchaBody.success) {
-      mandrill_client.messages.send({
-        message: {
-          html: jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'), {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            message: message
-          }),
+      var mailOptions = {
+          from: '"' + firstName + '" ' + lastName + '<'+email+'>',
+          to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
           subject: 'SpeechBubble Contact Form',
-          from_email: email,
-          from_name: firstName + ' ' + lastName,
-          to: [{
-            email: process.env.SUPPORT_EMAIL,
-            name: 'SpeechBubble Admin',
-            type: 'to'
-          }],
-          auto_text: true
-        }
-      }, function(result) {
-        if(res.reject_reason) {
-          res.send(400, result.reject_reason);
-        } else {
+          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/admin.jade')),
+          html: jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'), {
+      };
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              res.send(400, error);
+          }
           res.send(200);
-        }
       });
     }
   });

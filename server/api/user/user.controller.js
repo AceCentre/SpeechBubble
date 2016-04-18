@@ -4,8 +4,8 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
-var mandrill = require('mandrill-api/mandrill');
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
+var nodemailer = require('nodemailer');
+var htmlToText = require('html-to-text');
 var path = require('path');
 var jade = require('jade');
 var request = require('request');
@@ -69,29 +69,27 @@ exports.create = function (req, res, next) {
           var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
           res.json({ token: token });
 
-          mandrill_client.messages.send({
-            message: {
-              html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
-                user: user,
-                activationUrl: process.env.DOMAIN + '/account/activate/' + user.activationCode,
-                domain: process.env.DOMAIN
-              }),
+          // nodemailer transport
+          var transporter = nodemailer.createTransport({
+              service: process.env.EMAIL_SERVICE,
+              auth: {
+                 user: process.env.EMAIL_EMAILADDRESS,
+                 pass: process.env.EMAIL_EMAILPASSWORD
+            }
+           });
+
+          var mailOptions = {
+              from: '"SpeechBubble" <' + process.env.SUPPORT_EMAIL +'>',
+              to: '"' + user.firstName + '" <'+ user.email +'>',
               subject: 'Welcome to SpeechBubble',
-              from_email: process.env.SUPPORT_EMAIL,
-              from_name: 'SpeechBubble',
-              to: [{
-                email: user.email,
-                name: user.firstName,
-                type: 'to'
-              }],
-              auto_text: true
-            }
-          }, function(result) {
-            if(result.reject_reason) {
-              res.send(400, result.reject_reason);
-            } else {
+              text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade')),
+              html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
+          };
+          transporter.sendMail(mailOptions, function(error, info){
+              if(error){
+                  res.send(400, error);
+              }
               res.send(200);
-            }
           });
 
         });
@@ -153,12 +151,12 @@ exports.changePassword = function(req, res, next) {
  * Get my info
  */
 exports.me = function(req, res, next) {
-  User 
+  User
     .findOne({ '_id': req.user._id})
     .populate('recentlyViewed')
     .populate('recentDrafts')
     .select('-salt -hashedPassword') // don't ever give out the password or salt
-    .exec(function(err, user) { 
+    .exec(function(err, user) {
       if (err) return next(err);
       if (!user) return res.json(401);
       var data = user.toJSON();

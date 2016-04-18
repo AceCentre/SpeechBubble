@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var Page = require('./page.model');
 var User = require('../user/user.model');
 var jade = require('jade');
-var mandrill = require('mandrill-api/mandrill');
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
+var nodemailer = require('nodemailer');
+var htmlToText = require('html-to-text');
 var path = require('path');
 
 exports.show = function(req, res) {
@@ -51,25 +51,30 @@ exports.publish = function(req, res) {
       if (err) {
         return handleError(res, err);
       }
-      mandrill_client.messages.send({
-        message: {
-          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
-            url: process.env.DOMAIN + '/' + page.slug,
-            revision: revisionId
-          }),
-          subject: 'New Page Revision Published',
-          from_email: 'no-reply@speechbubble.org.uk',
-          from_name: 'SpeechBubble Admin',
-          to: [{
-            email: process.env.SUPPORT_EMAIL,
-            name: 'SpeechBubble Admin',
-            type: 'to'
-          }],
-          auto_text: true
+
+      // nodemailer transport
+      var transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        auth: {
+           user: process.env.EMAIL_EMAILADDRESS,
+           pass: process.env.EMAIL_EMAILPASSWORD
         }
-      }, function(result) {
-        return res.send(200, page);
       });
+
+      var mailOptions = {
+          from: '"SpeechBubble Admin" <no-reply@speechbubble.org.uk>',
+          to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
+          subject: 'New Page Revision Published',
+          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade')),
+          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
+      };
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              res.send(400, error);
+          }
+          res.send(200);
+      });
+
     });
   });
 };
@@ -88,7 +93,7 @@ exports.update = function(req, res) {
   Page.findById(req.params.id, function(err, page) {
     if (err) { return handleError(res, err); }
     if(!page) { return res.send(404); }
-    
+
     page.revisions.push({
       title: req.body.title,
       content: req.body.content,
@@ -102,25 +107,30 @@ exports.update = function(req, res) {
       if (err) {
         return handleError(res, err);
       }
-      mandrill_client.messages.send({
-        message: {
-          html: jade.renderFile(path.resolve(__dirname, 'emails/new-revision.jade'), {
-            url: process.env.DOMAIN + '/' + page.slug,
-            revision: page.revisions[0]._id
-          }),
-          subject: 'New Page Revision',
-          from_email: 'no-reply@speechbubble.org.uk',
-          from_name: 'SpeechBubble Admin',
-          to: [{
-            email: process.env.SUPPORT_EMAIL,
-            name: 'SpeechBubble Admin',
-            type: 'to'
-          }],
-          auto_text: true
+
+      // nodemailer transport
+      var transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        auth: {
+           user: process.env.EMAIL_EMAILADDRESS,
+           pass: process.env.EMAIL_EMAILPASSWORD
         }
-      }, function(result) {
-        res.send(200, page);
       });
+
+      var mailOptions = {
+          from: '"SpeechBubble Admin" <no-reply@speechbubble.org.uk>',
+          to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
+          subject: 'New Page Revision',
+          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade')),
+          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
+      };
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              res.send(400, error);
+          }
+          res.send(200);
+      });
+
     });
   });
 };

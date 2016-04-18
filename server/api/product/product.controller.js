@@ -6,8 +6,8 @@ var _ = require('lodash');
 var jade = require('jade');
 var Product = require('./product.model');
 var formidable = require('formidable');
-var mandrill = require('mandrill-api/mandrill');
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
+var nodemailer = require('nodemailer');
+var htmlToText = require('html-to-text');
 var User = require('../user/user.model');
 var Promise = require("bluebird");
 
@@ -63,7 +63,7 @@ function wizardAssociatedExistingDeviceQuery(req, res) {
     if(!product) { return res.send(404); }
 
     var queries = [];
-    
+
     var operatingSystems = product.features.operatingSystems;
 
     if(operatingSystems) {
@@ -272,7 +272,7 @@ exports.index = function(req, res) {
     .skip(skip)
     .limit(limit)
     .populate('suppliers')
-    .populate('revisions.suppliers')    
+    .populate('revisions.suppliers')
     .populate('associatedSoftware')
     .populate('revisions.associatedSoftware')
     .populate({
@@ -331,15 +331,15 @@ exports.show = function(req, res) {
         } else {
           resolve();
         }
-      });      
+      });
 
       Promise
       .all([hasPopulatedSupportedDevices, hasPopulatedPremadeVocabularies])
       .then(function() {
         return res.json(product);
-      });      
+      });
     });
-    
+
   });
 };
 
@@ -451,11 +451,11 @@ exports.publish = function(req, res) {
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   delete req.body.__t;
-  
+
   if(req.body.suppliers) {
     req.body.suppliers = flatten(req.body.suppliers);
   }
-  
+
   req.body.author = req.user._id;
 
   if(req.body.associatedSoftware) {
