@@ -78,12 +78,18 @@ exports.create = function (req, res, next) {
             }
            });
 
+          var htmlStr = jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'), {
+                user: user,
+                activationUrl: process.env.DOMAIN + '/account/activate/' + user.activationCode,
+                domain: process.env.DOMAIN
+              });
+
           var mailOptions = {
               from: '"SpeechBubble" <' + process.env.SUPPORT_EMAIL +'>',
               to: '"' + user.firstName + '" <'+ user.email +'>',
               subject: 'Welcome to SpeechBubble',
-              text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'))),
-              html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'))
+              text: htmlToText.fromString(htmlStr),
+              html: htmlStr
           };
           transporter.sendMail(mailOptions, function(error, info){
               if(error){

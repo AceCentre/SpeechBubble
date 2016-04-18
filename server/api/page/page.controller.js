@@ -61,12 +61,17 @@ exports.publish = function(req, res) {
         }
       });
 
+      var htmlStr = jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
+            url: process.env.DOMAIN + '/' + page.slug,
+            revision: revisionId
+          });
+
       var mailOptions = {
           from: '"SpeechBubble Admin" <no-reply@speechbubble.org.uk>',
           to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
           subject: 'New Page Revision Published',
-          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))),
-          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))
+          text: htmlToText.fromString(htmlStr),
+          html: htmlStr
       };
       transporter.sendMail(mailOptions, function(error, info){
           if(error){
@@ -117,12 +122,17 @@ exports.update = function(req, res) {
         }
       });
 
+      var htmlStr = jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
+            url: process.env.DOMAIN + '/' + page.slug,
+            revision: revisionId
+          });
+
       var mailOptions = {
           from: '"SpeechBubble Admin" <no-reply@speechbubble.org.uk>',
           to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
           subject: 'New Page Revision',
-          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))),
-          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))
+          text: htmlToText.fromString(htmlStr),
+          html: htmlStr
       };
       transporter.sendMail(mailOptions, function(error, info){
           if(error){

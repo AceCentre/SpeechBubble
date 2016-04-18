@@ -27,12 +27,18 @@ exports.send = function(req, res) {
 
   request({ url: captchaUrl, json: true }, function(captchaErr, captchaRes, captchaBody) {
     if(captchaBody.success) {
+      var htmlStr = jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'), {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            message: message
+          });
       var mailOptions = {
           from: '"' + firstName + '" ' + lastName + '<'+email+'>',
           to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
           subject: 'SpeechBubble Contact Form',
-          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'))),
-          html: jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'))
+          text: htmlToText.fromString(htmlStr),
+          html: htmlStr
       };
       transporter.sendMail(mailOptions, function(error, info){
           if(error){
