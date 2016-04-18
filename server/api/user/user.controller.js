@@ -83,7 +83,7 @@ exports.create = function (req, res, next) {
               to: '"' + user.firstName + '" <'+ user.email +'>',
               subject: 'Welcome to SpeechBubble',
               text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'))),
-              html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade')), {
+              html: jade.renderFile(path.resolve(__dirname, 'emails/welcome.jade'))
           };
           transporter.sendMail(mailOptions, function(error, info){
               if(error){

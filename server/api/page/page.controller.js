@@ -66,7 +66,7 @@ exports.publish = function(req, res) {
           to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
           subject: 'New Page Revision Published',
           text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))),
-          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade')), {
+          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))
       };
       transporter.sendMail(mailOptions, function(error, info){
           if(error){
@@ -122,7 +122,7 @@ exports.update = function(req, res) {
           to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
           subject: 'New Page Revision',
           text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))),
-          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade')), {
+          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'))
       };
       transporter.sendMail(mailOptions, function(error, info){
           if(error){
