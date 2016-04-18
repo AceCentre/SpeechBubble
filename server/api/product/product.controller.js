@@ -412,37 +412,49 @@ exports.publish = function(req, res) {
       if (err) {
         return handleError(res, err);
       }
-      mandrill_client.messages.send({
-        message: {
-          html: jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
+
+      // now send a message and save it
+      var transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        auth: {
+           user: process.env.EMAIL_EMAILADDRESS,
+           pass: process.env.EMAIL_EMAILPASSWORD
+        }
+      });
+
+      var htmlStr = jade.renderFile(path.resolve(__dirname, 'emails/revision-published.jade'), {
             url: process.env.DOMAIN + '/products/' + product.slug,
             name: 'Admin',
             revision: revisionId,
             domain: process.env.DOMAIN
-          }),
-          subject: 'New Product Revision Published',
-          from_email: 'no-reply@speechbubble.org.uk',
-          from_name: 'SpeechBubble Admin',
-          to: [{
-            email: process.env.SUPPORT_EMAIL,
-            name: 'SpeechBubble Admin',
-            type: 'to'
-          }],
-          auto_text: true
-        }
-      }, function(result) {
-        Product.findById(productId, function(err, product) {
-          Product.populate(product, { path: 'revisions.author', model: 'User', select: 'firstName lastName' }, function(err, product) {
-            product.populate('suppliers', function(err, product) {
-              if (err) {
-                return handleError(res, err);
-              }
-              return res.send(200, product);
-            });
-          })
+          });
 
-        });
+      var mailOptions = {
+          from: '"SpeechBubble Admin" <no-reply@speechbubble.org.uk>',
+          to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
+          subject: 'New Product Revision Published',
+          text: htmlToText.fromString(htmlStr),
+          html: htmlStr
+      };
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              res.send(400, error);
+          }
+
+          Product.findById(productId, function(err, product) {
+            Product.populate(product, { path: 'revisions.author', model: 'User', select: 'firstName lastName' }, function(err, product) {
+              product.populate('suppliers', function(err, product) {
+                if (err) {
+                  return handleError(res, err);
+                }
+                return res.send(200, product);
+              });
+            })
+
+          });
+
       });
+
     });
   });
 };
@@ -486,25 +498,35 @@ exports.update = function(req, res) {
         if(req.user) {
           req.user.draftProduct(product._id);
         }
-        mandrill_client.messages.send({
-          message: {
-            html: jade.renderFile(path.resolve(__dirname, 'emails/new-revision.jade'), {
+
+      // now send a message and save it
+      var transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        auth: {
+           user: process.env.EMAIL_EMAILADDRESS,
+           pass: process.env.EMAIL_EMAILPASSWORD
+        }
+      });
+
+      var htmlStr = jade.renderFile(path.resolve(__dirname, 'emails/new-revision.jade'), {
               url: process.env.DOMAIN + '/products/' + product.slug + '?edit',
               name: 'Admin',
               revision: product.revisions[0]._id,
               domain: process.env.DOMAIN
-            }),
-            subject: 'New Product Revision',
-            from_email: 'no-reply@speechbubble.org.uk',
-            from_name: 'SpeechBubble Admin',
-            to: [{
-              email: process.env.SUPPORT_EMAIL,
-              name: 'SpeechBubble Admin',
-              type: 'to'
-            }],
-            auto_text: true
+            });
+
+      var mailOptions = {
+          from: '"SpeechBubble Admin" <no-reply@speechbubble.org.uk>',
+          to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
+          subject: 'New Product Revision Published',
+          text: htmlToText.fromString(htmlStr),
+          html: htmlStr
+      };
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              res.send(400, error);
           }
-        }, function(result) {
+
           Product.populate(product, { path: 'revisions.author', model: 'User', select: 'firstName lastName' }, function(err, product) {
               if (err) {
                 return handleError(res, err);
