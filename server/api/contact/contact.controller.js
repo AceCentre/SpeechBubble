@@ -31,8 +31,8 @@ exports.send = function(req, res) {
           from: '"' + firstName + '" ' + lastName + '<'+email+'>',
           to: '"SpeechBubble Admin"' + '<'+ process.env.SUPPORT_EMAIL +'>',
           subject: 'SpeechBubble Contact Form',
-          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/admin.jade')),
-          html: jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'), {
+          text: htmlToText.fromString(jade.renderFile(path.resolve(__dirname, 'emails/admin.jade'))),
+          html: jade.renderFile(path.resolve(__dirname, 'emails/admin.jade')), {
       };
       transporter.sendMail(mailOptions, function(error, info){
           if(error){
