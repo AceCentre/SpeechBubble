@@ -42,7 +42,8 @@
     "pmx": "^0.5.3",
     "request": "^2.55.0",
     "serve-favicon": "~2.0.1",
-    "twitter-node-client": "0.0.6"
+    "twitter-node-client": "0.0.6",
+    "snyk": "^1.83.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
@@ -105,7 +106,10 @@
   "scripts": {
     "start": "node server/app.js",
     "test": "grunt test",
-    "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
+    "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
-  "private": true
+  "private": true,
+  "snyk": true
 }
