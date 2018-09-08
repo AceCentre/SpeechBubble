@@ -28,7 +28,7 @@ var PageBaseSchema = Schema({
   },
   createdAt: Date,
   updatedAt: Date
-});
+}, { collection: 'pages' });
 
 PageBaseSchema.pre('save', function(next) {
   var now = new Date();
@@ -39,4 +39,4 @@ PageBaseSchema.pre('save', function(next) {
   next();
 });
 
-module.exports = PageBaseSchema;
+module.exports = mongoose.model('BasePage', PageBaseSchema);

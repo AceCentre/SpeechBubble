@@ -19,7 +19,7 @@
     "bootstrap-switch": "~3.3.2",
     "es5-shim": "~4.1.0",
     "font-awesome": ">=4.1.0",
-    "jquery": "~1.11.0",
+    "jquery": "~1.9.1",
     "json3": "~3.3.1",
     "lodash": "~2.4.1",
     "ng-ckeditor": "~0.2.1",

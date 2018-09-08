@@ -14,13 +14,13 @@ var user = new User({
 describe('User Model', function() {
   before(function(done) {
     // Clear users before testing
-    User.remove().exec().then(function() {
+    User.remove().then(() => {
       done();
     });
   });
 
-  afterEach(function(done) {
-    User.remove().exec().then(function() {
+  afterEach((done) => {
+    User.remove().then(function() {
       done();
     });
   });

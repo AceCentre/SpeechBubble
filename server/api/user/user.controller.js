@@ -9,6 +9,7 @@ var htmlToText = require('html-to-text');
 var path = require('path');
 var jade = require('jade');
 var request = require('request');
+const {handleError} = require('../apiutil');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -39,13 +40,13 @@ exports.index = function(req, res) {
     .sort({ email: 'asc' })
     .skip(skip)
     .limit(limit)
-    .exec(function (err, users) {
-      if(err) { return handleError(res, err); }
+    .then((users) => {
       return res.json(200, {
         total: total,
         items: users
       });
-    });
+    })
+    .catch(handleError.bind(this, res));
   });
 };
 
@@ -162,13 +163,14 @@ exports.me = function(req, res, next) {
     .populate('recentlyViewed')
     .populate('recentDrafts')
     .select('-salt -hashedPassword') // don't ever give out the password or salt
-    .exec(function(err, user) {
+    .then((user) => {
       if (err) return next(err);
       if (!user) return res.json(401);
       var data = user.toJSON();
       data.disqus = user.disqus;
       res.json(data);
-    });
+    })
+    .catch(handleError.bind(this, res));
 };
 
 /**

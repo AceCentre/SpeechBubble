@@ -54,7 +54,7 @@ var ProductBaseSchema = new Schema({
   },
   createdAt: Date,
   updatedAt: Date
-});
+}, { collection: 'products' });
 
 ProductBaseSchema.pre('save', function(next) {
   var now = new Date();
@@ -65,4 +65,5 @@ ProductBaseSchema.pre('save', function(next) {
   next();
 });
 
-module.exports = ProductBaseSchema;
+module.exports = mongoose.model('BaseProduct', ProductBaseSchema);
+

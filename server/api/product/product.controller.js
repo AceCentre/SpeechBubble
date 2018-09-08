@@ -9,7 +9,8 @@ var formidable = require('formidable');
 var nodemailer = require('nodemailer');
 var htmlToText = require('html-to-text');
 var User = require('../user/user.model');
-var Promise = require("bluebird");
+const {handleError} = require('../apiutil');
+
 
 function flatten(suppliers) {
   suppliers = _.without(suppliers, null);
@@ -22,10 +23,10 @@ exports.compare = function(req, res) {
   Product
   .find({ '_id': { $in: req.query.products.split(',') }})
   .limit(4)
-  .exec(function(err, products) {
-    if(err) { return handleError(res, err); }
+  .then((products) => {
     res.send(200, products);
-  });
+  })
+  .catch(handleError.bind(this, res));
 };
 
 exports.similar = function(req, res) {
@@ -33,16 +34,15 @@ exports.similar = function(req, res) {
   Product
   .find({ 'name': { '$regex': req.query.term, '$options': 'i' } })
   .limit(10)
-  .exec(function(err, products) {
-    if(err) { return handleError(res, err); }
+  .then((products) => {
     res.send(200, products.map(function(product) {
       return product.name;
     }));
-  });
+  })
+  .catch(handleError.bind(this, res));
 };
 
-function returnProducts(req, res, err, products) {
-  if(err) { return handleError(res, err); }
+function returnProducts(res, products) {
   if(!products) { return res.send(404); }
   res.send(200, {
     'items': products,
@@ -57,9 +57,7 @@ function wizardAssociatedExistingDeviceQuery(req, res) {
 
   Product
   .findById(req.query.selectedDevice)
-  .exec(function(err, product) {
-    // Get associated software and vocabularies
-    if(err) { return handleError(res, err); }
+  .then((product) => {
     if(!product) { return res.send(404); }
 
     var queries = [];
@@ -81,10 +79,12 @@ function wizardAssociatedExistingDeviceQuery(req, res) {
     Product
     .find()
     .or(queries)
-    .exec(function(err, associated) {
-      returnProducts(req, res, err, associated);
-    });
-  });
+    .then((associated) => {
+      returnProducts(res, associated);
+    })
+    .catch(handleError.bind(this, res));
+  })
+  .catch(handleError.bind(this, res));
 }
 
 function getAssociatedOrQuery(req, products) {
@@ -158,8 +158,7 @@ function wizardAssociatedPhysicalQuery(req, res) {
 
   Product
   .find(qb.query)
-  .exec(function(err, products) {
-    if(err) { return handleError(res, err); }
+  .then((products) => {
     if(!products) { return res.send(404); }
 
     if(facets.indexOf('premade-vocabularies') > -1) {
@@ -174,16 +173,17 @@ function wizardAssociatedPhysicalQuery(req, res) {
     .find()
     .where('type').ne('ProductHardware')
     .or(or)
-    .exec(function(err, associated) {
-      if(err) { return handleError(res, err); }
+    .then((associated) => {
       if(!associated) { return res.send(404); }
       var results = associated.concat(products);
       return res.send(200, {
         'items': results,
         'total': results.length
       });
-    });
-  });
+    })
+    .catch(handleError.bind(this, res));
+  })
+  .catch(handleError.bind(this, res));
 }
 
 function QueryBuilder() {
@@ -280,13 +280,13 @@ exports.index = function(req, res) {
       'model': 'User',
       'select': 'firstName'
     })
-    .exec(function (err, products) {
-      if(err) { return handleError(res, err); }
+    .then((products) => {
       return res.json(200, {
         total: total,
         items: products
       });
-    });
+    })
+    .catch(handleError.bind(this, res));
   });
 };
 
@@ -295,8 +295,7 @@ exports.show = function(req, res) {
   Product
   .findOne({ slug: req.params.slug })
   .populate('suppliers')
-  .exec(function (err, product) {
-    if(err) { return handleError(res, err); }
+  .then((product) => {
     if(!product) { return res.send(404); }
     if(req.user) {
       req.user.viewedProduct(product._id);
@@ -340,7 +339,8 @@ exports.show = function(req, res) {
       });
     });
 
-  });
+  })
+  .catch(handleError.bind(this, res));
 };
 
 // Get a single product revision
@@ -348,8 +348,7 @@ exports.showRevision = function(req, res) {
   Product
   .findOne({ slug: req.params.slug })
   .populate('suppliers')
-  .exec(function (err, product) {
-    if(err) { return handleError(res, err); }
+  .then((product) => {
     if(!product) { return res.send(404); }
     Product
     .populate(product, { path: 'revisions.author', model: 'User', select: 'firstName' }, function(err, product) {
@@ -363,7 +362,8 @@ exports.showRevision = function(req, res) {
       return res.json(product);
     });
 
-  });
+  })
+  .catch(handleError.bind(this, res));
 };
 
 // Creates a new product in the DB.
@@ -389,10 +389,7 @@ exports.publish = function(req, res) {
 
   Product
   .findById(productId)
-  .exec(function(err, product) {
-    if (err) {
-      return handleError(res, err);
-    }
+  .then((product) => {
     if (!product) {
       return res.send(404);
     }
@@ -456,7 +453,8 @@ exports.publish = function(req, res) {
       });
 
     });
-  });
+  })
+  .catch(handleError.bind(this, res));
 };
 
 // Adds a new revision to a product.
@@ -634,10 +632,7 @@ exports.revisions = function(req, res) {
       }
     })
     .lean()
-    .exec(function(err, product) {
-      if (err) {
-        return handleError(res, err);
-      }
+    .then((product) => {
       if (!product) {
         return res.send(404);
       }
@@ -653,7 +648,8 @@ exports.revisions = function(req, res) {
           return res.send(200, product.revisions);
         });
       });
-    });
+    })
+    .catch(handleError.bind(this, res));
 };
 
 // Adds images to product
@@ -717,10 +713,10 @@ exports.listHardware = function(req, res) {
   Product
   .find({ 'type': 'ProductHardware' })
   .select('name _id')
-  .exec(function(err, products) {
-    if(err) { return handleError(res, err); }
+  .then((products) => {
     res.send(200, products);
   })
+  .catch(handleError.bind(this, res));
 };
 
 exports.slugify = function(req, res) {
@@ -739,7 +735,7 @@ exports.cleanup = function(req, res) {
   Product
   .find({ "features.supportedDevices": { "$exists": true } })
   .lean()
-  .exec(function(err, products) {
+  .then((products) => {
     products.forEach(function(product) {
       var supportedDevices = _.map(product.features.supportedDevices, function(item, index) {
         return item._id || item;
@@ -752,9 +748,7 @@ exports.cleanup = function(req, res) {
       });
     });
     res.send(200, 'Cleaned up products');
-  });
+  })
+  .catch(handleError.bind(this, res));
 };
 
-function handleError(res, err) {
-  return res.send(500, err);
-}

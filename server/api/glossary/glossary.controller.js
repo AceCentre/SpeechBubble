@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Glossary = require('./glossary.model');
+const {handleError} = require('../apiutil');
 
 // Get list of glossarys
 exports.index = function(req, res) {
@@ -12,13 +13,14 @@ exports.index = function(req, res) {
      skip = (page - 1) * limit;
   }
   Glossary.find().count(function(err, total) {
-    Glossary.find().sort('title').limit(limit).skip(skip).exec(function (err, items) {
-      if(err) { return handleError(res, err); }
-      return res.json(200, {
-        total: total,
-        items: items
-      });
-    });
+    Glossary.find().sort('title').limit(limit).skip(skip)
+      .then((items) => {
+        return res.json(200, {
+          total: total,
+          items: items
+        });
+      })
+      .catch(handleError.bind(this, res));
   });
 };
 
@@ -64,7 +66,3 @@ exports.destroy = function(req, res) {
     });
   });
 };
-
-function handleError(res, err) {
-  return res.send(500, err);
-}

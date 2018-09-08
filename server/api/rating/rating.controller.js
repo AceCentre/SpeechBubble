@@ -4,6 +4,7 @@ var _ = require('lodash');
 var Rating = require('./rating.model').Rating;
 var RatingReview = require('./rating.model').RatingReview;
 var Product = require('../product/product.model');
+const {handleError} = require('../apiutil');
 
 exports.list = function(req, res) {
   var page = req.query.page || 1;
@@ -18,7 +19,7 @@ exports.list = function(req, res) {
     .skip(skip)
     .limit(limit)
     .populate('product')
-    .exec(function(err, ratings) {
+    .then((ratings) => {
       Rating
       .populate(ratings, { path: 'reviews.author', model: 'User', select: 'firstName' }, function(err, ratings) {
         if(err) { return handleError(res, err); }
@@ -28,7 +29,8 @@ exports.list = function(req, res) {
           items: ratings
         });
       });
-    });
+    })
+    .catch(handleError.bind(this, res));
   });
 };
 
@@ -38,8 +40,7 @@ exports.show = function(req, res) {
   Rating
   .findOne({ product: productId })
   .populate('product')
-  .exec(function(err, ratings) {
-    if(err) { return handleError(res, err); }
+  .then((ratings) => {
     if(!ratings) {
       Product.findById(req.params.id, function(err, product) {
         if(err) { return handleError(res, err); }
@@ -71,7 +72,8 @@ exports.show = function(req, res) {
         res.send(200, ratings);
       });
     }
-  });
+  })
+  .catch(handleError.bind(this, res));
 
 };
 
@@ -123,6 +125,3 @@ exports.remove = function(req, res) {
   });
 };
 
-function handleError(res, err) {
-  return res.send(500, err);
-}

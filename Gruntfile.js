@@ -191,6 +191,9 @@ module.exports = function (grunt) {
       }
     },
 
+    /*
+      https://github.com/node-inspector/node-inspector/
+        "Since version 6.3, Node.js provides a built-in DevTools-based debugger which mostly deprecates Node Inspector"<
     // Debugging with node inspector
     'node-inspector': {
       custom: {
@@ -199,6 +202,7 @@ module.exports = function (grunt) {
         }
       }
     },
+     */
 
     // Use nodemon to run server in debug mode with an initial breakpoint
     nodemon: {
@@ -408,7 +412,7 @@ module.exports = function (grunt) {
       debug: {
         tasks: [
           'nodemon',
-          'node-inspector'
+          // 'node-inspector'
         ],
         options: {
           logConcurrentOutput: true
