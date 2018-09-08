@@ -20,12 +20,7 @@ module.exports = {
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
             'mongodb://localhost/speechbubble',
     options: {
-      user: process.env.MONGO_USER ||
-            '',
-      pass: process.env.MONGO_PASS ||
-            '',
-      replset: { rs_name: process.env.MONGO_REPLSET || '' }
-      }
+    }
 
   },
 

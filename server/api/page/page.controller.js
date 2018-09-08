@@ -8,6 +8,7 @@ var jade = require('jade');
 var nodemailer = require('nodemailer');
 var htmlToText = require('html-to-text');
 var path = require('path');
+const {handleError} = require('../apiutil');
 
 exports.show = function(req, res) {
   Page
@@ -16,11 +17,11 @@ exports.show = function(req, res) {
     visible: true
   })
   .lean()
-  .exec(function(err, page) {
-    if(err) { return handleError(res, err); }
+  .then((page) => {
     if(!page) { return res.send(404); }
-    return res.send(200, page);
-  });
+    res.send(200, page);
+  })
+  .catch(handleError.bind(this, res));
 };
 
 // Publishes a page revision
@@ -30,10 +31,7 @@ exports.publish = function(req, res) {
 
   Page
   .findById(pageId)
-  .exec(function(err, page) {
-    if (err) {
-      return handleError(res, err);
-    }
+  .then((page) => {
     if (!page) {
       return res.send(404);
     }
@@ -81,6 +79,9 @@ exports.publish = function(req, res) {
       });
 
     });
+  })
+  .catch((err) => {
+    handleError(res, err);
   });
 };
 
@@ -149,10 +150,10 @@ exports.list = function(req, res) {
   Page
   .find()
   .sort({ slug: 'asc' })
-  .exec(function(err, pages) {
-    if(err) { return handleError(res, err); }
+  .then((pages) => {
     res.send(200, pages);
-  });
+  })
+  .catch(handleError.bind(this, res));
 };
 
 exports.destroy = function(req, res) {
@@ -173,10 +174,7 @@ exports.revisions = function(req, res) {
   Page
     .findById(req.params.id)
     .lean()
-    .exec(function(err, page) {
-      if (err) {
-        return handleError(res, err);
-      }
+    .then((page) => {
       if (!page) {
         return res.send(404);
       }
@@ -190,9 +188,7 @@ exports.revisions = function(req, res) {
         }
         return res.send(200, page.revisions);
       });
-    });
+    })
+    .catch(handleError.bind(this, res));
 };
 
-function handleError(res, err) {
-  return res.send(500, err);
-}

@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Supplier = require('./supplier.model');
+const {handleError} = require('../apiutil');
 
 // Get list of suppliers
 exports.index = function(req, res) {
@@ -23,13 +24,13 @@ exports.index = function(req, res) {
     .sort({ name: 'asc' })
     .skip(skip)
     .limit(limit)
-    .exec(function (err, suppliers) {
-      if(err) { return handleError(res, err); }
+    .then((suppliers) => {
       return res.json(200, {
         total: total,
         items: suppliers
       });
-    });
+    })
+    .catch(handleError.bind(this, res));
   });
 };
 
@@ -80,7 +81,3 @@ exports.destroy = function(req, res) {
     });
   });
 };
-
-function handleError(res, err) {
-  return res.send(500, err);
-}

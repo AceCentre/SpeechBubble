@@ -3,12 +3,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ENUM = require('../../enum');
-var ProductBaseSchema = require('./product-base.schema');
-var extend = require('mongoose-schema-extend');
+const ProductBase = require('./product-base.model');
 var _ = require('lodash');
 var facets = require('fancy-facets');
 
-var ProductSchema = ProductBaseSchema.extend({
+var ProductSchema = new Schema({
   type: {
     type: String,
     enum: ENUM.PRODUCT_TYPES,
@@ -30,12 +29,12 @@ var ProductSchema = ProductBaseSchema.extend({
     }
   },
   awaitingModeration: Boolean,
-  revisions: [ProductBaseSchema],
+  // revisions: [ProductBaseSchema],
   facets: [{
     type: String,
     index: true
   }]
-}, { collection: 'products' });
+});
 
 ProductSchema.pre('save', function(next) {
   this.slug = this.name.split(' ').join('-').split('/').join('-').toLowerCase();
@@ -71,4 +70,4 @@ ProductSchema.pre('save', function(next) {
   next();
 });
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = ProductBase.discriminator('Product', ProductSchema);

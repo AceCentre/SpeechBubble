@@ -22,7 +22,11 @@ var config = require('./config/environment');
 mongoose.set('debug', false);
 
 // Connect to database
-mongoose.connect(config.mongo.uri, config.mongo.options);
+mongoose.connect(config.mongo.uri, config.mongo.options)
+  .catch((err) => {
+    console.error("mongoose connect failure: ", err);
+    process.exit(-1);
+  });
 
 // Populate DB with sample data
 if(config.seedDB || process.env.SEED_DB) { require('./config/seed'); }

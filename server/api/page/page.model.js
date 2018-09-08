@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ENUM = require('../../enum');
-var PageBaseSchema = require('./page-base.schema');
-var extend = require('mongoose-schema-extend');
+var PageBase = require('./page-base.model');
 
-var PageSchema = PageBaseSchema.extend({
+var PageSchema = new Schema({
   slug: {
     type: String,
     index: { unique: true }
@@ -13,7 +12,7 @@ var PageSchema = PageBaseSchema.extend({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PageRevision'
   },
-  revisions: [PageBaseSchema]
-}, { collection: 'pages' });
+  // revisions: [PageBaseSchema]
+});
 
-module.exports = mongoose.model('Page', PageSchema);
+module.exports = PageBase.discriminator('Page', PageSchema);
