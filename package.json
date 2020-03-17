@@ -29,7 +29,7 @@
     "mandrill-api": "^1.0.41",
     "mean-seo": "0.0.8",
     "method-override": "~1.0.0",
-    "mongoose": "^5.2.13",
+    "mongoose": "^5.9.5",
     "morgan": "~1.0.0",
     "node-uuid": "^1.4.2",
     "nodemailer": "^2.3.2",

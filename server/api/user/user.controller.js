@@ -9,7 +9,7 @@ var htmlToText = require('html-to-text');
 var path = require('path');
 var jade = require('jade');
 var request = require('request');
-const {handleError} = require('../apiutil');
+const {handleError,intFromQuery} = require('../apiutil');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -20,8 +20,8 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  var page = req.query.page || 1;
-  var limit = req.query.limit || 10;
+  var page = intFromQuery(req.query.page, 1);
+  var limit = intFromQuery(req.query.limit, 10);
   var skip = (page - 1) * limit;
   var re = new RegExp(req.query.term, 'i');
   var query = [
