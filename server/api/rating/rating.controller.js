@@ -4,11 +4,11 @@ var _ = require('lodash');
 var Rating = require('./rating.model').Rating;
 var RatingReview = require('./rating.model').RatingReview;
 var Product = require('../product/product.model');
-const {handleError} = require('../apiutil');
+const {handleError,intFromQuery} = require('../apiutil');
 
 exports.list = function(req, res) {
-  var page = req.query.page || 1;
-  var limit = req.query.limit || 10;
+  var page = intFromQuery(req.query.page, 1);
+  var limit = intFromQuery(req.query.limit, 10);
   var skip = (page - 1) * limit;
   var query = { 'reviews.visible': false };
 

@@ -2,12 +2,12 @@
 
 var _ = require('lodash');
 var Supplier = require('./supplier.model');
-const {handleError} = require('../apiutil');
+const {handleError,intFromQuery} = require('../apiutil');
 
 // Get list of suppliers
 exports.index = function(req, res) {
-  var page = req.query.page || 1;
-  var limit = req.query.limit || 10;
+  var page = intFromQuery(req.query.page, 1);
+  var limit = intFromQuery(req.query.limit, 10);
   var skip = (page - 1) * limit;
   var re = new RegExp(req.query.term, 'i');
   var query = [

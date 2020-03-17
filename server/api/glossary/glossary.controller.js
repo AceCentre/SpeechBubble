@@ -2,12 +2,12 @@
 
 var _ = require('lodash');
 var Glossary = require('./glossary.model');
-const {handleError} = require('../apiutil');
+const {handleError,intFromQuery} = require('../apiutil');
 
 // Get list of glossarys
 exports.index = function(req, res) {
-  var page = req.query.page || 0;
-  var limit = req.query.limit || 0;
+  var page = intFromQuery(req.query.page, 0);
+  var limit = intFromQuery(req.query.limit, 0);
   var skip = 0;
   if(page) {
      skip = (page - 1) * limit;

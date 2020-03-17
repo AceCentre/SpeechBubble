@@ -9,7 +9,7 @@ var formidable = require('formidable');
 var nodemailer = require('nodemailer');
 var htmlToText = require('html-to-text');
 var User = require('../user/user.model');
-const {handleError} = require('../apiutil');
+const {handleError,intFromQuery} = require('../apiutil');
 
 
 function flatten(suppliers) {
@@ -202,8 +202,8 @@ QueryBuilder.prototype.add = function(key, value, defaultValue) {
 
 // Get list of products
 exports.index = function(req, res) {
-  var page = req.query.page || 1;
-  var limit = req.query.limit || 10;
+  var page = intFromQuery(req.query.page, 1);
+  var limit = intFromQuery(req.query.limit, 10);
   var skip = (page - 1) * limit;
 
   // Search Wizard Existing Device
