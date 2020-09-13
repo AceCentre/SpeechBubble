@@ -6,7 +6,7 @@ block append sidebar
     h2 Glossary index
     nav
       ul.glossary-index
-        li(ng-repeat='(category, definitions) in items | groupBy: "category" | orderBy: "title" '): a(ng-href='#{{ category }}') {{ category }}
+        li(ng-repeat='(category, definitions) in items | groupBy: "category" | orderBy: "title" '): a(ng-href='\#{{ category }}') {{ category }}
 
 block content
   ol.breadcrumb
