@@ -270,6 +270,9 @@ angular.module('speechBubbleApp', [
     });
 
     $rootScope.$on('$locationChangeSuccess',function(){
+      if ((window.location.pathname === '/glossary') && window.location.hash) {
+        return;
+      }
       $("html, body").animate({ scrollTop: 0 }, 200);
     });
 
