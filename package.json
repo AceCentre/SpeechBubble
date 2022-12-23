@@ -22,7 +22,7 @@
     "formidable": "^1.0.17",
     "html-to-text": "^2.1.0",
     "jade": "~1.2.0",
-    "jsonwebtoken": "^5.0.5",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^2.4.1",
     "lru-cache": "^2.6.4",
     "mailchimp": "^1.1.0",
